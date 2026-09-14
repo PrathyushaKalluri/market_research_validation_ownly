@@ -1,0 +1,17 @@
+app_key,url,status,reviews_on_page,new_unique_kept
+ownly_play,https://play.google.com/store/apps/details?id=com.ownly.customer&hl=en_IN&gl=IN,ok,20,20
+ownly_play,https://play.google.com/store/apps/details?id=com.ownly.customer&hl=en&gl=IN,ok,20,0
+ownly_play,https://play.google.com/store/apps/details?id=com.ownly.customer&hl=hi&gl=IN,ok,1,1
+ownly_play,https://play.google.com/store/apps/details?id=com.ownly.customer&hl=te&gl=IN,ok,0,0
+ownly_play,https://play.google.com/store/apps/details?id=com.ownly.customer&hl=kn&gl=IN,ok,4,4
+ownly_play,https://play.google.com/store/apps/details?id=com.ownly.customer&hl=ta&gl=IN,ok,1,1
+rapido_play,https://play.google.com/store/apps/details?id=com.rapido.passenger&hl=en_IN&gl=IN,ok,20,1
+rapido_play,https://play.google.com/store/apps/details?id=com.rapido.passenger&hl=en&gl=IN,ok,20,0
+rapido_play,https://play.google.com/store/apps/details?id=com.rapido.passenger&hl=hi&gl=IN,ok,20,0
+rapido_play,https://play.google.com/store/apps/details?id=com.rapido.passenger&hl=te&gl=IN,ok,20,0
+rapido_play,https://play.google.com/store/apps/details?id=com.rapido.passenger&hl=kn&gl=IN,ok,20,0
+rapido_play,https://play.google.com/store/apps/details?id=com.rapido.passenger&hl=ta&gl=IN,ok,20,0
+ownly_ios,https://apps.apple.com/in/app/ownly-food-delivery-app/id6747476494?see-all=reviews&platform=iphone,ok,20,10
+ownly_ios,https://apps.apple.com/in/app/ownly-food-delivery-app/id6747476494?see-all=reviews&platform=ipad,ok,20,0
+rapido_ios,https://apps.apple.com/in/app/rapido-bike-taxi-auto-cabs/id1198464606?see-all=reviews&platform=iphone,ok,20,0
+rapido_ios,https://apps.apple.com/in/app/rapido-bike-taxi-auto-cabs/id1198464606?see-all=reviews&platform=ipad,ok,20,0

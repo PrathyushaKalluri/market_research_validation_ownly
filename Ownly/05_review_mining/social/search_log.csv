@@ -1,0 +1,112 @@
+date,tool,query_or_url,results_count,relevant_count,accessible,notes
+2026-09-14,WebSearch,reddit Ownly Rapido food delivery,7,0,y,No reddit.com URLs returned; news/app-store only
+2026-09-14,WebSearch,reddit r/bangalore Ownly app experience,9,0,y,Irrelevant (name collisions)
+2026-09-14,WebSearch,reddit r/hyderabad Ownly Rapido food,7,0,y,No reddit results
+2026-09-14,WebSearch,site:reddit.com Ownly,9,0,y,Search engine index does not surface Reddit for this term
+2026-09-14,WebSearch,"site:reddit.com ""Ownly"" Rapido Swiggy Zomato",10,0,y,No reddit results
+2026-09-14,WebSearch,site:reddit.com rapido food delivery app cheaper than swiggy,10,0,y,Threads (Meta) post surfaced re NDTV Profit '48% cheaper' research; not captured (secondary claim)
+2026-09-14,WebSearch,"site:reddit.com ""ownly"" hyderabad",8,0,y,No reddit results
+2026-09-14,curl,https://www.reddit.com/search.json?q=ownly,0,0,n,HTTP 403 network-policy block; not retried/circumvented
+2026-09-14,curl,https://old.reddit.com/search?q=ownly,0,0,n,Redirects to login; not pursued
+2026-09-14,curl,https://www.reddit.com/robots.txt,0,0,n,Blocked page returned to script UA; robots rules could not be read — limitation logged
+2026-09-14,WebFetch,https://www.reddit.com/search/?q=ownly+rapido,0,0,n,Fetch tool cannot access reddit.com
+2026-09-14,curl,https://www.reddit.com/search.rss?q=ownly,25,10,y,"Public Atom/RSS feed, no login; used as collection route at low volume"
+2026-09-14,python urllib (Reddit public RSS),first batch of 19 RSS search feeds (run 1),400,12,partial,4 feeds 200; 14 returned HTTP 429 at 4s spacing; run stopped and restarted with 12s spacing + back-off + food-term filter
+2026-09-14,curl,https://x.com/search?q=ownly,0,0,n,HTTP 200 JS shell only; X content requires login — X items captured only as search-engine snippets
+2026-09-14,WebSearch,site:linkedin.com/posts Ownly Rapido food delivery,10,10,y,Public post URLs
+2026-09-14,WebSearch,linkedin Ownly zero commission restaurant owner Rapido,7,2,y,1 LinkedIn Pulse article; rest media
+2026-09-14,WebSearch,linkedin post Ownly Hyderabad launch Rapido food delivery 2026,8,1,y,
+2026-09-14,WebSearch,"linkedin ""Ownly"" restaurant partner orders experience zero commission Bengaluru",8,0,y,No restaurant-owner LinkedIn posts surfaced; media only
+2026-09-14,WebSearch,Aravind Sanka OR Pawan Guntupalli Ownly linkedin post food delivery,9,1,y,Rapido co-founder launch post
+2026-09-14,WebSearch,"""Ownly"" app review experience ordered cheaper swiggy zomato comparison bill",9,3,y,LinkedIn consumer review post; media reports of viral X bill comparison
+2026-09-14,WebSearch,youtube Ownly Rapido food delivery review comparison Swiggy Zomato price,8,1,y,1 YouTube Short; comments not retrievable without JS/login — not mined
+2026-09-14,WebSearch,"linkedin.com/posts ownly ""ordered"" OR ""tried"" food delivery Bengaluru experience 2026",9,0,y,
+2026-09-14,WebSearch,linkedin.com/posts Ownly Hyderabad,10,1,y,Pointed to StartupTalky cross-post of Hyderabad launch; Facebook page ownlyfoodapp
+2026-09-14,WebSearch,linkedin.com/posts Ownly restaurant owner commission Swiggy Zomato 2026,8,0,y,Media/blogs only (Bengaluru restaurant commission standoff)
+2026-09-14,WebSearch,Ownly viral post X user complaint delivery late refund Rapido food 2026,7,0,y,
+2026-09-14,WebSearch,"""Ownly"" ""live in Hyderabad"" linkedin",10,2,y,"StartupTalky community post; ownly.food/hyd landing page (company claim, out of social scope)"
+2026-09-14,WebSearch,Ownly Hyderabad food delivery launch Gachibowli users reaction,8,0,y,No Gachibowli-specific social reactions found
+2026-09-14,WebSearch,site:x.com Ownly Rapido food,10,10,snippet_only,Search-index snippets of X posts; pages themselves login-walled
+2026-09-14,WebSearch,site:x.com ownly order delivery experience,10,2,snippet_only,Adds Swiggy Toing commentary post
+2026-09-14,WebSearch,site:x.com ownly hyderabad,8,0,snippet_only,No Hyderabad-specific X items
+2026-09-14,WebSearch,"linkedin.com/posts Ownly delivery captain OR rider OR ""customer support"" OR refund",10,0,y,Irrelevant (LinkedIn help pages)
+2026-09-14,WebSearch,"linkedin.com/posts ""Ownly"" marketing campaign Rapido brand 2026",10,4,y,
+2026-09-14,WebSearch,linkedin.com/pulse Ownly Rapido food delivery analysis 2026,10,3,y,Only 1 Pulse article fetched (others duplicative launch coverage)
+2026-09-14,WebSearch,"""Ownly is officially LIVE in Hyderabad""",10,1,y,
+2026-09-14,WebSearch,quora Ownly Rapido food delivery worth it experience,8,0,y,No Quora threads surfaced
+2026-09-14,WebSearch,Ownly customer complaints delivery delayed cancelled refund Bengaluru social media 2026,9,0,y,Name collision (Ownerly)
+2026-09-14,WebFetch,https://www.consumercomplaints.in/?search=ownly,4,0,y,No Ownly food-delivery complaints; 4 typo matches
+2026-09-14,WebSearch,linkedin Ownly Hyderabad restaurant onboarding Gachibowli Madhapur zero commission 2026,8,0,y,
+2026-09-14,WebSearch,Swiggy Toing offline price app X post Ownly comparison 2026,10,1,y,Competitor context only
+2026-09-14,WebSearch,"""Ownly"" Hyderabad ""no surge"" OR ""no packaging fee"" launch post instagram OR linkedin September 2026",8,0,y,Instagram not surfaced/accessible
+2026-09-14,WebSearch,"linkedin.com/posts ownly ""Hyderabad"" food delivery team launch",10,2,y,Found early-launch consumer review post and Flipkart/ONDC post
+2026-09-14,WebFetch,https://www.facebook.com/ownlyfoodapp/,0,0,n,Content not retrievable (truncated/login); not pursued
+2026-09-14,WebFetch,https://community.startuptalky.com/discussions/post/some-launches-are-just-launches-Jkv5r9k2idG0gRi,1,1,y,FO-01
+2026-09-14,WebFetch,https://www.oneindia.com/bengaluru/rapido-food-delivery-app-ownly-compared-with-swiggy-zomato-in-viral-price-check-8017281.html,1,1,y,Media report of X-01 bill figures
+2026-09-14,WebSearch,Ownly Hyderabad launch date September 2026 Rapido food delivery live,7,0,y,Lead request: no dated Hyderabad launch item found
+2026-09-14,WebSearch,"""Ownly"" Gachibowli OR Kondapur OR ""Financial District"" OR Madhapur food delivery",10,0,y,No locality-level Ownly social items
+2026-09-14,WebSearch,Ownly Hyderabad offer coupon free delivery launch,9,0,y,"Only company landing page (ownly.food/hyd: 'leave your number for exclusive offers and early access') — company claim, out of social scope"
+2026-09-14,WebSearch,Ownly delivery fee ₹30 distance charge users complain higher fee 2026,7,0,y,No Ownly results
+2026-09-14,WebSearch,Swiggy Toing vs Ownly users experience comparison price reddit OR linkedin,10,1,y,Moneycontrol LinkedIn post (JP Morgan: Toing > Ownly) → LI-21
+2026-09-14,WebSearch,"linkedin.com/posts ""Ownly"" ""Hyderabad"" live launch supply restaurants",9,1,y,Only FO-01 again
+2026-09-14,WebFetch,https://www.linkedin.com/posts/moneycontrol_swiggys-toing-materially-more-successful-activity-7472235904791752704-wwsV,2,2,y,"LI-21, LI-21-C1"
+2026-09-14,WebFetch,https://community.startuptalky.com/discussions/post/some-launches-are-just-launches-Jkv5r9k2idG0gRi (re-fetch for date),1,1,y,"Only relative age '3 days ago' (≈2026-09-11); no localities, offers, fee or restaurant counts; author links to Ownly company page"
+2026-09-14,WebFetch (x21 LinkedIn post/article URLs),see social_raw.csv url column for LI-* items,21,20,y,"Logged-out public view; only comments LinkedIn shows logged-out were captured; retrieval via fetch tool's summariser — verbatim_status column flags where text is a summary; ~21 requests total, no login, no Chrome session"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=ownly+rapido&sort=relevance&t=all&limit=100,97,33,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=rapido+food+delivery&sort=relevance&t=all&limit=100,100,76,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=ownly+swiggy&sort=relevance&t=all&limit=100,97,9,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=ownly+zomato&sort=relevance&t=all&limit=100,97,8,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=ownly+hyderabad&sort=relevance&t=all&limit=100,97,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/hyderabad/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/hyderabad/search.rss?q=rapido+food&restrict_sr=1&sort=relevance&t=all&limit=100,35,29,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/bangalore/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,10,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Zomato/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,7,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/swiggy/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,4,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/india/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/indianstartups/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,1,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/IndiaInvestments/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Chennai/search.rss?q=ownly&restrict_sr=1&sort=relevance&t=all&limit=100,100,1,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Ownly/new.rss?limit=100,6,6,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Zomato/comments/1vp2t3m/swiggy_vs_ownly_vs_zomato_pricing/.rss,38,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1qcrc1f/anyone_using_ownlyrapidos_food_delivery/.rss,21,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/ShareBazarIndia/comments/1nk2ror/rapido_entered_the_food_delivery_space_with_ownly/.rss,6,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1vpxbyr/ownly_vs_zomato/.rss,16,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Zomato/comments/1vq18l9/zomato_and_ownly_price_difference_80_more/.rss,49,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/swiggy/comments/1nclyuy/anyone_tried_rapidos_food_delivery_ownly/.rss,30,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1szs0vx/price_difference_on_meghana_briyani_ownly_rapido/.rss,22,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Storyboard18/comments/1v8r1w7/rapido_brings_ownly_to_main_app_deepens_challenge/.rss,1,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Zomato/comments/1nclzlx/anyone_tried_rapidos_food_delivery_ownly/.rss,6,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1vw5429/ownly_is_a_joke_the_lower_price_is_not_worth_it/.rss,8,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1w8qx26/ownly_is_an_absolute_scam/.rss,32,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1vspuva/ownly_doesnt_have_proper_customer_support/.rss,5,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1vs9ut4/ownly_is_no_different/.rss,25,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1tmgwrf/refrain_from_ordering_from_ownly_late_night_i/.rss,22,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Ownly/comments/1vj71um/wtf_ownly/.rss,1,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/StartupFuture/comments/1vbqoq9/rapidoowned_fooddelivery_platform_ownly_has/.rss,1,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Ownly/comments/1p6erff/ownly_rapido/.rss,1,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Ownly/comments/1p6errn/ownly_rapido/.rss,1,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Storyboard18/comments/1o842dl/eternals_deepinder_goyal_on_swiggy_toing_rapido/.rss,2,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/CreditCardsIndia/comments/1qyeu24/does_hsbc_live_plus_credit_card_offer_10_cashback/.rss,3,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Bangalorestartups/comments/1q7cvbt/anyone_here_from_rapidos_ownly_teamplease_tell_me/.rss,3,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/IndianEntrepreneur/comments/1q7cvyi/anyone_here_from_rapidos_ownly_teamplease_tell_me/.rss,1,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/electronic_city/comments/1rme2x8/worst_exp_ownly_food_delivery/.rss,10,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1u4t85s/why_is_ownly_forcing_me_to_rate_a_restaurant/.rss,6,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/comments/1v0w2lx/is_ownly_fifa_offer_working/.rss,1,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Zomato/comments/1vkoo9i/ownly_trolling_other_food_delivery_companies_lol/.rss,89,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/swiggy/comments/1vn73gn/ownly_is_charging_way_less/.rss,3,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Ownly/comments/1w6qgm0/ownly_customer_support_sucks_ass/.rss,4,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/Ownly/comments/1sko63h/welcome_to_rownly_introduce_yourself_and_read/.rss,2,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/indiranagar/comments/1vo68qd/tomorrow_every_order_from_my_little_cloud_kitchen/.rss,37,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/swiggy/comments/1vu5s4x/finally_moved_away_from_swiggy/.rss,93,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/personalfinanceindia/comments/1k2w5wi/6_months_of_living_alone_in_india_heres_what_my/.rss,96,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=toing+ownly&sort=relevance&t=all&limit=100,97,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=ownly+delivery+fee&sort=relevance&t=all&limit=100,100,4,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=ownly+free+delivery&sort=relevance&t=all&limit=100,3,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=ownly+gachibowli&sort=relevance&t=all&limit=100,97,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/search.rss?q=ownly+kondapur&sort=relevance&t=all&limit=100,97,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/hyderabad/search.rss?q=toing&restrict_sr=1&sort=relevance&t=all&limit=100,100,1,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/hyderabad/search.rss?q=zero+commission+food+delivery&restrict_sr=1&sort=relevance&t=all&limit=100,18,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/BangaloreSocial/search.rss?q=toing&restrict_sr=1&sort=relevance&t=all&limit=100,100,0,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/IndiaReferral/comments/1w9qa1f/ownly_shout_out_to_ownly_for_transparent_pricing/.rss,2,,y,"HTTP 200; 12s spacing, 429 back-off"
+2026-09-14,python urllib (Reddit public RSS),https://www.reddit.com/r/hyderabad/comments/1w0k0bk/toing_app_reduces_prices_drastically_leading_to/.rss,15,,y,"HTTP 200; 12s spacing, 429 back-off"

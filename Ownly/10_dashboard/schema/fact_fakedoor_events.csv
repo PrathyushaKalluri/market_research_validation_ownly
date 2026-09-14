@@ -1,0 +1,1 @@
+received_at,experiment_id,page_version,variant_id,variant_key,anon_visitor_id,anon_session_id,event_name,ts,time_since_load_ms,utm_source,utm_medium,utm_campaign,utm_content,referrer_domain,device_type,is_qa,is_bot_suspect,payload_json,data_status

@@ -1,0 +1,4 @@
+app_key,platform,app_id,url,rating_value,rating_count,installs_badge,retrieved_at
+ownly_play,google_play,com.ownly.customer,https://play.google.com/store/apps/details?id=com.ownly.customer&hl=en_IN&gl=IN,4.480080604553223,44485,"1,000,000+",2026-09-14
+rapido_play,google_play,com.rapido.passenger,https://play.google.com/store/apps/details?id=com.rapido.passenger&hl=en_IN&gl=IN,4.710824966430664,4777895,"100,000,000+",2026-09-14
+ownly_ios,apple_app_store,6747476494,https://apps.apple.com/in/app/ownly-food-delivery-app/id6747476494,4.5,10466,n/a (iOS does not show installs),2026-09-14

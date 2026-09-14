@@ -1,0 +1,1276 @@
+<title>Ownly Gachibowli Market-Fit Demo</title>
+<meta name="description" content="Research dashboard prototype with synthetic demo data for the Ownly Gachibowli early market-fit study.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --page:#f2f3ef; --surface:#fcfcfb; --surface-2:#eceee8; --ink:#0b0b0b; --ink-2:#52514e; --muted:#7c7b75;
+  --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,.10); --border-strong:rgba(11,11,11,.22);
+  --hyd:#2a78d6; --blr:#eb6834; --stu:#1baf7a; --pro:#4a3aa7; --wst:#e87ba4; --oth:#b4b3ab;
+  --ownly:#008300; --swg:#eda100; --zom:#e87ba4; --mono:#6a6962; --mono-2:#a9a8a0;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --crit:#d03b3b; --good-text:#006300; --crit-text:#b02a2a; --warn-text:#7a5200;
+  --dn2:#e34948; --dn1:#f1a3a2; --dmid:#d9d8d1; --dp1:#86b6ef; --dp2:#2a78d6;
+  --banner-bg:#fff1c9; --banner-ink:#4d3700; --stripe:#fab219;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;
+  --mono-font:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --page:#0f0f0e; --surface:#1a1a19; --surface-2:#252523; --ink:#ffffff; --ink-2:#c3c2b7; --muted:#96958e;
+    --grid:#2c2c2a; --axis:#44443f; --border:rgba(255,255,255,.10); --border-strong:rgba(255,255,255,.24);
+    --hyd:#3987e5; --blr:#d95926; --stu:#199e70; --pro:#9085e9; --wst:#d55181; --oth:#6b6a64;
+    --ownly:#008300; --swg:#c98500; --zom:#d55181; --mono:#a3a29a; --mono-2:#5e5d57;
+    --good-text:#0ca30c; --crit-text:#f07b7b; --warn-text:#fab219;
+    --dn2:#e66767; --dn1:#8a3b3b; --dmid:#44443f; --dp1:#1c5cab; --dp2:#3987e5;
+    --banner-bg:#3a2c05; --banner-ink:#ffd67a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --page:#0f0f0e; --surface:#1a1a19; --surface-2:#252523; --ink:#ffffff; --ink-2:#c3c2b7; --muted:#96958e;
+  --grid:#2c2c2a; --axis:#44443f; --border:rgba(255,255,255,.10); --border-strong:rgba(255,255,255,.24);
+  --hyd:#3987e5; --blr:#d95926; --stu:#199e70; --pro:#9085e9; --wst:#d55181; --oth:#6b6a64;
+  --ownly:#008300; --swg:#c98500; --zom:#d55181; --mono:#a3a29a; --mono-2:#5e5d57;
+  --good-text:#0ca30c; --crit-text:#f07b7b; --warn-text:#fab219;
+  --dn2:#e66767; --dn1:#8a3b3b; --dmid:#44443f; --dp1:#1c5cab; --dp2:#3987e5;
+  --banner-bg:#3a2c05; --banner-ink:#ffd67a;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--page);color:var(--ink)}
+body{font-family:var(--sans);font-size:14px;line-height:1.45;margin:0}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--hyd);outline-offset:2px}
+.demo-banner{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;padding:7px 16px;
+  background:repeating-linear-gradient(135deg,var(--banner-bg) 0 14px,color-mix(in srgb,var(--stripe) 22%,var(--banner-bg)) 14px 28px);
+  color:var(--banner-ink);border-bottom:1px solid var(--border-strong)}
+.demo-banner strong{font-family:var(--cond);letter-spacing:.06em;font-size:13px}
+.demo-banner span{font-size:12.5px}
+.top{padding:18px 16px 10px;border-bottom:1px solid var(--border);background:var(--surface)}
+.top-inner{max-width:1480px;margin:0 auto;display:grid;gap:12px}
+.eyebrow{font-family:var(--mono-font);font-size:11.5px;color:var(--muted);letter-spacing:.02em}
+h1{font-family:var(--cond);font-weight:600;font-size:clamp(20px,2.4vw,27px);line-height:1.15;margin:2px 0 2px;text-wrap:balance}
+.sub{margin:0;color:var(--ink-2);font-size:13px;max-width:78ch}
+.filters{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:end}
+.fctl{display:grid;gap:2px}
+.fctl label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500}
+.fctl select{background:var(--surface);border:1px solid var(--border-strong);border-radius:6px;padding:5px 26px 5px 8px;min-width:128px;max-width:100%}
+.linkbtn{background:none;border:1px solid var(--border-strong);border-radius:6px;padding:5px 10px;cursor:pointer;color:var(--ink-2)}
+.linkbtn:hover{background:var(--surface-2)}
+.shell{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:0 20px;padding-inline:16px}
+.rail{position:sticky;top:44px;align-self:start;padding-block:16px;display:grid;gap:2px}
+.rail button{display:grid;grid-template-columns:22px 1fr;gap:6px;align-items:baseline;text-align:left;background:none;border:0;border-left:3px solid transparent;padding:7px 8px;border-radius:0 6px 6px 0;cursor:pointer;color:var(--ink-2)}
+.rail button span:first-child{font-family:var(--mono-font);font-size:11px;color:var(--muted)}
+.rail button:hover{background:var(--surface-2)}
+.rail button[aria-current="true"]{border-left-color:var(--ink);background:var(--surface);color:var(--ink);font-weight:600}
+main{padding-block:16px 48px;min-width:0}
+.vhead{display:grid;gap:4px;margin-bottom:14px}
+.vhead h2{font-family:var(--cond);font-weight:600;font-size:22px;margin:0;text-wrap:balance}
+.dq{margin:0;color:var(--ink-2);max-width:90ch}
+.dq b{font-family:var(--cond);font-weight:600;letter-spacing:.04em;font-size:11.5px;color:var(--muted);text-transform:uppercase;margin-right:6px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.span2{grid-column:1/-1}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 14px 12px;display:grid;gap:8px;align-content:start;min-width:0}
+.card-h{display:flex;gap:10px;justify-content:space-between;align-items:start}
+.card h3{font-family:var(--cond);font-weight:600;font-size:16px;margin:0;line-height:1.25;text-wrap:balance}
+.ph{display:block;font-family:var(--mono-font);font-size:10.5px;color:var(--muted);margin-bottom:2px}
+.q{margin:2px 0 0;font-size:12.5px;color:var(--ink-2)}
+.tbtn{flex:none;background:var(--surface);border:1px solid var(--border-strong);border-radius:6px;padding:3px 9px;font-size:12px;cursor:pointer;color:var(--ink-2)}
+.tbtn[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.demo-tag{font-family:var(--cond);font-size:10.5px;letter-spacing:.05em;color:var(--banner-ink);background:var(--banner-bg);border:1px solid color-mix(in srgb,var(--stripe) 60%,transparent);padding:1px 6px;border-radius:4px}
+.ntag,.trace,.na{font-family:var(--mono-font);font-size:11px;border-radius:4px;padding:1px 6px;border:1px solid var(--border);color:var(--ink-2);background:var(--surface)}
+.ntag.warn{border-color:color-mix(in srgb,var(--warn) 70%,transparent);color:var(--warn-text)}
+.trace{cursor:pointer}
+.trace:hover{border-color:var(--border-strong);color:var(--ink)}
+.na{color:var(--muted);border-style:solid;background:var(--surface-2)}
+.badge{font-family:var(--cond);font-size:10.5px;letter-spacing:.06em;padding:1px 6px;border-radius:4px;border:1px solid var(--border-strong)}
+.b-high{color:var(--good-text);border-color:color-mix(in srgb,var(--good) 60%,transparent)}
+.b-medium{color:var(--warn-text);border-color:color-mix(in srgb,var(--warn) 70%,transparent)}
+.b-low{color:var(--crit-text);border-color:color-mix(in srgb,var(--crit) 55%,transparent)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink-2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.legend i.ring{background:var(--surface)!important;border:2px solid var(--ink-2);border-radius:50%}
+.plot{min-width:0;overflow:hidden}
+.plot svg{display:block;max-width:100%}
+.plot svg text{font-family:var(--sans)}
+.mini-h{font-family:var(--cond);font-size:12.5px;font-weight:600;color:var(--ink-2);margin:6px 0 2px}
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:4px 16px}
+.note{margin:0;font-size:12px;color:var(--muted)}
+.tview{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{padding:5px 8px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--ink-2);font-size:11.5px;background:var(--surface-2);position:sticky;top:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.grid-svg,.grid line.grid{stroke:var(--grid)}
+svg .gl{stroke:var(--grid);stroke-width:1}
+svg .base{stroke:var(--axis);stroke-width:1}
+svg .tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+svg .lab{fill:var(--ink-2);font-size:12px}
+svg .val{fill:var(--ink);font-size:11.5px;font-variant-numeric:tabular-nums}
+svg .supp{fill:var(--muted);font-size:11px;font-style:italic}
+svg .hit{fill:transparent}
+svg .ci{stroke:var(--ink);stroke-width:1.5}
+svg .ref{stroke:var(--ink-2);stroke-width:1}
+svg .reflab{fill:var(--ink-2);font-size:10.5px}
+svg .band{fill:var(--surface-2)}
+svg .conn{stroke:var(--axis);stroke-width:2}
+svg .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+svg .whisk{stroke:var(--ink-2);stroke-width:1.5}
+svg .med{stroke:var(--ink);stroke-width:2}
+svg .axt{fill:var(--muted);font-size:11px}
+svg g[data-tip]:hover path,svg g[data-tip]:hover rect:not(.hit){filter:brightness(1.1)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:grid;gap:3px;align-content:start}
+.kpi .kl{font-size:11.5px;color:var(--ink-2)}
+.kpi .kv{font-size:22px;font-weight:600;line-height:1.15}
+.kpi .kv small{font-size:12px;font-weight:400;color:var(--ink-2)}
+.kpi .kf{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.kpi .kf .trace,.kpi .kf .ntag{font-size:10px}
+.verdict{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.verdict .vl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.hero{font-size:44px;font-weight:600;line-height:1}
+.pill{display:inline-flex;gap:6px;align-items:center;font-family:var(--cond);font-weight:600;letter-spacing:.04em;border-radius:999px;padding:3px 11px;border:1.5px solid;white-space:nowrap}
+.pill.big{font-size:20px;padding:6px 16px}
+.pill.sm{font-size:11px;padding:1px 7px}
+.p-good{color:var(--good-text);border-color:var(--good);background:color-mix(in srgb,var(--good) 10%,var(--surface))}
+.p-warn{color:var(--warn-text);border-color:var(--warn);background:color-mix(in srgb,var(--warn) 14%,var(--surface))}
+.p-crit{color:var(--crit-text);border-color:var(--crit);background:color-mix(in srgb,var(--crit) 10%,var(--surface))}
+.p-ink{color:var(--ink);border-color:var(--ink);background:var(--surface-2)}
+.p-muted{color:var(--muted);border-color:var(--border-strong);background:var(--surface-2)}
+.rules{margin:0;padding-left:18px;font-size:12.5px;color:var(--ink-2)}
+.weights{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.weights label{display:grid;gap:2px;font-size:11.5px;color:var(--ink-2)}
+.weights input{width:100%;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);font-variant-numeric:tabular-nums}
+.dimlist{display:grid;gap:6px;margin:0;padding:0;list-style:none;font-size:12.5px}
+.dimlist li{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:8px;border-top:1px solid var(--grid);padding-top:6px}
+.dimlist .dn{font-weight:600;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.dimlist .di{color:var(--ink-2)}
+.chain{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.chain .col{display:grid;gap:6px;align-content:start}
+.chain h4{margin:0;font-family:var(--cond);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.chain h4::after{content:" →";color:var(--axis)}
+.chain .col:last-child h4::after{content:""}
+.cbar{display:grid;gap:2px;font-size:12px}
+.cbar .tr{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.cbar .fl{height:100%;background:var(--mono);border-radius:0 4px 4px 0}
+.cbar .row{display:flex;justify-content:space-between;gap:6px;color:var(--ink-2)}
+.cbar .row b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+.placeholder{color:var(--muted);font-style:italic}
+.deccards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.deccard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;display:grid;gap:6px;align-content:start}
+.deccard h4{margin:0;font-family:var(--cond);font-size:14px;font-weight:600}
+.deccard .req{font-size:12px;color:var(--ink-2)}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.quote{border:1px dashed var(--border-strong);border-radius:8px;padding:10px;display:grid;gap:6px;font-size:12.5px}
+.quote .qt{color:var(--muted);font-style:italic}
+.quote .qi{border-top:1px solid var(--grid);padding-top:6px;color:var(--ink-2)}
+.quote .qi b{font-family:var(--cond);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.inline-ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2)}
+.inline-ctl input{width:70px;padding:4px 6px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.sens td,.sens th{text-align:center}
+.sens td:first-child,.sens th:first-child{text-align:left}
+#tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12px;line-height:1.4;padding:6px 9px;border-radius:6px;max-width:280px;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+#drawer{position:fixed;z-index:40;top:0;right:0;height:100%;width:min(420px,100%);background:var(--surface);border-left:1px solid var(--border-strong);box-shadow:-8px 0 30px rgba(0,0,0,.15);padding:18px 18px 24px;overflow-y:auto;display:grid;gap:12px;align-content:start}
+#drawer h3{margin:0;font-family:var(--cond);font-size:18px}
+#drawer dl{margin:0;display:grid;gap:8px}
+#drawer dt{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+#drawer dd{margin:0;font-size:13px}
+.foot{margin-top:18px;font-size:12px;color:var(--muted);max-width:100ch}
+@media (max-width:900px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .rail{position:sticky;top:40px;z-index:20;background:var(--page);display:flex;overflow-x:auto;padding-block:8px;gap:4px;border-bottom:1px solid var(--border)}
+  .rail button{grid-template-columns:auto auto;white-space:nowrap;border-left:0;border-bottom:3px solid transparent;border-radius:6px 6px 0 0}
+  .rail button[aria-current="true"]{border-bottom-color:var(--ink)}
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .chain{grid-template-columns:minmax(0,1fr)}
+  .chain h4::after{content:""}
+  .hero{font-size:36px}
+}
+@media (prefers-reduced-motion:no-preference){.card,.kpi{transition:border-color .15s}}
+</style>
+
+<div class="demo-banner" role="note"><strong>DEMO DATA — REPLACE WITH REAL DATA</strong><span>All values are synthetic, generated in the page (seed 20260914). They are not research findings. Do not cite or screenshot them into any report.</span></div>
+<header class="top">
+  <div class="top-inner">
+    <div>
+      <div class="eyebrow">Early market-fit / market-transfer validation · Gachibowli, Hyderabad · Bengaluru benchmark · ages 20–30</div>
+      <h1>Ownly market-fit research dashboard</h1>
+      <p class="sub">Independent student research prototype. Not affiliated with, endorsed by, or built for Ownly or Rapido. The layout and rules are the spec; every number will be replaced by the cleaned analysis mart.</p>
+    </div>
+    <div class="filters" id="filters" aria-label="Global filters"></div>
+    <div class="filters" id="moreFilters" hidden aria-label="More filters"></div>
+  </div>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Dashboard views"></nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<aside id="drawer" hidden aria-label="Evidence trace"></aside>
+<div id="tip" role="tooltip" hidden></div>
+<script>
+"use strict";
+/* ============================================================
+   DATA STATUS — this build contains ONLY synthetic demo data.
+   Field names follow 03_hyderabad_survey/survey_variable_dictionary.csv (canonical),
+   06_competitor_audit/audit_schema.csv, 05_review_mining/*_coded.csv and 07_fake_door/events_schema.json.
+   Enum codes are stored DECODED as snake_case labels (the mart does the same; code maps live in the dictionary).
+   To use real data: replace generateDemoData() with a mart loader and set DATA_STATUS = "real".
+   ============================================================ */
+const DATA_STATUS = "demo";
+const DEMO_SEED = 20260914;
+const LADDER = [0, 10, 20, 30, 40, 50, 60]; // PROVISIONAL fee points (wtp_accept_0 … wtp_accept_60)
+const OWNLY_FEE_STATUS = "Ownly fee: audit-observed (TBD)"; // contested across sources: never hard-coded
+/* Choice-experiment design, copied from 03_hyderabad_survey/dce_design_matrix.csv: [task, purpose_tag, A[price,eta_min,late_in_10,restaurants,refund], B[…]] */
+const DCE_DESIGN = {
+  1:[["t1","price_vs_eta",[235,45,1,"some","auto_24h"],[285,25,1,"some","auto_24h"]],["t2","price_vs_reliability",[285,35,1,"most","case_by_case"],[260,35,3,"most","case_by_case"]],
+     ["t3","price_vs_assortment",[235,35,1,"few","auto_24h"],[285,35,1,"most","auto_24h"]],["dom","dominance_check",[260,35,1,"most","auto_24h"],[285,45,3,"some","case_by_case"]],
+     ["t4","price_vs_reliability",[310,45,1,"some","case_by_case"],[235,45,3,"some","case_by_case"]],["t5","price_vs_refund",[260,35,1,"some","case_by_case"],[285,35,1,"some","auto_24h"]],
+     ["t6","multi",[310,25,3,"some","auto_24h"],[260,55,1,"most","case_by_case"]]],
+  2:[["t1","price_vs_eta",[310,35,1,"most","auto_24h"],[235,55,1,"most","auto_24h"]],["t2","price_vs_reliability",[235,25,3,"some","auto_24h"],[260,25,1,"some","auto_24h"]],
+     ["t3","price_vs_assortment",[285,45,1,"most","case_by_case"],[260,45,1,"some","case_by_case"]],["dom","dominance_check",[260,35,1,"most","auto_24h"],[285,45,3,"some","case_by_case"]],
+     ["t4","price_vs_reliability",[260,45,3,"few","case_by_case"],[310,45,1,"few","case_by_case"]],["t5","price_vs_refund",[285,55,1,"most","auto_24h"],[235,55,1,"most","case_by_case"]],
+     ["t6","multi",[235,45,1,"most","case_by_case"],[285,25,3,"few","auto_24h"]]]};
+const REST_IDX = {few:0,some:1,most:2};
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+let R = mulberry32(DEMO_SEED);
+const rn = () => {let u=0,v=0;while(!u)u=R();while(!v)v=R();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);};
+const clamp = (x,a,b) => Math.max(a, Math.min(b, x));
+const lik = z => clamp(Math.round(3 + z), 1, 5);
+const logistic = x => 1 / (1 + Math.exp(-x));
+function pickW(opts, r = R){const s=opts.reduce((a,o)=>a+Math.max(0.01,o[1]),0);let x=r()*s;for(const o of opts){x-=Math.max(0.01,o[1]);if(x<=0)return o[0];}return opts[opts.length-1][0];}
+function pickSome(opts,k){const pool=opts.slice(),out=[];while(out.length<k&&pool.length){const v=pickW(pool);out.push(v);pool.splice(pool.findIndex(o=>o[0]===v),1);}return out;}
+const bern = p => R() < p;
+
+/* ---------------- stats helpers ---------------- */
+const sum = a => a.reduce((s,x)=>s+x,0);
+const mean = a => a.length ? sum(a)/a.length : NaN;
+const variance = a => {if(a.length<2)return NaN;const m=mean(a);return sum(a.map(x=>(x-m)**2))/(a.length-1);};
+const sd = a => Math.sqrt(variance(a));
+function quant(a,q){if(!a.length)return NaN;const s=[...a].sort((x,y)=>x-y);const p=(s.length-1)*q;const lo=Math.floor(p),hi=Math.ceil(p);return s[lo]+(s[hi]-s[lo])*(p-lo);}
+const median = a => quant(a,.5);
+function wilson(k,n){if(!n)return[NaN,NaN,NaN];const z=1.96,p=k/n,d=1+z*z/n,c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return[p,Math.max(0,c-h),Math.min(1,c+h)];}
+function meanCI(a){const n=a.length,m=mean(a);if(n<2)return[m,NaN,NaN];const h=1.96*sd(a)/Math.sqrt(n);return[m,m-h,m+h];}
+function normP(z){const t=1/(1+0.2316419*Math.abs(z));const d=0.3989423*Math.exp(-z*z/2);const p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return Math.min(1,2*p);}
+function bootstrap(n,reps,fn,seed=99){const r=mulberry32(seed);const out=[];for(let b=0;b<reps;b++){const idx=new Array(n);for(let i=0;i<n;i++)idx[i]=Math.floor(r()*n);const v=fn(idx,r);if(v!=null&&(typeof v==="object"||isFinite(v)))out.push(v);}return out;}
+function cronbach(rows){if(rows.length<3)return NaN;const k=rows[0].length;const vs=[...Array(k)].map((_,j)=>variance(rows.map(r=>r[j])));const tot=variance(rows.map(r=>sum(r)));return k/(k-1)*(1-sum(vs)/tot);}
+function mwu(a,b){const all=a.map(v=>[v,0]).concat(b.map(v=>[v,1])).sort((p,q)=>p[0]-q[0]);const rk=new Array(all.length);let i=0,tie=0;
+  while(i<all.length){let j=i;while(j+1<all.length&&all[j+1][0]===all[i][0])j++;const r=(i+j)/2+1;for(let k=i;k<=j;k++)rk[k]=r;const t=j-i+1;tie+=t*t*t-t;i=j+1;}
+  let R1=0;all.forEach((p,k)=>{if(p[1]===0)R1+=rk[k];});const n1=a.length,n2=b.length,N=n1+n2;const U=R1-n1*(n1+1)/2;
+  const sig=Math.sqrt(n1*n2/12*((N+1)-tie/(N*(N-1))));const z=sig?(U-n1*n2/2)/sig:0;return{z,p:normP(z),r:Math.abs(z)/Math.sqrt(N)};}
+function holm(ps){const idx=ps.map((p,i)=>[p,i]).sort((a,b)=>a[0]-b[0]);const m=ps.length;const out=new Array(m);let run=0;idx.forEach(([p,i],j)=>{run=Math.max(run,Math.min(1,(m-j)*p));out[i]=run;});return out;}
+function inv(M){const n=M.length;const A=M.map((r,i)=>[...r,...Array.from({length:n},(_,j)=>i===j?1:0)]);
+  for(let c=0;c<n;c++){let pv=c;for(let r=c+1;r<n;r++)if(Math.abs(A[r][c])>Math.abs(A[pv][c]))pv=r;if(Math.abs(A[pv][c])<1e-12)return null;[A[c],A[pv]]=[A[pv],A[c]];
+    const d=A[c][c];for(let j=0;j<2*n;j++)A[c][j]/=d;for(let r=0;r<n;r++)if(r!==c){const f=A[r][c];if(f)for(let j=0;j<2*n;j++)A[r][j]-=f*A[c][j];}}
+  return A.map(r=>r.slice(n));}
+/* Logistic regression by IRLS: in-page approximation for layout only; final estimates come from Python (statsmodels). */
+function logit(X,y){const p=X[0].length;let b=new Array(p).fill(0),cov=null;
+  for(let it=0;it<40;it++){const H=Array.from({length:p},()=>new Array(p).fill(0)),g=new Array(p).fill(0);
+    for(let i=0;i<X.length;i++){let e=0;for(let j=0;j<p;j++)e+=X[i][j]*b[j];const mu=logistic(e),w=mu*(1-mu)+1e-9;
+      for(let j=0;j<p;j++){g[j]+=X[i][j]*(y[i]-mu);for(let k=0;k<p;k++)H[j][k]+=w*X[i][j]*X[i][k];}}
+    cov=inv(H);if(!cov)return null;const st=cov.map(r=>r.reduce((s,x,j)=>s+x*g[j],0));b=b.map((v,j)=>v+st[j]);
+    if(b.some(v=>Math.abs(v)>25))return null;if(Math.max(...st.map(Math.abs))<1e-8)break;}
+  return{b,se:cov.map((r,i)=>Math.sqrt(Math.max(r[i],0)))};}
+
+/* ---------------- synthetic respondent (both cities) ---------------- */
+function genRespondent(city,i){
+  const hyd=city==="hyderabad";
+  const occRaw=pickW(hyd?[[1,30],[2,18],[3,40],[4,7],[5,5]]:[[1,18],[2,10],[3,60],[4,7],[5,5]]);
+  const seg_occupation=({1:"student",2:"student",3:"working_professional",4:"working_student",5:"other"})[occRaw];
+  const stu=seg_occupation==="student"||seg_occupation==="working_student";
+  const scr_orders_4wk=pickW(stu?[[1,24],[2,36],[3,30],[4,10]]:[[1,20],[2,32],[3,33],[4,15]]);
+  const seg_freq=scr_orders_4wk===1?"occasional":scr_orders_4wk===2?"regular":"frequent";
+  const painZ=rn()*0.85+(stu?0.35:0)+(hyd?0.1:-0.05), relZ=rn()*0.85+(stu?-0.25:0.35), asZ=rn()*0.85+(stu?0:0.3);
+  const block=bern(.5)?1:2, arm=hyd?(bern(.5)?"blind":"branded"):null;
+  const apps=pickSome([["swiggy",80],["zomato",75],["ownly_app",hyd?10:30],["rapido_app_food",hyd?6:15],["toing",8],["magicpin",6],["eatsure",5],["restaurant_direct",8]],pickW([[1,34],[2,48],[3,18]]));
+  const beh_platform_primary=apps.length===1?apps[0]:pickW(apps.map(a=>[a,{swiggy:45,zomato:42}[a]||10]));
+  const subs=pickSome([["swiggy_one",stu?14:24],["zomato_gold",stu?13:26],["other_membership",3]],bern(stu?.25:.5)?(bern(.15)?2:1):0);
+  const beh_any_subscription=subs.length>0;
+  const dec_habit_lock=lik(rn()*0.9+(beh_any_subscription?0.6:0)-(apps.length>1?0.4:0));
+  const miss=()=>bern(.03);
+  const grid={pain_fee_reconsider_freq:lik(painZ+rn()*0.7),pain_bill_unreasonable_freq:lik(painZ+rn()*0.7-0.1),beh_abandon_price_freq:lik(painZ*0.8+rn()*0.8-0.5),
+    pain_late_freq:lik(relZ*0.3+rn()*0.8-0.2),pain_cancel_freq:lik(rn()*0.8-0.8),pain_wrong_item_freq:lik(rn()*0.8-0.6),pain_restaurant_unavailable_freq:lik(asZ*0.4+rn()*0.8-0.3),pain_quality_freq:lik(rn()*0.8-0.5)};
+  const markup=bern(.06)?null:lik(painZ*0.8+rn()*0.8+0.4);
+  const topF=bern(.04)?["nothing"]:pickSome([["delivery_fees",18+6*painZ],["other_charges",14+5*painZ],["menu_markup",12+5*painZ],["fake_offers",8+3*painZ],["late_delivery",12+6*relZ],["cancelled_orders",6+2*relZ],["wrong_missing_items",7],["refunds_support",8+3*relZ],["restaurant_unavailable",6+4*asZ],["food_quality",7],["delivery_partner",5]],pickW([[1,20],[2,35],[3,45]]));
+  const exp_fav_restaurant_needed=lik(asZ+rn()*0.6);
+  // brand-blind / branded concept (HYD all; BLR only if unaware)
+  const awareAided=pickW(hyd?[[2,30],[1,15],[0,55]]:[[2,60],[1,15],[0,25]]);
+  const showConcept=hyd||awareAided===0;
+  const bt_trial_intent=showConcept?clamp(lik(0.35*painZ-0.25*(dec_habit_lock-3)+rn()*0.9)+(arm==="branded"&&bern(.25)?1:0),1,5):null;
+  const bt_trust=showConcept?clamp(lik(rn()*0.9-0.15)+(arm==="branded"&&bern(.3)?1:0),1,5):null;
+  const r={
+    resp_id:(hyd?"HYD-":"BLR-")+String(i+1).padStart(4,"0"), city, data_status:DATA_STATUS,
+    meta_form_version:hyd?({blind1:"V1",blind2:"V2",branded1:"V3",branded2:"V4"})[arm+block]:"B"+block, meta_brand_arm:arm, meta_dce_block:block,
+    meta_source:pickW([["whatsapp",35],["linkedin",20],["reddit",hyd?10:25],["instagram",15],["qr_poster",hyd?20:5]]),
+    meta_found_survey:pickW([["whatsapp_telegram_group",30],["linkedin",18],["reddit",hyd?8:22],["instagram",10],["friend_colleague",14],["poster_qr",hyd?10:2],["college_office_group",hyd?10:4]]),
+    meta_duration_sec:Math.round(clamp(Math.exp(Math.log(640)+rn()*0.35),180,2400)),
+    scr_age_band:pickW(stu?[[2,45],[3,40],[4,12],[5,3]]:[[2,5],[3,35],[4,40],[5,20]]),
+    scr_area:hyd?pickW([["gachibowli",38],["financial_district",14],["kondapur",14],["madhapur_hitec",14],["manikonda",8],["narsingi_kokapet",5],["serilingampally",4],["tellapur_nallagandla",3]])
+                :pickW([["koramangala",18],["hsr_layout",15],["btm_layout",12],["indiranagar_domlur",12],["whitefield_marathahalli",18],["electronic_city",8],["other_blr",17]]),
+    scr_orders_4wk, seg_occupation_raw:occRaw, seg_occupation, seg_freq,
+    dem_living:stu?pickW([["hostel",45],["pg_coliving",30],["shared_flat",15],["family",10]]):pickW([["pg_coliving",20],["shared_flat",40],["family",20],["alone_rented",20]]),
+    dem_delivery_spend_month:pickW(stu?[[1,30],[2,40],[3,22],[4,6],[5,2]]:[[1,10],[2,30],[3,35],[4,20],[5,5]]),
+    beh_last_platform:beh_platform_primary, beh_last_meal:pickW(stu?[["lunch",14],["evening_snack",12],["dinner",48],["late_night",22],["breakfast",4]]:[["lunch",28],["evening_snack",8],["dinner",50],["late_night",10],["breakfast",4]]),
+    beh_weekday_weekend:hyd?pickW([["mostly_weekdays",45],["about_equal",40],["mostly_weekends",15]]):null,
+    beh_last_order_total:Math.round(clamp(Math.exp(Math.log(stu?255:365)+rn()*0.38),90,1400)/5)*5,
+    beh_platforms_used_4wk:apps, beh_platform_count:apps.length, beh_multihome:apps.length>=2, beh_platform_primary,
+    beh_subscriptions:subs.length?subs:["none"], beh_any_subscription, beh_offer_dependency:bern(.05)?98:pickW([[1,20],[2,35],[3,28],[4,17]]),
+    dec_habit_lock, beh_switched_primary_12m:bern(.28)?1:0,
+    ...grid, pain_menu_markup_belief:markup, pain_top_frustrations:topF,
+    exp_eta_max_lunch:bern(.1)?null:pickW(stu?[[20,5],[30,25],[40,35],[50,20],[60,10],[75,5]]:[[20,10],[30,40],[40,30],[50,12],[60,6],[75,2]]),
+    exp_eta_max_dinner:bern(.04)?null:pickW(stu?[[30,15],[40,30],[50,28],[60,20],[75,7]]:[[30,25],[40,35],[50,25],[60,12],[75,3]]),
+    exp_fav_restaurant_needed,
+    exp_restaurant_types_needed:pickSome([["specific_favourites",20+8*asZ],["chains",18],["local_nearby",25],["budget_under_200",stu?30:12],["premium",stu?6:14],["healthy",8],["late_night",stu?18:6]],pickW([[1,30],[2,40],[3,30]])),
+    beh_switch_savings_required:bern(.05)?98:bern(0.06+0.1*(dec_habit_lock-1)/4)?0:pickW(stu?[[10,8],[20,22],[30,26],[50,24],[75,10],[100,10]]:[[10,4],[20,12],[30,20],[50,30],[75,16],[100,18]]),
+    bill_s1:pickW([["focal",40+10*painZ],["other",25],["no_difference",35]]), bill_s2:pickW([["focal",30+8*painZ],["other",35],["no_difference",35]]), // codes 1/2 mapped to focal/other per version; 3 = no real difference
+    bill_s3:hyd?bern(logistic(1.1+0.5*painZ)):null, bill_s4:hyd?bern(logistic(0.2+0.5*painZ-0.6*relZ)):null,
+    bt_appeal:showConcept?lik(0.4*painZ+rn()*0.9):null, bt_trial_intent, bt_trust,
+    bt_expected_reliability:showConcept?(bern(.08)?98:lik(rn()*0.9-0.2)):null, bt_expected_price:showConcept?(bern(.06)?98:lik(0.8+rn()*0.8)):null,
+    bt_concern_coded:showConcept?pickSome([["fewer_restaurants",22+6*asZ],["slower_delivery",16+4*relZ],["reliability_unknown",18+6*relZ],["support_refund",12],["food_quality",10],["sustainability_doubt",8],["none",12]],bern(.6)?1:2):[],
+    bt_framing_pref:hyd?pickW([[1,34+4*painZ],[2,28],[3,26+4*relZ],[4,12]]):null,
+    br_rapido_effect:hyd?lik(0.2+rn()*0.9):null,
+    dem_rapido_ride_use:pickW([[0,22],[1,18],[2,28],[3,20],[4,12]]),
+    own_aware_aided:awareAided, own_aware_unaided:awareAided===2&&bern(.35),
+  };
+  if(hyd&&arm==="blind"){r.br_trial_intent=clamp(bt_trial_intent+pickW([[0,60],[1,27],[-1,13]]),1,5);r.br_trust=clamp(bt_trust+pickW([[0,55],[1,33],[-1,12]]),1,5);r.br_expected_reliability=bern(.08)?98:clamp(lik(rn()*0.9-0.2)+(bern(.3)?1:0),1,5);}
+  else{r.br_trial_intent=null;r.br_trust=null;r.br_expected_reliability=null;}
+  r.dem_rapido_ride_experience=r.dem_rapido_ride_use>0?lik(0.4+rn()*0.9):null;
+  // Ownly awareness / usage
+  r.own_aware_any=awareAided>=1||r.own_aware_unaided;
+  r.own_aware_duration=r.own_aware_any?pickW(hyd?[[1,35],[2,30],[3,25],[4,5],[98,5]]:[[1,8],[2,12],[3,35],[4,40],[98,5]]):null;
+  r.own_aware_source=r.own_aware_any?pickSome([["rapido_app",hyd?35:50],["instagram_youtube",25],["friends_colleagues",25],["posters_outdoor",hyd?15:8],["news_linkedin",10],["restaurant",5],["delivery_partner",4]],bern(.6)?1:2):[];
+  r.own_tried=r.own_aware_any?pickW(hyd?[[2,32],[1,18],[0,50]]:[[2,62],[1,13],[0,25]]):null;
+  const tried=r.own_tried===2;
+  r.own_not_tried_reason=r.own_aware_any&&!tried?pickSome([["happy_with_current_app",30],["usual_restaurants_missing",18+5*asZ],["not_available_location",hyd?14:6],["did_not_trust_new_app",12],["expected_slow_delivery",10+3*relZ],["no_real_savings",10],["no_offers",8]],bern(.5)?1:2):[];
+  r.own_trust=r.own_aware_any?lik(rn()*0.9+(tried?0.3:-0.2)):null;
+  r.own_orders_4wk=tried?pickW(hyd?[[0,25],[1,30],[2,25],[3,15],[4,5]]:[[0,15],[1,20],[2,30],[3,25],[4,10]]):null;
+  r.own_repeat=tried?r.own_orders_4wk>=2:null; r.own_lapsed=tried?r.own_orders_4wk===0:null;
+  r.own_first_trial_trigger=tried?pickW([["launch_offer",28],["saw_lower_prices",18],["no_platform_packaging_charges",14],["friend_recommended",12],["found_in_rapido_app",hyd?10:16],["restaurant_on_it",8],["curiosity",10]]):null;
+  r.own_reliability_rating=tried?lik(0.45+rn()*0.9-(hyd?0.15:0)):null;
+  r.own_perceived_savings=tried?(bern(.2)?98:lik(0.7+rn()*0.9)):null;
+  r.own_found_restaurants=tried?lik(0.2+rn()*0.9-0.3*asZ):null;
+  r.own_issues_3m=tried?pickSome([["late_order",25],["cancelled_order",12],["wrong_missing_items",10],["food_quality",8],["needed_refund",10],["contacted_support",12],["none",45]],bern(.7)?1:2):[];
+  if(r.own_issues_3m.includes("none")&&r.own_issues_3m.length>1)r.own_issues_3m=["none"];
+  r.own_support_issue_resolved=tried&&r.own_issues_3m.some(x=>x==="needed_refund"||x==="contacted_support")?pickW([[2,45],[1,25],[0,20],[3,10]]):null;
+  r.churn_reduced_reasons=r.own_lapsed?pickSome([["restaurants_missing",20],["late_unreliable",18],["cancelled_orders",10],["refund_support_problem",10],["savings_not_worth_it",14],["launch_offers_ended",18],["back_to_usual_app",20],["location_not_served",8]],pickW([[1,40],[2,40],[3,20]])):[];
+  r.own_continue_intent=tried?lik(0.3+rn()*0.9):null;
+  // WTP ladder
+  r.wtp_start=bern(.5)?20:40;
+  const w=(stu?24:37)+rn()*14-(beh_any_subscription?6:0), maxFee=Math.min(60,Math.floor(Math.max(0,w)/10)*10), nonmono=bern(.03);
+  LADDER.forEach(f=>{r["wtp_accept_"+f]=nonmono&&f===maxFee+10?1:(f<=maxFee?1:0);});
+  r.wtp_max_fee=nonmono?null:maxFee; r.wtp_nonmonotone=nonmono;
+  // choice tasks from the real design
+  const bP=(stu?0.028:0.016)*Math.exp(rn()*0.25),bE=(stu?0.045:0.075)*Math.exp(rn()*0.25),bL=(stu?0.35:0.6)*Math.exp(rn()*0.25),bR=(stu?0.45:0.6)*(1+0.3*asZ),bF=stu?0.35:0.5;
+  const U=a=>-bP*a[0]-bE*a[1]-bL*a[2]+bR*REST_IDX[a[3]]+bF*(a[4]==="auto_24h"?1:0);
+  // choice tasks exist in Hyderabad only (dictionary X5/X6 city_scope = hyd)
+  r.dce=hyd?DCE_DESIGN[block].map(([task,purpose,A,B])=>{const chooseA=bern(logistic(U(A)-U(B)));r["dce_"+task]=chooseA?"A":"B";return{task,purpose,A,B,chosen:chooseA?"A":"B"};}):[];
+  if(!hyd)r.meta_dce_block=null;
+  const relT=r.dce.filter(t=>t.purpose==="price_vs_reliability");
+  r.rss=relT.length>=2?100*relT.filter(t=>{const rel=t.A[2]<t.B[2]?"A":"B";return t.chosen===rel;}).length/relT.length:NaN;
+  // derived indices (PAP §4)
+  const ppiItems=[grid.pain_fee_reconsider_freq,grid.pain_bill_unreasonable_freq,markup,grid.beh_abandon_price_freq].map(v=>miss()?null:v).filter(v=>v!=null);
+  r.ppi=ppiItems.length>=3?(mean(ppiItems)-1)/4*100:NaN;
+  const resc=x=>(x-1)/4*100;
+  r.multihome5=r.beh_multihome?5:1;
+  r.sri=bt_trial_intent!=null?(resc(bt_trial_intent)+resc(r.multihome5)+resc(6-dec_habit_lock))/3:NaN;
+  r.adi=resc(exp_fav_restaurant_needed);
+  r.bt_t2b=bt_trial_intent!=null?bt_trial_intent>=4:null;
+  r.switch_price_never=r.beh_switch_savings_required===0;
+  r.beh_switch_reason_coded=r.beh_switched_primary_12m?pickSome([["price_or_fees",30+6*painZ],["offers",20],["restaurant_availability",14],["reliability_problem",14+5*relZ],["support_refund_problem",10],["membership",12]],bern(.6)?1:2):[];
+  r.own_status=tried?(r.own_repeat?"user_repeat":"user_not_repeat"):r.own_aware_any?"aware_never_tried":"unaware";
+  return r;
+}
+
+/* ---------------- synthetic competitor audit (audit_schema.csv field names) ---------------- */
+const SLOTS=["lunch_peak","off_peak","dinner_peak","weekend_dinner","late_night"], DROPS=["DP1_CAMPUS","DP2_OFFICE","DP3_RESIDENTIAL"];
+function genAudit(){
+  const frame=[];["budget","budget","budget","budget","budget","mid","mid","mid","mid","mid","mid","mid","premium","premium","premium"].forEach((t,i)=>frame.push({restaurant_id:"R"+String(i+1).padStart(2,"0"),price_tier:t,base:{budget:170,mid:290,premium:540}[t]*Math.exp(rn()*0.12)}));
+  const obs=[],keys=[];let aid=0;
+  frame.forEach(rs=>{for(let s=0;s<6;s++){const slot=SLOTS[Math.floor(R()*5)],dp=DROPS[Math.floor(R()*3)],basket=bern(.5)?"B1":"B2",base=rs.base*(basket==="B2"?1.8:1),key=[rs.restaurant_id,basket,dp,slot,"S"+s].join("|");const row={};
+    ["ownly","swiggy","zomato"].forEach(pl=>{const own=pl==="ownly";
+      const listed=bern(own?{budget:.85,mid:.72,premium:.55}[rs.price_tier]:.95), open=listed&&bern(slot==="late_night"?(own?.7:.85):.96), match=open?pickW([["exact",80],["close",15],["none",5]]):null;
+      const menu=Math.round(base*(own?1:1+Math.max(0,.08+rn()*.05))), pack=own?Math.round(R()*15):Math.round(10+R()*20), plat=own?0:Math.round(10+R()*5);
+      const deliv=own?pickW([[0,20],[20,25],[30,35],[40,20]]):Math.round(20+R()*35+(slot==="late_night"?10:0));
+      const small=!own&&menu<200&&bern(.4)?15:0, surge=!own&&(slot==="dinner_peak"||slot==="weekend_dinner")&&bern(.15)?15:0, tax=Math.round(0.05*menu+0.18*(plat+deliv));
+      const disc=own?(bern(.2)?20:0):(bern(.5)?Math.round(20+R()*60):0), etaMin=Math.round((own?33:28)+rn()*(own?6:5)+(slot.includes("dinner")?6:0));
+      const o={audit_id:"AU"+String(++aid).padStart(4,"0"),capture_ts:`2026-09-${String(16+s).padStart(2,"0")} ${({lunch_peak:"13",off_peak:"17",dinner_peak:"21",weekend_dinner:"21",late_night:"23"})[slot]}:${String(10+Math.floor(R()*8)).padStart(2,"0")}`,
+        slot,drop_point_id:dp,platform:pl,account_state:"existing",subscription_active:"n",restaurant_id:rs.restaurant_id,price_tier:rs.price_tier,restaurant_listed:listed?"y":"n",restaurant_open:open?"y":"n",basket_id:basket,item_match_quality:match,
+        menu_subtotal:open?menu:null,packaging_fee:open?pack:null,platform_fee:open?plat:null,delivery_fee:open?deliv:null,small_cart_fee:open?small:null,surge_rain_fee:open?surge:null,other_fees:open?0:null,taxes_gst:open?tax:null,discount_amount:open?disc:null,
+        final_payable:open?menu+pack+plat+deliv+small+surge+tax-disc:null,eta_min_shown:open?etaMin:null,eta_max_shown:open?etaMin+10:null,match_key:key,data_status:DATA_STATUS};
+      o.eta_mid_shown=open?(o.eta_min_shown+o.eta_max_shown)/2:null;o.fee_stack=open?pack+plat+deliv+small+surge:null;
+      o.valid_for_pairwise=open&&(match==="exact"||match==="close");obs.push(o);row[pl]=o;});
+    keys.push({key,row,rs,slot,dp,basket});}});
+  const pairs=[];
+  keys.forEach(({key,row,rs,slot,dp,basket})=>{const ow=row.ownly;if(!ow.valid_for_pairwise)return;const comps=["swiggy","zomato"].filter(p=>row[p].valid_for_pairwise);if(!comps.length)return;
+    const cheapest=comps.reduce((a,b)=>row[a].final_payable<=row[b].final_payable?a:b),c=row[cheapest];
+    const tot={ownly:ow.final_payable,...Object.fromEntries(comps.map(p=>[p,row[p].final_payable]))},sorted=Object.entries(tot).sort((a,b)=>a[1]-b[1]);
+    const winner=sorted.length>1&&sorted[1][1]-sorted[0][1]<=5?"tie":sorted[0][0];
+    pairs.push({match_key:key,restaurant_id:rs.restaurant_id,price_tier:rs.price_tier,basket_id:basket,drop_point_id:dp,slot,ownly_total:ow.final_payable,swiggy_total:row.swiggy.valid_for_pairwise?row.swiggy.final_payable:null,zomato_total:row.zomato.valid_for_pairwise?row.zomato.final_payable:null,
+      cheapest_comparator:cheapest,cheapest_comparator_total:c.final_payable,gap_rs_vs_cheapest:ow.final_payable-c.final_payable,gap_pct_vs_cheapest:(ow.final_payable-c.final_payable)/c.final_payable,
+      eta_gap_min:ow.eta_mid_shown-c.eta_mid_shown,menu_gap_rs:ow.menu_subtotal-c.menu_subtotal,fee_gap_rs:ow.fee_stack-c.fee_stack,winner,data_status:DATA_STATUS});});
+  return{frame,obs,pairs};
+}
+
+/* ---------------- synthetic coded reviews/social (reviews_coded.csv / social_coded.csv field names) ---------------- */
+const THEMES={
+  LATE_DELIVERY_ETA_BREACH:["Late delivery / ETA breach",14,[.1,.35,.4,.15],"dispatch_eta",true],
+  PLATFORM_RESTAURANT_CANCELLATION:["Cancellation by platform/restaurant",9,[.05,.2,.5,.25],"dispatch_eta",true],
+  NOT_DELIVERED_OR_FALSE_DELIVERED:["Not delivered / falsely marked delivered",7,[0,.1,.4,.5],"delivery_handoff",true],
+  REFUND_DELAY_OR_DENIAL:["Refund delay or denial",8,[0,.2,.45,.35],"post_order_support_refund",true],
+  SUPPORT_UNRESPONSIVE_OR_SCRIPTED:["Support unresponsive",9,[.05,.3,.45,.2],"post_order_support_refund",true],
+  MISSING_OR_WRONG_ITEMS:["Missing or wrong items",6,[.1,.5,.3,.1],"food_quality_accuracy",false],
+  FOOD_QUALITY_HYGIENE:["Food quality / hygiene",6,[.15,.45,.3,.1],"food_quality_accuracy",false],
+  APP_CHECKOUT_BUG:["App / checkout bug",6,[.3,.45,.2,.05],"payment",false],
+  LOWER_PRICE_VALUE_POSITIVE:["Lower price / value (positive)",14,[.9,.1,0,0],"pricing_checkout",false],
+  NO_HIDDEN_FEES_POSITIVE:["No hidden fees (positive)",8,[.9,.1,0,0],"pricing_checkout",false],
+  ASSORTMENT_LIMITED:["Limited restaurants",8,[.6,.35,.05,0],"browse_menu",false],
+  SERVICE_AREA_LIMITED:["Service area limited",5,[.5,.4,.1,0],"discovery_onboarding",false]};
+const STAGES=["discovery_onboarding","browse_menu","pricing_checkout","payment","dispatch_eta","delivery_handoff","food_quality_accuracy","post_order_support_refund","app_account"];
+const MONTHS=["2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09"];
+function genReviews(){const out=[],keys=Object.keys(THEMES);
+  for(let i=0;i<240;i++){const source=pickW([["google_play",50],["apple_app_store",15],["reddit",25],["linkedin",10]]),app=source==="google_play"||source==="apple_app_store";
+    const theme=pickW(keys.map(k=>[k,source==="linkedin"&&k.includes("POSITIVE")?40:THEMES[k][1]])),T=THEMES[theme];
+    out.push({item_id:({google_play:"GP-",apple_app_store:"AS-",reddit:"RD-",linkedin:"LI-"})[source]+String(i+1).padStart(4,"0"),source,star_rating:app?(theme.includes("POSITIVE")?pickW([[5,70],[4,30]]):pickW([[1,60],[2,25],[3,15]])):null,
+      primary_theme:theme,themes:[theme],severity:pickW([[1,T[2][0]],[2,T[2][1]],[3,T[2][2]],[4,T[2][3]]]),order_stage:bern(.85)?T[3]:STAGES[Math.floor(R()*STAGES.length)],
+      sentiment:theme.includes("POSITIVE")?"positive":"negative",month:pickW(MONTHS.map((m,j)=>[m,6+j*3])),human_verified:true,data_status:DATA_STATUS});}
+  return out;}
+const ITHEMES=["Bill feels unreasonable at checkout","Opens same app first (habit)","Waits for offers before ordering","Late delivery ruins the meal","Needs favourite restaurants","Refund / support frustration","Trusts Rapido for rides, unsure for food","Orders late night from hostel/PG"];
+function genInterviews(){const out=[];for(let i=0;i<14;i++){const seg=i%2?"working_professional":"student";
+  out.push({interview_id:"INT-"+String(i+1).padStart(2,"0"),seg_occupation:seg,themes:ITHEMES.map((t,j)=>bern([.7,.6,seg==="student"?.7:.35,seg==="student"?.35:.7,seg==="student"?.4:.65,.4,.45,seg==="student"?.7:.2][j]))});}
+  return out;}
+/* ---------------- synthetic fake-door visitors (events_schema.json event names; one object = one anon_visitor_id) ---------------- */
+const VARIANT_KEYS={A:"A_total_price",B:"B_transparent_bill",C:"C_reliable_value"};
+function genFakeDoor(){const V={A:{ctr:.115,sec:.33,ttc:9000},B:{ctr:.092,sec:.36,ttc:12000},C:{ctr:.104,sec:.41,ttc:10500}};const s=[];
+  Object.entries(V).forEach(([v,p])=>{const n=395+Math.floor(R()*25);for(let i=0;i<n;i++){const src=pickW([["instagram",30],["whatsapp",35],["reddit",15],["linkedin",20]]);
+    const vp=bern(.92),lift=src==="whatsapp"?1.1:src==="linkedin"?0.85:1,cta=vp&&bern(p.ctr*lift/.92),disc=cta&&bern(.97),sec=disc&&bern(p.sec),mini=disc&&bern(.6);
+    s.push({anon_visitor_id:`${v}-${i}`,experiment_id:"hyd_vp_fakedoor_v1",variant_id:v,variant_key:VARIANT_KEYS[v],utm_source:src,vp_view:vp,cta_click:cta,disclosure_view:disc,secondary_intent:sec,
+      mini_survey_seg_occupation:mini?pickW([["student",45],["working_professional",40],["working_student",8],["other",7]]):null,bounce:!cta&&bern(.7),
+      cta_time_since_load_ms:cta?Math.round(Math.exp(Math.log(p.ttc)+rn()*0.5)):null,is_qa:bern(.01),is_bot_suspect:bern(.01),data_status:DATA_STATUS});}});
+  return s.filter(x=>!x.is_qa&&!x.is_bot_suspect);}
+function generateDemoData(){R=mulberry32(DEMO_SEED);const resp=[];for(let i=0;i<214;i++)resp.push(genRespondent("hyderabad",i));for(let i=0;i<146;i++)resp.push(genRespondent("bengaluru",i));
+  return{resp,audit:genAudit(),reviews:genReviews(),interviews:genInterviews(),fd:genFakeDoor()};}
+/* ---------------- SVG chart primitives (one scale per chart; text uses theme tokens) ---------------- */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const lin = (d0,d1,r0,r1) => v => r0 + (v-d0)/((d1-d0)||1)*(r1-r0);
+function niceTicks(min,max,count=5){const span=max-min;if(!(span>0))return[min];const s0=span/Math.max(1,count);const mag=Math.pow(10,Math.floor(Math.log10(s0)));const e=s0/mag;const step=(e>=7.5?10:e>=3.5?5:e>=1.5?2:1)*mag;const t=[];for(let v=Math.ceil(min/step-1e-9)*step;v<=max+1e-9;v+=step)t.push(+v.toFixed(8));return t;}
+const fmtPct = v => isFinite(v) ? Math.round(v*100)+"%" : "–";
+const fmt0 = v => isFinite(v) ? String(Math.round(v)) : "–";
+const fmt1 = v => isFinite(v) ? v.toFixed(1) : "–";
+const fmt2 = v => isFinite(v) ? v.toFixed(2) : "–";
+const fmtInr = v => isFinite(v) ? (v<0?"−₹":"₹")+Math.abs(Math.round(v)).toLocaleString("en-IN") : "–";
+const trunc = (s,m) => {s=String(s);return s.length>m?s.slice(0,Math.max(1,m-1))+"…":s;};
+const svgOpen = (W,H,aria) => `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(aria||"chart")}">`;
+const labW = (labels,W,frac=.42) => Math.min(W*frac, Math.max(40,...labels.map(l=>String(l).length*6.3+14)));
+function hbarPath(x0,x1,y,h){const w=x1-x0;if(w<=0.5)return"";const r=Math.min(4,h/2,w);return`M${x0},${y}H${x1-r}Q${x1},${y} ${x1},${y+r}V${y+h-r}Q${x1},${y+h} ${x1-r},${y+h}H${x0}Z`;}
+function hbarPathL(x0,x1,y,h){const w=x1-x0;if(w<=0.5)return"";const r=Math.min(4,h/2,w);return`M${x1},${y}H${x0+r}Q${x0},${y} ${x0},${y+r}V${y+h-r}Q${x0},${y+h} ${x0+r},${y+h}H${x1}Z`;}
+function vbarPath(x,y0,y1,w){const h=y0-y1;if(h<=0.5)return"";const r=Math.min(4,w/2,h);return`M${x},${y0}V${y1+r}Q${x},${y1} ${x+r},${y1}H${x+w-r}Q${x+w},${y1} ${x+w},${y1+r}V${y0}Z`;}
+const dotMark = (cx,cy,color,hollow) => hollow
+  ? `<circle cx="${cx}" cy="${cy}" r="5" style="fill:var(--surface);stroke:${color};stroke-width:2"/>`
+  : `<circle cx="${cx}" cy="${cy}" r="5.5" style="fill:${color};stroke:var(--surface);stroke-width:2"/>`;
+const tipAttr = html => `data-tip="${esc(html)}"`;
+const ciTxt = (f,lo,hi) => isFinite(lo)&&isFinite(hi) ? ` [${f(lo)}–${f(hi)}]` : "";
+function xAxis(x,ticks,y0,y1,f){return ticks.map(t=>`<line class="gl" x1="${x(t)}" x2="${x(t)}" y1="${y0}" y2="${y1}"/><text class="tick" x="${x(t)}" y="${y1+14}" text-anchor="middle">${esc(f(t))}</text>`).join("");}
+
+/* Horizontal bars with optional CI whiskers, reference lines, suppression */
+function hbars(o,W){
+  const rows=o.rows,rowH=o.rowH||28,bh=Math.min(16,rowH-12),L=labW(rows.map(r=>r.label),W),valW=o.valW??64,top=o.refs&&o.refs.length?20:6,plotB=top+rows.length*rowH,H=plotB+24;
+  const vals=rows.flatMap(r=>[r.v,r.hi]).filter(v=>isFinite(v));const max=o.max??Math.max(1e-9,...vals)*1.06,min=o.min??Math.min(0,...rows.map(r=>r.v).filter(isFinite));
+  const x=lin(min,max,L,W-valW),fa=o.fmtAxis||o.fmt;
+  let s=svgOpen(W,H,o.aria)+xAxis(x,niceTicks(min,max,Math.max(2,Math.floor((W-L-valW)/72))),top-4,plotB,fa)+`<line class="base" x1="${x(0)}" x2="${x(0)}" y1="${top-4}" y2="${plotB}"/>`;
+  rows.forEach((r,i)=>{const y=top+i*rowH+(rowH-bh)/2,cy=y+bh/2;
+    s+=`<text class="lab" x="${L-8}" y="${cy+4}" text-anchor="end">${esc(trunc(r.label,Math.floor((L-12)/6.3)))}</text>`;
+    if(r.suppressed||!isFinite(r.v)){s+=`<text class="supp" x="${L+4}" y="${cy+4}">${esc(r.suppText||(r.suppressed?`n = ${r.n} · not shown (n < ${o.minN||30})`:"no data"))}</text>`;return;}
+    const tip=r.tip||`<b>${esc(r.label)}</b><br>${o.fmt(r.v)}${ciTxt(o.fmt,r.lo,r.hi)}${r.n!=null?` · n = ${r.n}`:""}${r.low?"<br>Low base (n < 60)":""}`;
+    s+=`<g ${tipAttr(tip)}><rect class="hit" x="0" y="${top+i*rowH}" width="${W}" height="${rowH}"/>`;
+    s+=`<path d="${r.v>=0?hbarPath(x(0),x(r.v),y,bh):hbarPathL(x(r.v),x(0),y,bh)}" style="fill:${r.color||"var(--mono)"}${r.low?";opacity:.6":""}"/>`;
+    if(isFinite(r.lo)&&isFinite(r.hi))s+=`<line class="ci" x1="${x(r.lo)}" x2="${x(r.hi)}" y1="${cy}" y2="${cy}"/><line class="ci" x1="${x(r.lo)}" x2="${x(r.lo)}" y1="${cy-5}" y2="${cy+5}"/><line class="ci" x1="${x(r.hi)}" x2="${x(r.hi)}" y1="${cy-5}" y2="${cy+5}"/>`;
+    const tx=Math.max(x(Math.max(r.v,0)),isFinite(r.hi)?x(r.hi):0)+6;
+    s+=`<text class="val" x="${tx}" y="${cy+4}">${esc(o.fmt(r.v))}${r.low?" ⚠":""}${r.suffix?esc(r.suffix):""}</text></g>`;});
+  (o.refs||[]).forEach(rf=>{s+=`<line class="ref" x1="${x(rf.x)}" x2="${x(rf.x)}" y1="${top-6}" y2="${plotB}"/><text class="reflab" x="${x(rf.x)+(rf.anchor==="end"?-3:rf.anchor==="start"?3:0)}" y="${top-9}" text-anchor="${rf.anchor||"middle"}">${esc(rf.label)}</text>`;});
+  return s+"</svg>";}
+
+/* Grouped columns */
+function groupedCols(o,W){
+  const cats=o.cats,ser=o.series,left=42,right=8,top=12,bottom=30,H=o.h||220;
+  const vals=ser.flatMap(se=>se.values.map(v=>isFinite(v&&v.hi)?v.hi:v&&v.v)).filter(v=>isFinite(v));const max=o.max??Math.max(1e-9,...vals)*1.1;
+  const y=lin(0,max,H-bottom,top),band=(W-left-right)/cats.length,bw=Math.max(4,Math.min(24,band*0.8/Math.max(1,ser.length)-2));
+  let s=svgOpen(W,H,o.aria);
+  niceTicks(0,max,4).forEach(t=>{s+=`<line class="gl" x1="${left}" x2="${W-right}" y1="${y(t)}" y2="${y(t)}"/><text class="tick" x="${left-6}" y="${y(t)+4}" text-anchor="end">${esc(o.fmt(t))}</text>`;});
+  s+=`<line class="base" x1="${left}" x2="${W-right}" y1="${y(0)}" y2="${y(0)}"/>`;
+  cats.forEach((c,i)=>{const cx=left+band*i+band/2,gw=ser.length*(bw+2)-2;
+    ser.forEach((se,j)=>{const d=se.values[i],bx=cx-gw/2+j*(bw+2);if(!d||se.suppressed||!isFinite(d.v))return;
+      s+=`<g ${tipAttr(`<b>${esc(se.name)} · ${esc(c)}</b><br>${o.fmt(d.v)}${ciTxt(o.fmt,d.lo,d.hi)}${d.n!=null?` · n = ${d.n}`:""}`)}><rect class="hit" x="${bx-1}" y="${top}" width="${bw+2}" height="${H-bottom-top}"/><path d="${vbarPath(bx,y(0),y(d.v),bw)}" style="fill:${se.color}"/>`;
+      if(isFinite(d.lo)&&isFinite(d.hi))s+=`<line class="ci" x1="${bx+bw/2}" x2="${bx+bw/2}" y1="${y(d.lo)}" y2="${y(d.hi)}"/>`;
+      s+="</g>";});
+    s+=`<text class="tick" x="${cx}" y="${H-bottom+16}" text-anchor="middle">${esc(trunc(c,Math.floor(band/6.2)))}</text>`;});
+  return s+"</svg>";}
+
+/* Horizontal box plots */
+function boxplot(o,W){
+  const g=o.groups,L=labW(g.map(x=>x.label),W,.35),rowH=40,top=6,plotB=top+g.length*rowH,H=plotB+24;
+  const all=g.filter(x=>x.values.length>=(o.minN||30)).flatMap(x=>x.values);if(!all.length)return`<p class="note">All groups below n = ${o.minN||30}; not shown.</p>`;
+  const lo=o.min??Math.min(...all),hi=o.max??Math.max(...all),pad=(hi-lo)*0.04||1,x=lin(lo-pad,hi+pad,L,W-16);
+  let s=svgOpen(W,H,o.aria)+xAxis(x,niceTicks(lo-pad,hi+pad,Math.max(2,Math.floor((W-L)/80))),top,plotB,o.fmt);
+  g.forEach((gr,i)=>{const cy=top+i*rowH+rowH/2;s+=`<text class="lab" x="${L-8}" y="${cy+4}" text-anchor="end">${esc(trunc(gr.label,Math.floor((L-12)/6.3)))}</text>`;
+    if(gr.values.length<(o.minN||30)){s+=`<text class="supp" x="${L+4}" y="${cy+4}">n = ${gr.values.length} · not shown (n < ${o.minN||30})</text>`;return;}
+    const v=[...gr.values].sort((a,b)=>a-b),q1=quant(v,.25),q2=quant(v,.5),q3=quant(v,.75),iqr=q3-q1;
+    const wl=v.find(t=>t>=q1-1.5*iqr),wh=[...v].reverse().find(t=>t<=q3+1.5*iqr),outs=v.filter(t=>t<wl||t>wh);
+    s+=`<g ${tipAttr(`<b>${esc(gr.label)}</b><br>Median ${o.fmt(q2)} · IQR ${o.fmt(q1)}–${o.fmt(q3)}<br>n = ${v.length}`)}><rect class="hit" x="0" y="${cy-rowH/2}" width="${W}" height="${rowH}"/>`;
+    s+=`<line class="whisk" x1="${x(wl)}" x2="${x(q1)}" y1="${cy}" y2="${cy}"/><line class="whisk" x1="${x(q3)}" x2="${x(wh)}" y1="${cy}" y2="${cy}"/><line class="whisk" x1="${x(wl)}" x2="${x(wl)}" y1="${cy-5}" y2="${cy+5}"/><line class="whisk" x1="${x(wh)}" x2="${x(wh)}" y1="${cy-5}" y2="${cy+5}"/>`;
+    s+=`<rect x="${x(q1)}" y="${cy-9}" width="${Math.max(1,x(q3)-x(q1))}" height="18" rx="3" style="fill:${gr.color};fill-opacity:.2;stroke:${gr.color};stroke-width:1.5"/><line class="med" x1="${x(q2)}" x2="${x(q2)}" y1="${cy-9}" y2="${cy+9}"/>`;
+    outs.forEach(t=>{s+=`<circle cx="${x(t)}" cy="${cy}" r="3" style="fill:${gr.color};fill-opacity:.55"/>`;});s+="</g>";});
+  return s+"</svg>";}
+
+/* Dumbbell (two values per row on one scale) with optional band */
+function dumbbell(o,W){
+  const rows=o.rows,L=labW(rows.map(r=>r.label),W,.4),rightW=o.rightW??70,rowH=30,top=6,plotB=top+rows.length*rowH,H=plotB+24,[d0,d1]=o.domain,x=lin(d0,d1,L,W-rightW);
+  let s=svgOpen(W,H,o.aria)+xAxis(x,niceTicks(d0,d1,Math.max(2,Math.floor((W-L-rightW)/70))),top,plotB,o.fmt);
+  rows.forEach((r,i)=>{const cy=top+i*rowH+rowH/2;s+=`<text class="lab" x="${L-8}" y="${cy+4}" text-anchor="end">${esc(trunc(r.label,Math.floor((L-12)/6.3)))}</text>`;
+    const okA=isFinite(r.a)&&!r.supA,okB=isFinite(r.b)&&!r.supB;
+    if(!okA&&!okB){s+=`<text class="supp" x="${L+4}" y="${cy+4}">${esc(r.suppText||"not shown (base too small)")}</text>`;return;}
+    if(r.band)s+=`<rect class="band" x="${x(clamp(r.band[0],d0,d1))}" y="${cy-10}" width="${Math.max(0,x(clamp(r.band[1],d0,d1))-x(clamp(r.band[0],d0,d1)))}" height="20" rx="3"/>`;
+    const xa=x(clamp(r.a,d0,d1)),xb=x(clamp(r.b,d0,d1));
+    s+=`<g ${tipAttr(r.tip||`<b>${esc(r.label)}</b><br>${esc(o.nameA)}: ${okA?o.fmt(r.a):"not shown"}<br>${esc(o.nameB)}: ${okB?o.fmt(r.b):"not shown"}`)}><rect class="hit" x="0" y="${cy-rowH/2}" width="${W}" height="${rowH}"/>`;
+    if(okA&&okB)s+=`<line class="conn" x1="${xa}" x2="${xb}" y1="${cy}" y2="${cy}"/>`;
+    if(okA)s+=dotMark(xa,cy,o.colorA,o.hollowA);if(okB)s+=dotMark(xb,cy,o.colorB,o.hollowB);
+    if(r.right)s+=`<text class="val" x="${W-rightW+8}" y="${cy+4}">${esc(r.right)}</text>`;s+="</g>";});
+  return s+"</svg>";}
+
+/* Heatmap on a single-hue blue ramp; suppressed cells greyed */
+const SEQ=["#cde2fb","#b7d3f6","#9ec5f4","#86b6ef","#6da7ec","#5598e7","#3987e5","#2a78d6","#256abf","#1c5cab","#184f95","#104281","#0d366b"];
+function heatmap(o,W){
+  const rl=o.rows,cl=o.cols,L=labW(rl,W,.38),topH=o.colH||30,cw=Math.min(o.maxCell||80,(W-L-4)/cl.length),ch=o.cellH||30,H=topH+rl.length*ch+4,[v0,v1]=o.domain;
+  let s=svgOpen(Math.min(W,L+cw*cl.length+4),H,o.aria);
+  cl.forEach((c,j)=>{s+=`<text class="tick" x="${L+j*cw+cw/2}" y="${topH-9}" text-anchor="middle">${esc(trunc(c,Math.floor(cw/6.2)))}</text>`;});
+  rl.forEach((r,i)=>{s+=`<text class="lab" x="${L-8}" y="${topH+i*ch+ch/2+4}" text-anchor="end">${esc(trunc(r,Math.floor((L-12)/6.3)))}</text>`;
+    cl.forEach((c,j)=>{const cell=o.cells[i][j],x0=L+j*cw+1,y0=topH+i*ch+1,sup=!cell||cell.n<(o.minN??30)||!isFinite(cell.v);
+      const tip=`<b>${esc(r)} × ${esc(c)}</b><br>${sup?`not shown (n = ${cell?cell.n:0} < ${o.minN??30})`:o.fmt(cell.v)+(cell.n!=null?` · n = ${cell.n}`:"")}`;
+      if(sup){s+=`<g ${tipAttr(tip)}><rect x="${x0}" y="${y0}" width="${cw-2}" height="${ch-2}" rx="3" class="band"/><text class="tick" x="${x0+cw/2-1}" y="${y0+ch/2+3}" text-anchor="middle">–</text></g>`;return;}
+      const t=clamp((cell.v-v0)/((v1-v0)||1),0,1),k=Math.round(t*(SEQ.length-1));
+      s+=`<g ${tipAttr(tip)}><rect x="${x0}" y="${y0}" width="${cw-2}" height="${ch-2}" rx="3" style="fill:${SEQ[k]}"/>${cw>34?`<text x="${x0+cw/2-1}" y="${y0+ch/2+3}" text-anchor="middle" style="fill:${k>=6?"#ffffff":"#0b0b0b"};font-size:11px">${esc(o.fmt(cell.v))}</text>`:""}</g>`;});});
+  return s+"</svg>";}
+
+/* Lines with CI bands (x positions numeric; labels via xfmt) */
+function lineCI(o,W){
+  const left=44,right=o.right??18,top=18,bottom=30,H=o.h||230,xs=o.x,x=lin(Math.min(...xs),Math.max(...xs),left+10,W-right-10),y=lin(o.ymin??0,o.ymax??1,H-bottom,top);
+  let s=svgOpen(W,H,o.aria);
+  niceTicks(o.ymin??0,o.ymax??1,4).forEach(t=>{s+=`<line class="gl" x1="${left}" x2="${W-right}" y1="${y(t)}" y2="${y(t)}"/><text class="tick" x="${left-6}" y="${y(t)+4}" text-anchor="end">${esc(o.fmtY(t))}</text>`;});
+  xs.forEach(v=>{s+=`<text class="tick" x="${x(v)}" y="${H-bottom+16}" text-anchor="middle">${esc(o.xfmt(v))}</text>`;});
+  s+=`<line class="base" x1="${left}" x2="${W-right}" y1="${H-bottom}" y2="${H-bottom}"/>`;
+  if(o.marker!=null)s+=`<line class="ref" x1="${x(o.marker)}" x2="${x(o.marker)}" y1="${top-4}" y2="${H-bottom}"/><text class="reflab" x="${x(o.marker)+4}" y="${top-6}">${esc(o.markerLabel||"")}</text>`;
+  o.series.forEach(se=>{if(se.suppressed)return;const P=se.points.map((p,i)=>({...p,xv:xs[i]})).filter(p=>p&&isFinite(p.y));if(!P.length)return;
+    const B=P.filter(p=>isFinite(p.lo)&&isFinite(p.hi));
+    if(B.length>1)s+=`<path d="M${B.map(p=>`${x(p.xv)},${y(p.hi)}`).join("L")}L${B.slice().reverse().map(p=>`${x(p.xv)},${y(p.lo)}`).join("L")}Z" style="fill:${se.color};fill-opacity:.12"/>`;
+    s+=`<path class="ln" d="M${P.map(p=>`${x(p.xv)},${y(p.y)}`).join("L")}" style="stroke:${se.color}"/>`;
+    P.forEach(p=>{s+=`<g ${tipAttr(`<b>${esc(se.name)} · ${esc(o.xfmt(p.xv))}</b><br>${o.fmtY(p.y)}${ciTxt(o.fmtY,p.lo,p.hi)}${p.n!=null?` · n = ${p.n}`:""}`)}><circle cx="${x(p.xv)}" cy="${y(p.y)}" r="11" class="hit"/>${dotMark(x(p.xv),y(p.y),se.color)}</g>`;});});
+  return s+"</svg>";}
+
+/* CI dot plot / forest plot */
+function ciDots(o,W){
+  const rows=o.rows,L=labW(rows.map(r=>r.label),W,.42),rightW=o.rightW??118,rowH=28,top=6,plotB=top+rows.length*rowH,H=plotB+24,[d0,d1]=o.domain;
+  const tr=o.log?Math.log:(v=>v),x0=lin(tr(d0),tr(d1),L,W-rightW),x=v=>x0(tr(clamp(v,d0,d1)));
+  const ticks=o.log?[0.25,0.5,1,2,4,8].filter(t=>t>=d0&&t<=d1):niceTicks(d0,d1,Math.max(2,Math.floor((W-L-rightW)/70)));
+  let s=svgOpen(W,H,o.aria)+ticks.map(t=>`<line class="gl" x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${plotB}"/><text class="tick" x="${x(t)}" y="${plotB+14}" text-anchor="middle">${esc(o.fmtAxis?o.fmtAxis(t):o.fmt(t))}</text>`).join("");
+  if(o.ref!=null)s+=`<line class="ref" x1="${x(o.ref)}" x2="${x(o.ref)}" y1="${top}" y2="${plotB}"/>`;
+  rows.forEach((r,i)=>{const cy=top+i*rowH+rowH/2;s+=`<text class="lab" x="${L-8}" y="${cy+4}" text-anchor="end">${esc(trunc(r.label,Math.floor((L-12)/6.3)))}</text>`;
+    if(r.suppressed||!isFinite(r.v)){s+=`<text class="supp" x="${L+4}" y="${cy+4}">${esc(r.suppText||`n = ${r.n} · not shown`)}</text>`;return;}
+    s+=`<g ${tipAttr(`<b>${esc(r.label)}</b><br>${o.fmt(r.v)}${ciTxt(o.fmt,r.lo,r.hi)}${r.n!=null?` · n = ${r.n}`:""}`)}><rect class="hit" x="0" y="${cy-rowH/2}" width="${W}" height="${rowH}"/>`;
+    if(isFinite(r.lo)&&isFinite(r.hi))s+=`<line class="whisk" x1="${x(r.lo)}" x2="${x(r.hi)}" y1="${cy}" y2="${cy}"/><line class="whisk" x1="${x(r.lo)}" x2="${x(r.lo)}" y1="${cy-5}" y2="${cy+5}"/><line class="whisk" x1="${x(r.hi)}" x2="${x(r.hi)}" y1="${cy-5}" y2="${cy+5}"/>`;
+    s+=dotMark(x(r.v),cy,r.color||"var(--mono)")+`<text class="val" x="${W-rightW+8}" y="${cy+4}">${esc(o.fmt(r.v)+ciTxt(o.fmt,r.lo,r.hi))}</text></g>`;});
+  return s+"</svg>";}
+
+/* Diverging Likert (1–5) */
+function likert(o,W){
+  const rows=o.rows,L=labW(rows.map(r=>r.label),W,.36),rowH=28,bh=16,top=6,plotB=top+rows.length*rowH,H=plotB+24,C=["var(--dn2)","var(--dn1)","var(--dmid)","var(--dp1)","var(--dp2)"];
+  const ok=rows.filter(r=>!r.suppressed);const m=Math.max(.5,...ok.map(r=>Math.max(r.s[0]+r.s[1]+r.s[2]/2,r.s[4]+r.s[3]+r.s[2]/2)))*1.04;
+  const x=lin(-m,m,L,W-10);let s=svgOpen(W,H,o.aria);
+  niceTicks(-m,m,Math.max(2,Math.floor((W-L)/70))).forEach(t=>{s+=`<line class="gl" x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${plotB}"/><text class="tick" x="${x(t)}" y="${plotB+14}" text-anchor="middle">${Math.round(Math.abs(t)*100)}%</text>`;});
+  s+=`<line class="base" x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${plotB}"/>`;
+  rows.forEach((r,i)=>{const y=top+i*rowH+(rowH-bh)/2;s+=`<text class="lab" x="${L-8}" y="${y+bh/2+4}" text-anchor="end">${esc(trunc(r.label,Math.floor((L-12)/6.3)))}</text>`;
+    if(r.suppressed){s+=`<text class="supp" x="${L+4}" y="${y+bh/2+4}">n = ${r.n} · not shown (n < 30)</text>`;return;}
+    const segs=[[-(r.s[0]+r.s[1]+r.s[2]/2),-(r.s[1]+r.s[2]/2),0],[-(r.s[1]+r.s[2]/2),-r.s[2]/2,1],[-r.s[2]/2,r.s[2]/2,2],[r.s[2]/2,r.s[2]/2+r.s[3],3],[r.s[2]/2+r.s[3],r.s[2]/2+r.s[3]+r.s[4],4]];
+    segs.forEach(([a,b,k])=>{const xa=x(a)+1,xb=x(b)-1;if(xb-xa<0.5)return;s+=`<g ${tipAttr(`<b>${esc(r.label)}</b><br>${esc(o.levels[k])}: ${fmtPct(r.s[k])} · n = ${r.n}`)}><rect x="${xa}" y="${y}" width="${xb-xa}" height="${bh}" rx="${k===0||k===4?3:0}" style="fill:${C[k]}"/></g>`;});});
+  return s+"</svg>";}
+
+/* 100% stacked horizontal bars */
+function stacked100(o,W){
+  const rows=o.rows,L=labW(rows.map(r=>r.label),W,.36),rowH=28,bh=18;let y=6;const pos=rows.map(r=>{y+=r.gap||0;const p=y;y+=rowH;return p;});const H=y+22,x=lin(0,1,L,W-10);
+  let s=svgOpen(W,H,o.aria)+[0,.25,.5,.75,1].map(t=>`<line class="gl" x1="${x(t)}" x2="${x(t)}" y1="6" y2="${y}"/><text class="tick" x="${x(t)}" y="${y+14}" text-anchor="middle">${t*100}%</text>`).join("");
+  rows.forEach((r,i)=>{const yy=pos[i]+(rowH-bh)/2;s+=`<text class="lab" x="${L-8}" y="${yy+bh/2+4}" text-anchor="end">${esc(trunc(r.label,Math.floor((L-12)/6.3)))}</text>`;let c=0;
+    if(!r.n){s+=`<text class="supp" x="${L+4}" y="${yy+bh/2+4}">n = 0 · no data</text>`;return;}
+    r.parts.forEach(p=>{if(!isFinite(p.v))return;const xa=x(c)+(c>0?1:0),xb=x(c+p.v)-(c+p.v<0.999?1:0);c+=p.v;if(xb-xa<0.5)return;s+=`<g ${tipAttr(`<b>${esc(r.label)}</b><br>${esc(p.name)}: ${fmtPct(p.v)}${r.n!=null?` · ${esc(r.nLabel||"n")} = ${r.n}`:""}`)}><rect x="${xa}" y="${yy}" width="${xb-xa}" height="${bh}" style="fill:${p.color}"/></g>`;});});
+  return s+"</svg>";}
+
+/* Scatter with median guides and selective labels */
+function scatter(o,W){
+  const left=46,right=16,top=12,bottom=40,H=o.h||270,x=lin(o.xdom[0],o.xdom[1],left,W-right),y=lin(o.ydom[0],o.ydom[1],H-bottom,top);
+  let s=svgOpen(W,H,o.aria);
+  niceTicks(o.xdom[0],o.xdom[1],Math.max(2,Math.floor((W-left)/80))).forEach(t=>{s+=`<line class="gl" x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${H-bottom}"/><text class="tick" x="${x(t)}" y="${H-bottom+14}" text-anchor="middle">${esc(o.fmtX(t))}</text>`;});
+  niceTicks(o.ydom[0],o.ydom[1],4).forEach(t=>{s+=`<line class="gl" x1="${left}" x2="${W-right}" y1="${y(t)}" y2="${y(t)}"/><text class="tick" x="${left-6}" y="${y(t)+4}" text-anchor="end">${esc(o.fmtY(t))}</text>`;});
+  s+=`<text class="axt" x="${(left+W-right)/2}" y="${H-6}" text-anchor="middle">${esc(o.xTitle)}</text><text class="axt" transform="translate(12 ${(top+H-bottom)/2}) rotate(-90)" text-anchor="middle">${esc(o.yTitle)}</text>`;
+  if(o.medX!=null&&isFinite(o.medX))s+=`<line class="ref" x1="${x(o.medX)}" x2="${x(o.medX)}" y1="${top}" y2="${H-bottom}"/>`;
+  if(!o.points.length)s+=`<text class="supp" x="${left+8}" y="${top+20}">no data in this slice</text>`;
+  if(o.medY!=null&&isFinite(o.medY))s+=`<line class="ref" x1="${left}" x2="${W-right}" y1="${y(o.medY)}" y2="${y(o.medY)}"/>`;
+  o.points.forEach(p=>{s+=`<g ${tipAttr(p.tip)}><circle cx="${x(p.x)}" cy="${y(p.y)}" r="10" class="hit"/><circle cx="${x(p.x)}" cy="${y(p.y)}" r="${p.r||4}" style="fill:${p.color};fill-opacity:.8;stroke:var(--surface);stroke-width:1.5"/></g>`;
+    if(p.label){const lx=x(p.x)+8,anchor=lx>W-120?"end":"start";s+=`<text class="lab" x="${anchor==="end"?x(p.x)-8:lx}" y="${y(p.y)+4}" text-anchor="${anchor}" style="font-size:11px">${esc(p.label)}</text>`;}});
+  return s+"</svg>";}
+
+/* Histogram */
+function histogram(o,W){
+  const v=o.values,bw=o.binW,lo=Math.floor(Math.min(...v)/bw)*bw,hi=Math.ceil((Math.max(...v)+1e-9)/bw)*bw,nb=Math.max(1,Math.round((hi-lo)/bw)),cnt=new Array(nb).fill(0);
+  v.forEach(t=>{cnt[Math.min(nb-1,Math.floor((t-lo)/bw))]++;});
+  const left=36,right=12,top=20,bottom=30,H=o.h||200,x=lin(lo,hi,left,W-right),max=Math.max(...cnt)*1.1,y=lin(0,max,H-bottom,top);
+  let s=svgOpen(W,H,o.aria);
+  niceTicks(0,max,4).forEach(t=>{s+=`<line class="gl" x1="${left}" x2="${W-right}" y1="${y(t)}" y2="${y(t)}"/><text class="tick" x="${left-6}" y="${y(t)+4}" text-anchor="end">${t}</text>`;});
+  s+=`<line class="base" x1="${left}" x2="${W-right}" y1="${y(0)}" y2="${y(0)}"/>`;
+  cnt.forEach((c,i)=>{const xa=x(lo+i*bw)+1,xb=x(lo+(i+1)*bw)-1;s+=`<g ${tipAttr(`<b>${o.fmt(lo+i*bw)} to ${o.fmt(lo+(i+1)*bw)}</b><br>${c} pairs`)}><rect class="hit" x="${xa}" y="${top}" width="${Math.max(1,xb-xa)}" height="${H-bottom-top}"/><path d="${vbarPath(xa,y(0),y(c),Math.max(1,xb-xa))}" style="fill:${o.color||"var(--mono)"}"/></g>`;});
+  const step=Math.max(1,Math.ceil(nb/Math.max(2,Math.floor((W-left)/60))));
+  for(let i=0;i<=nb;i+=step)s+=`<text class="tick" x="${x(lo+i*bw)}" y="${H-bottom+15}" text-anchor="middle">${esc(o.fmt(lo+i*bw))}</text>`;
+  (o.markers||[]).forEach(m=>{s+=`<line class="ref" x1="${x(m.x)}" x2="${x(m.x)}" y1="${top-4}" y2="${H-bottom}" style="stroke-width:1.5"/><text class="reflab" x="${x(m.x)+4}" y="${top-7}">${esc(m.label)}</text>`;});
+  return s+"</svg>";}
+
+/* Fee stack: positive components stacked right of zero, discount left of zero */
+function feeStack(o,W){
+  const rows=o.rows,L=labW(rows.map(r=>r.label),W,.3),rowH=34,bh=18,top=6,plotB=top+rows.length*rowH,H=plotB+24,rightW=70;
+  const maxP=Math.max(...rows.map(r=>sum(r.parts.map(p=>p.v))))*1.05,maxN=Math.max(1,...rows.map(r=>r.discount))*1.1,x=lin(-maxN,maxP,L,W-rightW);
+  let s=svgOpen(W,H,o.aria)+xAxis(x,niceTicks(-maxN,maxP,Math.max(2,Math.floor((W-L-rightW)/70))),top,plotB,fmtInr)+`<line class="base" x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${plotB}"/>`;
+  rows.forEach((r,i)=>{const y=top+i*rowH+(rowH-bh)/2;s+=`<text class="lab" x="${L-8}" y="${y+bh/2+4}" text-anchor="end">${esc(r.label)}</text>`;
+    if(r.discount>0)s+=`<g ${tipAttr(`<b>${esc(r.label)}</b><br>Median discount: −${fmtInr(r.discount)}`)}><path d="${hbarPathL(x(-r.discount),x(0)-1,y,bh)}" style="fill:var(--mono-2)"/></g>`;
+    let c=0;const vis=r.parts.filter(p=>p.v>0);vis.forEach((p,k)=>{const xa=x(c)+1,xb=x(c+p.v)-(k<vis.length-1?1:0);c+=p.v;if(xb-xa<0.5)return;
+      const d=k===vis.length-1?hbarPath(xa,xb,y,bh):`M${xa},${y}H${xb}V${y+bh}H${xa}Z`;s+=`<g ${tipAttr(`<b>${esc(r.label)}</b><br>Median ${esc(p.name)}: ${fmtInr(p.v)}`)}><path d="${d}" style="fill:${p.color}"/></g>`;});
+    s+=`<text class="val" x="${x(c)+6}" y="${y+bh/2+4}">${fmtInr(c-r.discount)} net</text>`;});
+  return s+"</svg>";}
+/* ---------------- app core ---------------- */
+const D = generateDemoData();
+const LBL = {hyderabad:"Hyderabad",bengaluru:"Bengaluru",student:"Students",working_professional:"Working professionals",working_student:"Working students",other:"Other",
+  occasional:"Occasional (1–3 orders / 4 wk)",regular:"Regular (4–7)",frequent:"Frequent (8+)",swiggy:"Swiggy",zomato:"Zomato",ownly_app:"Ownly app",rapido_app_food:"Rapido app (food)",toing:"Toing",magicpin:"Magicpin",eatsure:"EatSure",restaurant_direct:"Restaurant direct",ownly:"Ownly",
+  yes:"Has a membership",no:"No membership",user_repeat:"Ownly repeat user (2+ orders / 4 wk)",user_not_repeat:"Ownly tried, not repeating",aware_never_tried:"Aware, never ordered",unaware:"Unaware",
+  blind:"Brand-blind arm",branded:"Branded arm",gachibowli:"Gachibowli",financial_district:"Financial District",kondapur:"Kondapur",madhapur_hitec:"Madhapur / HITEC City",manikonda:"Manikonda",narsingi_kokapet:"Narsingi / Kokapet",serilingampally:"Serilingampally",tellapur_nallagandla:"Tellapur / Nallagandla",
+  delivery_fees:"Delivery fees",other_charges:"Platform/packaging/other charges",menu_markup:"Menu prices higher than restaurant",fake_offers:"Offers that don't really save",late_delivery:"Late delivery",cancelled_orders:"Cancelled orders",wrong_missing_items:"Wrong or missing items",refunds_support:"Refunds / support",restaurant_unavailable:"Restaurant not available",food_quality:"Food quality / hygiene",delivery_partner:"Delivery-partner problems",
+  swiggy_one:"Swiggy One",zomato_gold:"Zomato Gold",other_membership:"Other membership",none:"None",lunch_peak:"Lunch peak",off_peak:"Off-peak",dinner_peak:"Dinner peak",weekend_dinner:"Weekend dinner",late_night:"Late night",evening_snack:"Evening snack",
+  price_vs_eta:"Price vs ETA",price_vs_reliability:"Price vs reliability",price_vs_assortment:"Price vs assortment",price_vs_refund:"Price vs refund assurance",multi:"Multi-attribute"};
+const lbl = c => LBL[c] || String(c).replace(/_/g," ").replace(/^./,m=>m.toUpperCase());
+const optsOf = field => [["all","All"],...[...new Set(D.resp.map(r=>r[field]).filter(v=>v!=null))].sort().map(v=>[v,lbl(v)])];
+D.resp.forEach(r=>{r.beh_any_subscription_f=r.beh_any_subscription?"yes":"no";});
+const FILTERS = [
+  {key:"city",field:"city",label:"City",def:"hyderabad",opts:[["hyderabad","Hyderabad"],["bengaluru","Bengaluru"],["all","Both cities"]],primary:true},
+  {key:"occ",field:"seg_occupation",label:"Occupation",def:"all",opts:optsOf("seg_occupation"),primary:true},
+  {key:"freq",field:"seg_freq",label:"Delivery frequency",def:"all",opts:[["all","All"],["occasional",LBL.occasional],["regular",LBL.regular],["frequent",LBL.frequent]],primary:true},
+  {key:"area",field:"scr_area",label:"Area (scr_area)",def:"all",opts:optsOf("scr_area")},
+  {key:"plat",field:"beh_platform_primary",label:"Primary platform",def:"all",opts:optsOf("beh_platform_primary")},
+  {key:"sub",field:"beh_any_subscription_f",label:"Membership (beh_subscriptions)",def:"all",opts:[["all","All"],["yes",LBL.yes],["no",LBL.no]]},
+  {key:"own",field:"own_status",label:"Ownly status (derived)",def:"all",opts:optsOf("own_status")},
+  {key:"arm",field:"meta_brand_arm",label:"Brand arm (HYD)",def:"all",opts:optsOf("meta_brand_arm")},
+  {key:"found",field:"meta_found_survey",label:"Where found survey",def:"all",opts:optsOf("meta_found_survey")}];
+const DIMS = [["need","D1 Need intensity"],["switching","D2 Switching potential"],["economic","D3 Economic / price attractiveness"],["experience","D4 Experience / operational acceptability"],["behavioural","D5 Behavioural validation"]];
+const WEIGHT_SETS = [["Default",{need:20,switching:20,economic:20,experience:25,behavioural:15}],["Equal",{need:20,switching:20,economic:20,experience:20,behavioural:20}],["Behaviour-first",{need:15,switching:15,economic:20,experience:20,behavioural:30}],["Price-thesis",{need:20,switching:20,economic:30,experience:20,behavioural:10}]];
+const H_TEXT = {
+  H1:"Problem intensity: incumbent fees and pricing create enough dissatisfaction to open a switching opportunity.",
+  H2:"Price value proposition: a lower, transparent total checkout price materially increases choice probability.",
+  H3:"Price vs ETA: users accept additional waiting time in exchange for savings.",
+  H4:"Price vs reliability: whether users trade reliability, cancellation risk or refund assurance for lower prices.",
+  H5:"Price vs restaurant choice: savings stay relevant only above an assortment threshold.",
+  H6:"Students vs professionals: differences in price vs reliability/time sensitivity. To be tested, not assumed.",
+  H7:"Brand effect: Rapido affiliation changes trust, trial intent and expected reliability.",
+  H8:"WTP for delivery: acceptable transparent delivery-fee levels by segment.",
+  H9:"Bengaluru transferability: which Bengaluru adoption factors hold in Hyderabad.",
+  H10:"Assortment threshold: missing preferred restaurants blocks trial or repeat.",
+  H11:"Behavioural intent: stated interest is matched by fake-door behaviour.",
+  H12:"Repeat use: which experience factors predict repeat Ownly usage.",
+  "—":"Descriptive context (no single hypothesis)."};
+
+const state = {view:1,f:Object.fromEntries(FILTERS.map(f=>[f.key,f.def])),w:{...WEIGHT_SETS[0][1]},more:false};
+try{const s=JSON.parse(localStorage.getItem("omf-demo-v2")||"{}");if(s.view)state.view=s.view;if(s.f)FILTERS.forEach(f=>{if(s.f[f.key]!=null&&f.opts.some(o=>o[0]===s.f[f.key]))state.f[f.key]=s.f[f.key];});if(s.w)Object.assign(state.w,s.w);}catch(e){}
+const save = () => {try{localStorage.setItem("omf-demo-v2",JSON.stringify({view:state.view,f:state.f,w:state.w}));}catch(e){}};
+
+function slice(opt={}){return D.resp.filter(r=>FILTERS.every(f=>{
+  if(f.key==="occ"&&opt.occ)return r.seg_occupation===opt.occ;
+  if(f.key==="freq"&&opt.freq)return r.seg_freq===opt.freq;
+  if(f.key==="city"&&opt.city)return r.city===opt.city;
+  if(opt.ignore&&opt.ignore.includes(f.key))return true;
+  const v=state.f[f.key];return v==="all"||r[f.field]===v;}));}
+const activeFilters = (ignore=[]) => FILTERS.filter(f=>!ignore.includes(f.key)&&state.f[f.key]!=="all").map(f=>`${f.label}: ${(f.opts.find(o=>o[0]===state.f[f.key])||[,state.f[f.key]])[1]}`);
+const pct = (rows,pred) => {const k=rows.filter(pred).length;return wilson(k,rows.length);};
+const has = (arr,v) => Array.isArray(arr)&&arr.includes(v);
+
+let CH = {};
+const strengthFor = (n,types=1) => n<60?"LOW":types>=2?"HIGH":"MEDIUM";
+function nTag(n){if(typeof n==="string")return`<span class="ntag">${esc(n)}</span>`;if(n<30)return`<span class="ntag warn">n = ${n} · below 30, estimates suppressed</span>`;if(n<60)return`<span class="ntag warn">n = ${n} · low base</span>`;return`<span class="ntag">n = ${n}</span>`;}
+const badgeCls = s => ({HIGH:"b-high",MEDIUM:"b-medium",LOW:"b-low"})[s]||"b-low";
+const trace = (h,src,str) => `<button type="button" class="trace" data-h="${esc(h)}" data-src="${esc(src)}" data-str="${esc(str||"")}" title="Open evidence trace">${esc(h)} · ${esc(src)}</button>${str?`<span class="badge ${badgeCls(str)}">${esc(str)}</span>`:""}`;
+const naChip = keys => keys.length?`<span class="na">filter not applied: ${esc(keys.join(", "))}</span>`:"";
+const legend = items => `<div class="legend">${items.map(([name,color,ring])=>`<span><i class="${ring?"ring":""}" style="background:${color}${ring?`;border-color:${color}`:""}"></i>${esc(name)}</span>`).join("")}</div>`;
+function card(id,o){
+  CH[id]=CH[id]||{};CH[id].table=o.table;if(o.draw)CH[id].draw=o.draw;
+  return `<section class="card${o.span2?" span2":""}" aria-labelledby="t-${id}">
+  <div class="card-h"><div><h3 id="t-${id}"><span class="ph">[Insight title goes here once data supports it]</span>${esc(o.title)}</h3><p class="q">Answers: ${esc(o.q)}</p></div>${o.table?`<button type="button" class="tbtn" data-toggle="${id}" aria-pressed="false">Table</button>`:""}</div>
+  <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${o.n!=null?nTag(o.n):""}${o.chips||""}</div>
+  ${o.legend||""}${o.html!=null?`<div class="plot-html">${o.html}</div>`:""}${o.draw?`<div class="plot" data-chart="${id}"></div>`:""}<div class="tview" id="tv-${id}" hidden></div>${o.note?`<p class="note">${o.note}</p>`:""}</section>`;}
+function kpi(label,value,sub,chips){return`<div class="kpi"><span class="kl">${esc(label)}</span><span class="kv">${value}${sub?` <small>${sub}</small>`:""}</span><div class="kf">${chips||""}</div></div>`;}
+const tableHTML = t => `<table><thead><tr>${t.head.map((h,i)=>`<th${t.num&&t.num.includes(i)?' class="num"':""}>${esc(h)}</th>`).join("")}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map((c,i)=>`<td${t.num&&t.num.includes(i)?' class="num"':""}>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+
+/* ---------------- fixed-source summaries (audit, reviews, fake door) ---------------- */
+function fdAgg(){const out={};["A","B","C"].forEach(v=>{const s=D.fd.filter(x=>x.variant_id===v);const n=s.length,k=f=>s.filter(x=>x[f]).length;
+  out[v]={n,vp:k("vp_view"),cta:k("cta_click"),disc:k("disclosure_view"),sec:k("secondary_intent"),bounce:k("bounce"),ctr:wilson(k("cta_click"),n),secr:wilson(k("secondary_intent"),n),ttc:s.filter(x=>x.cta_click).map(x=>x.cta_time_since_load_ms/1000)};});return out;}
+const FD = fdAgg();
+const FD_TEST = (()=>{const V=["A","B","C"].sort((a,b)=>FD[b].ctr[0]-FD[a].ctr[0]),L1=FD[V[0]],L2=FD[V[1]],pp=(L1.cta+L2.cta)/(L1.n+L2.n);
+  const z=(L1.ctr[0]-L2.ctr[0])/Math.sqrt(pp*(1-pp)*(1/L1.n+1/L2.n)),p=normP(z),nArm=Math.min(...V.map(v=>FD[v].n)),mde=(1.96+0.8416)*Math.sqrt(2*pp*(1-pp)/nArm),diff=L1.ctr[0]-L2.ctr[0];
+  const bestSec=Math.max(...V.map(v=>FD[v].secr[0]));return{order:V,p,mde,diff,nArm,pp,directional:p>=0.05||diff<mde,bestSec,bestSecVariant:V.find(v=>FD[v].secr[0]===bestSec)};})();
+const AUD = (()=>{const P=D.audit.pairs,O=D.audit.obs,sav=P.map(p=>-p.gap_rs_vs_cheapest);
+  const cov=DROPS.map(dp=>{const f=D.audit.frame.filter(rs=>O.some(o=>o.platform==="ownly"&&o.drop_point_id===dp&&o.restaurant_id===rs.restaurant_id&&o.restaurant_listed==="y"));return f.length/D.audit.frame.length;});
+  const inc=O.filter(o=>o.platform!=="ownly"&&o.eta_mid_shown!=null).map(o=>o.eta_mid_shown);
+  return{nKeys:P.length,win:wilson(P.filter(p=>p.winner==="ownly").length,P.length),medSaving:median(sav),savingPct:100*median(sav)/median(P.map(p=>p.cheapest_comparator_total)),
+    etaGap:median(P.map(p=>p.eta_gap_min)),incEta:median(inc),coverage:mean(cov)};})();
+const REV = (()=>{const it=D.reviews.filter(r=>r.severity!=null),fam=it.filter(r=>THEMES[r.primary_theme][4]);return{n:it.length,share:sum(fam.map(r=>r.severity))/sum(it.map(r=>r.severity))};})();
+
+/* ---------------- scorecard: exactly 11_insights/decision_framework_and_scorecard.md §1–§3 ---------------- */
+const MIN_N = 30; // an input with n below this is NOT TESTABLE
+const anchorScore = (v,weak,strong) => isFinite(v)?clamp((v-weak)/(strong-weak)*100,0,100):NaN;
+const propOf = (rows,pred,elig=()=>true) => {const e=rows.filter(elig);return{v:e.length?e.filter(pred).length/e.length:NaN,n:e.length};};
+const medOf = (rows,f) => {const v=rows.map(f).filter(x=>x!=null&&isFinite(x));return{v:median(v),n:v.length};};
+function scoreInputs(hyd,users){
+  const pctF=v=>fmtPct(v),t2b=propOf(hyd,r=>r.bt_t2b,r=>r.bt_t2b!=null);
+  const mk=(dim,id,label,st,weight,weak,strong,src,fmt,custom)=>{const testable=st.n>=MIN_N&&isFinite(st.v);const score=testable?(custom?custom(st.v):anchorScore(st.v,weak,strong)):NaN;
+    return{dim,id,label,v:st.v,n:st.n,weight,weak,strong,src,fmt,score,testable,reason:testable?"":(st.reason||`n = ${st.n} < ${MIN_N}`)};};
+  const etaTol=medOf(hyd,r=>r.exp_eta_max_dinner),margin=etaTol.v-AUD.incEta;
+  const adi75=propOf(hyd,r=>r.adi>=75);
+  return [
+    mk("need","D1a","PPI median",medOf(hyd,r=>r.ppi),.40,25,65,"survey",fmt0),
+    mk("need","D1b","% left without ordering after seeing the final amount (beh_abandon_price_freq ≥ 2)",propOf(hyd,r=>r.beh_abandon_price_freq>=2),.30,.10,.50,"survey",pctF),
+    mk("need","D1c","% fee reconsideration sometimes+ (pain_fee_reconsider_freq ≥ 3)",propOf(hyd,r=>r.pain_fee_reconsider_freq>=3),.30,.20,.70,"survey",pctF),
+    mk("switching","D2a","SRI median",medOf(hyd,r=>r.sri),.35,30,70,"survey",fmt0),
+    mk("switching","D2b",`% whose required saving ≤ audit median Ownly saving (${fmtInr(AUD.medSaving)})`,{...propOf(hyd,r=>r.beh_switch_savings_required>0&&r.beh_switch_savings_required<=AUD.medSaving,r=>r.beh_switch_savings_required!==98),n:Math.min(hyd.filter(r=>r.beh_switch_savings_required!==98).length,AUD.nKeys)},.35,.10,.60,"survey+audit",pctF),
+    mk("switching","D2c","Multi-homing rate (beh_multihome)",propOf(hyd,r=>r.beh_multihome),.15,.30,.80,"survey",pctF),
+    mk("switching","D2d","% without an active incumbent membership",propOf(hyd,r=>!r.beh_any_subscription),.15,.40,.90,"survey",pctF),
+    mk("economic","D3a","Ownly audit win rate in matched keys (tie ≤ ₹5)",{v:AUD.win[0],n:AUD.nKeys},.40,.30,.80,"audit",pctF),
+    mk("economic","D3b","Audit median saving as % of median basket",{v:AUD.savingPct,n:AUD.nKeys},.30,0,15,"audit",v=>fmt1(v)+"%"),
+    mk("economic","D3c","Fee-ladder acceptance at Ownly's actual fee",{v:NaN,n:0,reason:OWNLY_FEE_STATUS},.30,.30,.75,"survey+audit",pctF),
+    mk("experience","D4a",`ETA acceptability (tolerance margin ${fmt0(margin)} min vs audit ETA gap ${fmt1(AUD.etaGap)} min)`,{v:margin,n:Math.min(etaTol.n,AUD.nKeys)},.30,null,null,"survey+audit",v=>fmt0(v)+" min",m=>AUD.etaGap<=0?100:100*Math.min(1,Math.max(0,m)/AUD.etaGap)),
+    mk("experience","D4b",`Coverage adequacy (Ownly frame coverage ${fmtPct(AUD.coverage)}; ADI ≥ 75 share ${fmtPct(adi75.v)})`,{v:AUD.coverage,n:Math.min(adi75.n,AUD.nKeys)},.30,null,null,"audit+survey",pctF,c=>100*Math.min(1,c/(1-adi75.v*0.5))),
+    mk("experience","D4c","HYD + BLR Ownly users: on time most of the time (own_reliability_rating ≥ 4)",propOf(users,r=>r.own_reliability_rating>=4),.25,.50,.85,"survey",pctF),
+    mk("experience","D4d","Reviews: severity-weighted share of reliability/support/refund themes",{v:REV.share,n:REV.n},.15,.50,.10,"reviews",pctF),
+    mk("behavioural","D5a","Aware ≥ 2 weeks → ordered (own_tried = 2), HYD",propOf(hyd,r=>r.own_tried===2,r=>r.own_aware_any&&[2,3,4].includes(r.own_aware_duration)),.40,.10,.50,"survey",pctF),
+    mk("behavioural","D5b","Repeat rate among HYD + BLR Ownly users (own_repeat)",propOf(users,r=>r.own_repeat),.35,.20,.60,"survey",pctF),
+    mk("behavioural","D5c",`Fake-door best higher-intent rate (${fmtPct(FD_TEST.bestSec)}) ÷ survey top-2 intent (${fmtPct(t2b.v)})`,{v:FD_TEST.bestSec/t2b.v,n:Math.min(t2b.n,FD[FD_TEST.bestSecVariant].n)},.25,.05,.30,"fakedoor+survey",fmt2)];
+}
+const LEVELS=["LOW","MEDIUM","HIGH"];
+function dimsFrom(inputs,nScope){
+  const out={};DIMS.forEach(([k])=>{const I=inputs.filter(x=>x.dim===k),T=I.filter(x=>x.testable),tw=sum(T.map(x=>x.weight)),missing=I.length-T.length;
+    const insufficient=1-tw>0.5+1e-9,score=insufficient||!T.length?NaN:sum(T.map(x=>x.score*x.weight))/tw;
+    const types=new Set(T.flatMap(x=>x.src.split("+")));let lvl=nScope<60?0:types.size>=2?2:1;
+    if(k==="behavioural"&&FD_TEST.directional)lvl=Math.min(lvl,1);lvl=Math.max(0,lvl-missing);
+    out[k]={score,insufficient,badge:insufficient?"INSUFFICIENT EVIDENCE":LEVELS[lvl],inputs:I,missing};});
+  return out;}
+const SC_CACHE = new Map();
+function scoreScope(tag,hyd,users){
+  const key=tag+"|"+JSON.stringify(state.f);if(SC_CACHE.has(key))return SC_CACHE.get(key);
+  const base=dimsFrom(scoreInputs(hyd,users),hyd.length);
+  const bs=hyd.length>=10?bootstrap(hyd.length,100,(idx,r)=>{const u=users.map(()=>users[Math.floor(r()*users.length)]);return dimsFrom(scoreInputs(idx.map(i=>hyd[i]),u),hyd.length);},7):[];
+  DIMS.forEach(([k])=>{const v=bs.map(b=>b[k].score).filter(isFinite);base[k].lo=v.length>10?quant(v,.025):NaN;base[k].hi=v.length>10?quant(v,.975):NaN;});
+  const out={tag,n:hyd.length,nUsers:users.length,d:base};SC_CACHE.set(key,out);return out;}
+function scopes(){
+  const ign=["city","area","arm"];
+  const mkScope=(tag,label,opt)=>{const hyd=slice({...opt,ignore:["city"],city:"hyderabad"}),users=slice({...opt,ignore:ign}).filter(r=>r.own_tried===2);return{label,...scoreScope(tag,hyd,users)};};
+  return{pooled:mkScope("pooled","Pooled Hyderabad",{}),segs:[mkScope("student","Students",{occ:"student"}),mkScope("working_professional","Working professionals",{occ:"working_professional"}),mkScope("frequent","Frequent users",{freq:"frequent"})]};}
+function weighted(sc,w){const K=DIMS.map(d=>d[0]).filter(k=>isFinite(sc.d[k].score)),W=sum(K.map(k=>w[k]));return{tot:W?sum(K.map(k=>sc.d[k].score*w[k]))/W:NaN,scored:K.length};}
+function scaleOK(sc,w){const {tot,scored}=weighted(sc,w);return sc.n>=60&&scored===5&&tot>=70&&Math.min(...DIMS.map(([k])=>sc.d[k].score))>=50&&["HIGH","MEDIUM"].includes(sc.d.behavioural.badge);}
+function decide(S,w){
+  const P=S.pooled,s=k=>P.d[k].score,{tot,scored}=weighted(P,w),lowCount=DIMS.filter(([k])=>["LOW","INSUFFICIENT EVIDENCE"].includes(P.d[k].badge)).length;
+  const provisional=lowCount>=2,base={tot,scored,provisional,lowCount};
+  const rethinkCond=sc=>(isFinite(sc.d.need.score)&&sc.d.need.score<40)||(isFinite(sc.d.switching.score)&&sc.d.switching.score<40);
+  const scorableSegs=S.segs.slice(0,2).filter(x=>x.n>=60);
+  if(rethinkCond(P)&&scorableSegs.every(rethinkCond))return{...base,label:"RETHINK PROPOSITION",cls:"p-crit",icon:"✕",rule:`Gate: D1 < 40 or D2 < 40 in the pooled slice${scorableSegs.length?" and in every scorable segment":""}.`};
+  if(scaleOK(P,w))return{...base,label:"SCALE",cls:"p-good",icon:"✓",rule:"Weighted total ≥ 70, no dimension below 50, D5 badge ≥ MEDIUM."};
+  const segPass=S.segs.filter(x=>x.n>=60&&scaleOK(x,w)).map(x=>x.label);
+  if(segPass.length)return{...base,label:"TARGET SELECTIVELY",cls:"p-ink",icon:"◎",rule:`Pooled fails SCALE; ${segPass.join(" and ")} meet${segPass.length>1?"":"s"} the SCALE conditions with n ≥ 60.`};
+  if(s("need")>=50&&s("switching")>=50&&(s("economic")<50||s("experience")<50)){const fix=[s("economic")<50?"price architecture (D3)":null,s("experience")<50?"experience / supply (D4)":null].filter(Boolean).join(" and ");return{...base,label:"ADAPT",cls:"p-warn",icon:"!",rule:`D1 and D2 ≥ 50, but ${fix} below 50. Fix: ${fix}.`};}
+  const sc=DIMS.filter(([k])=>isFinite(s(k))).sort((a,b)=>s(a[0])-s(b[0]));const insuff=DIMS.filter(([k])=>P.d[k].insufficient).map(d=>d[1]);
+  return{...base,label:"ADAPT",cls:"p-warn",icon:"!",rule:`Otherwise → ADAPT. Weakest dimension: ${sc.length?sc[0][1]+" ("+fmt0(s(sc[0][0]))+")":"none scored"}${insuff.length?`; INSUFFICIENT EVIDENCE: ${insuff.join(", ")}`:""}.`};}
+const pill = (d,size="") => `<span class="pill ${d.cls} ${size}">${d.icon} ${esc(d.label)}</span>`;
+/* ---------------- VIEW 1: Executive scorecard (decision_framework_and_scorecard.md §1–§3) ---------------- */
+const SEGS = [["student","Students","var(--stu)"],["working_professional","Working professionals","var(--pro)"]];
+const ORD_MID = {1:2,2:5.5,3:11.5,4:18};
+function vhead(title,dq,extra=""){return`<div class="vhead"><h2>${esc(title)}</h2><p class="dq"><b>Decision</b>${esc(dq)}</p>${extra}</div>`;}
+const badgeHTML = b => `<span class="badge ${badgeCls(b)}">${esc(b)}</span>`;
+function view1(){
+  const S=scopes(),P=S.pooled,hyd=slice({ignore:["city"],city:"hyderabad"}),n=P.n;
+  if(n<10)return vhead("Executive market-fit scorecard","Which call does the evidence support?")+`<p class="note">Only ${n} Hyderabad respondents in this slice. Widen the filters.</p>`;
+  const d=decide(S,state.w),gates=DIMS.filter(([k])=>P.d[k].score<40),insuff=DIMS.filter(([k])=>P.d[k].insufficient);
+  const hydN=D.resp.filter(r=>r.city==="hyderabad").length,blrN=D.resp.length-hydN,t2b=pct(hyd.filter(r=>r.bt_t2b!=null),r=>r.bt_t2b);
+  const wtp=hyd.map(r=>r.wtp_max_fee).filter(v=>v!=null),wtpB=bootstrap(wtp.length,300,idx=>median(idx.map(i=>wtp[i])),11),adiHi=pct(hyd,r=>r.adi>=75);
+  const ppi=hyd.map(r=>r.ppi).filter(isFinite),ppiB=bootstrap(ppi.length,300,idx=>median(idx.map(i=>ppi[i])),12),bestCta=FD[FD_TEST.order[0]];
+  let h=vhead("Executive market-fit scorecard","Across the five decision dimensions, does the evidence support SCALE, TARGET SELECTIVELY, ADAPT or RETHINK PROPOSITION for Gachibowli, and is the call robust to the weights?",
+    naChip(["city (scorecard is Hyderabad-only; D4c and D5b pool HYD + BLR Ownly users as specified)"]));
+  h+=`<div class="verdict" aria-live="polite"><div><div class="vl">Pre-registered rule output · DEMO</div><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">${pill(d,"big")}${d.provisional?`<span class="pill p-muted">PROVISIONAL — evidence insufficient</span>`:""}</div></div>
+    <div><div class="vl">Weighted total</div><div class="hero">${fmt0(d.tot)}<small style="font-size:16px;color:var(--ink-2)"> / 100</small></div><span class="note">${d.scored} of 5 dimensions scored</span></div>
+    <div style="flex:1;min-width:240px"><div class="vl">Why</div><ul class="rules"><li>${esc(d.rule)}</li>
+    ${gates.map(([k,l])=>`<li><span class="pill sm p-crit">✕ gate</span> ${esc(l)} = ${fmt0(P.d[k].score)} &lt; 40 blocks SCALE (non-compensatory)</li>`).join("")}
+    ${insuff.map(([,l])=>`<li><span class="pill sm p-muted">? insufficient</span> ${esc(l)}: more than half of its input weight is NOT TESTABLE</li>`).join("")}
+    ${d.provisional?`<li>${d.lowCount} dimensions carry a LOW or INSUFFICIENT badge, so the next experiment becomes the primary recommendation (confidence overlay, §3).</li>`:""}
+    <li>Slice: ${esc(activeFilters(["city"]).join(" · ")||"all Hyderabad respondents")} · HYD n = ${n} · Ownly users (HYD + BLR) n = ${P.nUsers}</li></ul></div></div>`;
+  h+=`<div class="kpis">
+    ${kpi("Valid sample (cleaned)",`${hydN} <small>HYD</small> · ${blrN} <small>BLR</small>`,"",nTag(`scorecard n = ${n}`))}
+    ${kpi("Target segment (filter slice)",`<span style="font-size:15px">${esc(state.f.occ==="all"?"All occupations":lbl(state.f.occ))}</span>`,"",trace("H6","seg_occupation",""))}
+    ${kpi("Ordering intensity",fmt1(median(hyd.map(r=>ORD_MID[r.scr_orders_4wk]))),"median orders / 4 wk (scr_orders_4wk midpoints)",trace("H1","scr_orders_4wk",strengthFor(n)))}
+    ${kpi("Unmet-need intensity (PPI median)",fmt0(median(ppi)),`[${fmt0(quant(ppiB,.025))}–${fmt0(quant(ppiB,.975))}]`,trace("H1","ppi",strengthFor(n)))}
+    ${kpi("Switching intent (bt_trial_intent T2B)",fmtPct(t2b[0]),`[${fmtPct(t2b[1])}–${fmtPct(t2b[2])}]`,trace("H2, H7","bt_trial_intent",strengthFor(n)))}
+    ${kpi("Behavioural intent (best CTA CTR)",fmtPct(bestCta.ctr[0]),`variant ${FD_TEST.order[0]} [${fmtPct(bestCta.ctr[1])}–${fmtPct(bestCta.ctr[2])}]${FD_TEST.directional?" · directional":""}`,trace("H11","agg_fakedoor_variant","LOW"))}
+    ${kpi("WTP: median wtp_max_fee",fmtInr(median(wtp)),`[${fmtInr(quant(wtpB,.025))}–${fmtInr(quant(wtpB,.975))}] · ladder provisional`,trace("H8","wtp_max_fee",strengthFor(wtp.length)))}
+    ${kpi("Ownly delivery fee","<span style=\"font-size:15px\">audit-observed (TBD)</span>","contested across sources (flat vs free vs distance-based); not hard-coded",trace("H8","fact_audit_obs.delivery_fee","LOW"))}
+    ${kpi("Price advantage (audit win rate)",fmtPct(AUD.win[0]),`${AUD.nKeys} keys [${fmtPct(AUD.win[1])}–${fmtPct(AUD.win[2])}]`,trace("H2","fact_audit_pairs.winner","MEDIUM"))}
+    ${kpi("Reliability barrier (mean RSS)",fmt0(mean(hyd.map(r=>r.rss))),"% reliable-pricier picks",trace("H4","rss",strengthFor(n)))}
+    ${kpi("Assortment barrier (ADI ≥ 75)",fmtPct(adiHi[0]),`[${fmtPct(adiHi[1])}–${fmtPct(adiHi[2])}]`,trace("H10","adi",strengthFor(n)))}
+  </div><div class="grid">`;
+  const drows=DIMS.map(([k,l])=>{const x=P.d[k];return x.insufficient?{label:l,suppressed:true,suppText:"INSUFFICIENT EVIDENCE: no score"}:{label:l+(x.score<40?" ✕":""),v:x.score,lo:x.lo,hi:x.hi,n,color:x.score<40?"var(--crit)":"var(--mono)",tip:`<b>${esc(l)}</b><br>${fmt0(x.score)} [${fmt0(x.lo)}–${fmt0(x.hi)}] · badge ${esc(x.badge)}${x.missing?` · ${x.missing} input(s) NOT TESTABLE`:""}`};});
+  h+=card("v1dims",{title:"Dimension scores with gate and rule thresholds",q:"Which dimension is holding the decision back?",n,
+    chips:trace("H1–H12","fact_scorecard.dimension_score",""),
+    draw:W=>hbars({rows:drows,min:0,max:100,fmt:fmt0,refs:[{x:40,label:"gate 40",anchor:"end"},{x:50,label:"50",anchor:"start"},{x:70,label:"SCALE 70",anchor:"start"}],aria:"Dimension scores"},W),
+    note:"Scores use linear anchors from the framework (0 at the weak anchor, 100 at the strong anchor, clipped). NOT TESTABLE inputs are dropped and weights re-normalised; the badge drops one level per missing input. Whiskers: bootstrap 95% CI (100 resamples of HYD respondents and Ownly users; audit, review and fake-door inputs held fixed).",
+    table:{head:["Dimension","Score","CI low","CI high","Badge","Missing inputs"],num:[1,2,3,5],rows:DIMS.map(([k,l])=>[l,P.d[k].insufficient?"—":fmt0(P.d[k].score),fmt0(P.d[k].lo),fmt0(P.d[k].hi),P.d[k].badge,P.d[k].missing])}});
+  const cur={...state.w},sets=[["Current (editable)",cur],...WEIGHT_SETS];
+  h+=`<section class="card" aria-labelledby="t-v1w"><div class="card-h"><div><h3 id="t-v1w">Weights and sensitivity</h3><p class="q">Answers: does the recommendation change under the pre-registered alternative weight sets?</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("—","decision_framework_and_scorecard.md §2","")}</div>
+    <div class="weights">${DIMS.map(([k,l])=>`<label for="w_${k}">${esc(l.split(" /")[0])}<input id="w_${k}" type="number" min="0" max="100" step="5" value="${state.w[k]}"></label>`).join("")}</div>
+    <p class="note">Defaults 20 / 20 / 20 / 25 / 15. Weights are re-normalised over the scored dimensions. D4 is the guardrail, and D5 is low-weight but gates SCALE through its badge.</p>
+    <div class="tview"><table class="sens"><thead><tr><th>Weight set</th><th>Need/Sw/Eco/Exp/Beh</th><th>Total</th><th>Recommendation</th></tr></thead><tbody>
+    ${sets.map(([name,w])=>{const dd=decide(S,w);return`<tr><td>${esc(name)}</td><td>${DIMS.map(([k])=>w[k]).join("/")}</td><td>${fmt0(dd.tot)}</td><td>${pill(dd,"sm")}${dd.provisional?' <span class="pill sm p-muted">PROVISIONAL</span>':""}</td></tr>`;}).join("")}
+    </tbody></table></div><p class="note">Always report whether the recommendation changes across these sets.</p></section>`;
+  const scs=[P,...S.segs];
+  h+=card("v1seg",{title:"Dimension scores by pre-defined scope",q:"Is TARGET SELECTIVELY warranted (students, professionals, frequent users)?",n:scs.map(s=>`${s.label} n = ${s.n}`).join(" · "),span2:true,
+    chips:trace("H6","fact_scorecard (scope)","")+naChip(["occupation and frequency (the scope defines them)"]),
+    draw:W=>heatmap({rows:DIMS.map(d=>d[1]),cols:scs.map(s=>`${s.label} (${s.n})`),cells:DIMS.map(([k])=>scs.map(s=>({v:s.d[k].score,n:s.n}))),domain:[0,100],fmt:fmt0,minN:60,maxCell:170,colH:30,aria:"Scope heatmap"},W),
+    note:`Cells are greyed when scope n < 60 or the dimension is INSUFFICIENT EVIDENCE. Scopes meeting SCALE under current weights: ${S.segs.filter(x=>x.n>=60&&scaleOK(x,state.w)).map(x=>x.label).join(", ")||"none"}.`,
+    table:{head:["Dimension",...scs.map(s=>s.label)],rows:DIMS.map(([k,l])=>[l,...scs.map(s=>s.n<60?"n<60":s.d[k].insufficient?"INSUFFICIENT":`${fmt0(s.d[k].score)} (${s.d[k].badge})`)])}});
+  h+=`<section class="card span2"><div class="card-h"><div><h3>Inputs behind each dimension</h3><p class="q">Answers: which named metrics, anchors and bases produce each score, and which are NOT TESTABLE?</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("—","fact_scorecard (input rows)","")}</div>
+    <div class="tview"><table><thead><tr><th>ID</th><th>Metric</th><th class="num">Value</th><th>Weak → strong</th><th class="num">Input score</th><th class="num">Weight</th><th class="num">n</th><th>Status</th><th>Source</th></tr></thead><tbody>
+    ${DIMS.map(([k,l])=>`<tr><td colspan="9"><b>${esc(l)}</b> ${badgeHTML(P.d[k].badge)}</td></tr>`+P.d[k].inputs.map(x=>`<tr><td>${x.id}</td><td>${esc(x.label)}</td><td class="num">${x.testable?esc(x.fmt(x.v)):"—"}</td><td>${x.weak==null?"formula":`${esc(x.fmt(x.weak))} → ${esc(x.fmt(x.strong))}`}</td><td class="num">${x.testable?fmt0(x.score):"—"}</td><td class="num">${Math.round(x.weight*100)}%</td><td class="num">${x.n}</td><td>${x.testable?"OK":`<span class="pill sm p-muted">NOT TESTABLE</span> ${esc(x.reason)}`}</td><td>${esc(x.src)}</td></tr>`).join("")).join("")}
+    </tbody></table></div></section>`;
+  return h+"</div>";}
+
+/* ---------------- VIEW 2: Bengaluru → Hyderabad transfer (11_insights/transfer_matrix_template.csv) ---------------- */
+function transferData(){
+  const all=slice({ignore:["city","area","arm"]}),H=all.filter(r=>r.city==="hyderabad"),B=all.filter(r=>r.city==="bengaluru");
+  const cellKey=r=>r.seg_occupation+"|"+r.seg_freq,cnt=(a,f)=>a.reduce((m,r)=>(m[f(r)]=(m[f(r)]||0)+1,m),{});
+  const bc=cnt(B,cellKey),key=r=>bc[cellKey(r)]>=5?cellKey(r):r.seg_occupation,hc=cnt(H,key),bc2=cnt(B,key);
+  B.forEach(r=>{const k=key(r);r._w=Math.min(5,((hc[k]||0)/Math.max(1,H.length))/((bc2[k]||1)/B.length));});
+  const mw=mean(B.map(r=>r._w))||1;B.forEach(r=>r._w/=mw);H.forEach(r=>r._w=1);
+  return{H,B,neff:Math.pow(sum(B.map(r=>r._w)),2)/Math.max(1e-9,sum(B.map(r=>r._w*r._w)))};}
+function wstat(rows,fn,type){const v=rows.map(r=>[fn(r),r._w]).filter(([x])=>x!=null&&isFinite(x));const n=v.length;if(!n)return{m:NaN,se:NaN,n:0};
+  const W=sum(v.map(x=>x[1])),m=sum(v.map(([x,w])=>x*w))/W,ne=W*W/sum(v.map(x=>x[1]*x[1]));const vr=type==="prop"?m*(1-m):sum(v.map(([x,w])=>w*(x-m)**2))/W;return{m,se:Math.sqrt(vr/ne),n};}
+const b01 = x => x?1:0;
+const TRANSFER = [
+  {id:"BA1",a:"Total-price savings trigger trial",metric:"% who would switch for a saving ≤ ₹30 (beh_switch_savings_required)",h:"H2; H9.1",fn:r=>r.beh_switch_savings_required===98?null:b01(r.beh_switch_savings_required>0&&r.beh_switch_savings_required<=30),type:"prop",dir:1,scale:100,m:10,unit:"pp"},
+  {id:"BA2",a:"No hidden fees / menu parity is noticed and valued",metric:"% agreeing app menu prices exceed restaurant prices (pain_menu_markup_belief ≥ 4)",h:"H1.3; H2.2",fn:r=>r.pain_menu_markup_belief==null?null:b01(r.pain_menu_markup_belief>=4),type:"prop",dir:1,scale:100,m:10,unit:"pp"},
+  {id:"BA3",a:"A flat delivery fee at Ownly's level is acceptable",metric:`Fee-ladder acceptance at Ownly's fee: ${OWNLY_FEE_STATUS}`,h:"H8.1",unknown:"Ownly fee not yet audit-confirmed",m:10,unit:"pp"},
+  {id:"BA4",a:"ETA gap vs incumbents is tolerated",metric:"Dinner ETA tolerance, mean minutes (exp_eta_max_dinner; PAP reports the median)",h:"H3; H9.3",fn:r=>r.exp_eta_max_dinner,type:"mean",dir:1,scale:1,m:5,unit:"min"},
+  {id:"BA5",a:"Reliability is good enough to sustain repeat use",metric:"% Ownly users: on time most of the time (own_reliability_rating ≥ 4)",h:"H4; H12.1",fn:r=>r.own_tried===2?b01(r.own_reliability_rating>=4):null,type:"prop",dir:1,scale:100,m:10,unit:"pp"},
+  {id:"BA6",a:"Restaurant coverage is sufficient for usual orders",metric:"% with ADI ≥ 75 (lower is better)",h:"H5; H10; H9.3",fn:r=>b01(r.adi>=75),type:"prop",dir:-1,scale:100,m:10,unit:"pp"},
+  {id:"BA7",a:"Rapido distribution and brand drive awareness and trust",metric:"% of aware respondents who heard via the Rapido app (own_aware_source)",h:"H7; H9",fn:r=>r.own_aware_any?b01(has(r.own_aware_source,"rapido_app")):null,type:"prop",dir:1,scale:100,m:10,unit:"pp"},
+  {id:"BA8",a:"Users multi-home so switching is low-friction",metric:"Multi-homing rate (beh_multihome)",h:"H9.4",fn:r=>b01(r.beh_multihome),type:"prop",dir:1,scale:100,m:10,unit:"pp"},
+  {id:"BA9",a:"Support and refund handling does not cause churn",metric:"% of Ownly users with a support/refund issue left unresolved (lower is better)",h:"H12.2",fn:r=>r.own_support_issue_resolved==null?null:b01(r.own_support_issue_resolved===0||r.own_support_issue_resolved===3),type:"prop",dir:-1,scale:100,m:10,unit:"pp"},
+  {id:"BA10",a:"Trial converts to repeat after launch offers end",metric:"Repeat rate among Ownly users (own_repeat)",h:"H12.4; H11.3",fn:r=>r.own_tried===2?b01(r.own_repeat):null,type:"prop",dir:1,scale:100,m:10,unit:"pp"}];
+function verdictFor(t,b,hh){
+  if(t.unknown||b.n<30||hh.n<30)return{label:"UNKNOWN",cls:"p-muted",icon:"?",rule:t.unknown||`n < 30 (BLR ${b.n}, HYD ${hh.n})`};
+  const d=t.dir*(hh.m-b.m),se=Math.sqrt(b.se**2+hh.se**2),lo=d-1.96*se,hi=d+1.96*se,base={d,lo,hi};
+  if(lo>=-t.m)return{...base,label:"TRANSFERABLE",cls:"p-good",icon:"✓",rule:`CI lower ${fmt1(lo)} ≥ −${t.m}${t.unit}`};
+  if(hi<-t.m)return{...base,label:"NON-TRANSFERABLE",cls:"p-crit",icon:"✕",rule:`CI upper ${fmt1(hi)} < −${t.m}${t.unit}`};
+  return{...base,label:"NEEDS ADAPTATION",cls:"p-warn",icon:"!",rule:`CI [${fmt1(lo)}, ${fmt1(hi)}] crosses −${t.m}${t.unit}`};}
+function view2(){
+  const {H,B,neff}=transferData();
+  const res=TRANSFER.map(t=>{if(t.unknown)return{t,b:{m:NaN,se:NaN,n:0},h:{m:NaN,se:NaN,n:0},v:verdictFor(t,{n:0},{n:0})};const b=wstat(B,t.fn,t.type),hh=wstat(H,t.fn,t.type),S=t.scale;const bs={m:b.m*S,se:b.se*S,n:b.n},hs={m:hh.m*S,se:hh.se*S,n:hh.n};return{t,b:bs,h:hs,v:verdictFor(t,bs,hs)};});
+  let h=vhead("Bengaluru → Hyderabad transfer","Which Bengaluru assumptions hold in Gachibowli once respondent mix is equalised: transferable, non-transferable, or needing adaptation?",naChip(["city (this view compares both)","area","brand arm"]));
+  const occP=[["student","var(--stu)"],["working_professional","var(--pro)"],["working_student","var(--wst)"],["other","var(--oth)"]],frP=[["occasional","#86b6ef"],["regular","#3987e5"],["frequent","#184f95"]];
+  const share=(rows,f,v,w)=>{const W=sum(rows.map(r=>w?r._w:1));return sum(rows.filter(r=>r[f]===v).map(r=>w?r._w:1))/W;};
+  const mk=(lab,rows,w,f,Pp,gap)=>({label:lab,gap,n:rows.length,parts:Pp.map(([v,c])=>({name:lbl(v),v:share(rows,f,v,w),color:c}))});
+  const comp=[mk("Occupation · BLR raw",B,false,"seg_occupation",occP),mk("Occupation · BLR weighted",B,true,"seg_occupation",occP),mk("Occupation · HYD",H,false,"seg_occupation",occP),
+    mk("Frequency · BLR raw",B,false,"seg_freq",frP,12),mk("Frequency · BLR weighted",B,true,"seg_freq",frP),mk("Frequency · HYD",H,false,"seg_freq",frP)];
+  h+=`<div class="grid">`+card("v2comp",{title:"Composition check before any comparison (CITY_MATCHED)",q:"Are we comparing like with like?",n:`BLR n = ${B.length} · n_eff = ${fmt0(neff)} · HYD n = ${H.length}`,span2:true,
+    chips:trace("H9","fact_survey_respondent.w_match_hyd","MEDIUM"),legend:legend([...occP.map(([v,c])=>[lbl(v),c]),...frP.map(([v,c])=>[lbl(v),c])]),
+    draw:W=>stacked100({rows:comp,aria:"Composition"},W),note:"Bengaluru is post-stratified to Hyderabad's seg_occupation × seg_freq cells. Cells with fewer than 5 BLR respondents collapse to occupation, and weights are capped at 5. Weighted results are used only for city comparisons (PAP §1.4).",
+    table:{head:["Row",...occP.map(x=>lbl(x[0])),...frP.map(x=>lbl(x[0]))],rows:comp.map(r=>[r.label,...[...occP,...frP].map(([v])=>{const p=r.parts.find(q=>q.name===lbl(v));return p?fmtPct(p.v):"";})])}});
+  const fv=(x,t)=>isFinite(x.m)?`${fmt0(x.m)}${t.unit==="min"?" min":""} <span class="note">±${fmt0(1.96*x.se)} · n ${x.n}</span>`:"—";
+  h+=`<section class="card span2" aria-labelledby="t-v2t"><div class="card-h"><div><h3 id="t-v2t"><span class="ph">[Insight title goes here once data supports it]</span>Bengaluru assumption → Hyderabad evidence → verdict</h3><p class="q">Answers: which Bengaluru assumptions transfer? This is the Starbucks-Australia slide.</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("H9","outputs/transfer_metrics.csv","MEDIUM")}</div>
+    <div class="tview"><table><thead><tr><th>Row</th><th>Bengaluru assumption</th><th>Metric (same item both cities)</th><th class="num">BLR (weighted)</th><th class="num">HYD</th><th class="num">Δ favourable [95% CI]</th><th>Margin</th><th>Verdict</th><th>Rule applied</th><th>Implication</th><th>H#</th></tr></thead><tbody>
+    ${res.map(x=>`<tr><td>${x.t.id}</td><td>${esc(x.t.a)}</td><td>${esc(x.t.metric)}</td><td class="num">${fv(x.b,x.t)}</td><td class="num">${fv(x.h,x.t)}</td><td class="num">${x.v.d!=null?`${x.v.d>=0?"+":""}${fmt0(x.v.d)} [${fmt0(x.v.lo)}, ${fmt0(x.v.hi)}]`:"—"}</td><td>−${x.t.m}${x.t.unit}</td><td>${pill(x.v,"sm")}</td><td>${esc(x.v.rule)}</td><td class="placeholder">[Team writes after analysis]</td><td>${esc(x.t.h)}</td></tr>`).join("")}
+    </tbody></table></div>
+    <p class="note">Non-inferiority on the weighted difference (PAP §5). Δ is oriented so positive = Hyderabad is more favourable. TRANSFERABLE: CI lower ≥ −margin · NON-TRANSFERABLE: CI upper &lt; −margin · NEEDS ADAPTATION: CI crosses the margin · UNKNOWN: n &lt; 30 or not testable. BA5, BA9 and BA10 compare experienced BLR users with early HYD users (tenure confound).</p></section>`;
+  const pr=res.filter(x=>x.t.unit==="pp");
+  h+=card("v2db",{title:"Bengaluru vs Hyderabad on comparable percentage measures",q:"Where are the gaps, and are they outside the margin?",n:`BLR n = ${B.length} (weighted) · HYD n = ${H.length}`,span2:true,
+    chips:trace("H9","outputs/transfer_metrics.csv","MEDIUM"),legend:legend([["Bengaluru (weighted)","var(--blr)"],["Hyderabad","var(--hyd)"],["±10pp band around Bengaluru","var(--surface-2)"]]),
+    draw:W=>dumbbell({rows:pr.map(x=>({label:`${x.t.id} ${x.t.a}`,a:x.b.m,b:x.h.m,supA:x.b.n<30,supB:x.h.n<30,band:isFinite(x.b.m)?[x.b.m-x.t.m,x.b.m+x.t.m]:null,right:`${x.v.icon} ${x.v.label.split(" ")[0].toLowerCase()}`,suppText:x.t.unknown?"UNKNOWN: "+x.t.unknown:"n < 30 in a city"})),domain:[0,100],fmt:fmt0,colorA:"var(--blr)",colorB:"var(--hyd)",nameA:"Bengaluru (weighted)",nameB:"Hyderabad",rightW:120,aria:"Transfer dumbbell"},W),
+    note:"BA4 (minutes, −5 min margin) is in the table only, because it is not on a 0–100 scale.",table:{head:["Row","BLR","HYD","Verdict"],num:[1,2],rows:res.map(x=>[x.t.id,fmt0(x.b.m),fmt0(x.h.m),x.v.label])}});
+  return h+"</div>";}
+
+/* ---------------- VIEW 3: Current behaviour ---------------- */
+function segSeries(rows,fnVals){return SEGS.map(([k,l,c])=>{const sr=rows.filter(r=>r.seg_occupation===k);return{name:l,color:c,n:sr.length,suppressed:sr.length<30,values:fnVals(sr)};});}
+const shareRows = (rows,codes,pred,sort=true) => {const n=rows.length,out=codes.map(c=>{const w=wilson(rows.filter(r=>pred(r,c)).length,n);return{label:lbl(c),v:w[0],lo:w[1],hi:w[2],n};});return sort?out.sort((a,b)=>b.v-a.v):out;};
+function view3(){
+  const rows=slice(),n=rows.length,st=strengthFor(n);
+  let h=vhead("Current food-delivery behaviour","How intense and habitual is current delivery use, and where does friction already show up in behaviour, not just opinion?")+`<div class="grid">`;
+  const bands=[[1,"1–3"],[2,"4–7"],[3,"8–15"],[4,"16+"]];
+  const ser=segSeries(rows,sr=>bands.map(([b])=>{const w=wilson(sr.filter(r=>r.scr_orders_4wk===b).length,sr.length);return{v:w[0],lo:w[1],hi:w[2],n:sr.length};}));
+  h+=card("v3freq",{title:"Orders in the last 4 weeks by segment (scr_orders_4wk)",q:"Who orders most often?",n,chips:trace("H1","scr_orders_4wk",st),
+    legend:legend(ser.map(s=>[s.name+(s.suppressed?" (n<30, hidden)":` · n = ${s.n}`),s.color])),draw:W=>groupedCols({cats:bands.map(b=>b[1]+" orders"),series:ser,fmt:fmtPct,aria:"Order frequency"},W),
+    table:{head:["Band",...ser.map(s=>s.name)],rows:bands.map(([,b],i)=>[b,...ser.map(s=>fmtPct(s.values[i].v))])}});
+  const groups=SEGS.map(([k,l,c])=>({label:l,color:c,values:rows.filter(r=>r.seg_occupation===k).map(r=>r.beh_last_order_total)}));
+  h+=card("v3spend",{title:"Last-order final amount (₹, beh_last_order_total)",q:"What does a typical basket cost, and how variable is it?",n,chips:trace("H2.3, H6.4","beh_last_order_total",st),
+    draw:W=>boxplot({groups,fmt:fmtInr,aria:"Spend"},W),note:"Box = IQR, line = median, whiskers = 1.5 × IQR. Sensitivity analysis uses beh_last_total_recall = checked-only.",
+    table:{head:["Segment","n","Median","Q1","Q3"],num:[1,2,3,4],rows:groups.map(g=>[g.label,g.values.length,fmtInr(median(g.values)),fmtInr(quant(g.values,.25)),fmtInr(quant(g.values,.75))])}});
+  const plat=shareRows(rows,["swiggy","zomato","ownly_app","rapido_app_food","toing","magicpin","eatsure","restaurant_direct"],(r,c)=>r.beh_platform_primary===c);
+  h+=card("v3plat",{title:"Primary platform share (beh_platform_primary)",q:"Who holds the habit today?",n,chips:trace("RQ2","beh_platform_primary",st),
+    draw:W=>hbars({rows:plat,max:1,fmt:fmtPct,aria:"Primary platform"},W),note:`Multi-homing (beh_multihome, ≥ 2 apps in 4 wk): ${fmtPct(rows.filter(r=>r.beh_multihome).length/n)}. Whiskers: Wilson 95% CI. Neutral colour; platform names carry identity.`,
+    table:{head:["Platform","Share","CI low","CI high"],num:[1,2,3],rows:plat.map(r=>[r.label,fmtPct(r.v),fmtPct(r.lo),fmtPct(r.hi)])}});
+  const meals=["breakfast","lunch","evening_snack","dinner","late_night"],sg=SEGS.map(([k,l])=>({l,rs:rows.filter(r=>r.seg_occupation===k)}));
+  const cells=meals.map(m=>sg.map(s=>({v:s.rs.length?s.rs.filter(r=>r.beh_last_meal===m).length/s.rs.length:NaN,n:s.rs.length})));
+  h+=card("v3occ",{title:"Last order meal by segment (beh_last_meal)",q:"Which occasions should the proposition lead with, for whom?",n,chips:trace("H3.3","beh_last_meal × seg_occupation",st),
+    draw:W=>heatmap({rows:meals.map(lbl),cols:sg.map(s=>`${s.l} (${s.rs.length})`),cells,domain:[0,Math.max(0.01,...cells.flat().map(c=>c.v).filter(isFinite))],fmt:fmtPct,maxCell:150,aria:"Occasion heatmap"},W),
+    note:"Column % (share of each segment's last orders). Columns with n < 30 are greyed. beh_weekday_weekend is Hyderabad-only and is available as a secondary cut.",
+    table:{head:["Meal",...sg.map(s=>s.l)],rows:meals.map((m,i)=>[lbl(m),...cells[i].map(c=>fmtPct(c.v))])}});
+  const fr=shareRows(rows,["delivery_fees","other_charges","menu_markup","fake_offers","late_delivery","cancelled_orders","wrong_missing_items","refunds_support","restaurant_unavailable","food_quality","delivery_partner","nothing"],(r,c)=>has(r.pain_top_frustrations,c));
+  h+=card("v3pain",{title:"Top frustrations (pain_top_frustrations, up to 3)",q:"What hurts most, before any concept is shown?",n,chips:trace("H1.2","pain_top_frustrations",st),
+    draw:W=>hbars({rows:fr,max:Math.max(...fr.map(r=>r.hi))*1.05,fmt:fmtPct,aria:"Frustrations"},W),note:"The PAP compares price_set vs reliability_set with a McNemar test.",
+    table:{head:["Frustration","Share","CI low","CI high"],num:[1,2,3],rows:fr.map(r=>[r.label,fmtPct(r.v),fmtPct(r.lo),fmtPct(r.hi)])}});
+  const GRID=[["pain_fee_reconsider_freq","Checkout charges made me reconsider"],["pain_bill_unreasonable_freq","Final amount felt unreasonable"],["beh_abandon_price_freq","Left without ordering after seeing total"],["pain_late_freq","Arrived later than shown"],["pain_cancel_freq","Order cancelled"],["pain_wrong_item_freq","Missing or wrong items"],["pain_restaurant_unavailable_freq","Restaurant unavailable"],["pain_quality_freq","Food quality / hygiene problem"]];
+  const lk=GRID.map(([f,l])=>{const v=rows.map(r=>r[f]).filter(x=>x!=null);return{label:l,n:v.length,suppressed:v.length<30,s:[1,2,3,4,5].map(k=>v.filter(x=>x===k).length/Math.max(1,v.length))};});
+  const ab=wilson(rows.filter(r=>r.beh_abandon_price_freq>=2).length,n);
+  h+=card("v3grid",{title:"Last 4 weeks: how often each problem happened (pain grid)",q:"Does pain turn into lost orders, and how does price pain compare with reliability pain?",n,span2:true,chips:trace("H1, H4","pain_* grid, beh_abandon_price_freq",st),
+    html:`<div class="tiles">${kpi("Left without ordering after seeing the final amount (≥ rarely)",fmtPct(ab[0]),`[${fmtPct(ab[1])}–${fmtPct(ab[2])}]`,trace("H1.4","beh_abandon_price_freq ≥ 2",st))}</div>`,
+    legend:legend([["Never","var(--dn2)"],["Rarely","var(--dn1)"],["Sometimes","var(--dmid)"],["Often","var(--dp1)"],["Very often","var(--dp2)"]]),
+    draw:W=>likert({rows:lk,levels:["Never","Rarely","Sometimes","Often","Very often"],aria:"Pain grid"},W),note:"Diverging around 'Sometimes'. Left = rarer, right = more frequent. The attention-check row (att_check_1) is excluded.",
+    table:{head:["Item","n","Never","Rarely","Sometimes","Often","Very often"],num:[1,2,3,4,5,6],rows:lk.map(r=>[r.label,r.n,...r.s.map(fmtPct)])}});
+  const sub=shareRows(rows,["swiggy_one","zomato_gold","other_membership","none"],(r,c)=>has(r.beh_subscriptions,c));
+  h+=card("v3sub",{title:"Food-delivery memberships held (beh_subscriptions)",q:"How much fee pain is already neutralised by memberships?",n,chips:trace("H9.4","beh_subscriptions",st),
+    draw:W=>hbars({rows:sub,max:1,fmt:fmtPct,aria:"Memberships"},W),note:"Multi-select, so shares can sum to more than 100%.",table:{head:["Membership","Share"],num:[1],rows:sub.map(r=>[r.label,fmtPct(r.v)])}});
+  const od=rows.filter(r=>r.beh_offer_dependency!==98),odR=[[1,"0–1 of last 10"],[2,"2–4"],[3,"5–7"],[4,"8–10"]].map(([c,l])=>{const w=wilson(od.filter(r=>r.beh_offer_dependency===c).length,od.length);return{label:l,v:w[0],lo:w[1],hi:w[2],n:od.length};});
+  h+=card("v3offer",{title:"Offer dependency: discounted orders among the last 10 (beh_offer_dependency)",q:"How dependent is ordering on offers?",n:od.length,chips:trace("H1.5, H2.4","beh_offer_dependency",strengthFor(od.length)),
+    draw:W=>hbars({rows:odR,max:1,fmt:fmtPct,aria:"Offer dependency"},W),note:`High offer dependency (5+ of 10): ${fmtPct(od.filter(r=>r.beh_offer_dependency>=3).length/od.length)}. 'Don't know' excluded. Bands kept in order.`,
+    table:{head:["Band","Share"],num:[1],rows:odR.map(r=>[r.label,fmtPct(r.v)])}});
+  return h+"</div>";}
+/* ---------------- VIEW 4: Switching engine ---------------- */
+function topCodes(rows,getter,k=4){const c={};rows.forEach(r=>{[].concat(getter(r)||[]).forEach(v=>{if(v&&v!=="nothing"&&v!=="none")c[v]=(c[v]||0)+1;});});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,k).map(([v,x])=>[lbl(v),x/Math.max(1,rows.length)]);}
+function view4(){
+  const rows=slice(),n=rows.length,st=strengthFor(n),conc=rows.filter(r=>r.bt_trial_intent!=null),sw=rows.filter(r=>r.beh_switched_primary_12m===1);
+  let h=vhead("Switching engine","Which chain of unmet need → trigger → expected benefit → barrier is associated with high trial intent, and which lever should be pulled first?")+`<div class="grid">`;
+  const t2b=pct(conc,r=>r.bt_t2b),ep=conc.filter(r=>r.bt_expected_price!==98);
+  const bars=items=>items.map(([l,v])=>`<div class="cbar"><div class="row"><span>${esc(l)}</span><b>${fmtPct(v)}</b></div><div class="tr"><div class="fl" style="width:${Math.round(v*100)}%"></div></div></div>`).join("");
+  const col=(title,base,items)=>`<div class="col"><h4>${esc(title)}</h4><span class="note">base n = ${base}</span>${bars(items)}</div>`;
+  const us=rows.filter(r=>r.own_tried===2),sw2=sw.filter(r=>r.own_tried!==2);
+  const trigCol=`<div class="col"><h4>Trigger</h4><span class="note">Ownly users: own_first_trial_trigger · n = ${us.length}</span>${bars(topCodes(us,r=>r.own_first_trial_trigger,3))}<span class="note">Others who switched app in the last 12 months: beh_switch_reason (coded open text; requires human coding) · n = ${sw2.length}</span>${bars(topCodes(sw2,r=>r.beh_switch_reason_coded,3))}</div>`;
+  const epItems=[["Expect much lower total",r=>r.bt_expected_price===5],["Expect a bit lower",r=>r.bt_expected_price===4],["About the same",r=>r.bt_expected_price===3],["Higher",r=>r.bt_expected_price<=2]].map(([l,f])=>[l,ep.filter(f).length/Math.max(1,ep.length)]);
+  h+=card("v4chain",{title:"Unmet need → trigger → expected benefit → barrier → intent",q:"Where does the path to switching leak?",n,span2:true,
+    chips:trace("H1, H2, H7","pain_top_frustrations · beh_switch_reason (coded) · bt_expected_price · bt_concern (coded) · bt_trial_intent",st),
+    html:`<div class="chain">${col("Unmet need",n,topCodes(rows,r=>r.pain_top_frustrations))}${trigCol}${col("Expected benefit",ep.length,epItems)}${col("Barrier: bt_concern_coded (coded open text; requires human coding)",conc.length,topCodes(conc,r=>r.bt_concern_coded))}
+      <div class="col"><h4>Intent</h4><span class="note">base n = ${conc.length}</span><div style="font-size:26px;font-weight:600">${fmtPct(t2b[0])}</div><span class="note">bt_trial_intent top-2 (first exposure, both arms) [${fmtPct(t2b[1])}–${fmtPct(t2b[2])}]</span></div></div>`,
+    note:"Each column has its own base. Triggers come from real past switches in the last 12 months (beh_switched_primary_12m = 1), not from hypothetical questions. Open-ends are human-coded. Multi-select columns can sum to more than 100%."});
+  const hydOnly=conc.every(r=>r.meta_brand_arm!=null);
+  const preds=[["PPI (+1 SD)",r=>r.ppi],["RSS (+1 SD)",r=>r.rss],["Dinner ETA tolerance (+1 SD)",r=>r.exp_eta_max_dinner],["ADI (+1 SD)",r=>r.adi],["Habit lock (+1 SD)",r=>r.dec_habit_lock],["Multi-homes",r=>b01(r.beh_multihome),true],["Has membership",r=>b01(r.beh_any_subscription),true],["Frequent orderer",r=>b01(r.seg_freq==="frequent"),true],["Student",r=>b01(r.seg_occupation==="student"),true],...(hydOnly?[["Branded arm",r=>b01(r.meta_brand_arm==="branded"),true]]:[])];
+  const ok=conc.filter(r=>preds.every(([,f])=>{const v=f(r);return v!=null&&isFinite(v);}));
+  const zs=preds.map(([,f,bin])=>{const v=ok.map(f);return bin?{m:0,s:1}:{m:mean(v),s:sd(v)||1};});
+  const y=ok.map(r=>b01(r.bt_t2b)),ev=Math.min(sum(y),y.length-sum(y)),epv=ev/preds.length,fit=ok.length>=60?logit(ok.map(r=>[1,...preds.map(([,f],j)=>(f(r)-zs[j].m)/zs[j].s)]),y):null;
+  const fr=preds.map(([l],j)=>fit?{label:l,v:Math.exp(fit.b[j+1]),lo:Math.exp(fit.b[j+1]-1.96*fit.se[j+1]),hi:Math.exp(fit.b[j+1]+1.96*fit.se[j+1]),n:ok.length}:{label:l,suppressed:true,suppText:"model not fitted (n < 60 or separation)"});
+  h+=card("v4forest",{title:"Driver model: odds ratios for bt_trial_intent top-2",q:"Which factors are associated with trial intent, holding the others constant?",n:ok.length,chips:trace("H1, H4, H10, H7","outputs/hypothesis_results.csv (logit)",epv>=10?"MEDIUM":"LOW"),
+    draw:W=>ciDots({rows:fr,domain:[0.25,4],log:true,ref:1,fmt:fmt2,aria:"Odds ratios"},W),
+    note:`Predictors follow PAP §6 (arm is included only when the slice is Hyderabad-only). The outcome is not SRI, because SRI contains trial intent, multi-homing and habit lock. Events per predictor = ${fmt1(epv)}${epv<10?" (below 10: exploratory)":""}. Associational, not causal. In-page IRLS for layout; final estimates come from Python.`,
+    table:{head:["Predictor","OR","CI low","CI high"],num:[1,2,3],rows:fr.map(r=>[r.label,fmt2(r.v),fmt2(r.lo),fmt2(r.hi)])}});
+  const pg=[["Swiggy users",r=>r.beh_platform_primary==="swiggy"],["Zomato users",r=>r.beh_platform_primary==="zomato"],["Ownly / Rapido-food users",r=>r.beh_platform_primary==="ownly_app"||r.beh_platform_primary==="rapido_app_food"],["Other primary platform",r=>!["swiggy","zomato","ownly_app","rapido_app_food"].includes(r.beh_platform_primary)]]
+    .map(([l,f])=>{const sr=conc.filter(f);return{label:l,n:sr.length,suppressed:sr.length<30,s:[1,2,3,4,5].map(k=>sr.length?sr.filter(r=>r.bt_trial_intent===k).length/sr.length:0)};});
+  h+=card("v4lik",{title:"bt_trial_intent by current beh_platform_primary",q:"Which incumbent's users are most switchable?",n:conc.length,chips:trace("H2","bt_trial_intent × beh_platform_primary",strengthFor(conc.length)),
+    legend:legend([["Definitely not","var(--dn2)"],["Probably not","var(--dn1)"],["Not sure","var(--dmid)"],["Probably","var(--dp1)"],["Definitely","var(--dp2)"]]),
+    draw:W=>likert({rows:pg,levels:["Definitely not","Probably not","Not sure","Probably","Definitely"],aria:"Trial intent by platform"},W),
+    table:{head:["Group","n","1","2","3","4","5"],num:[1,2,3,4,5,6],rows:pg.map(p=>[p.label,p.n,...p.s.map(fmtPct)])}});
+  const sv=rows.filter(r=>r.beh_switch_savings_required!==98),codes=[[10,"₹10"],[20,"₹20"],[30,"₹30"],[50,"₹50"],[75,"₹75"],[100,"₹100 or more"],[0,"No amount: price alone wouldn't switch me"]];
+  const th=codes.map(([c,l])=>{const w=wilson(sv.filter(r=>r.beh_switch_savings_required===c).length,sv.length);return{label:l,v:w[0],lo:w[1],hi:w[2],n:sv.length,color:c===0?"var(--mono-2)":undefined};});
+  h+=card("v4thr",{title:"Saving needed on every order to change main app (beh_switch_savings_required)",q:"How big must the saving be, compared with the audit median saving?",n:sv.length,chips:trace("H2.3","beh_switch_savings_required",strengthFor(sv.length)),
+    draw:W=>hbars({rows:th,max:Math.max(...th.map(r=>r.hi))*1.05,fmt:fmtPct,aria:"Switching threshold"},W),
+    note:`Ordinal bands kept in order. 'Don't know' excluded (${rows.length-sv.length}). Audit median Ownly saving vs cheapest comparator: ${fmtInr(AUD.medSaving)} (feeds D2b).`,
+    table:{head:["Saving needed","Share"],num:[1],rows:th.map(r=>[r.label,fmtPct(r.v)])}});
+  return h+"</div>";}
+
+/* ---------------- VIEW 5: Price × reliability × ETA ---------------- */
+const ATTR=[["eta","₹ per minute faster",a=>a[1],1],["late","₹ per 1-in-10 fewer late orders",a=>a[2],1],["rest","₹ per restaurant-coverage step (few→some→most)",a=>REST_IDX[a[3]],-1],["refund","₹ for automatic 24-h refund",a=>a[4]==="auto_24h"?1:0,-1]];
+function dceWTP(rows,seed){
+  const obs=rows.flatMap((r,i)=>r.dce.filter(t=>t.purpose!=="dominance_check").map(t=>({i,t})));
+  const X=o=>[(o.t.A[0]-o.t.B[0])/10,...ATTR.map(([,,g])=>g(o.t.A)-g(o.t.B))];
+  const est=sub=>{if(sub.length<60)return null;const fit=logit(sub.map(X),sub.map(o=>b01(o.t.chosen==="A")));if(!fit||fit.b[0]>=0)return null;return{w:ATTR.map(([,,,s],k)=>s*(fit.b[k+1]/fit.b[0])*10),pz:Math.abs(fit.b[0]/fit.se[0])};};
+  const pt=rows.length>=30?est(obs):null;if(!pt)return ATTR.map(()=>({v:NaN,n:rows.length,sig:false}));
+  const byR=rows.map((r,i)=>obs.filter(o=>o.i===i)),bs=bootstrap(rows.length,100,idx=>est(idx.flatMap(k=>byR[k])),seed);
+  return ATTR.map((_,k)=>{const v=bs.map(b=>b.w[k]);return{v:pt.w[k],lo:quant(v,.025),hi:quant(v,.975),n:rows.length,sig:pt.pz>1.96};});}
+function view5(){
+  const rows=slice({ignore:["occ"]}),n=rows.length,segR=SEGS.map(([k,l,c])=>({k,l,c,rows:rows.filter(r=>r.seg_occupation===k)}));
+  let h=vhead("Price × reliability × ETA","What does a rupee of savings buy in waiting time, reliability, restaurant choice and refund assurance, and does that differ by segment? A low-price proposition is only validated if users trade something for it.",naChip(["occupation (the view splits by segment)"]))+`<div class="grid">`;
+  const leg=legend(segR.map(s=>[`${s.l} · n = ${s.rows.length}${s.rows.length<30?" (hidden)":""}`,s.c]));
+  const acc=segR.map(s=>{const ok=s.rows.filter(r=>r.wtp_max_fee!=null);return{name:s.l,color:s.c,suppressed:ok.length<30,n:ok.length,points:LADDER.map(f=>{const w=wilson(ok.filter(r=>r.wtp_max_fee>=f).length,ok.length);return{y:w[0],lo:w[1],hi:w[2],n:ok.length};})};});
+  const med50=a=>{for(let i=1;i<LADDER.length;i++){const y0=a.points[i-1].y,y1=a.points[i].y;if(y0>=.5&&y1<.5)return LADDER[i-1]+(y0-.5)/(y0-y1)*10;}return a.points[LADDER.length-1].y>=.5?Infinity:NaN;};
+  h+=card("v5wtp",{title:"Delivery-fee acceptance curve (Gabor-Granger ladder; fee points provisional)",q:"At which fee does acceptance fall off, and for whom?",n,span2:true,chips:trace("H8.1, H8.2, H6.2","outputs/wtp_curve.csv",strengthFor(Math.min(...acc.map(a=>a.n)))),
+    legend:leg,draw:W=>lineCI({x:LADDER,series:acc,xfmt:v=>"₹"+v+"*",fmtY:fmtPct,h:250,aria:"Fee acceptance"},W),
+    note:`* Provisional ladder (wtp_accept_0 … wtp_accept_60), to be confirmed against audit-observed fees. ${esc(OWNLY_FEE_STATUS)}, so no Ownly fee marker is drawn. Median acceptable fee (50% crossing, linear interpolation): ${acc.map(a=>`${a.name} ${isFinite(med50(a))?fmtInr(med50(a)):"above ladder / n.a."}`).join(" · ")}. Non-monotone ladders set wtp_max_fee = NA (${rows.filter(r=>r.wtp_max_fee==null).length}). Bands: Wilson 95% CI.`,
+    table:{head:["Fee",...acc.map(a=>a.name)],rows:LADDER.map((f,i)=>["₹"+f,...acc.map(a=>fmtPct(a.points[i].y))])}});
+  const el=[];for(let i=1;i<LADDER.length-1;i++){const f1=LADDER[i],f2=LADDER[i+1];el.push({label:`₹${f1}→₹${f2}`,vals:acc.map(a=>{const A1=a.points[i].y,A2=a.points[i+1].y;return(A1+A2)>0?((A2-A1)/((A1+A2)/2))/((f2-f1)/((f1+f2)/2)):NaN;})});}
+  const ev=el.flatMap(e=>e.vals).filter(isFinite);
+  h+=card("v5el",{title:"Fee-step arc elasticity (approximation)",q:"Where is acceptance most fee-sensitive?",n,chips:trace("H8","outputs/wtp_curve.csv",strengthFor(n)),legend:legend(segR.map(s=>[s.l,s.c])),
+    draw:W=>dumbbell({rows:el.map(e=>({label:e.label,a:e.vals[0],b:e.vals[1],supA:acc[0].suppressed,supB:acc[1].suppressed})),domain:[Math.floor(Math.min(-1,...ev)),0.2],fmt:fmt1,colorA:"var(--stu)",colorB:"var(--pro)",nameA:SEGS[0][1],nameB:SEGS[1][1],rightW:12,aria:"Elasticity"},W),
+    note:"More negative = larger proportional drop in acceptance per proportional fee rise. The ₹0→₹10 step is skipped.",table:{head:["Step",...segR.map(s=>s.l)],num:[1,2],rows:el.map(e=>[e.label,...e.vals.map(fmt2)])}});
+  const dceSeg=segR.map(s=>({...s,rows:s.rows.filter(r=>r.city==="hyderabad")})),wt=dceSeg.map((s,i)=>({s,w:dceWTP(s.rows,21+i)})),wAll=dceWTP(rows.filter(r=>r.city==="hyderabad"),20);
+  const wRows=ATTR.flatMap(([,l],k)=>[{label:`${l} · all`,color:"var(--mono)",...wAll[k]},...wt.map(x=>({label:`${l} · ${x.s.l==="Students"?"students":"professionals"}`,color:x.s.c,...x.w[k]}))]).map(r=>({...r,suppressed:!isFinite(r.v),suppText:`n = ${r.n} · not identifiable / not shown`}));
+  const wMax=Math.max(10,...wRows.map(r=>r.hi).filter(isFinite));
+  h+=card("v5wtpm",{title:"Model-based WTP per attribute step (₹), from the choice tasks",q:"What does each experience improvement cost in rupees, by segment? (claims only if the CIs support them)",n,span2:true,chips:trace("H3.1, H4.1, H4.2, H5.1, H6.3","outputs/dce_wtp.csv",strengthFor(Math.min(...segR.map(s=>s.rows.length)))),
+    draw:W=>ciDots({rows:wRows,domain:[Math.min(0,...wRows.map(r=>r.lo).filter(isFinite)),Math.ceil(wMax/10)*10],fmt:v=>"₹"+fmt1(v),fmtAxis:v=>"₹"+v,rightW:130,aria:"Model WTP"},W),
+    note:`WTP_k = −β_k / β_price from a logit on A−B attribute differences across tasks t1–t6 (design: 03_hyderabad_survey/dce_design_matrix.csv; the dominance task is excluded). Bootstrap 95% CI over respondents. The PAP uses a conditional logit with Krinsky-Robb CIs and makes a claim only if β_price is significant and the segment-difference CI excludes 0. Price significant (pooled, demo): ${wAll[0].sig?"yes":"no"}.`,
+    table:{head:["Attribute · group","₹","CI low","CI high","n"],num:[1,2,3,4],rows:wRows.map(r=>[r.label,fmt1(r.v),fmt1(r.lo),fmt1(r.hi),r.n])}});
+  const tasks=[1,2].flatMap(b=>DCE_DESIGN[b].filter(t=>t[1]!=="dominance_check").map(t=>({b,t})));
+  const desc=(A,B)=>{const ch=A[0]<B[0]?A:B,ot=ch===A?B:A,parts=[`₹${ot[0]-ch[0]} cheaper`];if(ch[1]!==ot[1])parts.push(`${ch[1]>ot[1]?"+":"−"}${Math.abs(ch[1]-ot[1])} min`);if(ch[2]!==ot[2])parts.push(`late ${ch[2]} vs ${ot[2]} in 10`);if(ch[3]!==ot[3])parts.push(`${ch[3]} vs ${ot[3]} restaurants`);if(ch[4]!==ot[4])parts.push(ch[4]==="auto_24h"?"auto refund":"case-by-case refund");return{txt:parts.join(", "),cheap:ch===A?"A":"B"};};
+  const tRows=tasks.flatMap(({b,t})=>{const {txt,cheap}=desc(t[2],t[3]);return dceSeg.map(s=>{const rs=s.rows.filter(r=>r.meta_dce_block===b),w=wilson(rs.filter(r=>r["dce_"+t[0]]===cheap).length,rs.length);return{label:`B${b} ${t[0]} ${lbl(t[1])}: ${txt} · ${s.l==="Students"?"stu":"pro"}`,v:w[0],lo:w[1],hi:w[2],n:rs.length,color:s.c,suppressed:rs.length<30};});});
+  h+=card("v5tasks",{title:"Task-level share choosing the cheaper alternative, as designed",q:"In each designed trade-off, what share takes the cheaper option (the PAP fallback statements)?",n,span2:true,chips:trace("H2–H5","fact_dce_long",strengthFor(n)),legend:leg,
+    draw:W=>ciDots({rows:tRows,domain:[0,1],ref:0.5,fmt:fmtPct,rightW:110,aria:"Task shares"},W),
+    note:"Each block is seen by about half the sample (meta_dce_block), so bases are smaller. Rows with n < 30 are hidden. The wording follows PAP §6: \"in task T, X% chose the ₹Y-cheaper-but-Z-slower option\".",
+    table:{head:["Task","Share cheaper","CI low","CI high","n"],num:[1,2,3,4],rows:tRows.map(r=>[r.label,fmtPct(r.v),fmtPct(r.lo),fmtPct(r.hi),r.n])}});
+  h=h.replace("naChip-placeholder","");
+  const rssR=dceSeg.flatMap(s=>[0,50,100].map(v=>{const w=wilson(s.rows.filter(r=>r.rss===v).length,s.rows.length);return{label:`${s.l==="Students"?"Students":"Professionals"} · RSS ${v}`,v:w[0],lo:w[1],hi:w[2],n:s.rows.length,color:s.c,suppressed:s.rows.length<30};}));
+  h+=card("v5rss",{title:"Reliability Sensitivity (RSS) distribution by segment",q:"How many respondents never / sometimes / always pay more for reliability?",n,chips:trace("H4.1, H6","rss",strengthFor(n)),legend:legend(segR.map(s=>[s.l,s.c])),
+    draw:W=>hbars({rows:rssR,max:1,fmt:fmtPct,aria:"RSS distribution"},W),note:"RSS = % of the 2 price_vs_reliability tasks where the more reliable, more expensive alternative was chosen (0 / 50 / 100).",
+    table:{head:["Group","Share"],num:[1],rows:rssR.map(r=>[r.label,fmtPct(r.v)])}});
+  const eta=[["Lunch (exp_eta_max_lunch)","exp_eta_max_lunch"],["Dinner (exp_eta_max_dinner)","exp_eta_max_dinner"]].map(([l,f])=>({label:l,a:median(segR[0].rows.map(r=>r[f]).filter(v=>v!=null)),b:median(segR[1].rows.map(r=>r[f]).filter(v=>v!=null)),supA:segR[0].rows.length<30,supB:segR[1].rows.length<30}));
+  h+=card("v5eta",{title:"Longest acceptable delivery time, median minutes",q:"How much ETA headroom is there for lunch vs dinner?",n,chips:trace("H3.2, H3.3","exp_eta_max_lunch, exp_eta_max_dinner",strengthFor(n)),legend:legend(segR.map(s=>[s.l,s.c])),
+    draw:W=>dumbbell({rows:eta,domain:[20,70],fmt:v=>fmt0(v)+" min",colorA:"var(--stu)",colorB:"var(--pro)",nameA:SEGS[0][1],nameB:SEGS[1][1],rightW:12,aria:"ETA tolerance"},W),
+    note:`Incumbent median shown ETA in the audit (eta_mid_shown): ${fmt0(AUD.incEta)} min. Ownly − comparator median gap: ${fmt1(AUD.etaGap)} min (D4a).`,table:{head:["Meal",...segR.map(s=>s.l)],num:[1,2],rows:eta.map(r=>[r.label,fmt0(r.a),fmt0(r.b)])}});
+  const SC=[["bill_s1","S1 Chose simple bill (identical total)","focal"],["bill_s1","S1 'No real difference' (code 3)","no_difference"],["bill_s2","S2 Chose discount-framed bill (identical total)","focal"],["bill_s2","S2 'No real difference' (code 3)","no_difference"],["bill_s3","S3 Lower total vs usual app (HYD)",true],["bill_s4","S4 Lower total, but slower / lower rating (HYD)",true]];
+  const hydR=segR;
+  const bill=SC.flatMap(([f,l,code])=>segR.map(s=>{const el=s.rows.filter(r=>r[f]!=null),w=wilson(el.filter(r=>r[f]===code).length,el.length);return{label:`${l} · ${s.l==="Students"?"stu":"pro"}`,v:w[0],lo:w[1],hi:w[2],n:el.length,color:s.c,suppressed:el.length<30};}));
+  h+=card("v5bill",{title:"Bill-comparison scenarios (SYNTHETIC research scenarios)",q:"Does transparency or discount framing matter at identical totals, and which compromise erodes a lower total?",n:hydR.reduce((a,s)=>a+s.rows.length,0),span2:true,chips:trace("H2.2, H2.4, H2, H3","fact_bill_choice_long",strengthFor(n)),legend:leg,
+    draw:W=>ciDots({rows:bill,domain:[0,1],ref:0.5,fmt:fmtPct,rightW:110,aria:"Bill scenarios"},W),
+    note:"Share choosing the focal option (simple bill / discount-framed bill / lower total). S1–S2 are tested against 50% (binomial). The scenarios are clearly labelled as synthetic in the survey and are not real platform bills. S3–S4 are Hyderabad only.",
+    table:{head:["Scenario × segment","Share","CI low","CI high","n"],num:[1,2,3,4],rows:bill.map(r=>[r.label,fmtPct(r.v),fmtPct(r.lo),fmtPct(r.hi),r.n])}});
+  return h+"</div>";}
+
+/* ---------------- VIEW 6: Segments ---------------- */
+function bootDiffMedian(a,b,seed){const r=mulberry32(seed),out=[];for(let k=0;k<300;k++){const ra=a.map(()=>a[Math.floor(r()*a.length)]),rb=b.map(()=>b[Math.floor(r()*b.length)]);out.push(median(rb)-median(ra));}return out;}
+function view6(){
+  const rows=slice({ignore:["occ"]}),segR=SEGS.map(([k,l,c])=>({k,l,c,rows:rows.filter(r=>r.seg_occupation===k)}));
+  let h=vhead("Segments: students vs working professionals","Are students and working professionals meaningfully different on the variables that matter to the proposition, and which is the better initial target?",naChip(["occupation (the view compares segments)"]));
+  h+=`<div class="kpis">${["student","working_professional","working_student","other"].map(k=>{const m=rows.filter(r=>r.seg_occupation===k).length;return kpi(lbl(k),m<30?`<span class="note">n = ${m}</span>`:String(m),m<30?"below 30, not analysed":fmtPct(m/rows.length)+" of slice",nTag(m));}).join("")}</div><div class="grid">`;
+  const M=[["PPI (0–100)",r=>r.ppi,"med"],["SRI (0–100)",r=>r.sri,"med"],["RSS (0–100)",r=>r.rss,"med"],["ADI (0–100)",r=>r.adi,"med"],["bt_trial_intent top-2",r=>r.bt_t2b==null?null:b01(r.bt_t2b),"prop"],["wtp_max_fee (₹)",r=>r.wtp_max_fee,"med"],["Orders / 4 wk (scr_orders_4wk midpoint)",r=>ORD_MID[r.scr_orders_4wk],"med"],["beh_last_order_total (₹)",r=>r.beh_last_order_total,"med"],["exp_eta_max_dinner (min)",r=>r.exp_eta_max_dinner,"med"]];
+  const [A,B]=segR.map(s=>s.rows);
+  const tests=M.map(([l,f,t],i)=>{const a=A.map(f).filter(v=>v!=null&&isFinite(v)),b=B.map(f).filter(v=>v!=null&&isFinite(v));if(a.length<30||b.length<30)return{l,t,sup:true};
+    if(t==="prop"){const pa=mean(a),pb=mean(b),pp=(sum(a)+sum(b))/(a.length+b.length),z=(pb-pa)/Math.sqrt(pp*(1-pp)*(1/a.length+1/b.length)),se=Math.sqrt(pa*(1-pa)/a.length+pb*(1-pb)/b.length);return{l,t,ma:pa,mb:pb,d:pb-pa,lo:pb-pa-1.96*se,hi:pb-pa+1.96*se,p:normP(z),es:2*Math.asin(Math.sqrt(pb))-2*Math.asin(Math.sqrt(pa)),esn:"h",test:"Two-proportion z"};}
+    const u=mwu(a,b),bs=bootDiffMedian(a,b,31+i);return{l,t,ma:median(a),mb:median(b),d:median(b)-median(a),lo:quant(bs,.025),hi:quant(bs,.975),p:u.p,es:u.r,esn:"r",test:"Mann-Whitney U"};});
+  const adj=holm(tests.filter(x=>!x.sup).map(x=>x.p));let j=0;tests.forEach(x=>{if(!x.sup)x.padj=adj[j++];});
+  const f=x=>x.t==="prop"?fmtPct:x.l.includes("₹")?fmtInr:fmt1;
+  const db=tests.slice(0,5).map(x=>({label:x.l,a:x.sup?NaN:(x.t==="prop"?100*x.ma:x.ma),b:x.sup?NaN:(x.t==="prop"?100*x.mb:x.mb),supA:x.sup,supB:x.sup,right:x.sup?"":`Δ ${x.d>=0?"+":""}${x.t==="prop"?fmt0(100*x.d):fmt0(x.d)}`}));
+  h+=card("v6db",{title:"Segment medians on 0–100 measures",q:"Where do the segments really differ?",n:`students n = ${A.length} · professionals n = ${B.length}`,chips:trace("H6","fact_survey_respondent",strengthFor(Math.min(A.length,B.length))),
+    legend:legend([["Students","var(--stu)"],["Working professionals","var(--pro)"]]),
+    draw:W=>dumbbell({rows:db,domain:[0,100],fmt:fmt0,colorA:"var(--stu)",colorB:"var(--pro)",nameA:"Students",nameB:"Working professionals",aria:"Segment differences"},W),
+    note:"Medians first (PAP §1.3). T2B is shown as a percentage.",table:{head:["Measure","Students","Professionals"],num:[1,2],rows:db.map(r=>[r.label,fmt0(r.a),fmt0(r.b)])}});
+  h+=`<section class="card"><div class="card-h"><div><h3><span class="ph">[Insight title goes here once data supports it]</span>Pre-registered H6 test family</h3><p class="q">Answers: which differences survive correction, and are they big enough to matter?</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("H6","outputs/hypothesis_results.csv","MEDIUM")}</div>
+    <div class="tview"><table><thead><tr><th>Measure</th><th class="num">Stu</th><th class="num">Pro</th><th class="num">Δ (Pro − Stu) [95% CI]</th><th>Test</th><th class="num">Effect</th><th class="num">Holm p</th></tr></thead><tbody>
+    ${tests.map(x=>x.sup?`<tr><td>${esc(x.l)}</td><td colspan="6" class="placeholder">n &lt; 30 in a segment: not tested</td></tr>`:`<tr><td>${esc(x.l)}</td><td class="num">${f(x)(x.ma)}</td><td class="num">${f(x)(x.mb)}</td><td class="num">${x.t==="prop"?fmt0(100*x.d)+" pp":f(x)(x.d)} [${x.t==="prop"?fmt0(100*x.lo):fmt1(x.lo)}, ${x.t==="prop"?fmt0(100*x.hi):fmt1(x.hi)}]</td><td>${x.test}</td><td class="num">${x.esn} = ${fmt2(x.es)}</td><td class="num">${x.padj<0.001?"<0.001":fmt2(x.padj)}</td></tr>`).join("")}
+    </tbody></table></div><p class="note">${tests.length} tests with Holm correction. Statistical significance ≠ business significance, so read the effect sizes. Mann-Whitney with bootstrap median-difference CIs; normal approximations in-page.</p></section>`;
+  const pts=[];segR.forEach(s=>s.rows.forEach((r,i)=>{if(isFinite(r.ppi)&&isFinite(r.rss))pts.push({x:r.ppi,y:clamp(r.rss+Math.sin(i*12.9898+s.k.length*78.233)*6,-5,105),color:s.c,tip:`<b>${esc(r.resp_id)}</b> · ${esc(s.l)}<br>PPI ${fmt0(r.ppi)} · RSS ${fmt0(r.rss)}`});}));
+  h+=card("v6sc",{title:"PPI vs RSS per respondent",q:"Is 'students = price-sensitive, professionals = reliability-sensitive' true, or do the segments overlap?",n:pts.length,chips:trace("H6","ppi, rss",strengthFor(pts.length)),
+    legend:legend([["Students","var(--stu)"],["Working professionals","var(--pro)"]]),
+    draw:W=>scatter({points:pts,xdom:[0,100],ydom:[-8,108],medX:median(pts.map(p=>p.x)),medY:50,fmtX:fmt0,fmtY:fmt0,xTitle:"PPI (0–100)",yTitle:"RSS (0–100, jittered ±6)",aria:"PPI vs RSS"},W),
+    note:"RSS takes only 0 / 50 / 100, so points are jittered vertically. Guides: PPI median, RSS 50.",table:{head:["Segment","n","Median PPI","Mean RSS"],num:[1,2,3],rows:segR.map(s=>[s.l,s.rows.length,fmt0(median(s.rows.map(r=>r.ppi).filter(isFinite))),fmt0(mean(s.rows.map(r=>r.rss)))])}});
+  const S=scopes(),scs=S.segs.slice(0,2);
+  h+=card("v6hm",{title:"Scorecard dimensions by segment (Hyderabad)",q:"Which segment scores higher on each decision dimension?",n:scs.map(s=>`${s.label} n = ${s.n}`).join(" · "),chips:trace("H6","fact_scorecard (scope = segment)","MEDIUM"),
+    draw:W=>heatmap({rows:DIMS.map(d=>d[1]),cols:scs.map(s=>s.label),cells:DIMS.map(([k])=>scs.map(s=>({v:s.d[k].score,n:s.n}))),domain:[0,100],fmt:fmt0,minN:60,maxCell:150,aria:"Segment dimensions"},W),
+    note:"Framework scores per scope. Greyed if n < 60 or INSUFFICIENT EVIDENCE.",table:{head:["Dimension",...scs.map(s=>s.label)],rows:DIMS.map(([k,l])=>[l,...scs.map(s=>s.n<60?"n<60":s.d[k].insufficient?"INSUFFICIENT":`${fmt0(s.d[k].score)} (${s.d[k].badge})`)])}});
+  return h+"</div>";}
+
+/* ---------------- VIEW 7: Voice of customer ---------------- */
+function view7(){
+  const R7=D.reviews,N=R7.length,keys=Object.keys(THEMES);
+  let h=vhead("Voice of customer","Which friction points recur in real user voice, how severe are they, and do interviews corroborate them?",
+    `<p class="note" style="border-left:3px solid var(--warn);padding-left:8px">App reviews and social posts are self-selected and not representative. Use them for issue existence and severity, not prevalence (framework §5).</p>${naChip(["city","occupation","frequency","all survey filters"])}`)+`<div class="grid">`;
+  const th=keys.map(k=>{const it=R7.filter(r=>r.primary_theme===k);return{k,label:THEMES[k][0],share:it.length/N,sev:mean(it.map(r=>r.severity)),n:it.length,fam:THEMES[k][4]};});
+  const top=[...th].sort((a,b)=>b.share*b.sev-a.share*a.sev).slice(0,5).map(t=>t.k);
+  h+=card("v7fs",{title:"primary_theme frequency × mean severity",q:"Which issues are both common and damaging?",n:N,chips:trace("H4, H9.3, H12","fact_reviews (reviews_coded + social_coded)",N>=60?"MEDIUM":"LOW"),
+    legend:legend([["Reliability / support / refund family (D4d)","var(--ink)"],["Other themes","var(--mono-2)"]]),
+    draw:W=>scatter({points:th.map(t=>({x:t.share,y:t.sev,color:t.fam?"var(--ink)":"var(--mono-2)",r:5,label:top.includes(t.k)?t.label:"",tip:`<b>${esc(t.label)}</b> (${esc(t.k)})<br>${fmtPct(t.share)} of items · mean severity ${fmt2(t.sev)} · n = ${t.n}`})),xdom:[0,Math.max(...th.map(t=>t.share))*1.25],ydom:[1,4],fmtX:fmtPct,fmtY:fmt1,xTitle:"Share of coded items",yTitle:"Mean severity (1–4)",aria:"Frequency by severity"},W),
+    note:`Severity 1–4 per the review codebooks. D4d input: severity-weighted share of the reliability/support/refund family = ${fmtPct(REV.share)} (anchor 50% → 0, 10% → 100).`,
+    table:{head:["primary_theme","Share","Mean severity","n","D4d family"],num:[1,2,3],rows:th.map(t=>[t.k,fmtPct(t.share),fmt2(t.sev),t.n,t.fam?"yes":"no"])}});
+  const cells=keys.map(k=>STAGES.map(s=>{const it=R7.filter(r=>r.primary_theme===k);return{v:it.length?it.filter(r=>r.order_stage===s).length/it.length:NaN,n:it.length};}));
+  h+=card("v7stage",{title:"primary_theme × order_stage",q:"Where in the order journey do problems occur?",n:N,chips:trace("H4","fact_reviews.order_stage","MEDIUM"),
+    draw:W=>heatmap({rows:keys.map(k=>THEMES[k][0]),cols:STAGES.map(lbl),cells,domain:[0,1],fmt:fmtPct,minN:5,maxCell:60,colH:30,aria:"Theme by stage"},W),
+    note:"Row % (share of each theme's items at each stage). Rows with fewer than 5 items are greyed.",table:{head:["Theme",...STAGES],rows:keys.map((k,i)=>[THEMES[k][0],...cells[i].map(c=>fmtPct(c.v))])}});
+  const srcs=[["google_play","Google Play"],["apple_app_store","Apple App Store"],["reddit","Reddit"],["linkedin","LinkedIn"]];
+  h+=card("v7src",{title:"Theme share by source",q:"Is a theme source-specific (e.g. LinkedIn skews to launch PR and industry commentary)?",n:N,span2:true,chips:trace("—","fact_reviews.source","MEDIUM"),
+    draw:W=>`<div class="minis">${srcs.map(([s,l])=>{const it=R7.filter(r=>r.source===s);const rw=keys.map(k=>({label:THEMES[k][0],v:it.length?it.filter(r=>r.primary_theme===k).length/it.length:NaN,n:it.length})).sort((a,b)=>b.v-a.v).slice(0,6);
+      return`<div><div class="mini-h">${l} · n = ${it.length}</div>${it.length<30?`<p class="note">n &lt; 30: not shown</p>`:hbars({rows:rw,max:.5,fmt:fmtPct,rowH:24,aria:l},Math.max(220,Math.floor(W/Math.min(4,Math.floor(W/240)||1))-16))}</div>`;}).join("")}</div>`,
+    table:{head:["Theme",...srcs.map(s=>s[1])],rows:keys.map(k=>[THEMES[k][0],...srcs.map(([s])=>{const it=R7.filter(r=>r.source===s);return it.length?fmtPct(it.filter(r=>r.primary_theme===k).length/it.length):"–";})])}});
+  const mo=MONTHS.map(m=>{const it=R7.filter(r=>r.month===m);const w=wilson(it.filter(r=>r.sentiment==="negative").length,it.length);return{y:w[0],lo:w[1],hi:w[2],n:it.length};});
+  h+=card("v7trend",{title:"Share of negative items by month",q:"Is sentiment getting better or worse, e.g. around the Hyderabad launch?",n:N,chips:trace("H9","fact_reviews.item_date","LOW"),
+    draw:W=>lineCI({x:MONTHS.map((_,i)=>i),series:[{name:"Negative share",color:"var(--mono)",points:mo}],xfmt:i=>MONTHS[i].slice(5)+"/26",fmtY:fmtPct,aria:"Negative trend"},W),
+    note:`Monthly bases: ${mo.map((m,i)=>`${MONTHS[i].slice(5)} n=${m.n}`).join(" · ")}.`,table:{head:["Month","Negative share","n"],num:[1,2],rows:mo.map((m,i)=>[MONTHS[i],fmtPct(m.y),m.n])}});
+  const ints=D.interviews,isegs=SEGS.map(([k,l])=>({l,its:ints.filter(x=>x.seg_occupation===k)}));
+  h+=card("v7int",{title:"Interview theme matrix",q:"Do interviews corroborate the review themes (≥ 3 interviews across ≥ 2 segments for HIGH)?",n:`${ints.length} interviews`,chips:trace("H1–H12","fact_interview_segments","LOW"),
+    draw:W=>heatmap({rows:ITHEMES,cols:isegs.map(s=>`${s.l} (${s.its.length})`),cells:ITHEMES.map((_,i)=>isegs.map(s=>({v:s.its.filter(x=>x.themes[i]).length/s.its.length,n:s.its.length}))),domain:[0,1],fmt:fmtPct,minN:1,maxCell:150,aria:"Interview themes"},W),
+    note:"Share of interviews in the segment that raised the theme. Qualitative, so no suppression rule, but a single interview never supports more than LOW.",
+    table:{head:["Theme",...isegs.map(s=>s.l)],rows:ITHEMES.map((t,i)=>[t,...isegs.map(s=>`${s.its.filter(x=>x.themes[i]).length} of ${s.its.length}`)])}});
+  h+=`<section class="card span2"><div class="card-h"><div><h3>Quote wall: verbatim excerpts, kept separate from interpretation</h3><p class="q">Answers: what does each issue sound like, in users' words?</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("—","fact_reviews.quote_excerpt · fact_interview_segments (layer = USER_QUOTE)","")}</div>
+    <div class="quotes">${top.map(k=>`<div class="quote"><span class="qt">[Insert a verbatim excerpt of ≤ 25 words from a human_verified item coded ${esc(k)}. None shown: this is demo data.]</span><div class="meta"><span class="ntag">${esc(THEMES[k][0])}</span><span class="ntag">source · date · rating</span><span class="ntag">CONSUMER-GENERATED</span></div><div class="qi"><b>Interpretation (analyst, not a quote)</b><br><span class="placeholder">[Written separately after coding]</span></div></div>`).join("")}</div></section>`;
+  return h+"</div>";}
+/* ---------------- VIEW 8: Fake-door experiment (07_fake_door/events_schema.json) ---------------- */
+const VARIANT_COPY = {A:"A · total price (A_total_price)",B:"B · transparent bill (B_transparent_bill)",C:"C · reliable value (C_reliable_value)"};
+function view8(){
+  const V=["A","B","C"];
+  let h=vhead("Fake-door experiment","Does behaviour, not stated intent, favour one value proposition, and is the evidence strong enough to act on or only directional?",naChip(["city","occupation","frequency (segment is known only after the click, via the mini-survey)"]))+`<div class="grid">`;
+  const maxN=Math.max(...V.map(v=>FD[v].n));
+  h+=card("v8fun",{title:"Funnel by variant (unit: anon_visitor_id)",q:"Where does each message lose people?",n:V.map(v=>`${v} n = ${FD[v].n}`).join(" · "),span2:true,chips:trace("H11","agg_fakedoor_variant","LOW"),
+    draw:W=>`<div class="minis">${V.map(v=>{const f=FD[v],st=[["Visitors (page_view)",f.n],["vp_view",f.vp],["cta_click",f.cta],["disclosure_view",f.disc],["secondary_intent",f.sec]];
+      return`<div><div class="mini-h">${esc(VARIANT_COPY[v])}</div>${hbars({rows:st.map(([l,c],i)=>({label:l,v:c,n:f.n,suffix:i?` · ${fmtPct(c/f.n)}`:"",tip:`<b>${esc(VARIANT_COPY[v])} · ${l}</b><br>${c} visitors${i?` · ${fmtPct(c/f.n)}`:""}`})),max:maxN*1.35,min:0,fmt:fmt0,rowH:24,valW:84,aria:"Funnel "+v},Math.max(240,Math.floor(W/Math.min(3,Math.floor(W/260)||1))-16))}</div>`;}).join("")}</div>`,
+    note:"Same layout, CTA and distribution for all arms: only the value-proposition copy changes. The disclosure is shown after the CTA. No payment is collected. is_qa and is_bot_suspect visitors are excluded.",
+    table:{head:["Variant","Visitors","vp_view","cta_click","disclosure_view","secondary_intent","Bounce"],num:[1,2,3,4,5,6],rows:V.map(v=>{const f=FD[v];return[VARIANT_COPY[v],f.n,f.vp,f.cta,f.disc,f.sec,fmtPct(f.bounce/f.n)];})}});
+  const dots=V.flatMap(v=>[{label:`${v} · cta_ctr (primary)`,v:FD[v].ctr[0],lo:FD[v].ctr[1],hi:FD[v].ctr[2],n:FD[v].n,color:"var(--mono)"},{label:`${v} · secondary_rate`,v:FD[v].secr[0],lo:FD[v].secr[1],hi:FD[v].secr[2],n:FD[v].n,color:"var(--mono-2)"}]);
+  h+=card("v8ci",{title:"cta_ctr and secondary_rate with Wilson 95% CIs",q:"Which variant leads, and do the intervals overlap?",n:sum(V.map(v=>FD[v].n)),chips:trace("H11","fakedoor_summary.csv (metric, rate, ci_low, ci_high)","LOW"),
+    legend:legend([["cta_ctr: CTA click / visitors (primary)","var(--mono)"],["secondary_rate: secondary_intent / visitors","var(--mono-2)"]]),
+    draw:W=>ciDots({rows:dots,domain:[0,Math.max(.2,...dots.map(d=>d.hi))],fmt:fmtPct,aria:"Rates with CI"},W),
+    table:{head:["Row","Rate","CI low","CI high","n"],num:[1,2,3,4],rows:dots.map(d=>[d.label,fmtPct(d.v),fmtPct(d.lo),fmtPct(d.hi),d.n])}});
+  const T=FD_TEST,nNeed=Math.ceil(2*T.pp*(1-T.pp)*Math.pow((1.96+0.8416)/Math.max(0.005,T.diff),2));
+  h+=`<section class="card"><div class="card-h"><div><h3>Power and winner rule</h3><p class="q">Answers: can we call a winner, or is this directional evidence?</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("H11","fakedoor_pairwise.csv (Holm-adjusted)","LOW")}</div>
+    <div class="tiles">${kpi("Leading variant (cta_ctr)",esc(T.order[0]),"",T.directional?`<span class="pill sm p-warn">! DIRECTIONAL</span>`:`<span class="pill sm p-good">✓ WINNER</span>`)}
+    ${kpi("Lead over 2nd",`${fmt1(100*T.diff)} pp`,`p = ${fmt2(T.p)}`,"")}${kpi("MDE at 80% power",`${fmt1(100*T.mde)} pp`,`n per arm = ${T.nArm}`,"")}${kpi("n per arm to detect the observed lead",nNeed.toLocaleString("en-IN"),"visitors","")}</div>
+    <p class="note">"Winner" only if p &lt; 0.05 AND the lead exceeds the MDE / pre-registered minimum lift (07_fake_door/analysis_framework.md). Otherwise the leader is directional evidence to triangulate. This result also caps the D5 badge at MEDIUM.</p></section>`;
+  const srcs=["instagram","whatsapp","reddit","linkedin"];
+  h+=`<section class="card"><div class="card-h"><div><h3>utm_source × variant</h3><p class="q">Answers: did distribution differ across arms, which would confound the comparison?</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("H11","fact_fakedoor_events.utm_source","LOW")}</div>
+    <div class="tview"><table><thead><tr><th>utm_source</th>${V.map(v=>`<th class="num">${v} visitors</th><th class="num">${v} cta_ctr</th>`).join("")}</tr></thead><tbody>
+    ${srcs.map(s=>`<tr><td>${esc(s)}</td>${V.map(v=>{const x=D.fd.filter(q=>q.variant_id===v&&q.utm_source===s);return`<td class="num">${x.length}</td><td class="num">${x.length<30?"n<30":fmtPct(x.filter(q=>q.cta_click).length/x.length)}</td>`;}).join("")}</tr>`).join("")}</tbody></table></div>
+    <p class="note">Source mix should be near-identical across arms. Imbalances need a stratified comparison.</p></section>`;
+  h+=card("v8ttc",{title:"Time from load to CTA click, seconds (time_since_load_ms)",q:"Is one message understood faster?",n:sum(V.map(v=>FD[v].cta)),chips:trace("H11","fact_fakedoor_events.time_since_load_ms","LOW"),
+    draw:W=>boxplot({groups:V.map(v=>({label:VARIANT_COPY[v],color:"var(--mono)",values:FD[v].ttc})),fmt:v=>fmt0(v)+"s",aria:"Time to action"},W),
+    table:{head:["Variant","n clicks","Median s"],num:[1,2],rows:V.map(v=>[VARIANT_COPY[v],FD[v].cta,fmt1(median(FD[v].ttc))])}});
+  const hyd=D.resp.filter(r=>r.city==="hyderabad"&&r.bt_t2b!=null),t2b=hyd.filter(r=>r.bt_t2b).length/hyd.length;
+  const sd8=[["Stated T2B vs best cta_ctr",100*t2b,100*FD[T.order[0]].ctr[0]],["Stated T2B vs best secondary_rate (D5c)",100*t2b,100*T.bestSec]].map(([l,a,b])=>({label:l,a,b,right:`÷ ${fmt1(a/b)}`}));
+  h+=card("v8sd",{title:"Say-do gap: stated trial intent vs fake-door behaviour",q:"How inflated is stated intent?",n:`survey HYD n = ${hyd.length} · visitors n = ${D.fd.length}`,span2:true,chips:trace("H11","bt_trial_intent + agg_fakedoor_variant","LOW"),
+    legend:legend([["Stated: bt_trial_intent top-2 (survey)","var(--ink-2)",true],["Behaved: fake-door rate","var(--mono)"]]),
+    draw:W=>dumbbell({rows:sd8,domain:[0,60],fmt:v=>fmt0(v)+"%",colorA:"var(--ink-2)",hollowA:true,colorB:"var(--mono)",nameA:"Stated T2B",nameB:"Fake-door rate",rightW:64,aria:"Say-do gap"},W),
+    note:`Pooled only. A visitor's segment is known only after the click (mini-survey payload.seg_occupation), so segment-level say-do needs segment-specific utm_campaign links. D5c = ${fmt2(T.bestSec/t2b)} on the 0.05 → 0.30 anchor.`,
+    table:{head:["Comparison","Stated %","Behaved %"],num:[1,2],rows:sd8.map(r=>[r.label,fmt0(r.a),fmt0(r.b)])}});
+  return h+"</div>";}
+
+/* ---------------- VIEW 9: Market reality — competitor basket audit (06_competitor_audit/audit_schema.csv) ---------------- */
+function view9(){
+  const P=D.audit.pairs,O=D.audit.obs;
+  let h=vhead("Market reality: competitor basket audit","At checkout in Gachibowli, across slots and drop points, is Ownly actually cheaper, by how much, how consistently, and at what cost in ETA and coverage?",
+    naChip(["occupation","frequency","all survey filters (audit is Hyderabad-only)"])+`<p class="note">${esc(OWNLY_FEE_STATUS)}. The Ownly delivery fee is contested, so the audit records whatever is shown at checkout. Platforms use neutral colours; names carry identity.</p>`)+`<div class="grid">`;
+  const grp={};P.forEach(p=>{const k=p.restaurant_id+" · "+p.basket_id;(grp[k]=grp[k]||[]).push(p);});
+  const db=Object.entries(grp).map(([k,ps])=>({label:`${k} (${ps[0].price_tier})`,a:median(ps.map(p=>p.ownly_total)),b:median(ps.map(p=>p.cheapest_comparator_total)),n:ps.length})).sort((x,y)=>(x.a-x.b)-(y.a-y.b)).slice(0,14)
+    .map(r=>({...r,right:`gap ${r.a-r.b<=0?"−":"+"}${fmtInr(Math.abs(r.a-r.b))}`,tip:`<b>${esc(r.label)}</b><br>Ownly median ${fmtInr(r.a)} · cheapest comparator median ${fmtInr(r.b)}<br>${r.n} match keys`}));
+  const all=db.flatMap(r=>[r.a,r.b]);
+  h+=card("v9db",{title:"final_payable: Ownly vs cheapest comparator, same match_key",q:"Is the price gap real on matched baskets?",n:`${P.length} valid match keys`,span2:true,chips:trace("H2","fact_audit_pairs (gap_rs = Ownly − comparator)","MEDIUM"),
+    legend:legend([["Ownly (filled)","var(--ink)"],["Cheapest comparator: Swiggy or Zomato (ring)","var(--mono)",true]]),
+    draw:W=>dumbbell({rows:db,domain:[Math.floor(Math.min(...all)/100)*100,Math.ceil(Math.max(...all)/100)*100],fmt:fmtInr,colorA:"var(--ink)",colorB:"var(--mono)",hollowB:true,nameA:"Ownly",nameB:"Cheapest comparator",rightW:96,aria:"Audit dumbbell"},W),
+    note:"Negative gap = Ownly cheaper. Showing the 14 restaurant × basket groups where Ownly is cheapest. Medians across match keys. Pairs require valid_for_pairwise (listed, open, match exact/close, ≤ 10 min apart).",
+    table:{head:["Restaurant · basket","Ownly median","Cheapest comparator median","Keys"],num:[1,2,3],rows:db.map(r=>[r.label,fmtInr(r.a),fmtInr(r.b),r.n])}});
+  const comp=[["packaging_fee","#86b6ef"],["platform_fee","#5598e7"],["delivery_fee","#2a78d6"],["small_cart_fee","#1c5cab"],["surge_rain_fee","#184f95"],["taxes_gst","#104281"]];
+  const fs=["ownly","swiggy","zomato"].map(pl=>{const o=O.filter(x=>x.platform===pl&&x.valid_for_pairwise);return{label:lbl(pl)+` (n ${o.length})`,discount:median(o.map(x=>x.discount_amount)),parts:comp.map(([f,c])=>({name:f,v:median(o.map(x=>x[f])),color:c})),sub:median(o.map(x=>x.menu_subtotal)),n:o.length};});
+  h+=card("v9fee",{title:"Median fee stack above menu_subtotal, by platform",q:"Where does the price difference come from: menu, fees or discounts?",n:`${O.filter(x=>x.valid_for_pairwise).length} valid observations`,chips:trace("H1, H2","fact_audit_obs (fee_stack, discount_amount)","MEDIUM"),
+    legend:legend([...comp.map(([n,c])=>[n,c]),["discount_amount (left of zero)","var(--mono-2)"]]),draw:W=>feeStack({rows:fs,aria:"Fee stack"},W),
+    note:`Median menu_subtotal: ${fs.map(f=>`${f.label.split(" (")[0]} ${fmtInr(f.sub)}`).join(" · ")}. Components are ordered as on the bill (ordered blue steps, not brand colours). Final reporting uses the gap decomposition menu_gap_rs + fee_gap_rs + tax_gap − discount_gap.`,
+    table:{head:["Platform","menu_subtotal",...comp.map(c=>c[0]),"discount_amount"],num:[1,2,3,4,5,6,7,8],rows:fs.map(f=>[f.label,fmtInr(f.sub),...f.parts.map(p=>fmtInr(p.v)),fmtInr(f.discount)])}});
+  const gp=P.map(p=>p.gap_rs_vs_cheapest),bsM=bootstrap(gp.length,400,idx=>median(idx.map(i=>gp[i])),41);
+  h+=card("v9hist",{title:"Distribution of gap_rs vs cheapest comparator (₹ per match key)",q:"How big and how variable is the price gap?",n:`${P.length} keys`,chips:trace("H2","fact_audit_pairs.gap_rs_vs_cheapest","MEDIUM"),
+    draw:W=>histogram({values:gp,binW:20,fmt:fmtInr,markers:[{x:0,label:"parity"},{x:median(gp),label:`median ${fmtInr(median(gp))}`}],aria:"Gap histogram"},W),
+    note:`Median ${fmtInr(median(gp))} [bootstrap 95% CI ${fmtInr(quant(bsM,.025))}–${fmtInr(quant(bsM,.975))}; final CI uses cluster_boot_median by restaurant]. Ownly win rate (tie ≤ ₹5) ${fmtPct(AUD.win[0])}. Median saving = ${fmt1(AUD.savingPct)}% of the median basket (D3b).`,
+    table:{head:["Stat","Value"],rows:[["Median gap_rs",fmtInr(median(gp))],["Q1",fmtInr(quant(gp,.25))],["Q3",fmtInr(quant(gp,.75))],["Ownly win rate",fmtPct(AUD.win[0])],["Saving % of basket",fmt1(AUD.savingPct)+"%"]]}});
+  const wc=SLOTS.map(s=>DROPS.map(dp=>{const c=P.filter(p=>p.slot===s&&p.drop_point_id===dp);return{v:c.length?c.filter(p=>p.winner==="ownly").length/c.length:NaN,n:c.length};}));
+  h+=card("v9win",{title:"Ownly win rate by slot × drop_point_id",q:"Is the price advantage consistent across time and place?",n:`${P.length} keys`,chips:trace("H2","fact_audit_pairs.winner","LOW"),
+    draw:W=>heatmap({rows:SLOTS.map(lbl),cols:DROPS,cells:wc,domain:[0,1],fmt:fmtPct,minN:5,maxCell:120,aria:"Win-rate heatmap"},W),note:"Audit cells use a display floor of n ≥ 5 keys, because audit keys are expensive to collect. Every cell below 30 is directional only.",
+    table:{head:["Slot",...DROPS],rows:SLOTS.map((s,i)=>[lbl(s),...wc[i].map(c=>`${fmtPct(c.v)} (n ${c.n})`)])}});
+  h+=card("v9eta",{title:"eta_gap_min: Ownly − cheapest comparator (eta_mid_shown)",q:"What does the price gap cost in time?",n:`${P.length} keys`,chips:trace("H3","fact_audit_pairs.eta_gap_min","LOW"),
+    draw:W=>boxplot({groups:SLOTS.map(s=>({label:lbl(s),color:"var(--mono)",values:P.filter(p=>p.slot===s).map(p=>p.eta_gap_min)})),minN:5,fmt:v=>(v>0?"+":"")+fmt0(v)+" min",aria:"ETA gap"},W),
+    note:`Shown ETAs, not actual times (actual_delivery_min only from test orders). Audit median ETA gap ${fmt1(AUD.etaGap)} min feeds D4a.`,
+    table:{head:["Slot","n","Median gap (min)"],num:[1,2],rows:SLOTS.map(s=>{const v=P.filter(p=>p.slot===s).map(p=>p.eta_gap_min);return[lbl(s),v.length,fmt1(median(v))];})}});
+  const tiers=["budget","mid","premium"];
+  const covRows=pl=>tiers.flatMap(t=>{const fr=D.audit.frame.filter(x=>x.price_tier===t),o=O.filter(x=>x.platform===pl&&x.price_tier===t);
+    const listed=fr.filter(rs=>o.some(x=>x.restaurant_id===rs.restaurant_id&&x.restaurant_listed==="y")).length/fr.length,avail=o.length?o.filter(x=>x.restaurant_open==="y").length/o.length:NaN;
+    return[{label:`${t} · listed (of frame)`,v:listed,n:fr.length},{label:`${t} · listed & open (captures)`,v:avail,n:o.length}];});
+  h+=card("v9cov",{title:"Listing and availability coverage by price_tier",q:"Is assortment a real gap, and where?",n:`frame n = ${D.audit.frame.length} restaurants`,span2:true,chips:trace("H5, H10","fact_audit_obs (restaurant_listed, restaurant_open)","MEDIUM"),
+    draw:W=>`<div class="minis">${["ownly","swiggy","zomato"].map(pl=>`<div><div class="mini-h">${lbl(pl)}</div>${hbars({rows:covRows(pl),max:1,fmt:fmtPct,rowH:24,aria:pl+" coverage"},Math.max(240,Math.floor(W/Math.min(3,Math.floor(W/260)||1))-16))}</div>`).join("")}</div>`,
+    note:`Listing coverage = listed_y / frame_n. Availability = listed AND open at capture. Ownly frame coverage averaged over drop points: ${fmtPct(AUD.coverage)} (D4b). Frame bases per tier are small in the demo.`,
+    table:{head:["Row",...["ownly","swiggy","zomato"].map(lbl)],rows:covRows("ownly").map((r,i)=>[r.label,...["ownly","swiggy","zomato"].map(pl=>fmtPct(covRows(pl)[i].v))])}});
+  h+=`<section class="card span2"><div class="card-h"><div><h3>Offline-verified menu premium</h3><p class="q">Answers: do platforms mark up menu prices vs verified in-restaurant prices?</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("H1.3","fact_audit_obs.offline_subtotal_verified","LOW")}</div>
+    <div class="tiles">${kpi("Rows with offline_subtotal_verified","0",`of ${O.length}`,`<span class="ntag warn">not shown: no verified offline prices</span>`)}</div>
+    <p class="note">An offline price is never inferred. premium_vs_offline_pct is computed only where offline_subtotal_verified is present, with an offline_price_source (dated menu photo or bill).</p></section>`;
+  return h+"</div>";}
+
+/* ---------------- VIEW 10: Recommendation (framework §4 conclusion template, §5 confidence rules) ---------------- */
+function view10(){
+  const S=scopes(),d=decide(S,state.w);
+  const cards=[["Recommendation (SCALE / TARGET SELECTIVELY / ADAPT / RETHINK PROPOSITION)",`Current rule output (demo): ${d.label}${d.provisional?" · PROVISIONAL":""}. The team confirms it jointly after sensitivity checks.`,"H1–H12"],
+    ["Strongest opportunity","Highest-scoring dimension × scope with a HIGH / MEDIUM badge","H1, H2"],["Strongest risk","Gate failure, lowest dimension, or most severe VoC theme","H4, H10"],
+    ["Best initial segment","View 6 tests + scope scores (n ≥ 60)","H6"],["Primary switching trigger","Driver model (4.2) + beh_switch_reason + interviews","H2, H12"],
+    ["Non-negotiable guardrail (ETA ceiling, reliability floor, coverage floor)","D4 inputs + View 5 reliability/assortment tasks + audit ETA/coverage","H3, H4, H10"],
+    ["Expected pricing / value condition (saving ≥ ₹X vs discounted incumbent total at fee ≤ ₹Y)",`Audit gap + WTP curve. ${OWNLY_FEE_STATUS}`,"H2, H8"],
+    ["What Ownly should NOT compete on","Model WTP per attribute + audit","H3, H5"],["Evidence still missing","NOT TESTABLE inputs + dim_hypothesis status not_tested / inconclusive","H9, H11"],
+    ["Next experiment","Primary recommendation whenever the result is PROVISIONAL","H11, H12"],["Weight sensitivity: does the recommendation change?","View 1 sensitivity table (Equal, Behaviour-first, Price-thesis)","—"]];
+  let h=vhead("Recommendation","Who, what job, what positioning, what to fix, what not to fight on, and what to test next, each traced to evidence?");
+  h+=`<div class="deccards">${cards.map(([t,req,hy])=>`<div class="deccard"><h4>${esc(t)}</h4><span class="placeholder">[Answer written by the team after analysis]</span><div class="req"><b>Evidence required:</b> ${esc(req)}</div><div class="meta">${trace(hy,"fact_evidence_matrix","")}<span class="badge b-low">confidence pending</span></div><div class="req"><b>Evidence IDs · contradicting evidence:</b> <span class="placeholder">[list]</span></div></div>`).join("")}</div>`;
+  const types=["Survey","Interview","Reviews/social","Audit","Fake-door"];
+  const demo=[[1,1,1,1,0],[1,1,0,0,1],[1,0,1,0,0],[1,1,2,1,0],[1,0,0,0,0],[0,1,1,0,0]];
+  const mark=v=>v===1?`<span title="supports">■</span>`:v===2?`<span title="contradicts" style="color:var(--crit-text)">✕</span>`:`<span title="absent" style="color:var(--muted)">□</span>`;
+  const conf=r=>{const s=r.filter(v=>v===1).length,quant=r[0]===1||r[3]===1||r[4]===1,c=r.includes(2);return s>=2&&quant&&!c?["HIGH","b-high"]:s>=2?["MEDIUM","b-medium"]:["LOW","b-low"];};
+  h+=`<div class="grid" style="margin-top:14px"><section class="card span2"><div class="card-h"><div><h3>Triangulation strip</h3><p class="q">Answers: how many independent evidence types support each insight, and what contradicts it?</p></div></div>
+    <div class="meta"><span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>${trace("—","11_insights/insight_evidence_matrix_template.csv","")}</div>
+    <div class="tview"><table><thead><tr><th>Insight</th>${types.map(t=>`<th>${t}</th>`).join("")}<th>Confidence</th><th>Business implication</th></tr></thead><tbody>
+    ${demo.map((r,i)=>{const [c,cl]=conf(r);return`<tr><td><b>I-${String(i+1).padStart(2,"0")}</b> <span class="placeholder">[Insight statement written after analysis]</span></td>${r.map(v=>`<td style="text-align:center">${mark(v)}</td>`).join("")}<td><span class="badge ${cl}">${c}</span></td><td class="placeholder">[implication]</td></tr>`;}).join("")}
+    </tbody></table></div><p class="note">■ supports · ✕ contradicts · □ absent. The marks are layout examples only. Confidence follows framework §5: HIGH needs ≥ 2 independent types including ≥ 1 quantitative source meeting its threshold, and no unexplained contradiction (the demo simplifies the interview-count rule). A single interview never exceeds LOW. Reviews/social alone never exceed LOW for prevalence. Price-advantage insights need audit evidence to reach HIGH.</p></section></div>`;
+  return h;}
+/* ---------------- app shell: rail, filters, rendering, events ---------------- */
+const VIEWS=[["Scorecard",view1],["Bengaluru → Hyderabad",view2],["Current behaviour",view3],["Switching engine",view4],["Price × reliability × ETA",view5],["Segments",view6],["Voice of customer",view7],["Fake-door experiment",view8],["Market reality (audit)",view9],["Recommendation",view10]];
+const $main=document.getElementById("main"),$rail=document.getElementById("rail"),$tip=document.getElementById("tip"),$drawer=document.getElementById("drawer");
+function renderFilters(){
+  const ctl=f=>`<div class="fctl"><label for="f_${f.key}">${esc(f.label)}</label><select id="f_${f.key}" data-f="${f.key}">${f.opts.map(([v,l])=>`<option value="${esc(v)}"${state.f[f.key]===v?" selected":""}>${esc(l)}</option>`).join("")}</select></div>`;
+  const moreCount=FILTERS.filter(f=>!f.primary&&state.f[f.key]!=="all").length;
+  document.getElementById("filters").innerHTML=FILTERS.filter(f=>f.primary).map(ctl).join("")+`<button type="button" class="linkbtn" id="moreBtn" aria-expanded="${state.more}" aria-controls="moreFilters">${state.more?"Fewer filters":"More filters"}${moreCount?` (${moreCount} active)`:""}</button><button type="button" class="linkbtn" id="resetBtn">Reset filters</button>`;
+  const mf=document.getElementById("moreFilters");mf.innerHTML=FILTERS.filter(f=>!f.primary).map(ctl).join("");mf.hidden=!state.more;}
+function renderRail(){$rail.innerHTML=VIEWS.map(([name],i)=>`<button type="button" data-view="${i+1}" aria-current="${state.view===i+1}"><span>${i+1}</span><span>${esc(name)}</span></button>`).join("");}
+function drawAll(){document.querySelectorAll(".plot[data-chart]").forEach(p=>{const c=CH[p.dataset.chart];if(!c||!c.draw)return;const W=Math.max(260,Math.floor(p.clientWidth));try{p.innerHTML=c.draw(W);}catch(e){p.innerHTML=`<p class="note">Chart error: ${esc(e.message)}</p>`;console.error(e);}});}
+function render(){
+  const act=document.activeElement&&document.activeElement.id;CH={};
+  try{$main.innerHTML=VIEWS[state.view-1][1]()+`<p class="foot">Evidence rule: every figure traces to a hypothesis ID, a mart table and field, and a base size (click any chip). n &lt; 30 is suppressed, 30–59 is flagged as low base. Titles stay descriptive until a reviewer approves an insight title backed by the pre-registered test. All values on this page are synthetic.</p>`;}
+  catch(e){$main.innerHTML=`<p class="note">View error: ${esc(e.message)}</p>`;console.error(e);}
+  drawAll();renderRail();save();
+  if(act){const el=document.getElementById(act);if(el&&el!==document.activeElement)el.focus();}}
+document.addEventListener("change",e=>{const t=e.target;
+  if(t.dataset&&t.dataset.f){state.f[t.dataset.f]=t.value;renderFilters();render();}
+  else if(t.id==="delta"){state.delta=clamp(+t.value||10,1,30);render();}});
+document.addEventListener("input",e=>{const t=e.target;if(t.id&&t.id.startsWith("w_")){const v=+t.value;if(isFinite(v)&&v>=0&&v<=100){state.w[t.id.slice(2)]=v;render();}}});
+document.addEventListener("click",e=>{
+  const v=e.target.closest("[data-view]");if(v){state.view=+v.dataset.view;render();$main.focus({preventScroll:true});window.scrollTo({top:0});return;}
+  const tg=e.target.closest("[data-toggle]");if(tg){const id=tg.dataset.toggle,tv=document.getElementById("tv-"+id),pl=document.querySelector(`.plot[data-chart="${id}"]`),on=tg.getAttribute("aria-pressed")!=="true";
+    if(on&&CH[id]&&CH[id].table)tv.innerHTML=tableHTML(CH[id].table);tv.hidden=!on;if(pl)pl.hidden=on;tg.setAttribute("aria-pressed",String(on));tg.textContent=on?"Chart":"Table";return;}
+  if(e.target.id==="moreBtn"){state.more=!state.more;renderFilters();return;}
+  if(e.target.id==="resetBtn"){FILTERS.forEach(f=>state.f[f.key]=f.def);renderFilters();render();return;}
+  const tr=e.target.closest(".trace");if(tr){openDrawer(tr.dataset.h,tr.dataset.src,tr.dataset.str);return;}
+  if(e.target.id==="drawerClose"){$drawer.hidden=true;return;}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$drawer.hidden)$drawer.hidden=true;});
+function openDrawer(h,src,str){
+  const ids=(h.match(/H\d+/g)||[]);const range=h.match(/H(\d+)–H(\d+)/);const list=range?Array.from({length:+range[2]-+range[1]+1},(_,i)=>"H"+(+range[1]+i)):ids.length?ids:["—"];
+  $drawer.innerHTML=`<div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><h3>Evidence trace</h3><button type="button" class="linkbtn" id="drawerClose">Close</button></div>
+  <span class="demo-tag">DEMO DATA — REPLACE WITH REAL DATA</span>
+  <dl><dt>Hypothesis</dt><dd>${list.map(x=>`<b>${esc(x)}</b> ${esc(H_TEXT[x]||"")}`).join("<br>")}</dd>
+  <dt>Source table · field</dt><dd style="font-family:var(--mono-font);font-size:12px">${esc(src)}</dd>
+  <dt>Filters in force</dt><dd>${esc(activeFilters().join(" · ")||"none")}</dd>
+  <dt>Evidence strength</dt><dd>${str?`<span class="badge b-${str.toLowerCase()}">${esc(str)}</span> `:""}HIGH = 2+ independent evidence types agree, n ≥ 60 per group, no material contradiction · MEDIUM = one primary source with n ≥ 60, or two agreeing sources with smaller bases · LOW = single source, n &lt; 60, qualitative-only, or contradicted.</dd>
+  <dt>Test and result</dt><dd class="placeholder">Pending real data. Populated from dim_hypothesis.test / result_summary / effect_size / ci.</dd>
+  <dt>Linked insights and contradicting evidence</dt><dd class="placeholder">Populated from fact_evidence_matrix.</dd></dl>`;
+  $drawer.hidden=false;document.getElementById("drawerClose").focus();}
+document.addEventListener("pointermove",e=>{const t=e.target.closest&&e.target.closest("[data-tip]");if(!t){$tip.hidden=true;return;}
+  $tip.innerHTML=t.getAttribute("data-tip");$tip.hidden=false;const r=$tip.getBoundingClientRect();let x=e.clientX+14,y=e.clientY+14;
+  if(x+r.width>innerWidth-8)x=e.clientX-r.width-14;if(y+r.height>innerHeight-8)y=e.clientY-r.height-14;$tip.style.left=Math.max(4,x)+"px";$tip.style.top=Math.max(4,y)+"px";});
+document.addEventListener("pointerleave",()=>{$tip.hidden=true;});
+let rzT=null,lastW=0;new ResizeObserver(en=>{const w=Math.round(en[0].contentRect.width);if(Math.abs(w-lastW)<8)return;lastW=w;clearTimeout(rzT);rzT=setTimeout(drawAll,120);}).observe($main);
+renderFilters();render();
+</script>

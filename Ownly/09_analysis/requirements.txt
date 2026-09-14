@@ -1,0 +1,7 @@
+# Tested 2026-09-14 with Python 3.9 (macOS system python venv)
+pandas==2.3.3
+numpy==2.0.2
+scipy==1.13.1
+statsmodels==0.14.6
+# optional: Firth-penalised logistic for H12.1 if complete separation occurs
+# firthlogist

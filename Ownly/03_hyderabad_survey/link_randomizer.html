@@ -1,0 +1,109 @@
+<!-- Survey link randomiser: static page, host on GitHub Pages / Netlify.
+     Share ONLY this page's URL, never the Google Form URLs directly.
+
+     SETUP (per form copy):
+     1. In each Google Form copy: ⋮ menu → "Get pre-filled link".
+        Type dummy values into the 5 technical fields
+        (meta_form_version, meta_session_token, meta_start_ts, meta_source, meta_campaign),
+        click "Get link" → copy it.
+     2. From that link, copy the form base URL (…/viewform) into FORMS[...].url and the
+        five "entry.NNNNNNN" ids into FORMS[...].entry. Entry ids differ between copies
+        (a copied form gets new ids), so read them from EACH copy.
+     3. Test: open this page with ?utm_source=qa 20 times; confirm every version opens,
+        and that the technical fields arrive pre-filled.
+
+     URL parameters:
+       ?city=blr          → randomise between the 2 Bengaluru copies (default = Hyderabad, 4 copies)
+       ?utm_source=…&utm_campaign=…   → passed into meta_source / meta_campaign
+       ?v=V3              → QA override (forces a version; meta_source is forced to "qa_override")
+-->
+<title>Food delivery research survey</title>
+<meta name="robots" content="noindex">
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;min-height:90vh;align-items:center;justify-content:center;padding:0 16px;background:#fafafa;color:#222}
+  main{max-width:420px;text-align:center}
+  a{color:#0b57d0}
+</style>
+<main>
+  <p>Opening the survey…</p>
+  <p id="fallback" hidden>If nothing happens, <a id="link" href="#">tap here to open it</a>.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+
+  // ---- CONFIGURE: one entry per form copy -------------------------------------------
+  var FORMS = {
+    hyd: [
+      { version: "V1", url: "FORM_URL_V1", entry: { version: "ENTRY_ID_V1_VERSION", token: "ENTRY_ID_V1_TOKEN", start: "ENTRY_ID_V1_START", source: "ENTRY_ID_V1_SOURCE", campaign: "ENTRY_ID_V1_CAMPAIGN" } },
+      { version: "V2", url: "FORM_URL_V2", entry: { version: "ENTRY_ID_V2_VERSION", token: "ENTRY_ID_V2_TOKEN", start: "ENTRY_ID_V2_START", source: "ENTRY_ID_V2_SOURCE", campaign: "ENTRY_ID_V2_CAMPAIGN" } },
+      { version: "V3", url: "FORM_URL_V3", entry: { version: "ENTRY_ID_V3_VERSION", token: "ENTRY_ID_V3_TOKEN", start: "ENTRY_ID_V3_START", source: "ENTRY_ID_V3_SOURCE", campaign: "ENTRY_ID_V3_CAMPAIGN" } },
+      { version: "V4", url: "FORM_URL_V4", entry: { version: "ENTRY_ID_V4_VERSION", token: "ENTRY_ID_V4_TOKEN", start: "ENTRY_ID_V4_START", source: "ENTRY_ID_V4_SOURCE", campaign: "ENTRY_ID_V4_CAMPAIGN" } }
+    ],
+    blr: [
+      { version: "B1", url: "FORM_URL_B1", entry: { version: "ENTRY_ID_B1_VERSION", token: "ENTRY_ID_B1_TOKEN", start: "ENTRY_ID_B1_START", source: "ENTRY_ID_B1_SOURCE", campaign: "ENTRY_ID_B1_CAMPAIGN" } },
+      { version: "B2", url: "FORM_URL_B2", entry: { version: "ENTRY_ID_B2_VERSION", token: "ENTRY_ID_B2_TOKEN", start: "ENTRY_ID_B2_START", source: "ENTRY_ID_B2_SOURCE", campaign: "ENTRY_ID_B2_CAMPAIGN" } }
+    ]
+  };
+  // -----------------------------------------------------------------------------------
+
+  var params = new URLSearchParams(window.location.search);
+  var city = params.get("city") === "blr" ? "blr" : "hyd";
+  var pool = FORMS[city];
+
+  // Unbiased uniform integer in [0, n) using rejection sampling on crypto random bytes.
+  function randomIndex(n) {
+    var buf = new Uint32Array(1);
+    var limit = Math.floor(0x100000000 / n) * n;
+    do { window.crypto.getRandomValues(buf); } while (buf[0] >= limit);
+    return buf[0] % n;
+  }
+
+  function uuid() {
+    if (window.crypto.randomUUID) return window.crypto.randomUUID();
+    var b = new Uint8Array(16);
+    window.crypto.getRandomValues(b);
+    b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+    var h = Array.prototype.map.call(b, function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
+    return h.slice(0, 8) + "-" + h.slice(8, 12) + "-" + h.slice(12, 16) + "-" + h.slice(16, 20) + "-" + h.slice(20);
+  }
+
+  function clean(s, fallback) {
+    // Keep UTM values short and safe; no free-text PII expected here.
+    if (!s) return fallback;
+    return s.replace(/[^A-Za-z0-9_\-.]/g, "").slice(0, 60) || fallback;
+  }
+
+  var forced = params.get("v");
+  var chosen = null;
+  if (forced) {
+    chosen = pool.filter(function (f) { return f.version === forced; })[0] || null;
+  }
+  if (!chosen) chosen = pool[randomIndex(pool.length)];
+
+  var source = forced ? "qa_override" : clean(params.get("utm_source"), "direct");
+  var campaign = clean(params.get("utm_campaign"), "none");
+
+  var q = new URLSearchParams();
+  q.set("usp", "pp_url");
+  q.set(chosen.entry.version, chosen.version);
+  q.set(chosen.entry.token, uuid());
+  q.set(chosen.entry.start, String(Date.now()));
+  q.set(chosen.entry.source, source);
+  q.set(chosen.entry.campaign, campaign);
+
+  var target = chosen.url + "?" + q.toString();
+
+  if (chosen.url.indexOf("FORM_URL_") === 0) {
+    // Not configured yet: show the would-be target for QA instead of redirecting.
+    document.querySelector("main").innerHTML =
+      "<p><strong>Randomiser not configured.</strong></p><p>Would open version " + chosen.version +
+      " (" + city + ").</p><p style='word-break:break-all;font-size:12px'>" + target.replace(/</g, "&lt;") + "</p>";
+    return;
+  }
+
+  document.getElementById("link").href = target;
+  window.location.replace(target);
+  setTimeout(function () { document.getElementById("fallback").hidden = false; }, 1500);
+})();
+</script>

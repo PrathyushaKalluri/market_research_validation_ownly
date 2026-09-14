@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Fair Checkout Concept Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ---------- Tokens: light (default) ---------- */
+:root {
+  --ground: #F3F5F0;
+  --paper: #FFFFFF;
+  --ink: #17201B;
+  --muted: #5B675F;
+  --line: #D4DBD2;
+  --accent: #1E6A49;
+  --accent-hover: #175A3D;
+  --accent-ink: #FFFFFF;
+  --highlight: #F4C24A;
+  --highlight-ink: #2A2106;
+  --soft: #E6ECE4;
+  --danger: #A8352A;
+  --review-bg: #17201B;
+  --review-ink: #F3F5F0;
+  --shadow: 0 1px 0 rgba(23, 32, 27, .06), 0 10px 30px -18px rgba(23, 32, 27, .35);
+  --font-display: "Bricolage Grotesque", "Hanken Grotesk", system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0F1411;
+    --paper: #182019;
+    --ink: #E6EBE4;
+    --muted: #9BA79F;
+    --line: #2B362F;
+    --accent: #62C392;
+    --accent-hover: #7AD2A5;
+    --accent-ink: #08130D;
+    --highlight: #E8B63C;
+    --highlight-ink: #1E1703;
+    --soft: #1E2821;
+    --danger: #E58577;
+    --review-bg: #E6EBE4;
+    --review-ink: #0F1411;
+    --shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 12px 30px -16px rgba(0, 0, 0, .7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0F1411;
+  --paper: #182019;
+  --ink: #E6EBE4;
+  --muted: #9BA79F;
+  --line: #2B362F;
+  --accent: #62C392;
+  --accent-hover: #7AD2A5;
+  --accent-ink: #08130D;
+  --highlight: #E8B63C;
+  --highlight-ink: #1E1703;
+  --soft: #1E2821;
+  --danger: #E58577;
+  --review-bg: #E6EBE4;
+  --review-ink: #0F1411;
+  --shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 12px 30px -16px rgba(0, 0, 0, .7);
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: 16px;
+  padding-block: 0 32px;
+}
+[hidden] { display: none !important; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.08; }
+p { margin: 0; }
+a { color: var(--accent); }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--highlight); outline-offset: 2px; border-radius: 6px; }
+
+.wrap { max-width: 460px; margin-inline: auto; display: flex; flex-direction: column; gap: 28px; }
+
+/* ---------- Review bar (only when ENDPOINT is empty) ---------- */
+.review {
+  position: sticky; top: 0; z-index: 5;
+  margin-inline: -16px;
+  background: var(--review-bg); color: var(--review-ink);
+  font-size: 13px;
+  padding-block: 8px; padding-inline: 16px;
+}
+.review-inner { max-width: 460px; margin-inline: auto; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.review-label { font-family: var(--font-mono); letter-spacing: .02em; }
+.review-switch { display: flex; gap: 4px; }
+.review-switch button {
+  border: 1px solid currentColor; background: transparent; color: inherit;
+  border-radius: 999px; padding: 2px 12px; cursor: pointer; font-family: var(--font-mono); font-size: 12px;
+}
+.review-switch button[aria-pressed="true"] { background: var(--review-ink); color: var(--review-bg); }
+
+/* ---------- Top strip ---------- */
+.strip {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding-block: 18px 0;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+.strip .tag { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; letter-spacing: .06em; white-space: nowrap; }
+
+/* ---------- Hero ---------- */
+.hero { display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.hero h1 { font-size: clamp(34px, 9vw, 44px); font-weight: 700; letter-spacing: -.02em; }
+.hero .sub { font-size: 17px; color: var(--muted); max-width: 40ch; }
+
+.cta {
+  display: inline-flex; justify-content: center; align-items: center; gap: 10px;
+  width: 100%; min-height: 54px; padding-inline: 20px;
+  border: 0; border-radius: 14px;
+  background: var(--accent); color: var(--accent-ink);
+  font-weight: 600; font-size: 17px; cursor: pointer;
+  transition: background-color .15s ease, transform .15s ease;
+}
+.cta:hover { background: var(--accent-hover); }
+.cta:active { transform: translateY(1px); }
+.cta svg { width: 18px; height: 18px; flex: none; }
+
+/* ---------- Receipt ---------- */
+.receipt {
+  position: relative;
+  background: var(--paper);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  padding-inline: 18px; padding-block: 22px 18px;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+}
+.receipt::before, .receipt::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 10px;
+  background: radial-gradient(circle at 6px 0, var(--ground) 5px, transparent 5.5px) repeat-x;
+  background-size: 12px 10px;
+}
+.receipt::before { top: 0; }
+.receipt::after { bottom: 0; transform: scaleY(-1); }
+.receipt-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; margin-block-end: 10px; }
+.receipt-head h2 { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.receipt-head span { font-size: 11px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+.bill { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.bill th, .bill td { padding-block: 5px; text-align: right; font-weight: 400; }
+.bill th:first-child, .bill td:first-child { text-align: left; }
+.bill thead th { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border-bottom: 1px dashed var(--line); padding-block-end: 8px; }
+.bill td.dim { color: var(--muted); }
+.bill tbody tr + tr td { border-top: 1px dotted var(--line); }
+.bill tfoot td { border-top: 1.5px solid var(--ink); padding-block-start: 9px; font-weight: 600; font-size: 15px; }
+.diff { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-block-start: 12px; }
+.stamp {
+  background: var(--highlight); color: var(--highlight-ink);
+  padding: 3px 10px; border-radius: 3px; font-weight: 600; transform: rotate(-1.5deg);
+}
+.note { font-family: var(--font-body); font-size: 12px; color: var(--muted); margin-block-start: 12px; }
+
+/* ---------- Points ---------- */
+.points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.points li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; }
+.points .mark { width: 22px; height: 22px; border-radius: 6px; background: var(--soft); display: grid; place-items: center; margin-block-start: 1px; }
+.points .mark svg { width: 13px; height: 13px; stroke: var(--accent); }
+.points strong { display: block; font-weight: 600; }
+.points span { color: var(--muted); font-size: 15px; }
+
+/* ---------- Footer ---------- */
+footer { border-top: 1px solid var(--line); padding-block-start: 18px; font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 10px; }
+details summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+details ul { margin: 8px 0 0; padding-inline-start: 18px; display: flex; flex-direction: column; gap: 4px; }
+
+/* ---------- Flow (after CTA) ---------- */
+.panel { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.disclosure { border-color: var(--accent); }
+.disclosure .badge { align-self: flex-start; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; background: var(--soft); color: var(--accent); padding: 3px 10px; border-radius: 999px; }
+.panel h2 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
+.panel h3 { font-size: 19px; font-weight: 600; }
+.panel p { color: var(--muted); }
+.optional { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 14px; font-weight: 500; }
+.money { display: flex; align-items: center; border: 1.5px solid var(--line); border-radius: 10px; background: var(--ground); padding-inline: 12px; }
+.money:focus-within { border-color: var(--accent); }
+.money span { font-family: var(--font-mono); color: var(--muted); }
+.money input { border: 0; background: transparent; width: 100%; min-width: 0; padding-block: 11px; padding-inline: 6px 0; font-family: var(--font-mono); font-size: 17px; font-variant-numeric: tabular-nums; outline: none; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn-secondary { border: 1.5px solid var(--line); background: transparent; border-radius: 12px; min-height: 48px; padding-inline: 18px; cursor: pointer; font-weight: 600; }
+.btn-secondary:hover { border-color: var(--ink); }
+.linklike { border: 0; background: none; color: var(--muted); text-decoration: underline; cursor: pointer; padding: 8px 4px; }
+.row .cta { width: auto; flex: 1 1 180px; }
+.error { color: var(--danger); font-size: 14px; }
+.result { font-family: var(--font-mono); background: var(--soft); border-radius: 10px; padding: 12px 14px; color: var(--ink); font-variant-numeric: tabular-nums; }
+fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+legend { font-weight: 600; margin-block-end: 8px; padding: 0; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.choice label { display: inline-block; border: 1.5px solid var(--line); border-radius: 999px; padding: 7px 14px; font-size: 14px; cursor: pointer; background: var(--ground); }
+.choice input:checked + label { border-color: var(--accent); background: var(--soft); color: var(--ink); font-weight: 600; }
+.choice input:focus-visible + label { outline: 3px solid var(--highlight); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+  .stamp { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="review" id="review-bar" hidden>
+  <div class="review-inner">
+    <span class="review-label">Review preview · console logging only</span>
+    <div class="review-switch" role="group" aria-label="Show variant">
+      <button type="button" id="rv-A" data-variant="A" aria-pressed="false">A · Total</button>
+      <button type="button" id="rv-B" data-variant="B" aria-pressed="false">B · Clear bill</button>
+      <button type="button" id="rv-C" data-variant="C" aria-pressed="false">C · Arrives</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="strip">
+    <span>Food-delivery concept</span>
+    <span class="tag">Research study</span>
+  </div>
+
+  <!-- ================= LANDING (variant copy is injected; everything else is constant) ================= -->
+  <main id="landing" class="wrap" style="gap:28px">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">Food delivery around Gachibowli</p>
+      <h1 id="hero-title">Same dinner. Smaller final bill.</h1>
+      <p class="sub" id="hero-sub">A delivery idea built around what you pay at the end: menu prices close to the restaurant's own, and one flat delivery fee.</p>
+      <button type="button" class="cta" id="cta-hero" data-cta-position="hero">
+        See how this would work
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+      </button>
+    </section>
+
+    <section class="receipt" aria-labelledby="receipt-title">
+      <div class="receipt-head">
+        <h2 id="receipt-title">Checkout, side by side</h2>
+        <span>Illustrative example</span>
+      </div>
+      <table class="bill">
+        <thead>
+          <tr><th scope="col">Line</th><th scope="col">Typical app</th><th scope="col">This idea</th></tr>
+        </thead>
+        <!-- ILLUSTRATIVE numbers, calibrated to national fee anchors in 01_secondary_research/market_price_anchors.md §2
+             (platform fee ~₹17.58 incl. GST; 5% GST on food+packaging; 18% GST on delivery).
+             REPLACE with Gachibowli competitor-audit medians (06_competitor_audit) before launch; bump PAGE_VERSION. -->
+        <tbody>
+          <tr><td>Food items</td><td>₹250</td><td>₹235</td></tr>
+          <tr><td>Packaging</td><td>₹25</td><td>₹25</td></tr>
+          <tr><td>Platform fee</td><td>₹18</td><td class="dim">—</td></tr>
+          <tr><td>Delivery</td><td>₹35</td><td>₹30 flat</td></tr>
+          <tr><td>Taxes</td><td>₹20</td><td>₹18</td></tr>
+          <tr><td>Discount</td><td>−₹15</td><td class="dim">—</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>You pay</td><td>₹333</td><td>₹308</td></tr>
+        </tfoot>
+      </table>
+      <div class="diff">
+        <span>Difference in this example</span>
+        <span class="stamp">₹25</span>
+      </div>
+      <p class="note">Illustrative example only. Not a real bill from any app or restaurant, and not a promise of savings on your order.</p>
+    </section>
+
+    <ul class="points" id="points" aria-label="What this idea does">
+      <li><span class="mark"><svg viewBox="0 0 14 14" fill="none" stroke-width="2.2" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7"/></svg></span><div><strong id="p1-t"></strong><span id="p1-d"></span></div></li>
+      <li><span class="mark"><svg viewBox="0 0 14 14" fill="none" stroke-width="2.2" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7"/></svg></span><div><strong id="p2-t"></strong><span id="p2-d"></span></div></li>
+      <li><span class="mark"><svg viewBox="0 0 14 14" fill="none" stroke-width="2.2" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7"/></svg></span><div><strong id="p3-t"></strong><span id="p3-d"></span></div></li>
+    </ul>
+
+    <button type="button" class="cta" id="cta-bottom" data-cta-position="bottom">
+      See how this would work
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg>
+    </button>
+  </main>
+
+  <!-- ================= FLOW (identical for all variants) ================= -->
+  <section id="flow" class="wrap" style="gap:18px" hidden>
+
+    <!-- Step 1: immediate disclosure + optional higher-intent action -->
+    <div id="step-bill" class="wrap" style="gap:18px">
+      <div class="panel disclosure" role="status">
+        <span class="badge">Research prototype</span>
+        <h2 id="disclosure-title" tabindex="-1">No app, no order, no payment.</h2>
+        <p>We're a university student team studying how people around Gachibowli choose food delivery. This page is one of the ideas we're testing, and your tap is the signal we measure. Nothing was ordered and nothing will be charged.</p>
+      </div>
+
+      <form class="panel" id="bill-form" novalidate>
+        <span class="optional">Optional</span>
+        <h3>Check your own last bill</h3>
+        <p>Open your most recent food-delivery order and type two numbers. We'll show how far the final bill moved from the food price.</p>
+        <div class="fields">
+          <div class="field">
+            <label for="bill-food">Food items total</label>
+            <div class="money"><span>₹</span><input id="bill-food" name="bill-food" type="number" inputmode="numeric" min="50" max="5000" step="1" placeholder="e.g. 240"></div>
+          </div>
+          <div class="field">
+            <label for="bill-final">Final amount you paid</label>
+            <div class="money"><span>₹</span><input id="bill-final" name="bill-final" type="number" inputmode="numeric" min="50" max="5000" step="1" placeholder="e.g. 310"></div>
+          </div>
+        </div>
+        <p class="error" id="bill-error" role="alert" hidden></p>
+        <p class="result" id="bill-result" aria-live="polite" hidden></p>
+        <div class="row">
+          <button type="submit" class="cta" id="bill-submit">Compare my bill</button>
+          <button type="button" class="linklike" id="bill-skip">Skip this</button>
+        </div>
+        <button type="button" class="btn-secondary" id="bill-continue" hidden>Continue</button>
+        <p class="note">Only these two numbers are recorded, with no name, phone, email or location.</p>
+      </form>
+    </div>
+
+    <!-- Step 2: optional mini-survey -->
+    <form class="panel" id="mini-form" hidden novalidate>
+      <span class="optional">Optional · 3 questions</span>
+      <h3 id="mini-title" tabindex="-1">Help us read the results</h3>
+
+      <fieldset>
+        <legend>Which describes you best?</legend>
+        <div class="choices">
+          <span class="choice"><input type="radio" id="occ-student" name="seg_occupation" value="student"><label for="occ-student">Student</label></span>
+          <span class="choice"><input type="radio" id="occ-pro" name="seg_occupation" value="working_professional"><label for="occ-pro">Working professional</label></span>
+          <span class="choice"><input type="radio" id="occ-both" name="seg_occupation" value="working_student"><label for="occ-both">Working and studying</label></span>
+          <span class="choice"><input type="radio" id="occ-other" name="seg_occupation" value="other"><label for="occ-other">Other</label></span>
+          <span class="choice"><input type="radio" id="occ-na" name="seg_occupation" value="prefer_not"><label for="occ-na">Prefer not to say</label></span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Where do you usually order food to?</legend>
+        <div class="choices">
+          <span class="choice"><input type="radio" id="loc-gachi" name="locality" value="gachibowli"><label for="loc-gachi">Gachibowli</label></span>
+          <span class="choice"><input type="radio" id="loc-fd" name="locality" value="financial_district_nanakramguda"><label for="loc-fd">Financial District / Nanakramguda</label></span>
+          <span class="choice"><input type="radio" id="loc-hitec" name="locality" value="hitec_city_madhapur"><label for="loc-hitec">HITEC City / Madhapur</label></span>
+          <span class="choice"><input type="radio" id="loc-kond" name="locality" value="kondapur"><label for="loc-kond">Kondapur</label></span>
+          <span class="choice"><input type="radio" id="loc-mani" name="locality" value="manikonda_narsingi"><label for="loc-mani">Manikonda / Narsingi</label></span>
+          <span class="choice"><input type="radio" id="loc-hyd" name="locality" value="other_hyderabad"><label for="loc-hyd">Elsewhere in Hyderabad</label></span>
+          <span class="choice"><input type="radio" id="loc-out" name="locality" value="outside_hyderabad"><label for="loc-out">Outside Hyderabad</label></span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Food-delivery orders you placed in the last 4 weeks</legend>
+        <div class="choices">
+          <span class="choice"><input type="radio" id="ord-0" name="orders_4wk" value="0"><label for="ord-0">None</label></span>
+          <span class="choice"><input type="radio" id="ord-13" name="orders_4wk" value="1_3"><label for="ord-13">1–3</label></span>
+          <span class="choice"><input type="radio" id="ord-47" name="orders_4wk" value="4_7"><label for="ord-47">4–7</label></span>
+          <span class="choice"><input type="radio" id="ord-8" name="orders_4wk" value="8_plus"><label for="ord-8">8 or more</label></span>
+          <span class="choice"><input type="radio" id="ord-ns" name="orders_4wk" value="not_sure"><label for="ord-ns">Not sure</label></span>
+        </div>
+      </fieldset>
+
+      <div class="row">
+        <button type="submit" class="cta" id="mini-submit">Send answers</button>
+        <button type="button" class="linklike" id="mini-skip">Skip</button>
+      </div>
+    </form>
+
+    <!-- Step 3: thank you -->
+    <div class="panel" id="thanks" hidden>
+      <h2 id="thanks-title" tabindex="-1">Thank you. That's everything.</h2>
+      <p id="survey-copy" hidden>If you have about 10 minutes, our main survey on food delivery in Hyderabad helps the study even more.</p>
+      <button type="button" class="cta" id="survey-link" hidden>Take the 10-minute survey</button>
+      <p>You can close this page now.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Independent university research prototype by a student team studying food delivery in Hyderabad. Not affiliated with any food-delivery company or restaurant. There is no app, no ordering and no payment on this page.</p>
+    <details id="privacy">
+      <summary>What this page records</summary>
+      <ul>
+        <li>Anonymous interaction events: page opened, scrolled, buttons tapped, and how long before a tap.</li>
+        <li>A random ID stored in your browser so repeat visits aren't double-counted. No cookies from ad networks, no fingerprinting.</li>
+        <li>The campaign tag in the link you opened (for example, which group shared it) and the referring website's domain.</li>
+        <li>Only if you choose to answer: two bill amounts and three multiple-choice answers.</li>
+        <li>Never recorded: your name, phone number, email, exact location or IP address.</li>
+        <li>Data is used only for this university project, reported in aggregate, and deleted after the project ends.</li>
+      </ul>
+    </details>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ================= CONFIG ================= */
+  var CONFIG = {
+    EXPERIMENT_ID: "hyd_vp_fakedoor_v1",
+    PAGE_VERSION: "2026-09-14.1",
+    // Google Apps Script web-app URL. EMPTY = review mode: console logging only,
+    // variant switcher visible, every event flagged is_qa = true.
+    ENDPOINT: "",
+    // Link to the main Hyderabad survey (Google Form). Empty hides the survey button.
+    SURVEY_URL: "",
+    VARIANTS: ["A", "B", "C"]
+  };
+  var REVIEW_MODE = !CONFIG.ENDPOINT;
+
+  /* ================= VARIANT COPY (the only thing that changes) ================= */
+  var COPY = {
+    A: {
+      key: "A_total_price",
+      h1: "Same dinner. Smaller final bill.",
+      sub: "A delivery idea built around what you pay at the end: menu prices close to the restaurant's own, and one flat delivery fee.",
+      points: [
+        ["Judge the order by its total", "Compare what actually leaves your account, not the discount banner."],
+        ["Menu prices close to the restaurant's", "Restaurants list their own prices instead of raising them for the app."],
+        ["One flat delivery fee", "The same fee for a small snack or a big dinner."]
+      ]
+    },
+    B: {
+      key: "B_transparent_bill",
+      h1: "See the real price. Pay that price.",
+      sub: "A delivery idea with no surprise lines at checkout: the food price and one flat delivery fee, shown before you add anything to your cart.",
+      points: [
+        ["Every charge up front", "The delivery fee is shown on the menu screen, not revealed at the last step."],
+        ["No extra fee lines", "No separate platform fee or small-cart fee added at checkout."],
+        ["A bill you can check in five seconds", "Food, delivery, taxes. That's the whole list."]
+      ]
+    },
+    C: {
+      key: "C_reliable_value",
+      h1: "A fair price only counts if dinner arrives.",
+      sub: "A delivery idea that pairs visible, low-fee pricing with honest delivery times and a clear answer when an order goes wrong.",
+      points: [
+        ["Honest delivery times", "The time shown is the time the order is planned around, not the most hopeful guess."],
+        ["Fair, visible pricing", "The food price and one flat delivery fee, shown before checkout."],
+        ["Clear help when something goes wrong", "Missing or very late orders get a named next step, not a long chat."]
+      ]
+    }
+  };
+
+  /* ================= Helpers ================= */
+  function safeGet(store, k) { try { return window[store].getItem(k); } catch (e) { return null; } }
+  function safeSet(store, k, v) { try { window[store].setItem(k, v); } catch (e) { /* storage blocked: continue without persistence */ } }
+  function uuid() {
+    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+    var b = new Uint8Array(16);
+    try { crypto.getRandomValues(b); } catch (e) { for (var i = 0; i < 16; i++) b[i] = Math.floor(Math.random() * 256); }
+    b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+    var h = Array.prototype.map.call(b, function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
+    return h.slice(0, 8) + "-" + h.slice(8, 12) + "-" + h.slice(12, 16) + "-" + h.slice(16, 20) + "-" + h.slice(20);
+  }
+  function randomIndex(n) {
+    try { var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; } catch (e) { return Math.floor(Math.random() * n); }
+  }
+  var $ = function (id) { return document.getElementById(id); };
+
+  var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
+  function sinceLoad() { var now = (window.performance && performance.now) ? performance.now() : Date.now(); return Math.round(now - t0); }
+
+  var params;
+  try { params = new URLSearchParams(window.location.search); } catch (e) { params = { get: function () { return null; }, has: function () { return false; } }; }
+
+  /* ================= Identity, assignment, context ================= */
+  var LS_VARIANT = "fd_variant_" + CONFIG.EXPERIMENT_ID;
+  var visitorId = safeGet("localStorage", "fd_visitor_id");
+  if (!visitorId) { visitorId = uuid(); safeSet("localStorage", "fd_visitor_id", visitorId); }
+  var sessionId = safeGet("sessionStorage", "fd_session_id");
+  if (!sessionId) { sessionId = uuid(); safeSet("sessionStorage", "fd_session_id", sessionId); }
+
+  var override = (params.get("v") || "").toUpperCase();
+  var isQA = REVIEW_MODE || params.has("qa") || CONFIG.VARIANTS.indexOf(override) !== -1;
+  var variant;
+  if (CONFIG.VARIANTS.indexOf(override) !== -1) {
+    variant = override; // QA override: never stored, always flagged is_qa
+  } else {
+    var stored = safeGet("localStorage", LS_VARIANT);
+    if (CONFIG.VARIANTS.indexOf(stored) !== -1) { variant = stored; }
+    else { variant = CONFIG.VARIANTS[randomIndex(CONFIG.VARIANTS.length)]; safeSet("localStorage", LS_VARIANT, variant); }
+  }
+
+  function firstTouch(name) {
+    var k = "fd_" + name, v = params.get(name);
+    if (v) { v = v.slice(0, 80); safeSet("sessionStorage", k, v); return v; }
+    return safeGet("sessionStorage", k) || "";
+  }
+  var utm = {
+    utm_source: firstTouch("utm_source"),
+    utm_medium: firstTouch("utm_medium"),
+    utm_campaign: firstTouch("utm_campaign"),
+    utm_content: firstTouch("utm_content")
+  };
+  var referrerDomain = "";
+  try { referrerDomain = document.referrer ? new URL(document.referrer).hostname : ""; } catch (e) {}
+  var ua = (navigator.userAgent || "");
+  var deviceType = /iPad|Tablet/i.test(ua) ? "tablet" : /Mobi|Android|iPhone/i.test(ua) ? "mobile" : "desktop";
+  var botSuspect = !!navigator.webdriver || /bot|crawl|spider|slurp|headless|preview|facebookexternalhit|lighthouse/i.test(ua);
+
+  /* ================= Event logging ================= */
+  var sent = {};
+  function track(name, payload, opts) {
+    opts = opts || {};
+    if (opts.once && sent[name]) return;
+    sent[name] = true;
+    var ev = {
+      experiment_id: CONFIG.EXPERIMENT_ID,
+      page_version: CONFIG.PAGE_VERSION,
+      variant_id: variant,
+      variant_key: COPY[variant].key,
+      anon_visitor_id: visitorId,
+      anon_session_id: sessionId,
+      event_name: name,
+      ts: new Date().toISOString(),
+      time_since_load_ms: sinceLoad(),
+      utm_source: utm.utm_source,
+      utm_medium: utm.utm_medium,
+      utm_campaign: utm.utm_campaign,
+      utm_content: utm.utm_content,
+      referrer_domain: referrerDomain,
+      device_type: deviceType,
+      is_qa: isQA,
+      is_bot_suspect: botSuspect,
+      payload: payload || {}
+    };
+    try { console.log("[fakedoor]", name, ev); } catch (e) {}
+    if (REVIEW_MODE) return;
+    var body = JSON.stringify(ev);
+    try {
+      if (opts.beacon && navigator.sendBeacon) {
+        navigator.sendBeacon(CONFIG.ENDPOINT, new Blob([body], { type: "text/plain;charset=utf-8" }));
+      } else {
+        fetch(CONFIG.ENDPOINT, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body: body });
+      }
+    } catch (e) { /* network failure: event lost, analysis treats missing as not-occurred */ }
+  }
+
+  /* ================= Render variant ================= */
+  function render(v) {
+    var c = COPY[v];
+    $("hero-title").textContent = c.h1;
+    $("hero-sub").textContent = c.sub;
+    for (var i = 0; i < 3; i++) {
+      $("p" + (i + 1) + "-t").textContent = c.points[i][0];
+      $("p" + (i + 1) + "-d").textContent = c.points[i][1];
+    }
+    document.documentElement.setAttribute("data-variant", v);
+    CONFIG.VARIANTS.forEach(function (x) { var b = $("rv-" + x); if (b) b.setAttribute("aria-pressed", String(x === v)); });
+  }
+  render(variant);
+
+  if (REVIEW_MODE) {
+    $("review-bar").hidden = false;
+    CONFIG.VARIANTS.forEach(function (x) {
+      $("rv-" + x).addEventListener("click", function () {
+        variant = x; render(x); resetFlow();
+        try { window.scrollTo(0, 0); } catch (e) {}
+        sent = {}; track("page_view", { review_switch: true });
+      });
+    });
+  }
+
+  track("page_view", { viewport_w: window.innerWidth || 0 });
+
+  /* ================= Value-proposition view + scroll ================= */
+  var maxScroll = 0, vpTimer = null;
+  function vpView(trigger) { track("vp_view", { trigger: trigger }, { once: true }); }
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && en.intersectionRatio >= 0.6) {
+          if (!vpTimer) vpTimer = setTimeout(function () { if (!document.hidden) vpView("hero_visible_3s"); }, 3000);
+        } else if (vpTimer) { clearTimeout(vpTimer); vpTimer = null; }
+      });
+    }, { threshold: [0, 0.6, 1] });
+    io.observe($("hero"));
+  }
+  window.addEventListener("scroll", function () {
+    var doc = document.documentElement;
+    var pct = Math.min(100, Math.round(((window.scrollY || doc.scrollTop) + window.innerHeight) / Math.max(1, doc.scrollHeight) * 100));
+    if (pct > maxScroll) maxScroll = pct;
+    if (pct >= 50 && !$("landing").hidden) { track("scroll_50", { pct: pct }, { once: true }); vpView("scroll_50"); }
+  }, { passive: true });
+
+  /* ================= CTA → disclosure ================= */
+  var furthestStep = "landing";
+  function showFlow(position) {
+    track("cta_click", { cta_position: position });
+    vpView("cta_click");
+    $("landing").hidden = true;
+    $("flow").hidden = false;
+    furthestStep = "disclosure";
+    try { window.scrollTo(0, 0); } catch (e) {}
+    $("disclosure-title").focus({ preventScroll: true });
+    track("disclosure_view", { from: position }, { once: true });
+  }
+  $("cta-hero").addEventListener("click", function () { showFlow("hero"); });
+  $("cta-bottom").addEventListener("click", function () { showFlow("bottom"); });
+
+  /* ================= Higher-intent action: bill comparison ================= */
+  function inr(n) { return "₹" + Math.abs(n).toLocaleString("en-IN"); }
+  $("bill-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var food = Number($("bill-food").value), fin = Number($("bill-final").value);
+    var err = $("bill-error");
+    if (!$("bill-food").value || !$("bill-final").value) { err.textContent = "Enter both amounts, in rupees, from the same order."; err.hidden = false; return; }
+    if (!(food >= 50 && food <= 5000 && fin >= 50 && fin <= 5000)) { err.textContent = "Use amounts between ₹50 and ₹5,000, the range this check is built for."; err.hidden = false; return; }
+    err.hidden = true;
+    food = Math.round(food); fin = Math.round(fin);
+    var gap = fin - food, pct = Math.round(gap / food * 100);
+    var res = $("bill-result");
+    res.textContent = gap > 0
+      ? "Your final bill was " + inr(gap) + " more than the food itself, " + pct + "% on top."
+      : gap < 0
+        ? "Your final bill was " + inr(gap) + " less than the food price. Discounts outweighed the fees."
+        : "Your final bill matched the food price exactly.";
+    res.hidden = false;
+    $("bill-continue").hidden = false;
+    $("bill-submit").textContent = "Compare again";
+    furthestStep = "secondary_intent";
+    track("secondary_intent", { action: "bill_compare", bill_food: food, bill_final: fin, bill_gap_inr: gap, bill_gap_pct: pct });
+  });
+  function toMini(from) {
+    $("step-bill").hidden = true;
+    $("mini-form").hidden = false;
+    if (furthestStep === "disclosure") furthestStep = "mini_survey";
+    try { window.scrollTo(0, 0); } catch (e) {}
+    $("mini-title").focus({ preventScroll: true });
+  }
+  $("bill-skip").addEventListener("click", function () { track("secondary_skip", {}, { once: true }); toMini("skip"); });
+  $("bill-continue").addEventListener("click", function () { toMini("continue"); });
+
+  /* ================= Mini-survey ================= */
+  function radio(name) { var el = document.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : "no_answer"; }
+  function toThanks() {
+    $("mini-form").hidden = true;
+    $("thanks").hidden = false;
+    if (CONFIG.SURVEY_URL) { $("survey-copy").hidden = false; $("survey-link").hidden = false; }
+    try { window.scrollTo(0, 0); } catch (e) {}
+    $("thanks-title").focus({ preventScroll: true });
+  }
+  $("mini-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var a = { seg_occupation: radio("seg_occupation"), locality: radio("locality"), orders_4wk: radio("orders_4wk") };
+    track("mini_survey_submit", a, { once: true });
+    furthestStep = "mini_survey_submit";
+    toThanks();
+  });
+  $("mini-skip").addEventListener("click", function () { track("mini_survey_skip", {}, { once: true }); toThanks(); });
+
+  $("survey-link").addEventListener("click", function () {
+    track("survey_link_click", {}, { once: true, beacon: true });
+    var url = CONFIG.SURVEY_URL;
+    var join = url.indexOf("?") === -1 ? "?" : "&";
+    setTimeout(function () { window.location.href = url + join + "src=fakedoor_" + variant; }, 150);
+  });
+
+  function resetFlow() {
+    $("landing").hidden = false; $("flow").hidden = true;
+    $("step-bill").hidden = false; $("mini-form").hidden = true; $("thanks").hidden = true;
+    $("bill-result").hidden = true; $("bill-error").hidden = true; $("bill-continue").hidden = true;
+    $("bill-submit").textContent = "Compare my bill";
+    $("bill-form").reset(); $("mini-form").reset();
+    furthestStep = "landing"; maxScroll = 0;
+  }
+
+  /* ================= Exit ================= */
+  var exited = false;
+  window.addEventListener("pagehide", function () {
+    if (exited) return; exited = true;
+    track("exit", { dwell_ms: sinceLoad(), max_scroll_pct: maxScroll, furthest_step: furthestStep }, { beacon: true });
+  });
+})();
+</script>
+</body>
+</html>

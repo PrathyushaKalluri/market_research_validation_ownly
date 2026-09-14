@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hyd_vp_fakedoor_v1/event",
+  "title": "Fake-door value-proposition experiment event",
+  "description": "One row per event. Sent by 07_fake_door/prototype/index.html; stored by apps_script_collector.gs (which adds received_at and flattens payload to payload_json). No personal data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["experiment_id", "page_version", "variant_id", "variant_key", "anon_visitor_id", "anon_session_id", "event_name", "ts", "time_since_load_ms", "is_qa", "is_bot_suspect", "payload"],
+  "properties": {
+    "experiment_id": { "type": "string", "const": "hyd_vp_fakedoor_v1" },
+    "page_version": { "type": "string", "description": "Copy/layout version, e.g. 2026-09-14.1. Change it whenever copy changes; analyse one version at a time." },
+    "variant_id": { "type": "string", "enum": ["A", "B", "C"] },
+    "variant_key": { "type": "string", "enum": ["A_total_price", "B_transparent_bill", "C_reliable_value"] },
+    "anon_visitor_id": { "type": "string", "format": "uuid", "description": "Random UUID in localStorage. Unit of analysis. Not a fingerprint." },
+    "anon_session_id": { "type": "string", "format": "uuid", "description": "Random UUID in sessionStorage (one per tab session)." },
+    "event_name": {
+      "type": "string",
+      "enum": ["page_view", "vp_view", "scroll_50", "cta_click", "disclosure_view", "secondary_intent", "secondary_skip", "mini_survey_submit", "mini_survey_skip", "survey_link_click", "exit"]
+    },
+    "ts": { "type": "string", "format": "date-time", "description": "Client ISO-8601 UTC timestamp." },
+    "time_since_load_ms": { "type": "integer", "minimum": 0 },
+    "utm_source": { "type": "string", "maxLength": 80 },
+    "utm_medium": { "type": "string", "maxLength": 80 },
+    "utm_campaign": { "type": "string", "maxLength": 80 },
+    "utm_content": { "type": "string", "maxLength": 80 },
+    "referrer_domain": { "type": "string", "description": "Hostname only, never full URL." },
+    "device_type": { "type": "string", "enum": ["mobile", "tablet", "desktop"] },
+    "is_qa": { "type": "boolean", "description": "true if review mode (no ENDPOINT), ?qa present, or ?v= override used. Always excluded from analysis." },
+    "is_bot_suspect": { "type": "boolean", "description": "navigator.webdriver or crawler-like user agent. User-agent string itself is NOT stored." },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "viewport_w": { "type": "integer" },
+        "review_switch": { "type": "boolean" },
+        "trigger": { "type": "string", "enum": ["hero_visible_3s", "scroll_50", "cta_click"] },
+        "pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "cta_position": { "type": "string", "enum": ["hero", "bottom"] },
+        "from": { "type": "string", "enum": ["hero", "bottom"] },
+        "action": { "type": "string", "enum": ["bill_compare"] },
+        "bill_food": { "type": "integer", "minimum": 50, "maximum": 5000 },
+        "bill_final": { "type": "integer", "minimum": 50, "maximum": 5000 },
+        "bill_gap_inr": { "type": "integer" },
+        "bill_gap_pct": { "type": "integer" },
+        "seg_occupation": { "type": "string", "enum": ["student", "working_professional", "working_student", "other", "prefer_not", "no_answer"] },
+        "locality": { "type": "string", "enum": ["gachibowli", "financial_district_nanakramguda", "hitec_city_madhapur", "kondapur", "manikonda_narsingi", "other_hyderabad", "outside_hyderabad", "no_answer"] },
+        "orders_4wk": { "type": "string", "enum": ["0", "1_3", "4_7", "8_plus", "not_sure", "no_answer"] },
+        "dwell_ms": { "type": "integer", "minimum": 0 },
+        "max_scroll_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "furthest_step": { "type": "string", "enum": ["landing", "disclosure", "secondary_intent", "mini_survey", "mini_survey_submit"] }
+      }
+    }
+  },
+  "x-event_payloads": {
+    "page_view": ["viewport_w", "review_switch"],
+    "vp_view": ["trigger"],
+    "scroll_50": ["pct"],
+    "cta_click": ["cta_position"],
+    "disclosure_view": ["from"],
+    "secondary_intent": ["action", "bill_food", "bill_final", "bill_gap_inr", "bill_gap_pct"],
+    "secondary_skip": [],
+    "mini_survey_submit": ["seg_occupation", "locality", "orders_4wk"],
+    "mini_survey_skip": [],
+    "survey_link_click": [],
+    "exit": ["dwell_ms", "max_scroll_pct", "furthest_step"]
+  },
+  "x-sheet_columns": ["received_at", "experiment_id", "page_version", "variant_id", "variant_key", "anon_visitor_id", "anon_session_id", "event_name", "ts", "time_since_load_ms", "utm_source", "utm_medium", "utm_campaign", "utm_content", "referrer_domain", "device_type", "is_qa", "is_bot_suspect", "payload_json"]
+}

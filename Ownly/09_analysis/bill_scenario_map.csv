@@ -1,0 +1,5 @@
+scenario_id,scenario_label,target_meaning,derived_var,saving_inr,eta_diff_min,rating_diff,ontime_diff_pct,is_synthetic_scenario,source_audit_pair_id,order1_code1,order1_code2,order2_code1,order2_code2,code3,hypothesis
+bill_s1,Transparency at identical totals (simple vs itemised),simple,bill_s1_simple_chosen,0,0,0,,1,,simple,itemised,itemised,simple,no_difference,H2.2
+bill_s2,Discount framing at identical totals,no_discount,bill_s2_nodiscount_chosen,0,0,0,,1,,discount,no_discount,no_discount,discount,no_difference,H2.4
+bill_s3,Lower total on an unused app (same ETA and rating),new_app,bill_s3_newapp_chosen,30,0,0,,1,,usual_app,new_app,new_app,usual_app,,H2
+bill_s4,Lower total on an unused app but +15 min and -0.2 rating,new_app,bill_s4_newapp_chosen,30,15,-0.2,,1,,usual_app,new_app,new_app,usual_app,,H2;H3

@@ -1,0 +1,11 @@
+row_id,bengaluru_assumption,bengaluru_observed_evidence,bengaluru_evidence_ids,bengaluru_n,hyderabad_metric,hyderabad_observed_evidence,hyderabad_evidence_ids,hyderabad_n,matched_comparison_weighted_diff_and_CI,non_inferiority_margin,verdict_TRANSFERABLE_NEEDS_ADAPTATION_NON_TRANSFERABLE_UNKNOWN,verdict_rule_applied,confidence,implication_for_gachibowli,hypothesis_ids
+BA1,Total-price savings trigger trial,,,,,,,,,-10pp,,,,,H2;H9.1
+BA2,No hidden fees / menu parity is noticed and valued,,,,,,,,,-10pp,,,,,H1.3;H2.2
+BA3,A flat delivery fee at Ownly's level is acceptable,,,,,,,,,-10pp,,,,,H8.1
+BA4,ETA gap vs incumbents is tolerated,,,,,,,,,-5min,,,,,H3;H9.3
+BA5,Reliability is good enough to sustain repeat use,,,,,,,,,-10pp,,,,,H4;H12.1
+BA6,Restaurant coverage is sufficient for usual orders,,,,,,,,,-10pp,,,,,H5;H10;H9.3
+BA7,Rapido distribution and brand drive awareness and trust,,,,,,,,,-10pp,,,,,H7;H9
+BA8,Users multi-home so switching is low-friction,,,,,,,,,-10pp,,,,,H9.4
+BA9,Support and refund handling does not cause churn,,,,,,,,,-10pp,,,,,H12.2
+BA10,Trial converts to repeat after launch offers end,,,,,,,,,-10pp,,,,,H12.4;H11.3
