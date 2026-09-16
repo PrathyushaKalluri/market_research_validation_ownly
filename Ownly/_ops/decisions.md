@@ -149,3 +149,157 @@ has just voted on it would answer Section 7 differently. Poll 2 names Ownly, whi
 brand-blind sequencing the whole instrument depends on.
 
 **Implication:** P2 task 2.5 produces both lists **before** anything is posted.
+
+---
+
+## D9 · 2026-09-16 — Surveys v3 and v5 merge into a single v6; v6 is the form we build
+
+**Decision:** `Survey_v6_Google_Form_Build_Guide.md` is the only survey to build. v3's build guide is
+replaced by a pointer; v5 is upgraded in place rather than rebuilt (Part 12 of the v6 guide).
+
+**Evidence used:** two complete survey designs existed by this evening. v5 (built 18:17) is a strong
+funnel instrument — city routing, per-platform order counts, a four-way Ownly funnel status, Sean Ellis
+PMF, trial drivers — and is already written in a copy-paste format the team can work from. But it
+contains **no proposition test**: no Service P vs Service Q, nothing that compares a Bengaluru-style
+framing against a Hyderabad-localized one. That is the H₀ instrument. Fielding v5 alone would leave the
+primary hypothesis resting entirely on the fake-door page, which D3 already says becomes unusable below
+80 visitors.
+
+**Alternative rejected:** fielding both forms. This is the one clearly wrong option — it splits an
+80-response target into two halves, and neither half answers its own question.
+
+**Alternative rejected:** keeping v3 and discarding v5. v5's revealed order counts are strictly better
+than v3's stated "next 10 orders" allocation, and its funnel status is a cleaner awareness→trial
+measure than v3's two-question equivalent.
+
+**What v6 is:** all of v5, plus two brand-blind sections inserted between *Your last order* and the
+Ownly reveal — **Quick choices** (three ₹30 trade-offs + switching threshold) and **Two services**
+(P intent, Q intent, forced choice, why, repeat-without-offer, price durability). Hyderabad and
+Bengaluru get both; Other city gets neither, since it is appendix-only context. 28 sections → 32.
+
+**Deliberate cuts from v3, to hold the length at ~6 minutes:** food-only subtotal (the audit measures
+fee share by observation, which beats recall), next-10-orders allocation (superseded by v5's actual
+order counts), and the separate ₹100-reward question for non-triers (folded into S7-Q5, asked once of
+everyone instead of duplicated across three branches).
+
+**Implication:** the brand-blind ordering rule now has a build consequence — sections 6 and 7 **must**
+sit before section 8, or the proposition test is contaminated by the Ownly name. It is on the
+pre-share checklist and in the common-mistakes table. If v5 responses already exist, the guide says to
+stop and log the break rather than add questions mid-collection.
+
+---
+
+## D10 · 2026-09-16 — Poll questions folded into the survey; one poll survives
+
+**Decision:** the three WhatsApp polls become **one**. Poll 3 (bill fairness) moves into Survey v6 as
+**S5-Q4**, Poll 1 (which lever makes you switch) is dropped as redundant, and Poll A (Ownly awareness)
+is kept. Memberships is added to v6 as **S3-Q2** at the same time. Survey v6 goes from 39 to 41 unique
+questions; length stays ≈6 minutes.
+
+**The rule applied:** *if you would ever want to say "…among students" or "…among people with a
+membership", the question belongs in the survey.* Poll answers cannot be joined to any other answer —
+a poll returns a bar chart and nothing else. Almost every case is settled by that constraint alone.
+
+**Evidence used, question by question:**
+- **Poll 1** was redundant. v6's S9-Q1 already ranks the same levers across 7 options on a *screened*
+  sample, and Section 6 tests the same three levers properly — one variable at a time with ₹30 held
+  constant. The poll forced a single choice between four unlike things, which is a weaker question, not
+  a faster one.
+- **Poll 3** exposed a real gap: v6 had **no fee-pain question at all**. The v3→v6 merge had dropped
+  v3's whole pain grid. Promoted to S5-Q4, placed directly after the amount question so the answer is
+  anchored to a bill the respondent has just recalled rather than to a general mood.
+- **Memberships** was appearing only as an answer *option* inside two other questions ("happy with my
+  current app or membership", "went back to my Swiggy One / Zomato Gold membership"). A paid membership
+  is the strongest single reason not to switch apps, so it should be a segment we cut by, not an
+  anecdote. Added as S3-Q2, before the branching question, which stays last in that section.
+
+**Why Poll A (awareness) survives:** it needs all three of these to be true, and it is the only question
+for which they are. (1) The survey's awareness figure is **biased upward and cannot be fixed from inside
+the survey** — people who click a food-delivery survey are more likely to know food apps. A one-tap poll
+reaches people who would never open a 6-minute form, and **the gap between the two numbers is itself the
+finding**: it is the only honest read we have on the direction of our own sampling bias. (2) Awareness is
+a bare prevalence question — it is the rare case needing no cut. (3) The poll can plausibly return 200+
+votes against the survey's ~80 (±11 points).
+
+**The cost that made this decision sharp:** D8 requires poll groups and survey groups to be disjoint,
+because a poll primes the frame the survey measures. So **every group spent on a poll is a group lost for
+the survey.** Against an 80-response target with a handful of group permissions, two redundant polls were
+buying nothing and costing real sample.
+
+**Implication:** P2's task 2.6 drops from two polls to one, freeing group permissions for survey
+distribution. Poll and survey awareness numbers are reported side by side and **never merged**.
+`14_quick_polls/exact_poll_copy_v1_3polls_ARCHIVE.md` keeps the original three.
+
+---
+
+## D11 · 2026-09-16 — v6 is cut down to a lean v7; v7 is the form we build
+
+**Decision:** `Survey_v7_Google_Form_Build_Guide.md` replaces v6. Sections drop from 32 to 9 and the
+longest path from 33 questions to 20. Every city follows one path.
+
+**Evidence used:** people testing v6 said it felt overwhelming: too many sections, 7–8-option lists, and
+questions that asked the same thing more than once. A form that people quit halfway through loses more
+data than it gains from extra questions.
+
+**Rule applied:** keep what people *did* (order frequency by app, amount paid, funnel stage, repeat use,
+what they'd have done otherwise) and the single H₀ forced choice. Cut questions that repeat another
+question, and hypothetical questions about the future.
+
+**Consequences, stated rather than buried:**
+- D3's secondary test (Try P vs Try Q, McNemar) is dropped. The primary forced-choice test is unchanged.
+- Order counts become bands (0 / 1–2 / 3–5 / 6+), so share-of-orders uses band midpoints.
+- Service Q now has the same wording in both cities and 3 bullets, matching P. This removes v6's
+  bullet-count asymmetry, but the Hyderabad test no longer names the city in the headline.
+- Channel attribution ("where first heard") moves entirely to the fake-door links.
+
+---
+
+## D12 · 2026-09-17 — KPI system and decision dashboard adopted; project north-star proxy fixed; 3 survey additions proposed
+
+**Decision:**
+1. KPI system in `09_analysis/kpi_system/`. The master prompt's `05_analysis/`, `06_dashboard/` and `01_plan_tracking/`
+   map to `09_analysis/kpi_system/`, `10_dashboard/decision_dashboard/` and `_ops/`, because those number prefixes are
+   already used in this repo.
+2. **Project north-star proxy = K00 Repeat-active Ownly customers per 100 food-delivery users.** This is our proxy, not
+   Ownly's metric: **no official Ownly/Rapido north-star metric has been published** (public-source check, 2026-09-16).
+   Guardrails: K20 basket saving, K51 fulfilment failure, K40 restaurant coverage, K71 promo-dependency gap.
+3. Decision rules (`decision_rules.md`) are fixed **before any data exists**.
+4. Proposed minimal survey additions to v6: **A1 Rapido usage, A2 offer on first Ownly order, A3 fulfilment failures**
+   (`data_gap_map.md` §3).
+
+**Evidence used:** three sweeps: public sources, data instruments, and existing analysis design. Key facts:
+- No primary data has been collected on any stream.
+- There is no Rapido-usage question in v5, v6 or v7.
+- There is no fulfilment-experience or offer-on-first-order question.
+- The fake door is not deployed, and its D3 stopping date has passed.
+- Public sources confirm Rapido-app integration in **Bengaluru only**, and a 50%-off (≤ ₹100) first-order offer.
+- No public source was found for any ₹50/₹100 game, bottom-nav placement, or burn/order. The repo's "₹150–170 burn" and
+  "FIFA offer" are unverified: do not cite them.
+- A 2026-09-11 employee post places the Hyderabad launch around early September.
+
+**Alternatives rejected:**
+- A composite "market attractiveness" score: the weights would be arbitrary.
+- Adding next-10-orders back: past counts (S4) are better evidence than stated allocation.
+- A survey question on the ₹50/₹100 game: its existence is unverified.
+
+**Open team decision (not Claude's to make):** v6 or v7 goes live. D11 chose v7, but the latest user instruction built on
+v6. The KPI system assumes **v6 + A1–A3**. If v7 is fielded, it must also restore S7-Q5 (`data_gap_map.md` §4).
+
+**Supersedes:** `10_dashboard/dashboard_blueprint.md` (2026-09-14, choice-experiment design) as the build spec. It is kept
+as history.
+
+---
+
+## D13 · 2026-09-17 — Field survey v6 with two Rapido questions; A2/A3 not added
+
+**Decision (user instruction):** v6 is the live form, which overrides D11 (v7). It gets two one-tap Rapido questions and nothing else:
+- **S3-Q3 Rapido usage:** "In the last 4 weeks, how often did you use Rapido (bike, auto or cab)?"
+- **S8-Q1 Food inside the Rapido app:** "Have you seen an option to order food inside the Rapido app?" It sits after the
+  brand-blind sections, so it doesn't prime P vs Q.
+
+No new sections and no branching changes.
+
+**Not added, to keep the form simple:** A2 (offer on first order) and A3 (fulfilment failures).
+**Consequence:** K71 (promo-dependency gap) and K51/K52 (fulfilment failure) show INSUFFICIENT EVIDENCE on the dashboard.
+The promotion and reliability rows fall back to K32 (stated repeat without offer), K24 (reliability trade-off), the audit
+ETA gap, and interview codes.

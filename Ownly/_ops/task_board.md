@@ -35,7 +35,7 @@ Update the Status column as you go. `→` means blocked on the thing named.
 | 2.3 | Send P1 the verdict on Service Q's bullets | 2.2 | "keep" or exact replacement text | ☐ |
 | 2.4 | Book 6 more interviews into slots | 2.1 | 6 confirmed times in the tracker | ☐ |
 | 2.5 | Get admin permission in 6 groups; split them into **poll groups** vs **survey groups** | 2.1 | 6 permissions, 2 named lists | ☐ |
-| 2.6 | Post Poll 1 and Poll 2 in **poll-list groups only** | 2.5 | Posted, logged in `poll_tracker.csv` | ☐ |
+| 2.6 | Post **Poll A (awareness) only** in one written-off group | 2.5 | Posted, logged in `poll_tracker.csv` | ☐ |
 | 2.7 | Post the survey in **survey-list groups** (script F) | 2.5, 1.8 | Posted + logged | ☐ |
 | 2.8 | Send 15 personal DMs (script I) | 1.8 | 15 sent | ☐ |
 

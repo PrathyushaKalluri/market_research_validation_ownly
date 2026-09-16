@@ -1,0 +1,1092 @@
+<title>Ownly Gachibowli Decision Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f3f5f4; --surface: #ffffff; --surface-2: #eaeeec; --ink: #121a17; --ink-2: #4a5550; --ink-3: #75817b; --rule: #dce2df;
+  --accent: #1d5c52; --accent-ink: #ffffff;
+  --c-hyd: #2a78d6; --c-blr: #eb6834; --c-p: #eda100; --c-q: #4a3aa7; --c-own: #1baf7a; --c-none: #b8c1bc;
+  --g1: #a7b1ac; --g2: #c5cdc9; --g3: #dde3e0; --bar: #56708a;
+  --good: #1d7d45; --good-bg: #e2f2e8; --warn: #9a6100; --warn-bg: #fbf0d9; --crit: #b2382a; --crit-bg: #f8e3df;
+  --demo: #7a4d00; --demo-bg: #fff1cc; --ext: #5b4a8a; --ext-bg: #ece8f7;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0e1311; --surface: #161c1a; --surface-2: #1f2724; --ink: #edf2ef; --ink-2: #b1bcb6; --ink-3: #84908a; --rule: #2a3330;
+    --accent: #7fd1bf; --accent-ink: #0e1311;
+    --c-hyd: #3987e5; --c-blr: #d95926; --c-p: #c98500; --c-q: #9085e9; --c-own: #199e70; --c-none: #56605b;
+    --g1: #6b7671; --g2: #4d5652; --g3: #363e3b; --bar: #8aa3bb;
+    --good: #7ed69f; --good-bg: #173524; --warn: #f2c26b; --warn-bg: #3a2c10; --crit: #f19a8c; --crit-bg: #3d1d18;
+    --demo: #f6cf72; --demo-bg: #3a2e0f; --ext: #c3b5f2; --ext-bg: #2a2440;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1311; --surface: #161c1a; --surface-2: #1f2724; --ink: #edf2ef; --ink-2: #b1bcb6; --ink-3: #84908a; --rule: #2a3330;
+  --accent: #7fd1bf; --accent-ink: #0e1311;
+  --c-hyd: #3987e5; --c-blr: #d95926; --c-p: #c98500; --c-q: #9085e9; --c-own: #199e70; --c-none: #56605b;
+  --g1: #6b7671; --g2: #4d5652; --g3: #363e3b; --bar: #8aa3bb;
+  --good: #7ed69f; --good-bg: #173524; --warn: #f2c26b; --warn-bg: #3a2c10; --crit: #f19a8c; --crit-bg: #3d1d18;
+  --demo: #f6cf72; --demo-bg: #3a2e0f; --ext: #c3b5f2; --ext-bg: #2a2440;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 64px; }
+@media (min-width: 720px) { .wrap { padding-inline: 28px; } }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); font-weight: 700; letter-spacing: -0.015em; }
+h3 { font-size: 1.02rem; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); font-weight: 600; }
+.sub { color: var(--ink-2); font-size: 0.9rem; max-width: 75ch; }
+.muted { color: var(--ink-3); }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.top { display: grid; gap: 8px; }
+.sources { margin-top: 18px; display: grid; gap: 8px; grid-template-columns: 1fr; }
+@media (min-width: 700px) { .sources { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .sources { grid-template-columns: repeat(4, 1fr); } }
+.src { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; display: grid; gap: 6px; min-width: 0; }
+.src-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.src-name { font-weight: 600; font-size: 0.88rem; }
+.src-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); padding: 4px 10px; border-radius: 7px; font-weight: 600; font-size: 0.8rem; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.file-in { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.err { color: var(--crit); font-size: 0.8rem; }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.pill.demo { background: var(--demo-bg); color: var(--demo); }
+.pill.live { background: var(--good-bg); color: var(--good); }
+
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 6; background: var(--bg); margin-top: 18px; border-bottom: 1px solid var(--rule); }
+.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: thin; padding-block: 8px 0; }
+.tabs button { border: 0; background: transparent; color: var(--ink-2); padding: 8px 12px; border-radius: 8px 8px 0 0; font-size: 0.85rem; white-space: nowrap; border-bottom: 2px solid transparent; }
+.tabs button b { font-family: var(--font-mono); font-weight: 500; color: var(--ink-3); margin-right: 5px; }
+.tabs button[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--accent); background: var(--surface); }
+.filters { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding-block: 8px 10px; }
+.fgroup { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.fgroup > span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); font-weight: 600; }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 8px; padding: 2px; flex-wrap: wrap; }
+.seg button { border: 0; background: transparent; color: var(--ink-2); padding: 4px 10px; border-radius: 6px; font-size: 0.82rem; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); font-weight: 600; }
+.basebar { font-size: 0.8rem; color: var(--ink-2); padding-bottom: 8px; }
+
+.page { display: grid; gap: 18px; margin-top: 24px; }
+.page-head { display: grid; gap: 6px; }
+.grid-2, .grid-3 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .grid-2 { grid-template-columns: 1fr 1fr; } .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.panel-head { display: grid; gap: 4px; }
+.panel-head .q { font-size: 0.84rem; color: var(--ink-2); }
+.foot { display: grid; gap: 4px; font-size: 0.78rem; color: var(--ink-2); border-top: 1px dashed var(--rule); padding-top: 10px; }
+.foot div { display: grid; grid-template-columns: 7.2rem 1fr; gap: 8px; }
+.foot dt { color: var(--ink-3); margin: 0; }
+.foot dd { margin: 0; }
+.tag { display: inline-block; font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 1px 6px; border-radius: 4px; background: var(--surface-2); color: var(--ink-2); white-space: nowrap; }
+.tag.ext { background: var(--ext-bg); color: var(--ext); }
+.tag.demo { background: var(--demo-bg); color: var(--demo); }
+
+.banner { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 22px; display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .banner { grid-template-columns: 1.2fr 1fr; } }
+.big { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 700; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.statlist { display: grid; gap: 6px; font-size: 0.85rem; margin: 0; }
+.statlist div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--rule); padding-bottom: 5px; }
+.statlist dt { color: var(--ink-2); margin: 0; }
+.statlist dd { margin: 0; text-align: right; }
+
+.chip { display: inline-flex; align-items: center; gap: 5px; font-size: 0.74rem; font-weight: 600; padding: 3px 8px; border-radius: 6px; width: fit-content; white-space: nowrap; }
+.chip.good { background: var(--good-bg); color: var(--good); }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.crit { background: var(--crit-bg); color: var(--crit); }
+.chip.neutral { background: var(--surface-2); color: var(--ink-2); }
+.chip.big-chip { font-size: 0.95rem; padding: 6px 12px; }
+
+.kpis { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 540px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .kpis { grid-template-columns: repeat(3, 1fr); } }
+.tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 5px; min-width: 0; }
+.tile.star { border-color: var(--accent); border-width: 2px; }
+.tile.breach { border-color: var(--crit); }
+.tile-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.tile-name { font-weight: 600; font-size: 0.9rem; }
+.tile-id { font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-3); white-space: nowrap; }
+.tile-val { font-family: var(--font-display); font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile-val.dim { color: var(--ink-3); font-size: 1.25rem; }
+.tile-meta { font-size: 0.76rem; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.tile-foot { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.78rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.gb { display: grid; gap: 12px; }
+.gb-row { display: grid; gap: 4px; }
+.gb-label { font-size: 0.84rem; }
+.gb-area { position: relative; display: grid; gap: 3px; }
+.gb-track { display: flex; align-items: center; gap: 8px; height: 16px; }
+.gb-bar { height: 12px; border-radius: 0 4px 4px 0; min-width: 2px; }
+.gb-val { font-family: var(--font-mono); font-size: 0.74rem; color: var(--ink-2); white-space: nowrap; }
+.midline { position: absolute; top: -3px; bottom: -3px; border-left: 1px dashed var(--ink-3); pointer-events: none; }
+.st { display: grid; gap: 12px; }
+.st-row { display: grid; gap: 4px; }
+.st-label { font-size: 0.84rem; display: flex; justify-content: space-between; gap: 8px; }
+.st-bar { display: flex; gap: 2px; height: 28px; }
+.st-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.7rem; color: #fff; overflow: hidden; white-space: nowrap; min-width: 0; }
+.st-seg:first-child { border-radius: 4px 0 0 4px; } .st-seg:last-child { border-radius: 0 4px 4px 0; }
+.st-seg.lt { color: #121a17; }
+.rk { display: grid; gap: 9px; }
+.rk-item { display: grid; gap: 2px; }
+.rk-label { font-size: 0.82rem; }
+.rk-track { display: flex; align-items: center; gap: 8px; }
+.rk-bar { height: 10px; background: var(--bar); border-radius: 0 4px 4px 0; min-width: 2px; }
+.rk-item.hl .rk-bar { background: var(--c-own); }
+.rk-item.top .rk-label { font-weight: 600; }
+.tscroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.84rem; }
+th, td { text-align: left; padding: 8px 9px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; white-space: nowrap; }
+td.n, th.n { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--ink-2); font-family: var(--font-mono); font-size: 10px; }
+.checks { display: grid; gap: 8px; }
+.check { display: grid; grid-template-columns: 1.6rem 1fr; gap: 8px; align-items: start; font-size: 0.86rem; }
+.check .mark { font-weight: 700; text-align: center; border-radius: 6px; padding: 1px 0; }
+.mark.y { background: var(--good-bg); color: var(--good); } .mark.n { background: var(--crit-bg); color: var(--crit); } .mark.u { background: var(--surface-2); color: var(--ink-3); }
+.cards { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 800px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+.timeline { display: grid; gap: 0; }
+.tl { display: grid; grid-template-columns: 6.5rem 1fr; gap: 12px; padding-block: 8px; border-bottom: 1px solid var(--rule); font-size: 0.85rem; }
+.tl .d { font-family: var(--font-mono); font-size: 0.76rem; color: var(--ink-3); }
+.empty { font-size: 0.84rem; color: var(--ink-3); padding: 6px 0; }
+.note { font-size: 0.8rem; color: var(--ink-2); background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
+#tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 0.76rem; padding: 6px 9px; border-radius: 6px; max-width: 260px; line-height: 1.35; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Ownly · Gachibowli market research &amp; validation</p>
+    <h1>Ownly Gachibowli Decision Room</h1>
+    <p class="sub">Should Ownly replicate or adapt its Bengaluru playbook for 20–30-year-olds in Gachibowli? Ten pages, from the verdict down to the evidence. Every number shows its source, base and evidence type.</p>
+    <div class="sources" id="sources"></div>
+  </header>
+  <div class="nav">
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="filters" role="group" aria-label="Survey filters">
+      <div class="fgroup"><span>City</span><div class="seg" id="f-city"></div></div>
+      <div class="fgroup"><span>Occupation</span><div class="seg" id="f-occ"></div></div>
+      <div class="fgroup"><span>Rapido</span><div class="seg" id="f-rap"></div></div>
+    </div>
+    <p class="basebar" id="basebar"></p>
+  </div>
+  <main id="page" class="page" tabindex="-1"></main>
+</div>
+<div id="tip" hidden></div>
+<script>
+"use strict";
+/* ================= constants (exact v6 wording) ================= */
+const TRIGGER = ["A discount on my first order","My usual restaurants being on it","Seeing it's cheaper than Swiggy/Zomato for the same order","A promise of a quick refund if an order goes wrong","A friend telling me it works well","Paying by cash on delivery or meal card (Pluxee / Zeta)","Nothing, I'm happy with how I order now"];
+const HEARD = ["Inside the Rapido app","Instagram / YouTube","Friends, classmates or colleagues","Hoardings, posters or street campaigns","News, LinkedIn or Reddit","Don't remember"];
+const WHYNOT = ["I'm happy with my current app or membership","I don't trust a new app yet","I heard bad things about its delivery or support","I don't think it's really cheaper","Not sure it delivers to my area","I don't want another app on my phone","Just haven't got around to it"];
+const STOPPED = ["My restaurants weren't there","Prices weren't lower than my usual app","A coupon on my usual app made that cheaper","It didn't deliver to my address","The delivery time looked too long","I couldn't pay the way I wanted","I was just looking around"];
+const CF = ["Ordered the same on Swiggy or Zomato","Ordered on another app (Toing, Magicpin, etc.)","Ordered directly from the restaurant","Cooked, or eaten at home / mess / hostel","Gone out to eat","Skipped it or had a snack"];
+const CHANGE = ["More restaurants","Faster delivery","More reliable, on-time delivery","Quicker refunds and support","A bigger price gap vs other apps","More offers and coupons","Cash on delivery or meal-card payment"];
+const LESS = ["I don't order less than before","The restaurants I want aren't there","Late or failed deliveries","Refund or support problems","Prices are no longer clearly lower","Offers ended","Went back to my Swiggy One / Zomato Gold membership"];
+const THRESH = ["₹10","₹20","₹30","₹50","₹75","₹100 or more","No amount, price alone wouldn't make me switch","Don't know"];
+const THRESH_RS = [10,20,30,50,75,100,null,null];
+const FAIR = ["Yes, it felt fair","No, the extra charges on top were too much","No, the food itself was overpriced","I didn't really look at the breakdown"];
+const FAILS = ["An order arrived 15+ minutes later than shown","An order was cancelled or never delivered","An item was missing or wrong","A refund or support reply took more than 2 days"];
+const RAPIDO = ["Never","1–3 times","About once a week","Several times a week"];
+const SCALE = {"definitely not":1,"probably not":2,"not sure":3,"probably":4,"definitely":5};
+const CITY_VAR = { Hyderabad: "--c-hyd", Bengaluru: "--c-blr", Other: "--c-none" };
+
+/* ================= stats ================= */
+function wilson(k, n, z) { z = z || 1.96; if (!n) return [NaN, NaN]; const p = k / n, d = 1 + z * z / n, c = p + z * z / (2 * n), m = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)); return [Math.max(0, (c - m) / d), Math.min(1, (c + m) / d)]; }
+const LF = [0];
+function logFact(n) { while (LF.length <= n) LF.push(LF[LF.length - 1] + Math.log(LF.length)); return LF[n]; }
+function binom2(k, n) { if (!n) return NaN; const lp = i => logFact(n) - logFact(i) - logFact(n - i) + n * Math.log(0.5); const pk = lp(k); let s = 0; for (let i = 0; i <= n; i++) { const li = lp(i); if (li <= pk + 1e-7) s += Math.exp(li); } return Math.min(1, s); }
+function fisher(a, b, c, d) {
+  const r1 = a + b, r2 = c + d, c1 = a + c, n = r1 + r2; if (!r1 || !r2) return NaN;
+  const lp = x => logFact(r1) + logFact(r2) + logFact(c1) + logFact(n - c1) - logFact(n) - logFact(x) - logFact(r1 - x) - logFact(c1 - x) - logFact(r2 - c1 + x);
+  const obs = lp(a); let s = 0;
+  for (let x = Math.max(0, c1 - r2); x <= Math.min(r1, c1); x++) { const l = lp(x); if (l <= obs + 1e-7) s += Math.exp(l); }
+  return Math.min(1, s);
+}
+function newcombe(k1, n1, k2, n2) { // CI for p1 - p2
+  if (!n1 || !n2) return [NaN, NaN];
+  const p1 = k1 / n1, p2 = k2 / n2, [l1, u1] = wilson(k1, n1), [l2, u2] = wilson(k2, n2), d = p1 - p2;
+  return [d - Math.sqrt((p1 - l1) ** 2 + (u2 - p2) ** 2), d + Math.sqrt((u1 - p1) ** 2 + (p2 - l2) ** 2)];
+}
+function twoProp(k1, n1, k2, n2) { // returns {diff, ci, p, test}
+  if (!n1 || !n2) return { diff: NaN, ci: [NaN, NaN], p: NaN, test: "—" };
+  const a = k1, b = n1 - k1, c = k2, d = n2 - k2, N = n1 + n2, K = k1 + k2;
+  const minExp = Math.min(n1 * K / N, n1 * (N - K) / N, n2 * K / N, n2 * (N - K) / N);
+  let p, test;
+  if (minExp < 5) { p = fisher(a, b, c, d); test = "Fisher exact"; }
+  else { const pp = K / N, se = Math.sqrt(pp * (1 - pp) * (1 / n1 + 1 / n2)); const z = se ? (k1 / n1 - k2 / n2) / se : 0; p = 2 * (1 - normCdf(Math.abs(z))); test = "two-proportion z"; }
+  return { diff: k1 / n1 - k2 / n2, ci: newcombe(k1, n1, k2, n2), p, test };
+}
+function normCdf(x) { const t = 1 / (1 + 0.2316419 * Math.abs(x)); const d = 0.3989423 * Math.exp(-x * x / 2); const pr = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return x > 0 ? 1 - pr : pr; }
+function median(a) { if (!a.length) return NaN; const s = a.slice().sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function bootMedianClustered(groups, stat, B) { // groups: array of arrays of values; resample groups
+  B = B || 2000; const r = rng(20260914); const out = [];
+  if (groups.length < 2) return [NaN, NaN];
+  for (let i = 0; i < B; i++) { const vals = []; for (let j = 0; j < groups.length; j++) { const g = groups[Math.floor(r() * groups.length)]; for (const v of g) vals.push(v); } out.push(stat(vals)); }
+  out.sort((x, y) => x - y); return [out[Math.floor(B * 0.025)], out[Math.floor(B * 0.975)]];
+}
+const pct = (x, d) => (x == null || isNaN(x)) ? "—" : (Math.abs(x * 100) < 0.5 * Math.pow(10, -(d || 0)) ? 0 : x * 100).toFixed(d || 0) + "%";
+const pp = (x, d) => (x == null || isNaN(x)) ? "—" : (x >= 0 ? "+" : "−") + Math.abs(x * 100).toFixed(d || 0) + "pp";
+const rs = x => (x == null || isNaN(x)) ? "—" : (x < 0 ? "−₹" : "₹") + Math.abs(Math.round(x));
+const fmtP = p => isNaN(p) ? "—" : p < 0.001 ? "< 0.001" : p.toFixed(3);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const norm = s => String(s == null ? "" : s).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').trim();
+const num = v => { const x = parseFloat(String(v == null ? "" : v).replace(/[₹,\s]/g, "")); return isNaN(x) ? null : x; };
+const yes = v => /^(y|yes|true|1)$/i.test(norm(v));
+
+/* ================= survey mapper ================= */
+const FIELDS = [
+  ["city", ["which city do you live"]], ["age", ["how old are you"]], ["area", ["which area?"]], ["occ", ["best describes you"]],
+  ["member", ["memberships do you have right now"]], ["rapido", ["how often did you use rapido"]], ["rapSeen", ["option to order food inside the rapido app"]],
+  ["ordered", ["order food online for delivery at least once"]],
+  ["cS", ["swiggy: how many"]], ["cZ", ["zomato: how many"]], ["cO", ["ownly (rapido"]], ["cX", ["any other way"]],
+  ["amount", ["total amount you paid"]], ["fair", ["did it feel fair for what you got"]],
+  ["t1", ["same restaurant, same food. which"]], ["t2", ["same restaurant, same food, same delivery time"]], ["t3", ["same food price level"]],
+  ["thresh", ["make a different app your main one"]], ["tryP", ["if service p were available"]], ["tryQ", ["and if service q were available"]],
+  ["choice", ["if only one of them existed"]], ["keep", ["once that offer ended"]], ["status", ["before today, which of these is true"]],
+  ["trigger", ["would most make you try"]], ["heard", ["first hear about ownly"]], ["whyNot", ["reason you haven't opened"]],
+  ["stopped", ["stopped you from ordering"]], ["offer", ["first ownly order use a discount"]], ["first", ["first ownly order"]],
+  ["prior", ["4 weeks before the last 4 weeks"]], ["cf", ["if ownly didn't exist"]], ["disap", ["no longer use ownly"]],
+  ["change", ["one change would make you order more"]], ["less", ["less than you used to"]], ["fail", ["has any of these happened"]]
+];
+function mapSurvey(data) {
+  const header = data[0].map(h => norm(h).toLowerCase());
+  const idx = {}; const used = new Set();
+  for (const [f, phrases] of FIELDS) { // order matters: 'offer' claimed before 'first'
+    idx[f] = [];
+    header.forEach((h, i) => { if (!used.has(i) && phrases.some(p => h.includes(p)) && !(f === "tryP" && h.includes("and if service q"))) { idx[f].push(i); used.add(i); } });
+  }
+  const missing = ["city", "age", "status"].filter(f => !idx[f].length);
+  if (missing.length) throw new Error("This doesn't look like the v6 survey export: couldn't find the " + missing.join(", ") + " question(s).");
+  const out = [];
+  for (let r = 1; r < data.length; r++) {
+    const row = data[r]; if (!row || row.every(c => !norm(c))) continue;
+    const g = f => { for (const i of idx[f]) { const v = norm(row[i]); if (v) return v; } return ""; };
+    const cityRaw = g("city");
+    const o = { city: /^hyd/i.test(cityRaw) ? "Hyderabad" : /^beng/i.test(cityRaw) ? "Bengaluru" : "Other" };
+    o.eligible = /^2/.test(g("age"));
+    if (!o.eligible) { out.push(o); continue; }
+    o.area = g("area");
+    const occ = g("occ"); o.occ = /^student/i.test(occ) ? "Student" : /^working/i.test(occ) ? "Working" : /^studying and working/i.test(occ) ? "Both" : "Other";
+    const mem = g("member"); o.member = /swiggy one|zomato gold|another food/i.test(mem) ? "member" : /^none/i.test(mem) ? "none" : "unsure";
+    const rap = g("rapido"); o.rapido = rap ? Math.max(0, RAPIDO.findIndex(x => x.toLowerCase() === rap.toLowerCase())) : null;
+    const rs0 = g("rapSeen"); if (rs0) o.rapSeen = /^yes/i.test(rs0) ? "yes" : /^no/i.test(rs0) ? "no" : /^not sure/i.test(rs0) ? "unsure" : "nonuser";
+    o.ordered = /^yes/i.test(g("ordered"));
+    ["cS", "cZ", "cO", "cX"].forEach(k => { o[k] = num(g(k)) || 0; });
+    o.amount = num(g("amount"));
+    ["fair", "trigger", "heard", "whyNot", "stopped", "cf", "disap", "change", "less"].forEach(k => { const v = g(k); if (v) o[k] = v; });
+    ["t1", "t2", "t3"].forEach(k => { const v = g(k); if (v) o[k] = v.includes("230") ? 1 : 0; });
+    const th = g("thresh"); if (th) { o.thresh = th; const i = THRESH.findIndex(x => x.toLowerCase() === th.toLowerCase()); o.threshRs = i >= 0 ? THRESH_RS[i] : null; }
+    ["tryP", "tryQ", "keep"].forEach(k => { const v = SCALE[g(k).toLowerCase()]; if (v) o[k] = v; });
+    const ch = g("choice"); if (ch) o.choice = /service p/i.test(ch) ? "P" : /service q/i.test(ch) ? "Q" : "N";
+    const st = g("status");
+    o.status = /^i hadn't/i.test(st) ? "unaware" : /^i've ordered/i.test(st) ? "ordered" : /^i opened/i.test(st) ? "opened" : /^i'd heard/i.test(st) ? "heard" : undefined;
+    const fi = g("first"); if (fi) o.first = /^in the last 4 weeks/i.test(fi) ? "recent" : "earlier";
+    const of = g("offer"); if (of) o.offer = /^yes/i.test(of) ? "yes" : /^no/i.test(of) ? "no" : "unknown";
+    if (o.status === "ordered") o.prior = num(g("prior")) || 0;
+    const fl = g("fail"); if (fl) { o.failTypes = FAILS.filter(x => fl.includes(x)); o.fail = o.failTypes.length > 0; }
+    out.push(o);
+  }
+  return out;
+}
+
+/* ================= audit / frame / fake-door mappers ================= */
+function rowsToObjects(data) { const h = data[0].map(x => norm(x).toLowerCase()); return data.slice(1).filter(r => r && r.some(c => norm(c))).map(r => { const o = {}; h.forEach((k, i) => o[k] = norm(r[i])); return o; }); }
+function mapAudit(data) {
+  const rows = rowsToObjects(data);
+  if (!rows.length || !("final_payable" in rows[0]) || !("platform" in rows[0])) throw new Error("This isn't the audit-lite captures file: it needs platform and final_payable columns.");
+  return rows.map(r => ({
+    slot: r.slot, platform: (r.platform || "").toLowerCase(), restaurant: r.restaurant_name, basket: r.basket_id,
+    listed: r.restaurant_listed === "" ? null : yes(r.restaurant_listed), open: r.restaurant_open === "" ? null : yes(r.restaurant_open),
+    menu: num(r.menu_subtotal), packaging: num(r.packaging_fee), platformFee: num(r.platform_fee), delivery: num(r.delivery_fee),
+    smallCart: num(r.small_cart_fee), surge: num(r.surge_rain_fee), taxes: num(r.taxes_gst), discount: num(r.discount_amount),
+    final: num(r.final_payable), etaMin: num(r.eta_min_shown), etaMax: num(r.eta_max_shown)
+  }));
+}
+function mapFrame(data) {
+  const rows = rowsToObjects(data);
+  if (!rows.length || !("on_ownly" in rows[0])) throw new Error("This isn't the restaurant frame: it needs an on_ownly column.");
+  return rows.map(r => ({ name: r.name, type: (r.chain_or_local || "").toLowerCase(), cuisine: r.cuisine,
+    ownly: r.on_ownly === "" ? null : yes(r.on_ownly), swiggy: r.on_swiggy === "" ? null : yes(r.on_swiggy), zomato: r.on_zomato === "" ? null : yes(r.on_zomato) }));
+}
+function mapFake(data) {
+  const rows = rowsToObjects(data);
+  if (!rows.length || !("anon_visitor_id" in rows[0]) || !("event_name" in rows[0])) throw new Error("This isn't the fake-door event export: it needs anon_visitor_id and event_name columns.");
+  return rows.filter(r => !yes(r.is_qa) && !yes(r.is_bot_suspect)).map(r => ({ v: r.anon_visitor_id, arm: (r.variant_id || "").toUpperCase(), ev: r.event_name, src: r.utm_source || (r.referrer_domain ? "ref:" + r.referrer_domain : "(direct)") }));
+}
+
+/* ================= demo generators ================= */
+let R = rng(1);
+const pick = opts => { const tot = opts.reduce((a, o) => a + o[1], 0); let x = R() * tot; for (const o of opts) { if ((x -= o[1]) < 0) return o[0]; } return opts[opts.length - 1][0]; };
+const pickW = (list, w) => pick(list.map((v, i) => [v, w[i]]));
+const pois = l => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= R(); } while (p > L); return k - 1; };
+const scale = m => Math.max(1, Math.min(5, Math.round(m + (R() - 0.5) * 2.6)));
+
+function demoPerson(city) {
+  const r = { city, eligible: true, demo: true };
+  const hyd = city === "Hyderabad";
+  r.occ = pick([["Student", 44], ["Working", 38], ["Both", 12], ["Other", 6]]);
+  const stu = r.occ === "Student";
+  r.member = pick([["member", stu ? 28 : 46], ["none", stu ? 66 : 48], ["unsure", 6]]);
+  r.rapido = pick([[0, stu ? 30 : 40], [1, 32], [2, 20], [3, stu ? 18 : 10]]);
+  r.ordered = R() < (stu ? 0.8 : 0.88);
+  r.rapSeen = r.rapido === 0 ? pick([["nonuser", 80], ["no", 15], ["unsure", 5]]) : pick([["yes", hyd ? 38 + r.rapido * 8 : 58 + r.rapido * 8], ["no", 30], ["unsure", 14]]);
+  const rapBoost = r.rapido >= 2 ? 10 : 0;
+  r.status = hyd ? pick([["unaware", 42 - rapBoost], ["heard", 27], ["opened", 13], ["ordered", 18 + rapBoost]])
+    : pick([["unaware", 22 - rapBoost], ["heard", 24], ["opened", 16], ["ordered", 38 + rapBoost]]);
+  const user = r.status === "ordered";
+  let active = false;
+  if (user) {
+    r.first = hyd ? "recent" : (R() < 0.18 ? "recent" : "earlier");
+    if (!r.ordered) r.first = "earlier";
+    // v6 has no offer/failure questions (D13): simulate their effect on repeat without storing answers
+    const hadOffer = R() < 0.6, hadFail = R() < 0.3;
+    let pRepeat = 0.62 - (hadOffer ? 0.18 : 0) - (hadFail ? 0.22 : 0);
+    active = r.ordered && R() < (r.first === "recent" ? 0.95 : pRepeat + 0.1);
+    r.cO = active ? Math.max(1, pois(hyd ? 1.6 : 2.6)) : 0;
+    const wantRepeat = R() < pRepeat;
+    r.prior = r.first === "recent" ? 0 : (R() < 0.7 ? Math.max(1, pois(2)) : 0);
+    if (wantRepeat && r.cO + r.prior < 2 && active) r.cO = 2;
+    if (!wantRepeat && hyd && r.cO >= 2 && R() < 0.5) r.cO = 1;
+    r.disap = pick(active ? [["Very disappointed", 34], ["Somewhat disappointed", 45], ["Not disappointed", 21]] : [["Very disappointed", 12], ["Somewhat disappointed", 40], ["Not disappointed", 48]]);
+    r.cf = pickW(CF, [54, 9, 6, 14, 6, 11]);
+    r.change = pickW(CHANGE, [24, 9, 22, 13, 13, 13, 6]);
+    if (!hyd) r.less = pickW(LESS, active ? [60, 8, 12, 6, 6, 5, 3] : [10, 18, 22, 12, 12, 16, 10]);
+    r.heard = pickW(HEARD, [hyd ? 22 : 38, 24, 22, hyd ? 18 : 8, 6, 5]);
+  }
+  if (r.ordered) {
+    r.cS = pois(r.member === "member" ? 3.4 : 2.4); r.cZ = pois(2.1); r.cX = pois(0.6); if (!user) r.cO = 0;
+    r.amount = Math.round(Math.exp(5.55 + R() * 0.95) / 10) * 10;
+    r.fair = pickW(FAIR, [38, r.member === "member" ? 26 : 39, 12, 13]);
+  } else { r.cS = r.cZ = r.cX = 0; if (!user) r.cO = 0; }
+  if (r.status === "heard" || r.status === "opened") r.heard = pickW(HEARD, [hyd ? 20 : 36, 25, 22, hyd ? 20 : 8, 7, 6]);
+  if (r.status === "unaware") r.trigger = pickW(TRIGGER, [22, 17, 26, 9, 11, 5, 10]);
+  if (r.status === "heard") r.whyNot = pickW(WHYNOT, [30, 13, 6, 14, 8, 11, 18]);
+  if (r.status === "opened") r.stopped = pickW(STOPPED, [28, 17, 15, 8, 12, 5, 15]);
+  r.t1 = R() < 0.54 + (stu ? 0.14 : -0.08) ? 1 : 0;
+  r.t2 = R() < 0.34 + (stu ? 0.08 : -0.06) ? 1 : 0;
+  r.t3 = R() < 0.31 + (stu ? 0.1 : -0.05) ? 1 : 0;
+  r.thresh = pickW(THRESH, [4, 10, 19, 24, 12, 11, 12, 8]); r.threshRs = THRESH_RS[THRESH.indexOf(r.thresh)];
+  r.choice = pick([["P", (hyd ? 37 : 49) + (stu ? 6 : -3)], ["Q", (hyd ? 47 : 36) + (r.member === "member" ? 5 : 0)], ["N", 16]]);
+  r.tryP = scale(r.choice === "P" ? 4.2 : r.choice === "Q" ? 3.1 : 3.5);
+  r.tryQ = scale(r.choice === "Q" ? 4.3 : r.choice === "P" ? 3.0 : 3.5);
+  r.keep = scale(r.choice === "Q" ? 3.6 : 3.1);
+  r.area = hyd ? pick([["Gachibowli", 30], ["Financial District / Nanakramguda", 12], ["Kondapur", 14], ["Madhapur / HITEC City", 18], ["Another part of Hyderabad", 26]]) : "";
+  return r;
+}
+function makeDemoSurvey() {
+  R = rng(20260917); const rows = [];
+  [["Hyderabad", 128], ["Bengaluru", 96]].forEach(([c, n]) => { for (let i = 0; i < n; i++) rows.push(demoPerson(c)); });
+  for (let i = 0; i < 14; i++) rows.push({ city: pick([["Hyderabad", 1], ["Bengaluru", 1]]), eligible: false });
+  return rows;
+}
+const DEMO_FRAME = [
+  ["Paradise Biryani", "chain", "Biryani"], ["Bawarchi", "chain", "Biryani"], ["Cream Stone", "chain", "Dessert"], ["Shah Ghouse", "chain", "Hyderabadi"],
+  ["Local tiffin centre (demo)", "local", "Tiffin"], ["Local meals mess (demo)", "local", "Meals"], ["Local Andhra kitchen (demo)", "local", "Andhra"], ["Local biryani point (demo)", "local", "Biryani"],
+  ["KFC", "chain", "QSR"], ["Domino's", "chain", "Pizza"]
+];
+function makeDemoFrame() {
+  R = rng(77);
+  return DEMO_FRAME.map(([name, type, cuisine], i) => ({ name, type, cuisine, ownly: type === "chain" ? (i !== 9) : (i === 4 || i === 6), swiggy: true, zomato: i !== 5 }));
+}
+function makeDemoAudit(frame) {
+  R = rng(31); const out = [];
+  ["wed_dinner", "thu_lunch"].forEach(slot => frame.forEach((f, i) => {
+    const basket = f.cuisine === "QSR" || f.cuisine === "Dessert" || f.cuisine === "Pizza" ? "B2" : f.type === "local" ? "B3" : "B1";
+    const base = basket === "B1" ? 330 : basket === "B2" ? 380 : 150;
+    ["ownly", "swiggy", "zomato"].forEach(p => {
+      const listed = f[p] !== false; const open = listed && R() > 0.08;
+      if (!listed || !open) { out.push({ slot, platform: p, restaurant: f.name, basket, listed, open, final: null }); return; }
+      const markup = p === "ownly" ? 1 : 1.10 + R() * 0.08;
+      const menu = Math.round(base * markup * (0.95 + R() * 0.1));
+      const packaging = p === "ownly" ? 0 : Math.round(15 + R() * 15);
+      const platformFee = p === "ownly" ? 0 : p === "swiggy" ? 15 : 13;
+      const delivery = p === "ownly" ? 30 : Math.round(R() < 0.4 ? 0 : 25 + R() * 20);
+      const surge = slot === "wed_dinner" && p !== "ownly" && R() < 0.3 ? 20 : 0;
+      const discount = p === "ownly" ? 0 : (R() < 0.45 ? Math.round(menu * 0.12) : 0);
+      const taxes = Math.round((menu - discount) * 0.05);
+      const final = menu + packaging + platformFee + delivery + surge + taxes - discount;
+      const etaMid = p === "ownly" ? 38 + R() * 14 : 28 + R() * 10;
+      out.push({ slot, platform: p, restaurant: f.name, basket, listed: true, open: true, menu, packaging, platformFee, delivery, smallCart: 0, surge, taxes, discount, final, etaMin: Math.round(etaMid - 5), etaMax: Math.round(etaMid + 5) });
+    });
+  }));
+  return out;
+}
+function makeDemoFake() {
+  R = rng(55); const ev = []; const srcs = [["whatsapp", 55], ["instagram", 25], ["linkedin", 12], ["(direct)", 8]];
+  for (let i = 0; i < 132; i++) {
+    const v = "demo-" + i, arm = R() < 0.5 ? "A" : "B", src = pick(srcs);
+    ev.push({ v, arm, ev: "page_view", src });
+    const pc = arm === "A" ? 0.31 : 0.43;
+    if (R() < pc) { ev.push({ v, arm, ev: "cta_click", src }); if (R() < (arm === "A" ? 0.42 : 0.3)) ev.push({ v, arm, ev: "secondary_intent", src }); }
+  }
+  return ev;
+}
+/* ================= state ================= */
+const DS = {
+  survey: { label: "Survey v6 (+ Rapido questions)", demo: true, file: null, data: null, map: mapSurvey, make: makeDemoSurvey },
+  audit: { label: "Price audit captures", demo: true, file: null, data: null, map: mapAudit, make: () => makeDemoAudit(DS.frame.data || makeDemoFrame()) },
+  frame: { label: "Restaurant frame", demo: true, file: null, data: null, map: mapFrame, make: makeDemoFrame },
+  fake: { label: "Fake-door events", demo: true, file: null, data: null, map: mapFake, make: makeDemoFake }
+};
+DS.frame.data = DS.frame.make(); DS.audit.data = DS.audit.make(); DS.survey.data = DS.survey.make(); DS.fake.data = DS.fake.make();
+const F = { city: "Hyderabad", occ: "All", rap: "All" };
+const FILTERS = {
+  city: [["Hyderabad", "Hyderabad"], ["Bengaluru", "Bengaluru"], ["All", "Both"]],
+  occ: [["All", "All"], ["Student", "Students"], ["Working", "Working"], ["Both", "Study + work"]],
+  rap: [["All", "All"], ["user", "Rapido users"], ["non", "Non-users"]]
+};
+let PAGE = 1;
+try { const s = JSON.parse(localStorage.getItem("ownly-decision-state") || "{}"); Object.keys(F).forEach(k => { if (s[k] && FILTERS[k].some(o => o[0] === s[k])) F[k] = s[k]; }); if (s.page >= 1 && s.page <= 10) PAGE = s.page; } catch (e) {}
+const saveState = () => { try { localStorage.setItem("ownly-decision-state", JSON.stringify(Object.assign({ page: PAGE }, F))); } catch (e) {} };
+
+const elig = () => DS.survey.data.filter(r => r.eligible);
+const passOcc = r => F.occ === "All" || r.occ === F.occ;
+const passRap = r => F.rap === "All" || (F.rap === "user" ? r.rapido >= 1 : r.rapido === 0);
+const segRows = () => elig().filter(r => passOcc(r) && passRap(r));          // ignores city
+const cityRows = c => segRows().filter(r => r.city === c);
+const viewRows = () => F.city === "All" ? segRows() : cityRows(F.city);
+const shownCities = () => F.city === "All" ? ["Hyderabad", "Bengaluru"] : [F.city];
+
+/* ================= survey KPIs ================= */
+function prop(rows, test) { return { k: rows.filter(test).length, n: rows.length }; }
+function surveyKpis(rows) {
+  const orderers = rows.filter(r => r.ordered);
+  const aware = rows.filter(r => r.status && r.status !== "unaware");
+  const users = rows.filter(r => r.status === "ordered");
+  const opened = rows.filter(r => r.status === "opened" || r.status === "ordered");
+  const own8 = r => (r.cO || 0) + (r.prior || 0);
+  const repeater = r => own8(r) >= 2;
+  const buyers = orderers.filter(r => r.cO > 0);
+  const sum = (arr, f) => arr.reduce((a, r) => a + f(r), 0);
+  const tot = r => r.cS + r.cZ + r.cO + r.cX;
+  const earlier = users.filter(r => r.first === "earlier");
+  const withOffer = users.filter(r => r.offer === "yes"), noOffer = users.filter(r => r.offer === "no");
+  const withFail = users.filter(r => r.fail === true), noFail = users.filter(r => r.fail === false);
+  const keepAns = rows.filter(r => r.keep), tryAns = rows.filter(r => r.tryP && r.tryQ);
+  const tr = f => prop(rows.filter(r => r[f] != null), r => r[f] === 1);
+  return {
+    n: rows.length,
+    K00: prop(orderers, r => r.cO >= 1 && repeater(r)),
+    K01: prop(rows, r => r.status === "ordered"),
+    K10: prop(rows, r => r.status && r.status !== "unaware"),
+    K11: prop(aware, r => r.status === "ordered"),
+    K12: prop(opened, r => r.status === "ordered"),
+    K15P: prop(tryAns, r => r.tryP >= 4), K15Q: prop(tryAns, r => r.tryQ >= 4),
+    K15mc: (() => { const b = tryAns.filter(r => r.tryP >= 4 && r.tryQ < 4).length, c = tryAns.filter(r => r.tryP < 4 && r.tryQ >= 4).length; return binom2(b, b + c); })(),
+    K24: { speed: tr("t1"), rel: tr("t2"), rest: tr("t3") },
+    K25: prop(orderers.filter(r => r.fair), r => r.fair === FAIR[1]),
+    K30: prop(users, repeater),
+    K31: prop(earlier, r => r.cO > 0),
+    K32: prop(keepAns, r => r.keep >= 4),
+    K33: { k: sum(buyers, r => r.cO), n: sum(buyers, tot), resp: buyers.length },
+    K34: prop(users.filter(r => r.disap), r => r.disap === "Very disappointed"),
+    K35: prop(users.filter(r => r.cf), r => r.cf === CF[0]),
+    K43: prop(rows.filter(r => r.stopped), r => r.stopped === STOPPED[0]),
+    K51: prop(users.filter(r => r.fail != null), r => r.fail),
+    K52: { a: prop(noFail, repeater), b: prop(withFail, repeater) },
+    K60: prop(rows.filter(r => r.rapido != null), r => r.rapido >= 1),
+    K62: prop(aware.filter(r => r.heard), r => r.heard === HEARD[0]),
+    K70: prop(users.filter(r => r.offer === "yes" || r.offer === "no"), r => r.offer === "yes"),
+    K71: { a: prop(noOffer, repeater), b: prop(withOffer, repeater) },
+    K72: prop(rows.filter(r => r.trigger), r => r.trigger === TRIGGER[0]),
+    K92: { k: sum(orderers, r => r.cO), n: sum(orderers, tot) },
+    K94: prop(rows, r => r.ordered),
+    priceFirst: prop(rows.filter(r => r.t1 != null && r.t2 != null && r.t3 != null), r => r.t1 + r.t2 + r.t3 >= 2),
+    frequent: prop(orderers, r => tot(r) >= 6),
+    choice: (() => { const c = rows.filter(r => r.choice); const q = c.filter(r => r.choice === "Q").length, p = c.filter(r => r.choice === "P").length; return { q, p, n: p + q, none: c.length - p - q, all: c.length }; })()
+  };
+}
+
+/* ================= audit KPIs ================= */
+function auditKpis() {
+  const caps = DS.audit.data; const frame = DS.frame.data;
+  const fees = c => (c.packaging || 0) + (c.platformFee || 0) + (c.delivery || 0) + (c.smallCart || 0) + (c.surge || 0);
+  const etaMid = c => c.etaMin != null && c.etaMax != null ? (c.etaMin + c.etaMax) / 2 : null;
+  const sets = {};
+  caps.forEach(c => { const key = [c.slot, c.restaurant, c.basket].join("|"); (sets[key] = sets[key] || { slot: c.slot, restaurant: c.restaurant, basket: c.basket, p: {} }).p[c.platform] = c; });
+  const matched = [];
+  Object.values(sets).forEach(s => {
+    const o = s.p.ownly; if (!o || o.final == null) return;
+    const inc = ["swiggy", "zomato"].map(k => s.p[k]).filter(c => c && c.final != null);
+    if (!inc.length) return;
+    const comp = inc.reduce((a, b) => a.final <= b.final ? a : b);
+    const oe = etaMid(o), ce = etaMid(comp);
+    matched.push({ restaurant: s.restaurant, slot: s.slot, basket: s.basket, own: o, comp, saving: comp.final - o.final, savingPct: (comp.final - o.final) / comp.final, etaGap: oe != null && ce != null ? oe - ce : null });
+  });
+  const byRest = {}; matched.forEach(m => (byRest[m.restaurant] = byRest[m.restaurant] || []).push(m));
+  const groups = f => Object.values(byRest).map(g => g.map(f).filter(v => v != null));
+  const med = f => median(matched.map(f).filter(v => v != null));
+  const wins = matched.filter(m => m.saving > 5).length, ties = matched.filter(m => Math.abs(m.saving) <= 5).length;
+  const loadBy = p => median(caps.filter(c => c.platform === p && c.final).map(c => fees(c) / c.final));
+  const compByPlat = p => { const cs = caps.filter(c => c.platform === p && c.final != null); const m = f => median(cs.map(f).filter(v => v != null)); return { n: cs.length, menu: m(c => c.menu), fees: m(fees), discount: m(c => c.discount || 0), taxes: m(c => c.taxes || 0), final: m(c => c.final) }; };
+  const open = (s, p) => s.p[p] && s.p[p].listed && s.p[p].open;
+  const overlapBase = Object.values(sets).filter(s => open(s, "swiggy") || open(s, "zomato"));
+  const cov = frame.filter(f => f.ownly != null);
+  const covType = t => { const x = cov.filter(f => f.type === t); return { k: x.filter(f => f.ownly).length, n: x.length }; };
+  return {
+    matched, n: matched.length, caps: caps.length, filled: caps.filter(c => c.final != null).length,
+    K20: { med: med(m => m.savingPct), medRs: med(m => m.saving), ci: bootMedianClustered(groups(m => m.savingPct), median), ciRs: bootMedianClustered(groups(m => m.saving), median) },
+    K21: { k: wins, n: matched.length, ties },
+    K22: { ownly: loadBy("ownly"), swiggy: loadBy("swiggy"), zomato: loadBy("zomato") },
+    K50: { med: med(m => m.etaGap), ci: bootMedianClustered(groups(m => m.etaGap), median), n: matched.filter(m => m.etaGap != null).length },
+    comp: { ownly: compByPlat("ownly"), swiggy: compByPlat("swiggy"), zomato: compByPlat("zomato") },
+    K40: { k: cov.filter(f => f.ownly).length, n: cov.length }, K41: { local: covType("local"), chain: covType("chain") },
+    K42: { k: overlapBase.filter(s => open(s, "ownly")).length, n: overlapBase.length }
+  };
+}
+
+/* ================= fake-door KPIs ================= */
+function fakeKpis() {
+  const vis = {};
+  DS.fake.data.forEach(e => { if (!e.v) return; const x = vis[e.v] = vis[e.v] || { arm: e.arm, src: e.src, cta: false, sec: false }; if (e.ev === "cta_click") x.cta = true; if (e.ev === "secondary_intent") x.sec = true; });
+  const V = Object.values(vis).filter(x => x.arm === "A" || x.arm === "B");
+  const arm = a => { const x = V.filter(v => v.arm === a); return { n: x.length, cta: x.filter(v => v.cta).length, sec: x.filter(v => v.sec).length }; };
+  const A = arm("A"), B = arm("B");
+  const test = twoProp(B.cta, B.n, A.cta, A.n);
+  const srm = binom2(A.n, A.n + B.n);
+  const srcs = {}; V.forEach(v => { const s = srcs[v.src] = srcs[v.src] || { n: 0, cta: 0 }; s.n++; if (v.cta) s.cta++; });
+  return { A, B, total: V.length, test, rel: A.n && A.cta ? (B.cta / B.n) / (A.cta / A.n) - 1 : NaN, srm, primary: V.length >= 80 && A.n >= 30 && B.n >= 30, srcs };
+}
+
+/* ================= decision rules (09_analysis/kpi_system/decision_rules.md) ================= */
+const lo = m => wilson(m.k, m.n)[0], hi = m => wilson(m.k, m.n)[1], val = m => m.n ? m.k / m.n : NaN;
+function h0Result(S, FD) {
+  if (FD.primary) {
+    const d = FD.test.diff; const sig = FD.test.p < 0.05;
+    let call, winner = null;
+    if (sig && Math.abs(d) >= 0.10) { call = "Reject H₀"; winner = d > 0 ? "Q" : "P"; }
+    else if (sig) call = "Reject H₀ statistically · no practical difference";
+    else call = "Fail to reject H₀";
+    return { source: "fake door", call, winner, reject: sig };
+  }
+  const c = S.choice; if (c.n < 30) return { source: "survey forced choice", call: "Not testable (n < 30)", winner: null, reject: false, na: true };
+  const ci = wilson(c.q, c.n), p = binom2(c.q, c.n);
+  let call, winner = null;
+  if (p < 0.05 && (ci[0] > 0.6 || ci[1] < 0.4)) { call = "Reject H₀"; winner = ci[0] > 0.5 ? "Q" : "P"; }
+  else if (p < 0.05) { call = "Reject H₀ statistically · no practical difference"; }
+  else call = "Fail to reject H₀";
+  return { source: "survey forced choice", call, winner, reject: p < 0.05, p, ci };
+}
+function conf(level) { return level; }
+function transferRows(S, B, AU, FD) {
+  const out = [];
+  const auditReady = AU.n >= 5;
+  // 1 Transparent lower price
+  (function () {
+    let v, c, why;
+    const k23 = (() => { const t = viewHyd().filter(r => r.threshRs != null); return { k: t.filter(r => r.threshRs <= AU.K20.medRs).length, n: t.length }; })();
+    if (!auditReady) { v = "INSUFFICIENT"; c = "LOW"; why = "Audit incomplete: price claims need observed baskets."; }
+    else if (!(AU.K20.ci[0] > 0) || val(AU.K21) < 0.5) { v = "DROP"; c = "MEDIUM"; why = `Saving CI ${pct(AU.K20.ci[0])}–${pct(AU.K20.ci[1])}; Ownly cheapest in ${AU.K21.k}/${AU.K21.n} sets.`; }
+    else if (AU.K20.medRs >= 30 && val(k23) >= 0.5 && val(S.K24.speed) >= 0.5) { v = "KEEP"; c = S.n >= 30 ? "HIGH" : "MEDIUM"; why = `Median saving ${rs(AU.K20.medRs)} (${pct(AU.K20.med)}); ${pct(val(k23))} would switch for it; ${pct(val(S.K24.speed))} trade 15 min for ₹30.`; }
+    else { v = "ADAPT"; c = S.n >= 30 ? "HIGH" : "MEDIUM"; why = `Real saving (${rs(AU.K20.medRs)}, ${pct(AU.K20.med)}) but ${AU.K20.medRs < 30 ? "below ₹30" : pct(val(k23)) + " switch for it"}: use it as supporting proof, not the headline.`; }
+    out.push({ el: "Transparent lower price", blr: "Lead claim: \"same food, smaller final bill\" (company, Mar–Jul 2026)", hyd: why, kpi: "K20 · K21 · K23 · K24", conf: c, v });
+  })();
+  // 2 No / low fees
+  (function () {
+    let v, c = "MEDIUM", why;
+    const incLoad = Math.min(AU.K22.swiggy, AU.K22.zomato), gap = incLoad - AU.K22.ownly, pain = val(S.K25);
+    if (!auditReady || isNaN(gap)) { v = "INSUFFICIENT"; c = "LOW"; why = "Audit incomplete."; }
+    else if (gap >= 0.05 && pain >= 0.30) { v = "KEEP"; why = `Fees ${pct(incLoad)} of incumbent bills vs ${pct(AU.K22.ownly)} on Ownly; ${pct(pain)} felt extra charges were too much.`; }
+    else if (gap >= 0.05) { v = "ADAPT"; why = `Fee gap ${pp(gap)} is real but only ${pct(pain)} feel fee pain: fold it into the final-bill message.`; }
+    else { v = "DROP"; why = `Fee gap only ${pp(gap)} of the bill.`; }
+    out.push({ el: "No / low fees", blr: "No platform, packaging or surge fee; ~₹30 delivery (Mar 2026 on)", hyd: why, kpi: "K22 · K25", conf: c, v });
+  })();
+  // 3 Rapido cross-sell
+  (function () {
+    const rows = viewHyd(); const u = rows.filter(r => r.rapido >= 1), nu = rows.filter(r => r.rapido === 0);
+    const a = prop(u, r => r.status && r.status !== "unaware"), b = prop(nu, r => r.status && r.status !== "unaware");
+    const ci = newcombe(a.k, a.n, b.k, b.n); const pen = val(S.K60);
+    const heardCounts = HEARD.map(h => rows.filter(r => r.heard === h).length); const rank = heardCounts.slice().sort((x, y) => y - x).indexOf(heardCounts[0]);
+    let v, c = "LOW", why;
+    if (S.K60.n < 30 || u.length < 10 || nu.length < 10) { v = "INSUFFICIENT"; why = "Needs Rapido usage (S3-Q3) with ≥10 users and non-users."; }
+    else if (ci[0] >= 0.10 && rank <= 1 && pen >= 0.40) { v = "KEEP"; c = "MEDIUM"; why = `Awareness ${pp(val(a) - val(b))} higher among Rapido users (CI ${pp(ci[0])} to ${pp(ci[1])}); Rapido is a top-2 discovery source. Association, not causation.`; }
+    else if (val(a) - val(b) > 0) { v = "ADAPT"; c = "MEDIUM"; why = `Awareness gap ${pp(val(a) - val(b))} (CI ${pp(ci[0])} to ${pp(ci[1])}); ${pct(pen)} use Rapido. One channel, not the engine.`; }
+    else { v = "DROP"; c = "MEDIUM"; why = `No awareness advantage among Rapido users (${pp(val(a) - val(b))}).`; }
+    out.push({ el: "Rapido cross-sell", blr: "Ownly inside the Rapido app, Bengaluru only (Jul 2026)", hyd: why, kpi: "K60 · K61 · K62", conf: c, v });
+  })();
+  // 4 Game / reward
+  (function () {
+    const gap = val(S.K71.a) - val(S.K71.b); const offerShare = val(S.K70); const keep = val(S.K32), trial = Math.max(val(S.K15P), val(S.K15Q));
+    let v, c = "LOW", why;
+    if (S.K71.a.n < 5 || S.K71.b.n < 5) { v = "INSUFFICIENT"; why = "Needs survey addition A2 with ≥5 offer and ≥5 no-offer triers. A ₹50/₹100 game is unverified, so it's not testable."; }
+    else if (gap >= 0.10 && keep < trial / 2) { v = "DROP"; c = "MEDIUM"; why = `Offer triers repeat ${pp(-gap)} vs organic; only ${pct(keep)} would stay after the offer vs ${pct(trial)} trial intent. Deprioritize heavy discounting.`; }
+    else if (gap >= 0.10 && offerShare >= 0.5) { v = "ADAPT"; c = "MEDIUM"; why = `${pct(offerShare)} of first orders used an offer and those users repeat ${pp(-gap)} less: modify to a smaller offer plus a second-order incentive.`; }
+    else if (gap < 0.10) { v = "KEEP"; c = "MEDIUM"; why = `Offer-acquired triers repeat about as well as organic ones (gap ${pp(gap)}).`; }
+    else { v = "ADAPT"; c = "LOW"; why = `Gap ${pp(gap)} but offers drive only ${pct(offerShare)} of trial.`; }
+    out.push({ el: "Game / first-order reward", blr: "50% off first order, capped at ₹100 (Jul 2026). No public source for a ₹50/₹100 game", hyd: why, kpi: "K32 · K70 · K71", conf: c, v });
+  })();
+  // 5 Local restaurant supply
+  (function () {
+    const cov = val(AU.K40), gapLC = val(AU.K41.local) - val(AU.K41.chain), restShare = val(S.K24.rest), bar = val(S.K43);
+    let v, c = "MEDIUM", why;
+    if (AU.K40.n < 5) { v = "INSUFFICIENT"; c = "LOW"; why = "Restaurant frame on_ownly flags not filled."; }
+    else if (cov < 0.6 || (S.K43.n >= 10 && bar >= 0.3)) { v = "ADAPT"; why = `Blocking: Ownly lists ${AU.K40.k}/${AU.K40.n} target restaurants${S.K43.n >= 10 ? `; ${pct(bar)} of browsers didn't find their restaurants` : ""}. Fix supply before acquisition spend.`; }
+    else if (gapLC < -0.10) { v = "ADAPT"; why = `Coverage ${pct(cov)} overall, but locals trail chains by ${pp(gapLC)}: onboard local favourites before the Service Q message.`; }
+    else if (restShare < 0.5) { v = "KEEP"; why = `Coverage ${pct(cov)}; locals on par; ${pct(1 - restShare)} won't give up their restaurants for ₹30, so supply is valued and met.`; }
+    else { v = "KEEP"; why = `Coverage ${pct(cov)}; restaurant choice is not a strong constraint.`; }
+    out.push({ el: "Local restaurant supply", blr: "~20k–25k partners, zero commission (company claims)", hyd: why, kpi: "K40 · K41 · K43 · K24", conf: c, v });
+  })();
+  // 6 Reliability proposition
+  (function () {
+    const f = val(S.K51), eta = AU.K50.med, relShare = val(S.K24.rel), gap = val(S.K52.a) - val(S.K52.b);
+    let v, c = "MEDIUM", why;
+    if (S.K51.n < 10) { v = "INSUFFICIENT"; c = "LOW"; why = "Needs survey addition A3 (fulfilment failures) with ≥10 Ownly users."; }
+    else if (f >= 0.40) { v = "DROP"; c = "MEDIUM"; why = `Operations blocker: ${pct(f)} of triers had a failure. No acquisition scale-up until fixed.`; }
+    else if (relShare < 0.5 && gap >= 0.10) { v = "ADAPT"; why = `${pct(1 - relShare)} won't trade reliability for ₹30, and triers without failures repeat ${pp(gap)} more: lead with reliability (Service Q) and fix ops first.`; }
+    else if (f < 0.20 && (isNaN(eta) || eta <= 5)) { v = "KEEP"; why = `Failures ${pct(f)}, ETA gap ${isNaN(eta) ? "—" : "+" + eta.toFixed(0) + " min"}: operations support the promise.`; }
+    else { v = "ADAPT"; why = `Failures ${pct(f)}; ETA gap ${isNaN(eta) ? "—" : (eta >= 0 ? "+" : "") + eta.toFixed(0) + " min"}. Monitor and fix before scaling.`; }
+    out.push({ el: "Delivery reliability", blr: "Not a Bengaluru lead claim; reviews show fulfilment failures dominate complaints", hyd: why, kpi: "K50 · K51 · K52 · K24", conf: c, v });
+  })();
+  return out;
+}
+const viewHyd = () => cityRows("Hyderabad");
+function overall(S, AU, FD, rows, H) {
+  if (!DS.audit.data.length || AU.n < 5 || S.n < 30) return { call: "INSUFFICIENT EVIDENCE", cls: "neutral", why: AU.n < 5 ? "The audit has fewer than 5 matched baskets." : "Fewer than 30 eligible Hyderabad respondents in this view." };
+  const breaches = [];
+  if (!(AU.K20.ci[0] > 0)) breaches.push("basket saving CI includes 0");
+  if (S.K51.n >= 10 && val(S.K51) >= 0.4) breaches.push("fulfilment failure ≥ 40%");
+  if (AU.K40.n >= 5 && val(AU.K40) < 0.6) breaches.push("restaurant coverage < 60%");
+  if (S.K71.a.n >= 5 && S.K71.b.n >= 5 && val(S.K71.a) - val(S.K71.b) >= 0.2) breaches.push("promo-dependency gap ≥ 20pp");
+  const keeps = rows.filter(r => r.v === "KEEP").length, adapts = rows.filter(r => r.v === "ADAPT" || r.v === "DROP");
+  const lowConf = rows.filter(r => r.conf === "LOW").length;
+  let call, cls;
+  if (H.winner === "Q" && rows.filter(r => (r.el.includes("supply") || r.el.includes("reliability")) && r.v === "ADAPT").length) { call = "LOCALIZE"; cls = "warn"; }
+  else if (keeps >= 4 && !breaches.length) { call = "REPLICATE"; cls = "good"; }
+  else { call = "ADAPT"; cls = "warn"; }
+  return { call, cls, provisional: lowConf >= 2, breaches, why: `${keeps} of 6 playbook elements KEEP; ${adapts.length ? "adapt or drop: " + adapts.map(r => r.el.toLowerCase()).join(", ") : "none to adapt"}${breaches.length ? ". Guardrail breach: " + breaches.join("; ") : ""}.` };
+}
+/* ================= render helpers ================= */
+const demoTag = key => DS[key].demo ? ` <span class="tag demo">demo data</span>` : "";
+function panel(o) {
+  const foot = [["Question", o.q], ["Source", o.src], ["Base", o.n], ["Segment", o.seg], ["Interpretation", o.read], ["Implication", o.impl]].filter(x => x[1]);
+  return `<section class="panel${o.cls ? " " + o.cls : ""}"><div class="panel-head"><h3>${o.title}</h3>${o.sub ? `<p class="q">${o.sub}</p>` : ""}</div>
+    ${o.legend || ""}<div class="chart">${o.body}</div>
+    <dl class="foot">${foot.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl></section>`;
+}
+const segText = () => [F.city === "All" ? "Hyderabad + Bengaluru" : F.city, F.occ === "All" ? "all occupations" : F.occ, F.rap === "All" ? "Rapido users and non-users" : F.rap === "user" ? "Rapido users" : "non-Rapido users"].join(" · ");
+const legendCities = () => `<div class="legend">${shownCities().map(c => `<span><i style="background:var(${CITY_VAR[c]})"></i>${c}</span>`).join("")}</div>`;
+function bars(rowsSpec, opts) {
+  opts = opts || {}; const L = "3.4rem";
+  return `<div class="gb">${rowsSpec.map(row => `<div class="gb-row"><div class="gb-label">${esc(row.label)}</div><div class="gb-area">${row.series.map(s => {
+    const w = s.n ? s.k / s.n : 0; const show = s.n >= 10;
+    return `<div class="gb-track" data-tip="${esc(row.label + " · " + (s.name || "") + ": " + (s.n ? pct(w, 1) + " (" + s.k + "/" + s.n + ")" : "no data"))}"><div class="gb-bar" style="width:calc((100% - ${L}) * ${show ? w : 0});background:var(${s.color})"></div><span class="gb-val">${show ? pct(w) : s.n ? "n<10" : "—"}</span></div>`;
+  }).join("")}${opts.mid ? `<div class="midline" style="left:calc((100% - ${L}) * ${opts.mid})"></div>` : ""}</div></div>`).join("")}</div>`;
+}
+function stack(rowsSpec) {
+  return `<div class="st">${rowsSpec.map(row => {
+    const tot = row.segs.reduce((a, s) => a + s.v, 0);
+    if (!tot) return `<div class="st-row"><div class="st-label"><span>${esc(row.label)}</span><span class="muted num">n = 0</span></div><div class="empty">No data in this view</div></div>`;
+    return `<div class="st-row"><div class="st-label"><span>${esc(row.label)}</span><span class="muted num">${row.note || "n = " + tot}</span></div><div class="st-bar">${row.segs.filter(s => s.v > 0).map(s => { const w = s.v / tot; return `<div class="st-seg${s.lt ? " lt" : ""}" style="width:${w * 100}%;background:var(${s.c})" data-tip="${esc(row.label + " · " + s.name + ": " + pct(w, 1) + " (" + Math.round(s.v) + ")")}">${w >= 0.1 ? (s.short ? s.short + " " : "") + pct(w) : ""}</div>`; }).join("")}</div></div>`;
+  }).join("")}</div>`;
+}
+function ranked(rows, field, options, hl) {
+  const have = rows.filter(r => r[field]); const n = have.length;
+  if (!n) return { html: `<div class="empty">No responses in this view</div>`, n: 0, top: null };
+  const counts = options.map(o => ({ label: o, k: have.filter(r => r[field] === o).length })).sort((a, b) => b.k - a.k);
+  const max = counts[0].k || 1;
+  return { n, top: counts[0], html: `<div class="rk">${counts.map((c, i) => `<div class="rk-item${i === 0 ? " top" : ""}${hl && hl.includes(c.label) ? " hl" : ""}" data-tip="${esc(c.label + ": " + c.k + " of " + n)}"><div class="rk-label">${esc(c.label)}</div><div class="rk-track"><div class="rk-bar" style="width:calc((100% - 3rem) * ${c.k / max})"></div><span class="gb-val">${n >= 10 ? pct(c.k / n) : c.k}</span></div></div>`).join("")}</div>` };
+}
+function tile(o) {
+  const m = o.m; const n = o.n != null ? o.n : m.n; const v = o.v != null ? o.v : (m.n ? m.k / m.n : NaN);
+  const few = n < 10; const ci = o.ci !== undefined ? o.ci : (m && m.k != null ? wilson(m.k, m.n) : null);
+  return `<article class="tile${o.star ? " star" : ""}${o.breach ? " breach" : ""}">
+    <div class="tile-top"><span class="tile-name">${o.name}</span><span class="tile-id">${o.id}</span></div>
+    <div class="tile-val${few ? " dim" : ""}">${few ? (n ? "n < 10" : "no data") : o.fmt ? o.fmt(v) : pct(v)}</div>
+    <div class="tile-meta"><span>${o.base || "n = " + n}</span>${ci && !few && !isNaN(ci[0]) ? `<span class="num">95% CI ${o.fmt ? o.fmt(ci[0]) : pct(ci[0])}–${o.fmt ? o.fmt(ci[1]) : pct(ci[1])}</span>` : ""}${o.cmp ? `<span>${o.cmp}</span>` : ""}</div>
+    <div class="tile-foot"><span class="tag${o.ext ? " ext" : ""}">${o.ev}</span>${o.demo ? `<span class="tag demo">demo</span>` : ""}${n < 30 && n >= 10 ? `<span class="chip warn">! low base</span>` : ""}${o.breach ? `<span class="chip crit">✕ guardrail breach</span>` : ""}${o.chip || ""}</div></article>`;
+}
+const vchip = v => ({ KEEP: `<span class="chip good">✓ KEEP</span>`, ADAPT: `<span class="chip warn">↻ ADAPT</span>`, DROP: `<span class="chip crit">✕ DROP / DEPRIORITIZE</span>`, INSUFFICIENT: `<span class="chip neutral">? INSUFFICIENT EVIDENCE</span>` }[v]);
+const cchip = c => `<span class="chip neutral">${c} confidence</span>`;
+
+/* ================= Page 1 · Cockpit ================= */
+function page1() {
+  const S = surveyKpis(viewHyd()), SB = surveyKpis(cityRows("Bengaluru")), AU = auditKpis(), FD = fakeKpis();
+  const H = h0Result(S, FD); const rows = transferRows(S, SB, AU, FD); const O = overall(S, AU, FD, rows, H);
+  const c = S.choice, ci = wilson(c.q, c.n);
+  const h0chip = H.na ? `<span class="chip neutral">? ${H.call}</span>` : H.reject && H.winner ? `<span class="chip good">✓ ${H.call}: ${H.winner === "Q" ? "Hyderabad-localized (Q/B) wins" : "Bengaluru-style (P/A) wins"}</span>` : `<span class="chip neutral">● ${H.call}</span>`;
+  const answer = O.call === "INSUFFICIENT EVIDENCE" ? "The data can't support a call yet: " + O.why
+    : `${O.call === "REPLICATE" ? "Replicate the Bengaluru playbook" : O.call === "LOCALIZE" ? "Lead with the Hyderabad-localized proposition" : "Keep the core, adapt the weak elements"}. ${O.why}`;
+  const cmp = (m, f) => `BLR ${m.n >= 10 ? (f ? f(m) : pct(val(m))) : "—"}`;
+  const tiles = [
+    tile({ id: "K00 ★", name: "Repeat-active customers / 100 delivery users", m: S.K00, v: val(S.K00), fmt: x => isNaN(x) ? "—" : (x * 100).toFixed(1), ci: wilson(S.K00.k, S.K00.n), base: `n = ${S.K00.n} recent orderers`, cmp: `BLR ${SB.K00.n >= 10 ? (val(SB.K00) * 100).toFixed(1) : "—"}`, ev: "project proxy · self-reported", star: true, demo: DS.survey.demo }),
+    tile({ id: "K10", name: "Ownly awareness", m: S.K10, cmp: cmp(SB.K10), ev: "self-reported", demo: DS.survey.demo }),
+    tile({ id: "K01", name: "Trial penetration", m: S.K01, cmp: cmp(SB.K01), ev: "self-reported", demo: DS.survey.demo }),
+    tile({ id: "K13", name: "Fake-door CTA: B vs A", m: { k: FD.B.cta, n: FD.B.n }, v: FD.test.diff, fmt: x => pp(x), ci: FD.test.ci, n: Math.min(FD.A.n, FD.B.n), base: `A ${pct(FD.A.cta / FD.A.n)} (n ${FD.A.n}) · B ${pct(FD.B.cta / FD.B.n)} (n ${FD.B.n})`, ev: FD.primary ? "observed intent · primary" : "observed intent · directional", demo: DS.fake.demo }),
+    tile({ id: "K20", name: "Median basket saving vs cheaper incumbent", m: { n: AU.n }, n: AU.n, v: AU.K20.med, ci: AU.K20.ci, base: `${AU.n} matched sets · ${rs(AU.K20.medRs)} median`, ev: "observed · audit", demo: DS.audit.demo, breach: AU.n >= 5 && !(AU.K20.ci[0] > 0) }),
+    tile({ id: "K32", name: "Would stay after the ₹100 offer ends", m: S.K32, cmp: cmp(SB.K32), ev: "stated", demo: DS.survey.demo }),
+    tile({ id: "K33", name: "Share of requirements (Ownly buyers)", m: S.K33, n: S.K33.resp, v: val(S.K33), ci: null, base: `${S.K33.k}/${S.K33.n} orders · ${S.K33.resp} buyers`, cmp: `BLR ${SB.K33.resp >= 10 ? pct(val(SB.K33)) : "—"}`, ev: "self-reported", demo: DS.survey.demo }),
+    tile({ id: "K40", name: "Target-restaurant coverage", m: AU.K40, n: AU.K40.n >= 5 ? 30 : AU.K40.n, ci: null, base: `${AU.K40.k} of ${AU.K40.n} frame restaurants`, ev: "observed · frame", demo: DS.frame.demo, breach: AU.K40.n >= 5 && val(AU.K40) < 0.6 }),
+    tile({ id: "K50", name: "ETA gap vs cheaper incumbent", m: { n: AU.K50.n }, n: AU.K50.n, v: AU.K50.med, fmt: x => isNaN(x) ? "—" : (x >= 0 ? "+" : "−") + Math.abs(x).toFixed(0) + " min", ci: AU.K50.ci, base: `${AU.K50.n} matched sets · shown ETA`, ev: "observed · audit", demo: DS.audit.demo })
+  ];
+  return `<div class="page-head"><p class="eyebrow">Page 1 · Executive decision cockpit</p><h2>Should Ownly replicate or adapt Bengaluru's playbook for Gachibowli?</h2>
+    <p class="sub">Hyderabad values with a Bengaluru comparator. The occupation and Rapido filters apply; the city filter doesn't. Rules: <span class="num">09_analysis/kpi_system/decision_rules.md</span>.</p></div>
+  <div class="banner">
+    <div style="display:grid;gap:12px;align-content:start">
+      <p class="eyebrow">Overall call</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip big-chip ${O.cls}">${O.call}</span>${O.provisional ? `<span class="chip warn big-chip">PROVISIONAL</span>` : ""}</div>
+      <p style="font-size:1.02rem;max-width:60ch">${esc(answer)}</p>
+      ${Object.keys(DS).some(k => DS[k].demo) ? `<p class="note">Datasets still on demo data: ${Object.keys(DS).filter(k => DS[k].demo).map(k => DS[k].label).join(", ")}. This call is not a finding until they are replaced.</p>` : ""}
+    </div>
+    <div style="display:grid;gap:10px;align-content:start">
+      <p class="eyebrow">H₀ · primary test = ${H.source}${FD.primary ? "" : " (fake door < 80 visitors or < 30 per arm, per D3)"}</p>
+      ${h0chip}
+      <dl class="statlist">
+        ${FD.primary ? `<div><dt>CTA: A (Bengaluru-style) vs B (localized)</dt><dd class="num">${pct(FD.A.cta / FD.A.n, 1)} vs ${pct(FD.B.cta / FD.B.n, 1)}</dd></div>
+        <div><dt>Lift, B − A</dt><dd class="num">${pp(FD.test.diff, 1)} (CI ${pp(FD.test.ci[0])} to ${pp(FD.test.ci[1])}) · relative ${isNaN(FD.rel) ? "—" : (FD.rel >= 0 ? "+" : "") + (FD.rel * 100).toFixed(0) + "%"}</dd></div>
+        <div><dt>${FD.test.test}</dt><dd class="num">p = ${fmtP(FD.test.p)}</dd></div>` : ""}
+        <div><dt>Survey: Service Q share (HYD, decided)</dt><dd class="num">${c.n >= 10 ? pct(c.q / c.n) + " · CI " + pct(ci[0]) + "–" + pct(ci[1]) : "—"}</dd></div>
+        <div><dt>Exact binomial vs 50%</dt><dd class="num">p = ${fmtP(binom2(c.q, c.n))} · n = ${c.n}</dd></div>
+        <div><dt>Can't choose</dt><dd class="num">${pct(c.none / c.all)}${c.none / c.all > 0.35 ? ' <span class="chip warn">! &gt; 35%</span>' : ""}</dd></div>
+      </dl>
+      <p class="sub" style="font-size:0.8rem">Failing to reject H₀ means "no evidence the propositions differ", not "they are equal". A click or stated choice is not a first order.</p>
+    </div>
+  </div>
+  <div class="kpis">${tiles.join("")}</div>
+  ${panel({ title: "Transferability Matrix", sub: "Six Bengaluru playbook elements, tested against Hyderabad evidence", body: `<div class="tscroll"><table><thead><tr><th>Playbook element</th><th>Bengaluru evidence</th><th>Hyderabad evidence</th><th>Supporting KPIs</th><th>Confidence</th><th>Verdict</th></tr></thead><tbody>${rows.map(r => `<tr><td><b>${r.el}</b></td><td>${esc(r.blr)}</td><td>${esc(r.hyd)}</td><td class="num" style="white-space:nowrap">${r.kpi}</td><td>${r.conf}</td><td>${vchip(r.v)}</td></tr>`).join("")}</tbody></table></div>`,
+    q: "Which parts of the Bengaluru playbook transfer as-is, which need localisation, and which should be dropped?", src: "Survey (HYD) · audit · frame · external sources for the Bengaluru column", n: `Survey n = ${S.n} · ${AU.n} matched baskets`, seg: segText().replace(/^[^·]+/, "Hyderabad "),
+    read: "Verdicts come from pre-registered rules fixed on 2026-09-16, before data. INSUFFICIENT means a required input is missing, not a negative finding.", impl: "ADAPT rows are the Hyderabad GTM work list; DROP rows should not lead messaging." })}`;
+}
+
+/* ================= Page 2 · Bengaluru playbook ================= */
+const TIMELINE = [
+  ["2025-08", "Pilot in BTM, HSR, Koramangala (Play Store only)", "TechCrunch; Storyboard18"],
+  ["2025-09", "Swiggy exits its Rapido stake, citing the conflict", "TechCrunch, 2025-09-23"],
+  ["2025-11", "magicpin partnership; flat ₹25 + GST per order charged to restaurants, customers pay no fee", "MediaNama, 2025-11-25"],
+  ["2026-03", "Citywide Bengaluru launch; zero restaurant charges; ~₹30 customer delivery fee", "MediaNama, 2026-03-05"],
+  ["2026-03", "Zomato (₹14.90 + GST) and Swiggy (₹17.58) raise platform fees", "MediaNama, Mar 2026"],
+  ["2026-05", "Rapido raises $240M at a $3B valuation (mainly for mobility)", "TechCrunch, 2026-05-15"],
+  ["2026-06", "JP Morgan: Toing 'materially more successful' than Ownly", "Storyboard18, 2026-06-16"],
+  ["2026-07", "CEO: '100 million people ordering online' thesis; affordability focus", "Storyboard18 / Moneycontrol, 2026-07-06"],
+  ["2026-07", "Ownly integrated into the Rapido app (Bengaluru); 50% off first order, capped at ₹100", "Business Today, 2026-07-28"],
+  ["2026-08", "50k+ orders/day reported (~10% of Bengaluru)", "Storyboard18 citing Moneycontrol, 2026-08-21"],
+  ["~2026-09", "Hyderabad live (employee post); 'Mooshak on Wheels' campaign 14–25 Sep", "StartupTalky ~09-11; Deccan Chronicle 09-15"]
+];
+const CLAIMS = [
+  ["Zero commission for restaurants", "MediaNama 2026-03-05; Business Today 2026-07-28", "Contradicted by Angel One / Business Standard (Jul 2026: 'subscription' fee)", "Conflicting"],
+  ["~20,000–25,000 restaurant partners (BLR)", "MediaNama; ownly.food; aggregators", "Figures conflict; the 25k source isn't traceable", "Unverified range"],
+  ["Nearly 10% of Bengaluru orders", "Inc42 2026-07-30 (company)", "Derived from an estimated 500–600k city orders/day", "Company claim"],
+  ["No inflated menu prices", "ownly.food/hyd", "K20/K22 matched-basket audit (Page 5)", "Tested by us"],
+  ["₹50/₹100 game", "No public source found (2026-09-16)", "P3 screenshot required", "Unverified"],
+  ["Burn ₹150–170 per order", "No source", "Not calculable", "Do not cite"]
+];
+function page2() {
+  const SB = surveyKpis(cityRows("Bengaluru"));
+  const pts = [["Mar", 5000], ["Jul", 40000], ["Aug", 50000]]; const W = 420, Hh = 170, x = i => 50 + i * 160, y = v => 140 - v / 55000 * 120;
+  const chart = `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Reported Bengaluru orders per day">
+    ${[0, 25000, 50000].map(v => `<line x1="40" x2="${W - 10}" y1="${y(v)}" y2="${y(v)}" stroke="var(--rule)"/><text x="36" y="${y(v) + 3}" text-anchor="end">${v / 1000}k</text>`).join("")}
+    <polyline fill="none" stroke="var(--ext)" stroke-width="2" points="${pts.map((p, i) => x(i) + "," + y(p[1])).join(" ")}"/>
+    ${pts.map((p, i) => `<circle cx="${x(i)}" cy="${y(p[1])}" r="5" fill="var(--ext)" stroke="var(--surface)" stroke-width="2" data-tip="${p[0]} 2026: ${p[1].toLocaleString("en-IN")} orders/day (reported)"/><text x="${x(i)}" y="160" text-anchor="middle">${p[0]} 2026</text><text x="${x(i)}" y="${y(p[1]) - 10}" text-anchor="middle">${p[1] / 1000}k</text>`).join("")}
+  </svg>`;
+  const rk = ranked(cityRows("Bengaluru"), "heard", HEARD, [HEARD[0]]), rl = ranked(cityRows("Bengaluru"), "less", LESS);
+  return `<div class="page-head"><p class="eyebrow">Page 2 · Bengaluru playbook</p><h2>What exactly are we trying to transfer?</h2><p class="sub">Purple items are <span class="tag ext">external</span> reported figures with source and date. They are never Ownly-confirmed KPIs, and never mixed with our data.</p></div>
+  <div class="grid-2">
+    ${panel({ title: "Strategy timeline", body: `<div class="timeline">${TIMELINE.map(t => `<div class="tl"><span class="d">${t[0]}</span><span>${esc(t[1])}<br><span class="muted" style="font-size:0.75rem">${esc(t[2])}</span></span></div>`).join("")}</div>`, q: "How did the Bengaluru model evolve?", src: "Public sources (checked 2026-09-16)", n: "—", read: "Fees moved from a restaurant-paid per-order fee (pilot) to zero restaurant charges plus a ~₹30 customer delivery fee (Mar 2026).", impl: "Compare Hyderabad only against the current model, never the pilot." })}
+    ${panel({ title: "Reported Bengaluru orders per day", sub: "≈ 58% compound monthly growth, Mar → Aug 2026 (K90)", body: chart, q: "How fast did the playbook grow?", src: "Upstox citing Inc42/HT (~2026-03-26); Storyboard18 citing Moneycontrol (2026-08-21)", n: "3 reported points", read: "Each point rests on a single upstream report.", impl: "Context for ambition only; not a benchmark for our sample." })}
+  </div>
+  <div class="grid-3">
+    <article class="tile"><div class="tile-top"><span class="tile-name">Play Store rating</span><span class="tile-id">K93</span></div><div class="tile-val">4.48★</div><div class="tile-meta">44,485 ratings · 1M+ installs · 2026-09-14</div><div class="tile-foot"><span class="tag ext">external</span></div></article>
+    <article class="tile"><div class="tile-top"><span class="tile-name">Restaurant partners (BLR)</span><span class="tile-id">K44</span></div><div class="tile-val">20k–25k</div><div class="tile-meta">Conflicting company figures, Mar–Jul 2026</div><div class="tile-foot"><span class="tag ext">external</span></div></article>
+    ${tile({ id: "K31", name: "BLR users still ordering (first order 4+ weeks ago)", m: SB.K31, ev: "self-reported", demo: DS.survey.demo })}
+  </div>
+  <div class="grid-2">
+    ${panel({ title: "How Bengaluru users first heard of Ownly", body: rk.html, q: "Which discovery channels built the Bengaluru base?", src: "Survey S21/S23-Q1 (Bengaluru)", n: `n = ${rk.n}`, seg: "Bengaluru · occupation/Rapido filters apply", read: rk.top ? `Top channel: ${rk.top.label}.` : "No data.", impl: "Channels that worked in Bengaluru are candidates, not guarantees, for Hyderabad." })}
+    ${panel({ title: "Why Bengaluru users order less", body: rl.html, q: "What erodes repeat use where the playbook has run longest?", src: "Survey S23 order-less question", n: `n = ${rl.n}`, seg: "Bengaluru Ownly users", read: rl.top ? `Most common: ${rl.top.label}.` : "No data.", impl: "Hyderabad's second-order risks, visible early." })}
+  </div>
+  ${panel({ title: "Claims vs evidence", body: `<div class="tscroll"><table><thead><tr><th>Claim</th><th>Source</th><th>Our test / caveat</th><th>Status</th></tr></thead><tbody>${CLAIMS.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td><td>${esc(c[2])}</td><td><span class="chip ${c[3] === "Tested by us" ? "good" : c[3] === "Do not cite" || c[3] === "Conflicting" ? "crit" : "neutral"}">${c[3]}</span></td></tr>`).join("")}</tbody></table></div>`, q: "Which public claims can we rely on?", src: "01_secondary_research/evidence_table.csv + public-source check 2026-09-16", read: "Only the price claim is testable with our own data.", impl: "Present unverified claims as claims, with dates." })}`;
+}
+
+/* ================= Page 3 · Hyderabad market ================= */
+function page3() {
+  const rows = viewRows(); const cities = shownCities();
+  const per = c => rows.filter(r => r.city === c);
+  const prof = cities.map(c => { const x = per(c); const cnt = v => x.filter(r => r.occ === v).length; return { label: c, segs: [{ name: "Student", v: cnt("Student"), c: "--c-hyd" }, { name: "Working", v: cnt("Working"), c: "--c-blr" }, { name: "Study + work", v: cnt("Both"), c: "--g1", lt: true }, { name: "Other", v: cnt("Other"), c: "--g3", lt: true }] }; });
+  const freqB = [["0", 0, 0], ["1–2", 1, 2], ["3–5", 3, 5], ["6–10", 6, 10], ["11+", 11, 999]];
+  const tot = r => r.cS + r.cZ + r.cO + r.cX;
+  const freq = freqB.map(([l, a, b]) => ({ label: l + " orders", series: cities.map(c => { const x = per(c); return { name: c, color: CITY_VAR[c], k: x.filter(r => r.ordered ? tot(r) >= a && tot(r) <= b : a === 0).length, n: x.length }; }) }));
+  const share = cities.map(c => { const x = per(c).filter(r => r.ordered); const s = f => x.reduce((a, r) => a + r[f], 0); return { label: c, note: `${x.length} orderers`, segs: [{ name: "Swiggy", v: s("cS"), c: "--g1", lt: true }, { name: "Zomato", v: s("cZ"), c: "--g2", lt: true }, { name: "Ownly", v: s("cO"), c: "--c-own" }, { name: "Other ways", v: s("cX"), c: "--g3", lt: true }] }; });
+  const stage = (label, t) => ({ label, series: cities.map(c => { const x = per(c); return { name: c, color: CITY_VAR[c], k: x.filter(t).length, n: x.length }; }) });
+  const funnel = [stage("Heard of Ownly", r => r.status && r.status !== "unaware"), stage("Opened or ordered", r => r.status === "opened" || r.status === "ordered"), stage("Ever ordered", r => r.status === "ordered"), stage("≥2 Ownly orders in 8 weeks", r => r.status === "ordered" && (r.cO + (r.prior || 0)) >= 2)];
+  const S = surveyKpis(rows);
+  const tr = (label, f) => ({ label, series: cities.map(c => { const x = per(c).filter(r => r[f] != null); return { name: c, color: CITY_VAR[c], k: x.filter(r => r[f] === 1).length, n: x.length }; }) });
+  const trade = [tr("₹30 cheaper vs 15 minutes faster", "t1"), tr("₹30 cheaper vs late 1 in 10 instead of 3 in 10", "t2"), tr("₹30 cheaper vs most of your usual restaurants", "t3")];
+  const triers = rows.filter(r => r.status === "ordered"), non = rows.filter(r => r.status !== "ordered");
+  const tvn = [["Price-first (≥2 of 3 trade-offs)", r => r.t1 + r.t2 + r.t3 >= 2, r => r.t1 != null], ["Fee pain on last bill", r => r.fair === FAIR[1], r => r.fair], ["Has a delivery membership", r => r.member === "member", r => true], ["Uses Rapido", r => r.rapido >= 1, r => r.rapido != null]]
+    .map(([label, t, base]) => ({ label, series: [{ name: "Ownly triers", color: "--c-own", k: triers.filter(base).filter(t).length, n: triers.filter(base).length }, { name: "Non-triers", color: "--g1", k: non.filter(base).filter(t).length, n: non.filter(base).length }] }));
+  const speed = val(S.K24.speed), rel = val(S.K24.rel), rest = val(S.K24.rest);
+  return `<div class="page-head"><p class="eyebrow">Page 3 · Hyderabad market</p><h2>Who will switch, and why?</h2><p class="sub">All filters apply. Choose "Both" under City to compare with Bengaluru.${demoTag("survey")}</p></div>
+  <div class="grid-2">
+    ${panel({ title: "Who answered", legend: `<div class="legend"><span><i style="background:var(--c-hyd)"></i>Student</span><span><i style="background:var(--c-blr)"></i>Working</span><span><i style="background:var(--g1)"></i>Study + work</span><span><i style="background:var(--g3)"></i>Other</span></div>`, body: stack(prof), q: "What is the student/professional mix?", src: "Survey S3-Q1", n: `n = ${rows.length}`, seg: segText(), read: "Students over-fill surveys on their own; check the professional share before generalising.", impl: "Weight conclusions by segment, not by the pooled sample." })}
+    ${panel({ title: "Delivery orders in the last 4 weeks", legend: legendCities(), body: bars(freq), q: "How often do they order?", src: "Survey S3-Q3, S4-Q1..Q4", n: `n = ${rows.length}`, seg: segText(), read: `${pct(val(S.frequent))} of recent orderers placed 6+ orders.`, impl: "Frequent orderers carry most of the repeat potential." })}
+  </div>
+  <div class="grid-2">
+    ${panel({ title: "Where their orders went", legend: `<div class="legend"><span><i style="background:var(--g1)"></i>Swiggy</span><span><i style="background:var(--g2)"></i>Zomato</span><span><i style="background:var(--c-own)"></i>Ownly</span><span><i style="background:var(--g3)"></i>Other ways</span></div>`, body: stack(share), q: "What is Ownly's share of orders in the sample (K92)?", src: "Survey S4", n: `${S.K92.n} orders`, seg: segText(), read: `Ownly = ${pct(val(S.K92), 1)} of sample orders.`, impl: "A sample share, not market share. Never compare it with the reported ~10% for Bengaluru." })}
+    ${panel({ title: "Ownly funnel", legend: legendCities(), body: bars(funnel), q: "Where is the biggest drop: awareness, trial or repeat?", src: "Survey S8-Q1, S4-Q3, S12-Q4", n: `n = ${rows.length}`, seg: segText(), read: `Awareness ${pct(val(S.K10))} → awareness-to-trial ${pct(val(S.K11))} → trier repeat ${pct(val(S.K30))}.`, impl: val(S.K10) < 0.5 ? "Reach is the first constraint." : val(S.K11) < 0.3 ? "Conversion after awareness is the constraint." : "Retention is where to focus." })}
+  </div>
+  <div class="grid-2">
+    ${panel({ title: "What people give up for ₹30", legend: legendCities(), body: bars(trade, { mid: 0.5 }), q: "Price, speed, reliability or restaurant choice: which wins (K24)?", src: "Survey S6-Q1..Q3", n: `n = ${S.K24.speed.n}`, seg: segText(), read: `Dashed line = 50%. Price beats speed for ${pct(speed)}, reliability for ${pct(rel)}, restaurant choice for ${pct(rest)}.`, impl: speed >= 0.5 && rel < 0.5 ? "Price can win the first order, but not at the cost of reliability." : "Price alone is not the dominant lever." })}
+    ${panel({ title: "Ownly triers vs non-triers", legend: `<div class="legend"><span><i style="background:var(--c-own)"></i>Ownly triers</span><span><i style="background:var(--g1)"></i>Non-triers</span></div>`, body: bars(tvn), q: "How do people who tried Ownly differ?", src: "Survey S6, S5-Q4, S3-Q2, A1", n: `${triers.length} triers · ${non.length} non-triers`, seg: segText(), read: "Differences show who has self-selected in. Association only.", impl: "Profile of early adopters to target first." })}
+  </div>`;
+}
+
+/* ================= Page 4 · First vs second order ================= */
+function page4() {
+  const rows = viewRows(); const S = surveyKpis(rows);
+  const trig = ranked(rows, "trigger", TRIGGER, [TRIGGER[2], TRIGGER[0]]);
+  const barriers = rows.filter(r => r.whyNot || r.stopped).map(r => ({ b: r.whyNot || r.stopped }));
+  const rb = ranked(barriers, "b", WHYNOT.concat(STOPPED));
+  const ch = ranked(rows, "change", CHANGE, [CHANGE[2], CHANGE[3]]);
+  const fun = [["Aware", S.K10], ["Ever ordered", S.K01], ["Repeat (≥2 in 8 weeks)", prop(rows, r => r.status === "ordered" && r.cO + (r.prior || 0) >= 2)]];
+  const funHtml = bars(fun.map(([l, m]) => ({ label: l, series: [{ name: l, color: "--c-own", k: m.k, n: m.n }] })));
+  const gapBars = bars([{ label: "No failure experienced", series: [{ name: "repeat rate", color: "--good", k: S.K52.a.k, n: S.K52.a.n }] }, { label: "At least one failure", series: [{ name: "repeat rate", color: "--crit", k: S.K52.b.k, n: S.K52.b.n }] }]);
+  const g = val(S.K52.a) - val(S.K52.b); const gt = twoProp(S.K52.a.k, S.K52.a.n, S.K52.b.k, S.K52.b.n);
+  const c1 = S.K24.speed.n >= 30 ? (val(S.K24.speed) >= 0.5 && trig.top && trig.top.label === TRIGGER[2]) : null;
+  const c2 = S.K24.rel.n >= 30 ? val(S.K24.rel) < 0.5 : null;
+  const c3 = S.K52.a.n >= 5 && S.K52.b.n >= 5 ? g >= 0.10 : null;
+  const mark = x => x === null ? `<span class="mark u">?</span>` : x ? `<span class="mark y">✓</span>` : `<span class="mark n">✕</span>`;
+  return `<div class="page-head"><p class="eyebrow">Page 4 · First order vs second order</p><h2>Does price get the first order and reliability earn the second?</h2><p class="sub">A hypothesis to test, not a finding.${demoTag("survey")}</p></div>
+  ${panel({ title: "Hypothesis check", body: `<div class="checks">
+      <div class="check">${mark(c1)}<span><b>Price wins first-order choices:</b> ${pct(val(S.K24.speed))} take ₹30 over 15 minutes, and the top trial trigger is "${trig.top ? esc(trig.top.label) : "—"}".</span></div>
+      <div class="check">${mark(c2)}<span><b>People won't trade reliability for ₹30:</b> only ${pct(val(S.K24.rel))} choose the cheaper, less reliable option.</span></div>
+      <div class="check">${mark(c3)}<span><b>Failures cost the second order:</b> repeat rate ${pct(val(S.K52.a))} without a failure vs ${pct(val(S.K52.b))} with one (${pp(g)}; ${gt.test} p = ${fmtP(gt.p)}).</span></div></div>`,
+    q: "Do all three conditions of the hypothesis hold?", src: "Survey S6, S9-Q1, A3 × S4/S12", n: `trade-offs n = ${S.K24.speed.n} · triers n = ${S.K52.a.n + S.K52.b.n}`, seg: segText(), read: [c1, c2, c3].every(x => x === true) ? "All three hold in this view." : [c1, c2, c3].some(x => x === null) ? "At least one condition can't be tested yet (? = base too small or question missing)." : "The hypothesis only partly holds. Report which parts.", impl: "The first-order message and the second-order operations priority follow from which conditions hold." })}
+  <div class="grid-2">
+    ${panel({ title: "First order: what would make the unaware try", body: trig.html, q: "Which lever gets the first order (K17, K72)?", src: "Survey S9-Q1", n: `n = ${trig.n} unaware`, seg: segText(), read: trig.top ? `Top trigger: ${trig.top.label}.` : "No data.", impl: "Lead first-order creative with the top trigger." })}
+    ${panel({ title: "Second order: one change to order more", body: ch.html, q: "What would make triers order more (K36)?", src: "Survey S12-Q7", n: `n = ${ch.n} users`, seg: segText(), read: ch.top ? `Top: ${ch.top.label}.` : "No data.", impl: "Retention roadmap priority." })}
+  </div>
+  <div class="grid-3">
+    ${panel({ title: "First-order barriers", body: rb.html, q: "What stops the aware from trying (K16)?", src: "Survey S10-Q2 + S11-Q2", n: `n = ${rb.n}`, seg: segText(), read: rb.top ? `Top: ${rb.top.label}.` : "No data.", impl: "The barrier to remove before scaling awareness." })}
+    ${panel({ title: "Acquisition → retention", body: funHtml, q: "How much of the funnel survives to a second order (K10 → K01 → K00)?", src: "Survey S8, S4, S12", n: `n = ${rows.length}`, seg: segText(), read: `Of every 100 respondents, ${(val(fun[2][1]) * 100).toFixed(0)} have repeated.`, impl: "The gap between trial and repeat is the rented demand." })}
+    ${panel({ title: "Repeat rate by failure experience", body: gapBars, q: "Do fulfilment failures stop the second order (K52)?", src: "Survey A3 × S4-Q3/S12-Q4", n: `${S.K52.a.n} without · ${S.K52.b.n} with a failure`, seg: segText(), read: `Gap ${pp(g)} (CI ${pp(gt.ci[0])} to ${pp(gt.ci[1])}). Association: heavy users both repeat more and fail more, which understates the gap.`, impl: g >= 0.1 ? "Reliability investment protects repeat demand." : "Failures aren't visibly driving churn yet." })}
+  </div>`;
+}
+
+/* ================= Page 5 · Is Ownly cheaper? ================= */
+function page5() {
+  const AU = auditKpis(); const M = AU.matched;
+  if (!M.length) return `<div class="page-head"><p class="eyebrow">Page 5 · Is Ownly actually cheaper?</p><h2>Is affordability a real, repeatable advantage, or only messaging?</h2></div><p class="note">No matched baskets yet. Load the audit captures CSV once P3 has filled final_payable for Ownly and at least one incumbent.</p>`;
+  const plats = [["ownly", "Ownly", "--c-own"], ["swiggy", "Swiggy", "--g1"], ["zomato", "Zomato", "--g2"]];
+  const maxF = Math.max(...plats.map(p => (AU.comp[p[0]].menu || 0) + (AU.comp[p[0]].fees || 0) + (AU.comp[p[0]].taxes || 0)), 1);
+  const wf = `<div class="gb">${plats.map(([k, l, c]) => { const x = AU.comp[k]; if (!x.n) return ""; const seg = (v, col, name) => v > 0 ? `<div class="st-seg lt" style="width:${v / maxF * 100}%;background:var(${col})" data-tip="${l} · ${name}: median ${rs(v)}">${v / maxF > 0.12 ? rs(v) : ""}</div>` : "";
+    return `<div class="gb-row"><div class="gb-label">${l} <span class="muted num">final ${rs(x.final)} · ${x.n} captures</span></div><div class="st-bar" style="height:24px">${seg(x.menu - x.discount, c === "--c-own" ? "--c-own" : "--g2", "menu after discount")}${seg(x.fees, "--c-blr", "fees")}${seg(x.taxes, "--g3", "taxes")}</div></div>`; }).join("")}</div>`;
+  const sorted = M.slice().sort((a, b) => a.saving - b.saving); const ext = Math.max(20, ...sorted.map(m => Math.abs(m.saving)));
+  const W = 440, rowH = 16, Hh = sorted.length * rowH + 30, sx = v => 150 + (v + ext) / (2 * ext) * (W - 170);
+  const dots = `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Saving per matched basket">
+    <rect x="${sx(-5)}" y="0" width="${sx(5) - sx(-5)}" height="${Hh - 22}" fill="var(--surface-2)"/>
+    <line x1="${sx(0)}" x2="${sx(0)}" y1="0" y2="${Hh - 22}" stroke="var(--ink-3)" stroke-dasharray="3 3"/>
+    ${sorted.map((m, i) => `<text x="144" y="${i * rowH + 12}" text-anchor="end">${esc((m.restaurant || "").slice(0, 18))} · ${m.slot === "wed_dinner" ? "dinner" : "lunch"}</text><circle cx="${sx(m.saving)}" cy="${i * rowH + 8}" r="5" fill="${m.saving > 5 ? "var(--c-own)" : m.saving < -5 ? "var(--crit)" : "var(--ink-3)"}" stroke="var(--surface)" stroke-width="2" data-tip="${esc(m.restaurant + " (" + m.slot + ", " + m.basket + "): Ownly " + rs(m.own.final) + " vs " + m.comp.platform + " " + rs(m.comp.final) + " = " + rs(m.saving) + " (" + pct(m.savingPct, 1) + ")")}"/>`).join("")}
+    ${[-ext, 0, ext].map(v => `<text x="${sx(v)}" y="${Hh - 6}" text-anchor="middle">${rs(v)}</text>`).join("")}
+  </svg>`;
+  const pts = M.filter(m => m.etaGap != null); const ex = Math.max(10, ...pts.map(m => Math.abs(m.etaGap))); const ey = Math.max(0.1, ...pts.map(m => Math.abs(m.savingPct)));
+  const SW = 420, SH = 240, px = v => 40 + (v + ex) / (2 * ex) * (SW - 60), py = v => 20 + (1 - (v + ey) / (2 * ey)) * (SH - 50);
+  const scatter = `<svg viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Saving vs ETA gap">
+    <line x1="${px(0)}" x2="${px(0)}" y1="20" y2="${SH - 30}" stroke="var(--rule)"/><line x1="40" x2="${SW - 20}" y1="${py(0)}" y2="${py(0)}" stroke="var(--rule)"/>
+    <text x="${SW - 22}" y="30" text-anchor="end">cheaper, slower</text><text x="44" y="30">cheaper, faster</text><text x="${SW - 22}" y="${SH - 36}" text-anchor="end">dearer, slower</text>
+    ${pts.map(m => `<circle cx="${px(m.etaGap)}" cy="${py(m.savingPct)}" r="5" fill="var(--c-own)" fill-opacity="0.85" stroke="var(--surface)" stroke-width="2" data-tip="${esc(m.restaurant + ": saving " + pct(m.savingPct, 1) + ", ETA " + (m.etaGap >= 0 ? "+" : "") + m.etaGap.toFixed(0) + " min")}"/>`).join("")}
+    <text x="${px(-ex)}" y="${SH - 12}">${(-ex).toFixed(0)} min</text><text x="${px(ex)}" y="${SH - 12}" text-anchor="end">+${ex.toFixed(0)} min</text><text x="${px(0)}" y="${SH - 12}" text-anchor="middle">ETA gap (Ownly − incumbent)</text>
+    <text x="36" y="${py(ey) + 4}" text-anchor="end">${pct(ey)}</text><text x="36" y="${py(-ey) + 4}" text-anchor="end">${pct(-ey)}</text>
+  </svg>`;
+  const th = viewHyd().filter(r => r.thresh); const counts = THRESH.map(o => th.filter(r => r.thresh === o).length);
+  const k23 = th.filter(r => r.threshRs != null && r.threshRs <= AU.K20.medRs).length, k23n = th.filter(r => r.threshRs != null).length;
+  const thBars = bars(THRESH.map((o, i) => ({ label: o + (THRESH_RS[i] != null && THRESH_RS[i] <= AU.K20.medRs ? "  ✓ covered by median saving" : ""), series: [{ name: o, color: THRESH_RS[i] != null && THRESH_RS[i] <= AU.K20.medRs ? "--c-own" : "--bar", k: counts[i], n: th.length }] })));
+  return `<div class="page-head"><p class="eyebrow">Page 5 · Is Ownly actually cheaper?</p><h2>Is affordability a real, repeatable advantage, or only messaging?</h2><p class="sub">Matched baskets: same restaurant, basket and slot, one Gachibowli drop point. Survey filters don't apply, except to the threshold chart.${demoTag("audit")}</p></div>
+  <div class="kpis">
+    ${tile({ id: "K20", name: "Median saving vs cheaper incumbent", m: { n: AU.n }, n: AU.n, v: AU.K20.med, ci: AU.K20.ci, base: `${rs(AU.K20.medRs)} · ${AU.n} sets`, ev: "observed", demo: DS.audit.demo, breach: !(AU.K20.ci[0] > 0) })}
+    ${tile({ id: "K21", name: "Ownly cheapest by > ₹5", m: AU.K21, ci: null, base: `${AU.K21.k} of ${AU.K21.n} sets · ${AU.K21.ties} ties`, ev: "observed", demo: DS.audit.demo })}
+    ${tile({ id: "K22", name: "Fee load: Ownly vs incumbents", m: { n: AU.caps }, n: AU.filled, v: AU.K22.ownly, ci: null, base: `Swiggy ${pct(AU.K22.swiggy)} · Zomato ${pct(AU.K22.zomato)}`, ev: "observed", demo: DS.audit.demo })}
+  </div>
+  <div class="grid-2">
+    ${panel({ title: "Where the bill comes from", legend: `<div class="legend"><span><i style="background:var(--c-own)"></i>Ownly menu after discount</span><span><i style="background:var(--g2)"></i>Incumbent menu after discount</span><span><i style="background:var(--c-blr)"></i>Fees</span><span><i style="background:var(--g3)"></i>Taxes</span></div>`, body: wf, q: "Does the gap come from menu prices, fees or discounts?", src: "Audit: menu_subtotal, fee fields, discount_amount, taxes_gst", n: `${AU.filled} priced captures`, read: "Medians per platform, not one basket.", impl: "If the gap is mostly fees, lead with 'no fees'; if mostly menu, lead with 'restaurant prices'." })}
+    ${panel({ title: "Saving in each matched basket", body: dots, q: "Is Ownly cheaper consistently, or only sometimes?", src: "Audit final_payable", n: `${AU.n} matched sets`, read: "Right of the dashed line = Ownly cheaper. The grey band is the ₹5 tie zone. Red = Ownly dearer.", impl: val(AU.K21) >= 0.5 ? "The advantage is repeatable enough to claim." : "Too inconsistent to lead with." })}
+  </div>
+  <div class="grid-2">
+    ${panel({ title: "Saving vs delivery-time gap", body: scatter, q: "Does the saving come with a slower ETA (K50)?", src: "Audit ETA and final_payable", n: `${pts.length} sets`, read: `Median ETA gap ${isNaN(AU.K50.med) ? "—" : (AU.K50.med >= 0 ? "+" : "") + AU.K50.med.toFixed(0) + " min"} (shown ETA, not actual).`, impl: AU.K50.med > 5 ? "Price comes with a speed cost, and the Page 3 speed trade-off decides whether that matters." : "No meaningful speed penalty." })}
+    ${panel({ title: "Required saving vs observed saving", body: thBars, q: "Is the real saving big enough to switch people (K23)?", src: "Survey S6-Q4 × audit median", n: `n = ${th.length} (Hyderabad)`, seg: "Hyderabad · occupation/Rapido filters apply", read: `${k23}/${k23n} (${pct(k23 / k23n)}) name a threshold at or below the observed ${rs(AU.K20.medRs)}.`, impl: k23 / k23n >= 0.5 ? "The saving clears most people's bar." : "Price alone won't switch most people." })}
+  </div>`;
+}
+/* ================= Page 6 · Marketplace ================= */
+const REVIEW_THEMES = [["Support unresponsive", 21], ["Refund delay", 16], ["Restaurant/platform cancellation", 11], ["Late delivery / ETA breach", 10], ["Lower price / value (positive)", 4], ["No hidden fees (positive)", 3]];
+function page6() {
+  const AU = auditKpis(); const rows = viewRows(); const S = surveyKpis(rows);
+  const fr = DS.frame.data;
+  const cell = v => v === true ? `<span class="mark y" style="display:inline-block;width:1.6rem">✓</span>` : v === false ? `<span class="mark n" style="display:inline-block;width:1.6rem">✕</span>` : `<span class="mark u" style="display:inline-block;width:1.6rem">?</span>`;
+  const grid = `<div class="tscroll"><table><thead><tr><th>Restaurant</th><th>Type</th><th>Ownly</th><th>Swiggy</th><th>Zomato</th></tr></thead><tbody>${fr.map(f => `<tr><td>${esc(f.name)}</td><td>${esc(f.type || "—")}</td><td>${cell(f.ownly)}</td><td>${cell(f.swiggy)}</td><td>${cell(f.zomato)}</td></tr>`).join("")}</tbody></table></div>`;
+  const users = rows.filter(r => r.status === "ordered" && r.fail != null);
+  const failBars = bars(FAILS.map(f => ({ label: f, series: [{ name: f, color: "--crit", k: users.filter(r => (r.failTypes || []).includes(f)).length, n: users.length }] })));
+  const maxT = REVIEW_THEMES[0][1];
+  const rev = `<p class="note"><b>Self-selected sample, not prevalence.</b> 37 app-store reviews (AI-coded, human validation pending), mostly Bengaluru. Use it to find issues to check, not to estimate how often they happen.</p><div class="rk">${REVIEW_THEMES.map(t => `<div class="rk-item"><div class="rk-label">${t[0]}</div><div class="rk-track"><div class="rk-bar" style="width:calc((100% - 3rem) * ${t[1] / maxT});background:var(--ext)"></div><span class="gb-val">${t[1]}</span></div></div>`).join("")}</div>`;
+  const lc = AU.K41;
+  return `<div class="page-head"><p class="eyebrow">Page 6 · Can the marketplace deliver the promise?</p><h2>Even if people want Ownly, can supply and fulfilment support repeat use?</h2><p class="sub">${demoTag("frame")}${demoTag("audit")}</p></div>
+  <div class="kpis">
+    ${tile({ id: "K40", name: "Target-restaurant coverage", m: AU.K40, n: AU.K40.n >= 5 ? 30 : AU.K40.n, ci: null, base: `${AU.K40.k} of ${AU.K40.n}`, ev: "observed · frame", demo: DS.frame.demo, breach: AU.K40.n >= 5 && val(AU.K40) < 0.6 })}
+    ${tile({ id: "K41", name: "Local minus chain coverage", m: { n: 30 }, n: lc.local.n && lc.chain.n ? 30 : 0, v: val(lc.local) - val(lc.chain), fmt: x => pp(x), ci: null, base: `local ${lc.local.k}/${lc.local.n} · chain ${lc.chain.k}/${lc.chain.n}`, ev: "observed · frame", demo: DS.frame.demo })}
+    ${tile({ id: "K51", name: "Triers with a fulfilment failure", m: S.K51, ev: "self-reported · A3", demo: DS.survey.demo, breach: S.K51.n >= 10 && val(S.K51) >= 0.4 })}
+  </div>
+  <div class="grid-2">
+    ${panel({ title: "Which target restaurants are on which app", body: grid, q: "Are the restaurants target users want on Ownly (K40, K41)?", src: "06_competitor_audit/restaurant_frame", n: `${fr.length} restaurants (chosen by us, not random)`, read: `Ownly lists ${AU.K40.k}/${AU.K40.n}; availability overlap when open on an incumbent: ${AU.K42.n ? pct(val(AU.K42)) + " (" + AU.K42.k + "/" + AU.K42.n + ")" : "—"}.`, impl: val(AU.K40) < 0.6 ? "Fix supply before acquisition spend." : val(lc.local) < val(lc.chain) - 0.1 ? "Onboard local favourites before the localized message." : "Supply supports trial." })}
+    ${panel({ title: "What went wrong for Ownly triers", body: failBars, q: "How often do triers hit fulfilment failures (K51)?", src: "Survey addition A3", n: `n = ${users.length} Ownly users`, seg: segText(), read: `${pct(val(S.K51))} report at least one failure. Heavier users have more chances to experience one.`, impl: val(S.K51) >= 0.4 ? "Operations blocker before scale." : val(S.K51) >= 0.2 ? "Visible risk; fix before heavy acquisition." : "Operations support the promise." })}
+  </div>
+  ${panel({ title: "Issues surfacing in public reviews", body: rev, q: "What failure themes should the survey and interviews check (K53)?", src: "05_review_mining/app_stores/reviews_coded.csv (2026-09-14)", n: "37 reviews", read: "Support and refund issues lead the complaints; price positives are rare in reviews.", impl: "Hypotheses for A3 and the interviews, not rates." })}`;
+}
+
+/* ================= Page 7 · Rapido ================= */
+function page7() {
+  const rows = viewRows(); const S = surveyKpis(rows); const FD = fakeKpis();
+  const u = rows.filter(r => r.rapido >= 1), nu = rows.filter(r => r.rapido === 0);
+  const aw = r => r.status && r.status !== "unaware", tri = r => r.status === "ordered";
+  const g = (t) => ({ a: prop(u, t), b: prop(nu, t) });
+  const A = g(aw), T = g(tri);
+  const gb = bars([["Aware of Ownly", A], ["Ever ordered on Ownly", T]].map(([l, m]) => ({ label: l, series: [{ name: "Rapido users", color: "--c-own", k: m.a.k, n: m.a.n }, { name: "Non-users", color: "--g1", k: m.b.k, n: m.b.n }] })));
+  const tA = twoProp(A.a.k, A.a.n, A.b.k, A.b.n), tT = twoProp(T.a.k, T.a.n, T.b.k, T.b.n);
+  const freq = shownCities().map(c => { const x = rows.filter(r => r.city === c && r.rapido != null); return { label: c, segs: RAPIDO.map((l, i) => ({ name: l, v: x.filter(r => r.rapido === i).length, c: ["--g3", "--g2", "--g1", "--c-own"][i], lt: i < 3 })) }; });
+  const hd = ranked(rows.filter(r => r.status && r.status !== "unaware"), "heard", HEARD, [HEARD[0]]);
+  const srcRows = Object.entries(FD.srcs).sort((a, b) => b[1].n - a[1].n);
+  const seenRows = shownCities().map(c => { const x = rows.filter(r => r.city === c && r.rapido >= 1 && r.rapSeen && r.rapSeen !== "nonuser"); return { label: c, note: `${x.length} Rapido users`, segs: [{ name: "Yes, seen it", v: x.filter(r => r.rapSeen === "yes").length, c: "--c-own" }, { name: "Not sure", v: x.filter(r => r.rapSeen === "unsure").length, c: "--g2", lt: true }, { name: "No", v: x.filter(r => r.rapSeen === "no").length, c: "--g1", lt: true }] }; });
+  const seenU = rows.filter(r => r.rapido >= 1 && r.rapSeen && r.rapSeen !== "nonuser"), seenK = seenU.filter(r => r.rapSeen === "yes").length;
+  const seenY = seenU.filter(r => r.rapSeen === "yes"), seenN = seenU.filter(r => r.rapSeen !== "yes");
+  const tS = twoProp(seenY.filter(tri).length, seenY.length, seenN.filter(tri).length, seenN.length);
+  return `<div class="page-head"><p class="eyebrow">Page 7 · Rapido distribution advantage</p><h2>Does Rapido already own enough attention to lower Ownly's discovery barrier?</h2>
+    <p class="sub">Public sources confirm Ownly inside the Rapido app in <b>Bengaluru only</b> (Business Today, 2026-07-28). Bottom-nav placement is a hypothesis. Every comparison here is an association, not a causal effect.${demoTag("survey")}</p></div>
+  <div class="kpis">
+    ${tile({ id: "K60", name: "Used Rapido in the last 4 weeks", m: S.K60, ev: "self-reported · S3-Q3", demo: DS.survey.demo })}
+    ${tile({ id: "K61", name: "Awareness gap: users − non-users", m: { n: Math.min(A.a.n, A.b.n) }, n: Math.min(A.a.n, A.b.n), v: tA.diff, fmt: x => pp(x), ci: tA.ci, base: `${tA.test} p = ${fmtP(tA.p)}`, ev: "association", demo: DS.survey.demo })}
+    ${tile({ id: "K62", name: "First heard inside the Rapido app", m: S.K62, ev: "self-reported", demo: DS.survey.demo })}
+  </div>
+  <div class="grid-2">
+    ${panel({ title: "Rapido users vs non-users", legend: `<div class="legend"><span><i style="background:var(--c-own)"></i>Rapido users</span><span><i style="background:var(--g1)"></i>Non-users</span></div>`, body: gb, q: "Are Rapido users more likely to know and try Ownly (K61)?", src: "Survey S3-Q3 × S8-Q2", n: `${u.length} users · ${nu.length} non-users`, seg: segText(), read: `Awareness ${pp(tA.diff)} (CI ${pp(tA.ci[0])} to ${pp(tA.ci[1])}); trial ${pp(tT.diff)} (CI ${pp(tT.ci[0])} to ${pp(tT.ci[1])}).`, impl: tA.ci[0] >= 0.1 ? "Consistent with a distribution advantage, so use Rapido surfaces. This does not prove lower acquisition cost." : "No clear distribution advantage yet." })}
+    ${panel({ title: "How often they use Rapido", legend: `<div class="legend">${RAPIDO.map((l, i) => `<span><i style="background:var(${["--g3", "--g2", "--g1", "--c-own"][i]})"></i>${l}</span>`).join("")}</div>`, body: stack(freq), q: "How big is the cross-sell base (K60)?", src: "Survey S3-Q3", n: `n = ${S.K60.n}`, seg: segText(), read: `${pct(val(S.K60))} used Rapido at least once in 4 weeks.`, impl: val(S.K60) >= 0.4 ? "A cross-sell base large enough to matter." : "Rapido can't be the main engine." })}
+  </div>
+  ${panel({ title: "Have Rapido users seen food inside the Rapido app?", legend: `<div class="legend"><span><i style="background:var(--c-own)"></i>Yes</span><span><i style="background:var(--g2)"></i>Not sure</span><span><i style="background:var(--g1)"></i>No</span></div>`, body: stack(seenRows), q: "Is the food option in the Rapido app discoverable to people who already ride?", src: "Survey S8-Q1 (Rapido users only, from S3-Q3)", n: `n = ${seenU.length} Rapido users`, seg: segText(), read: `${seenU.length >= 10 ? pct(seenK / seenU.length) : "—"} have seen it. Ever ordered on Ownly: ${pct(tS.diff >= 0 || tS.diff < 0 ? seenY.filter(tri).length / seenY.length : NaN)} of those who saw it vs ${pct(seenN.filter(tri).length / seenN.length)} of those who didn't (${pp(tS.diff)}, ${tS.test} p = ${fmtP(tS.p)}). Association only.`, impl: seenU.length >= 10 && seenK / seenU.length < 0.5 ? "Most riders haven't noticed food in the app, so in-app placement has headroom." : "In-app discovery is working for riders; the question is conversion." })}
+  <div class="grid-2">
+    ${panel({ title: "Where aware people first heard of Ownly", body: hd.html, q: "Which channel drives discovery (K62)?", src: "Survey S10/S11/S12-Q1", n: `n = ${hd.n}`, seg: segText(), read: hd.top ? `Top: ${hd.top.label}.` : "No data.", impl: "Channel mix for Hyderabad GTM." })}
+    ${panel({ title: "Fake-door traffic by channel", body: srcRows.length ? `<div class="tscroll"><table><thead><tr><th>Source</th><th class="n">Visitors</th><th class="n">CTA</th><th class="n">CTA %</th></tr></thead><tbody>${srcRows.map(([s, x]) => `<tr><td>${esc(s)}</td><td class="n">${x.n}</td><td class="n">${x.cta}</td><td class="n">${x.n >= 10 ? pct(x.cta / x.n) : "n<10"}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">No fake-door data.</div>`, q: "Which channels bring visitors who click?", src: "Fake-door events (utm_source)", n: `${FD.total} visitors`, read: "Directional only: channels weren't randomised.", impl: "Where to post next." + (DS.fake.demo ? " (demo data)" : "") })}
+  </div>`;
+}
+
+/* ================= Page 8 · Promotion ================= */
+function page8() {
+  const rows = viewRows(); const S = surveyKpis(rows);
+  const gap = val(S.K71.a) - val(S.K71.b); const t = twoProp(S.K71.a.k, S.K71.a.n, S.K71.b.k, S.K71.b.n);
+  const trial = Math.max(val(S.K15P), val(S.K15Q));
+  const seg = ["Student", "Working"].map(o => { const x = rows.filter(r => r.occ === o); const s = surveyKpis(x); return { o, s }; });
+  const offerStack = shownCities().map(c => { const x = rows.filter(r => r.city === c && r.status === "ordered"); return { label: c, segs: [{ name: "First-order discount / offer", v: x.filter(r => r.offer === "yes").length, c: "--c-p", lt: true }, { name: "No offer", v: x.filter(r => r.offer === "no").length, c: "--c-own" }, { name: "Don't remember", v: x.filter(r => r.offer === "unknown").length, c: "--g3", lt: true }] }; });
+  let verdict;
+  if (S.K71.a.n < 5 || S.K71.b.n < 5) verdict = `<span class="chip neutral">? Not testable yet (needs A2)</span>`;
+  else if (gap >= 0.1 && val(S.K32) < trial / 2) verdict = `<span class="chip crit">✕ DEPRIORITIZE heavy discounting</span>`;
+  else if (Math.abs(val(seg[0].s.K71.a) - val(seg[0].s.K71.b) - (val(seg[1].s.K71.a) - val(seg[1].s.K71.b))) >= 0.1 && seg.every(x => x.s.K71.a.n >= 5 && x.s.K71.b.n >= 5)) verdict = `<span class="chip warn">◎ TARGET TO SEGMENT</span>`;
+  else if (gap >= 0.1 && val(S.K70) >= 0.5) verdict = `<span class="chip warn">↻ MODIFY: smaller offer + second-order incentive</span>`;
+  else verdict = `<span class="chip good">✓ KEEP</span>`;
+  return `<div class="page-head"><p class="eyebrow">Page 8 · Promotion: growth or rented demand?</p><h2>Do first-order offers create retained users, or only subsidised trial?</h2>
+    <p class="sub">No public source shows a ₹50/₹100 <i>game</i> (checked 2026-09-16). The only verified offer is 50% off the first order, capped at ₹100 (Bengaluru). Game-specific effects stay NOT TESTABLE until P3 captures a dated screenshot.${demoTag("survey")}</p></div>
+  <div class="banner" style="grid-template-columns:1fr"><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><span class="eyebrow">Promotion call (rule 2.4)</span>${verdict}</div></div>
+  <div class="kpis">
+    ${tile({ id: "K70", name: "First orders that used an offer", m: S.K70, ev: "self-reported · A2", demo: DS.survey.demo })}
+    ${tile({ id: "K71", name: "Promo-dependency gap (organic − offer repeat)", m: { n: Math.min(S.K71.a.n, S.K71.b.n) }, n: Math.min(S.K71.a.n, S.K71.b.n) >= 10 ? Math.min(S.K71.a.n, S.K71.b.n) : Math.min(S.K71.a.n, S.K71.b.n), v: gap, fmt: x => pp(x), ci: t.ci, base: `${t.test} p = ${fmtP(t.p)}`, ev: "association", demo: DS.survey.demo, breach: S.K71.b.n >= 5 && gap >= 0.2 })}
+    ${tile({ id: "K32", name: "Would stay after the ₹100 offer ends", m: S.K32, cmp: `trial intent ${pct(trial)}`, ev: "stated", demo: DS.survey.demo })}
+  </div>
+  <div class="grid-3">
+    ${panel({ title: "Did the first Ownly order use an offer?", body: stack(offerStack), q: "How much trial is subsidised (K70)?", src: "Survey addition A2", n: `n = ${S.K70.n}`, seg: segText(), read: `${pct(val(S.K70))} of first orders used an offer.`, impl: val(S.K70) >= 0.5 ? "Trial is mostly subsidised, so retention of these users is the question." : "Trial is largely organic." })}
+    ${panel({ title: "Repeat rate: organic vs offer-acquired", legend: `<div class="legend"><span><i style="background:var(--c-own)"></i>No offer</span><span><i style="background:var(--c-p)"></i>Offer</span></div>`, body: bars([{ label: "≥2 Ownly orders in 8 weeks", series: [{ name: "No offer", color: "--c-own", k: S.K71.a.k, n: S.K71.a.n }, { name: "Offer", color: "--c-p", k: S.K71.b.k, n: S.K71.b.n }] }]), q: "Do offer-acquired triers repeat less (K71)?", src: "A2 × S4-Q3/S12-Q4", n: `${S.K71.a.n} organic · ${S.K71.b.n} offer`, seg: segText(), read: `Gap ${pp(gap)} (CI ${pp(t.ci[0])} to ${pp(t.ci[1])}). Offer users may be more price-sensitive, so this is not the causal effect of the offer.`, impl: gap >= 0.1 ? "Offers rent demand that doesn't stay." : "Offer users retain about as well." })}
+    ${panel({ title: "Intent to try vs intent to stay", body: bars([{ label: "Would try (best of P/Q, top-2)", series: [{ name: "try", color: "--bar", k: Math.round(trial * S.K15P.n), n: S.K15P.n }] }, { label: "Would stay after the offer ends (top-2)", series: [{ name: "stay", color: "--c-own", k: S.K32.k, n: S.K32.n }] }], { mid: trial / 2 }), q: "Does demand survive the subsidy (K15 vs K32)?", src: "Survey S7-Q1/Q2, S7-Q5", n: `n = ${S.K32.n}`, seg: segText(), read: `The dashed line marks half of trial intent. Staying intent at ${pct(val(S.K32))} is ${val(S.K32) < trial / 2 ? "below" : "above"} it.`, impl: val(S.K32) < trial / 2 ? "Most acquired intent evaporates when the offer ends." : "A majority of acquired intent survives." })}
+  </div>
+  ${panel({ title: "Students vs working professionals", body: `<div class="tscroll"><table><thead><tr><th>Segment</th><th class="n">Offer-triggered first order</th><th class="n">Repeat: organic</th><th class="n">Repeat: offer</th><th class="n">Would stay without offer</th></tr></thead><tbody>${seg.map(x => `<tr><td>${x.o}</td><td class="n">${x.s.K70.n >= 10 ? pct(val(x.s.K70)) : "n<10"}</td><td class="n">${x.s.K71.a.n >= 5 ? pct(val(x.s.K71.a)) + " (" + x.s.K71.a.n + ")" : "—"}</td><td class="n">${x.s.K71.b.n >= 5 ? pct(val(x.s.K71.b)) + " (" + x.s.K71.b.n + ")" : "—"}</td><td class="n">${x.s.K32.n >= 10 ? pct(val(x.s.K32)) : "n<10"}</td></tr>`).join("")}</tbody></table></div>`, q: "Should offers target one segment?", src: "Survey A2, S7-Q5 by S3-Q1", n: "Shown per cell", seg: "Occupation filter ignored here", read: "A difference of 10pp or more in the promo gap between segments triggers TARGET TO SEGMENT.", impl: "Where to spend first-order subsidy." })}`;
+}
+
+/* ================= Page 9 · Segments ================= */
+function page9() {
+  const base = elig().filter(r => (F.city === "All" || r.city === F.city));
+  const tot = r => r.cS + r.cZ + r.cO + r.cX;
+  const medAmt = median(base.filter(r => r.amount != null).map(r => r.amount));
+  const segs = [["Everyone", r => true], ["Students", r => r.occ === "Student"], ["Working professionals", r => r.occ === "Working"], ["Frequent (6+ orders / 4 wks)", r => r.ordered && tot(r) >= 6], ["Light (1–5 orders)", r => r.ordered && tot(r) < 6], ["Rapido users", r => r.rapido >= 1], ["Non-Rapido users", r => r.rapido === 0], ["Price-first (≥2 of 3)", r => r.t1 + r.t2 + r.t3 >= 2], ["Speed/reliability-first", r => r.t1 != null && r.t1 + r.t2 + r.t3 < 2], ["High basket (≥ median)", r => r.amount != null && r.amount >= medAmt], ["Delivery members", r => r.member === "member"], ["Gachibowli core", r => r.area === "Gachibowli" || r.area === "Financial District / Nanakramguda"]];
+  const cell = (m, f) => m.n >= 10 ? (f ? f(m) : pct(val(m))) : `<span class="muted">—</span>`;
+  const body = segs.map(([name, f]) => { const x = base.filter(f); const s = surveyKpis(x); const ord = x.filter(r => r.ordered); const avg = ord.length ? (ord.reduce((a, r) => a + tot(r), 0) / ord.length).toFixed(1) : "—";
+    return `<tr><td>${name}</td><td class="n">${x.length}</td><td class="n">${ord.length >= 10 ? avg : "—"}</td><td class="n">${cell(s.K10)}</td><td class="n">${cell(s.K01)}</td><td class="n">${cell(s.priceFirst)}</td><td class="n">${cell(s.K32)}</td><td class="n">${cell(s.K70)}</td><td class="n">${s.K33.resp >= 10 ? pct(val(s.K33)) : "—"}</td><td class="n">${s.choice.n >= 10 ? pct(s.choice.q / s.choice.n) : "—"}</td></tr>`; }).join("");
+  return `<div class="page-head"><p class="eyebrow">Page 9 · Segment prioritization</p><h2>Which segment should Hyderabad GTM enter through?</h2><p class="sub">Raw values with n; <b>no composite attractiveness score</b>, because any weighting would be arbitrary. Read across each row. Cells with n &lt; 10 are hidden. The city filter applies; occupation and Rapido filters don't.${demoTag("survey")}</p></div>
+  ${panel({ title: "Segment matrix", body: `<div class="tscroll"><table><thead><tr><th>Segment</th><th class="n">n</th><th class="n">Orders / 4 wks</th><th class="n">Aware</th><th class="n">Tried</th><th class="n">Price-first</th><th class="n">Stay w/o offer</th><th class="n">Offer-led trial</th><th class="n">Share of req.</th><th class="n">Prefers Q</th></tr></thead><tbody>${body}</tbody></table></div>`,
+    q: "Where do category frequency, awareness, trial, price sensitivity, repeat intent and proposition fit line up?", src: "Survey (all sections)", n: `n = ${base.length}`, seg: F.city === "All" ? "Hyderabad + Bengaluru" : F.city,
+    read: "A strong entry segment orders often, already knows Ownly, isn't dependent on offers, and prefers the proposition Ownly will lead with.", impl: "Pick the segment that is highest on frequency and 'stay without offer' and lowest on 'offer-led trial'. Say which columns drove the pick." })}`;
+}
+
+/* ================= Page 10 · Final decision ================= */
+function page10() {
+  const S = surveyKpis(viewHyd()), SB = surveyKpis(cityRows("Bengaluru")), AU = auditKpis(), FD = fakeKpis();
+  const H = h0Result(S, FD); const rows = transferRows(S, SB, AU, FD); const O = overall(S, AU, FD, rows, H);
+  const impl = { KEEP: "Replicate as in Bengaluru.", ADAPT: "Keep, with the localisation or ops change named in the evidence.", DROP: "Don't lead Hyderabad GTM with it.", INSUFFICIENT: "Collect the missing input before deciding." };
+  const groupsOrder = [["KEEP", "Keep: supported in Hyderabad"], ["ADAPT", "Adapt: works only with localisation or ops change"], ["DROP", "Drop / deprioritize"], ["INSUFFICIENT", "Not decidable yet"]];
+  const means = H.reject && H.winner ? `The ${H.winner === "Q" ? "Hyderabad-localized (regulars + reliability)" : "Bengaluru-style (smaller final bill)"} proposition drew a significantly and practically higher ${H.source === "fake door" ? "click-through" : "stated preference"} among 20–30-year-olds in our sample.` : H.na ? "The test hasn't reached its minimum base." : "We found no evidence that the two propositions perform differently in our sample.";
+  const notMeans = H.reject ? "It doesn't prove actual first orders or repeat use will differ, and doesn't generalise beyond our sample." : "It doesn't show they are equal. With our sample size, differences under about 15–20pp could go undetected.";
+  return `<div class="page-head"><p class="eyebrow">Page 10 · Final proposition &amp; GTM decision</p><h2>What should Ownly keep, adapt or drop in Hyderabad?</h2></div>
+  <div class="banner">
+    <div style="display:grid;gap:10px;align-content:start"><p class="eyebrow">Overall call</p><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip big-chip ${O.cls}">${O.call}</span>${O.provisional ? `<span class="chip warn big-chip">PROVISIONAL</span>` : ""}</div><p>${esc(O.why)}</p></div>
+    <div style="display:grid;gap:8px;align-content:start"><p class="eyebrow">H₀ · ${H.source}</p><span class="chip ${H.reject ? "good" : "neutral"}">${H.call}</span>
+      <dl class="statlist"><div><dt>What it means</dt><dd style="text-align:left;max-width:36ch">${means}</dd></div><div><dt>What it does not mean</dt><dd style="text-align:left;max-width:36ch">${notMeans}</dd></div></dl></div>
+  </div>
+  ${groupsOrder.map(([v, title]) => { const g = rows.filter(r => r.v === v); if (!g.length) return ""; return `<section style="display:grid;gap:10px"><h3>${title}</h3><div class="cards">${g.map(r => `<article class="panel"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><h3>${r.el}</h3>${vchip(r.v)}</div><p style="font-size:0.88rem">${esc(r.hyd)}</p><dl class="foot"><div><dt>Metrics</dt><dd class="num">${r.kpi}</dd></div><div><dt>Bengaluru</dt><dd>${esc(r.blr)}</dd></div><div><dt>Qualitative</dt><dd>Interview codes (04_interviews) · reviews as issue discovery</dd></div><div><dt>Confidence</dt><dd>${r.conf}</dd></div><div><dt>Implication</dt><dd>${impl[r.v]}</dd></div></dl></article>`).join("")}</div></section>`; }).join("")}
+  <div class="grid-2">
+    ${panel({ title: "Not calculable from our data", body: `<div class="rk">${["CAC / CPA: no acquisition spend (fake door ₹0)", "Retention cost, CLV: no margin or cost data", "ROAS, contribution margin, GMV, EBITDA: no revenue data", "Burn per order: not public; the ₹150–170 figure is unverified", "Market share: sample shares are not market shares", "Actual fulfilled-order repeat rate: needs Ownly's internal data"].map(x => `<div class="check"><span class="mark u">—</span><span>${x}</span></div>`).join("")}</div>`, q: "Which requested metrics did we refuse to fabricate?", src: "kpi_tree.md Layer 10", read: "These are shown so no one fills the gap with a guess.", impl: "Recommendations are about proposition and GTM, not unit economics." })}
+    ${panel({ title: "Validate before citywide scale", body: `<div class="checks">${[["A real conversion test: live first-order A/B in Ownly Hyderabad, localized vs price creative", H.reject], ["A second audit round across 3+ drop points and weekend slots", AU.n >= 20], ["Hyderabad 8-week cohort repeat rate from Ownly's own data", false], ["Rapido-app integration and placement in Hyderabad confirmed", false], ["Human validation of review coding (37 rows)", false]].map(([t, ok]) => `<div class="check"><span class="mark ${ok ? "y" : "u"}">${ok ? "✓" : "○"}</span><span>${t}</span></div>`).join("")}</div>`, q: "What must be true before scaling beyond Gachibowli?", src: "decision_rules.md; data_gap_map.md", read: "Our evidence is stated, self-reported, or a single-drop-point audit.", impl: "Treat this as a go/no-go for a Gachibowli pilot, not for all of Hyderabad." })}
+  </div>`;
+}
+
+/* ================= shell ================= */
+const PAGES = [["Cockpit", page1], ["Bengaluru playbook", page2], ["Hyderabad market", page3], ["First vs second order", page4], ["Is it cheaper?", page5], ["Can it deliver?", page6], ["Rapido advantage", page7], ["Promotion", page8], ["Segments", page9], ["Final decision", page10]];
+function renderSources() {
+  document.getElementById("sources").innerHTML = Object.entries(DS).map(([k, d]) => `<div class="src"><div class="src-top"><span class="src-name">${d.label}</span><span class="pill ${d.demo ? "demo" : "live"}" title="${esc(d.file || "")}">${d.demo ? "Demo data" : "Live · " + esc(d.file)}</span></div>
+    <div class="src-actions"><label class="btn" for="in-${k}">Load CSV</label><input class="file-in" type="file" id="in-${k}" data-k="${k}" accept=".csv,text/csv">${d.demo ? "" : `<button class="btn ghost" data-reset="${k}">Back to demo</button>`}<span class="err" id="err-${k}" hidden></span></div></div>`).join("");
+}
+function renderTabs() {
+  document.getElementById("tabs").innerHTML = PAGES.map((p, i) => `<button role="tab" id="tab-${i + 1}" aria-selected="${PAGE === i + 1}" data-page="${i + 1}"><b>${i + 1}</b>${p[0]}</button>`).join("");
+  Object.keys(FILTERS).forEach(k => { document.getElementById("f-" + k).innerHTML = FILTERS[k].map(([v, l]) => `<button type="button" id="f-${k}-${v}" data-f="${k}" data-v="${v}" aria-pressed="${F[k] === v}">${l}</button>`).join(""); });
+  const e = elig(), byC = c => e.filter(r => r.city === c).length;
+  document.getElementById("basebar").innerHTML = `Survey: <b class="num">${viewRows().length}</b> in view · Hyderabad <span class="num">${byC("Hyderabad")}</span> · Bengaluru <span class="num">${byC("Bengaluru")}</span> · ${DS.survey.data.length - e.length} screened out by age${Object.values(DS).some(d => d.demo) ? ' · <span class="tag demo">demo data present</span>' : ""}`;
+}
+function render(scrollTop) {
+  renderTabs();
+  const main = document.getElementById("page");
+  try { main.innerHTML = PAGES[PAGE - 1][1](); }
+  catch (err) { main.innerHTML = `<p class="note">This page couldn't be drawn from the loaded data: ${esc(err.message)}. Check that the files match the templates in 10_dashboard/decision_dashboard/dashboard_data_schema.csv.</p>`; console.error(err); }
+  if (scrollTop) { main.focus({ preventScroll: true }); window.scrollTo({ top: document.querySelector(".nav").offsetTop - 4 }); }
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-page]"); if (t) { PAGE = +t.dataset.page; saveState(); render(true); return; }
+  const f = e.target.closest("[data-f]"); if (f) { F[f.dataset.f] = f.dataset.v; saveState(); render(); return; }
+  const r = e.target.closest("[data-reset]"); if (r) { const d = DS[r.dataset.reset]; d.data = d.make(); d.demo = true; d.file = null; if (r.dataset.reset === "frame" && DS.audit.demo) DS.audit.data = DS.audit.make(); renderSources(); render(); }
+});
+document.addEventListener("change", e => {
+  const inp = e.target.closest("input[data-k]"); if (!inp || !inp.files[0]) return;
+  const k = inp.dataset.k, file = inp.files[0], err = document.getElementById("err-" + k);
+  if (!window.Papa) { err.textContent = "The CSV reader didn't load. Check your connection and reload."; err.hidden = false; return; }
+  Papa.parse(file, { skipEmptyLines: true, complete: res => {
+    try { const d = DS[k].map(res.data); if (!d.length) throw new Error("The file has headers but no rows yet."); DS[k].data = d; DS[k].demo = false; DS[k].file = file.name; renderSources(); render(); }
+    catch (x) { err.textContent = x.message; err.hidden = false; }
+    inp.value = "";
+  }, error: () => { err.textContent = "Couldn't read that file. Use the .csv (unzip the Google Forms download first)."; err.hidden = false; } });
+});
+const tip = document.getElementById("tip");
+document.addEventListener("pointermove", e => {
+  const t = e.target.closest && e.target.closest("[data-tip]"); if (!t) { tip.hidden = true; return; }
+  tip.textContent = t.getAttribute("data-tip"); tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight; let x = e.clientX + 12, y = e.clientY + 14;
+  if (x + w > window.innerWidth - 8) x = e.clientX - w - 12; if (y + h > window.innerHeight - 8) y = e.clientY - h - 14;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+});
+renderSources(); render();
+</script>

@@ -63,3 +63,32 @@ Written ethics approval (Q2) · Ownly serviceability at DP1 (Q3) · pilot-interv
 
 ## Next action
 Work Block 1 in `task_board.md`. Report back per `_ops/report_back_template.md`.
+
+---
+
+## Update · 2026-09-17 — KPI architecture and decision dashboard
+
+**Done (Claude):**
+- `09_analysis/kpi_system/`:
+  - `kpi_tree.md` (public-metric logic A/B/C, north-star evaluation, 10-layer tree, course-metric verdicts)
+  - `kpi_data_coverage.csv` (58 rows)
+  - `metric_dictionary.md` (all P0/P1)
+  - `research_to_kpi_map.md`
+  - `data_gap_map.md`
+  - `calculation_spec.md`
+  - `decision_rules.md`
+- `10_dashboard/decision_dashboard/`: `dashboard_blueprint.md`, `chart_specifications.md`, `dashboard_data_schema.csv`,
+  `dashboard_storyline.md`, `ownly_decision_dashboard.html` (10 pages, loads the 4 CSVs, demo data until loaded).
+
+**P0 KPIs that cannot be computed yet:**
+- K51 and K71: need survey additions A2 and A3.
+- K13: fake door not deployed.
+- K20, K40, K50: audit fields empty.
+
+**Human decisions needed now:**
+1. v6 or v7 goes live?
+2. Add A1–A3?
+3. Deploy the fake door, or declare it directional?
+4. P3: complete the audit and restaurant frame.
+
+Counts unchanged: all **0**.

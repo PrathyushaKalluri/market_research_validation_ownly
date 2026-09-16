@@ -1,0 +1,36 @@
+dataset,field,type,allowed_values,derived_from,used_by_kpis
+survey,city,category,Hyderabad|Bengaluru|Other,header contains 'which city do you live',all
+survey,eligible,bool,true|false,age starts with '2',all denominators
+survey,area,text,v6 area options,'which area?',segment
+survey,occ,category,Student|Working|Both|Other,'best describes you',segment
+survey,member,category,member|none|unsure,'memberships do you have right now',segment
+survey,rapido,int,0-3,A1 'how often did you use rapido',K60;K61
+survey,ordered,bool,true|false,'order food online for delivery at least once',K94;K00
+survey,cS;cZ;cO;cX,int,0-60,S4-Q1..Q4,K00;K30;K33;K92;K37
+survey,amount,number,0-10000,'total amount you paid',segment
+survey,fair,category,S5-Q4 options,'did it feel fair for what you got',K25
+survey,t1;t2;t3,int,0|1,S6-Q1..Q3 (1 = chose Rs230),K24
+survey,thresh_rs,number,10|20|30|50|75|100|null,S6-Q4,K23
+survey,tryP;tryQ;keep,int,1-5,S7-Q1;S7-Q2;S7-Q5,K15;K32
+survey,choice,category,P|Q|N,S7-Q3,K14
+survey,status,category,unaware|heard|opened|ordered,S8-Q1,K01;K10;K11;K12
+survey,trigger;heard;whyNot;stopped,text,option text,S9-Q1;S10-12-Q1;S10-Q2;S11-Q2,K17;K62;K16;K43;K72
+survey,first,category,recent|earlier,S12-Q3,K31
+survey,offer,category,yes|no|unknown,A2,K70;K71
+survey,prior,int,0-60,S12-Q4,K00;K30
+survey,cf;disap;change;less,text,option text,S12-Q5;S12-Q6;S12-Q7;S23,K35;K34;K36
+survey,fail_any,bool,true|false|null,A3,K51;K52
+survey,fail_types,list,A3 options,A3,K51
+audit,slot;restaurant_name;basket_id,text,-,audit-lite,match key
+audit,platform,category,ownly|swiggy|zomato|toing,audit-lite,K20;K21;K22;K50
+audit,restaurant_listed;restaurant_open,bool,yes|no,audit-lite,K42
+audit,menu_subtotal;packaging_fee;platform_fee;delivery_fee;small_cart_fee;surge_rain_fee;taxes_gst;discount_amount;final_payable,number,Rs,audit-lite,K20;K21;K22
+audit,eta_min_shown;eta_max_shown,number,minutes,audit-lite,K50
+frame,name;chain_or_local,text,chain|local,restaurant frame,K40;K41
+frame,on_ownly;on_swiggy;on_zomato,bool,yes|no,restaurant frame,K40;K41
+fakedoor,anon_visitor_id,id,uuid,collector,K13;K74
+fakedoor,variant_id,category,A|B,collector,K13;K74
+fakedoor,event_name,category,page_view|cta_click|secondary_intent|...,collector,K13;K74
+fakedoor,utm_source,text,-,collector,channel table
+fakedoor,is_qa;is_bot_suspect,bool,true|false,collector,exclusion
+external,metric;value;geo;source;date;caveat,text,-,09_analysis/kpi_system/kpi_tree.md section 1B (embedded in dashboard),K44;K90;K91;K93

@@ -1,0 +1,837 @@
+<title>Ownly Survey Pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f3f5f4;
+  --surface: #ffffff;
+  --surface-2: #eaeeec;
+  --ink: #121a17;
+  --ink-2: #4a5550;
+  --ink-3: #75817b;
+  --rule: #dce2df;
+  --accent: #1d5c52;
+  --accent-ink: #ffffff;
+  --c-hyd: #2a78d6;
+  --c-blr: #eb6834;
+  --c-p: #eda100;
+  --c-q: #4a3aa7;
+  --c-own: #1baf7a;
+  --c-none: #b8c1bc;
+  --g1: #a7b1ac;
+  --g2: #c5cdc9;
+  --g3: #dde3e0;
+  --bar: #56708a;
+  --good: #1d7d45;
+  --good-bg: #e2f2e8;
+  --warn: #9a6100;
+  --warn-bg: #fbf0d9;
+  --crit: #b2382a;
+  --crit-bg: #f8e3df;
+  --demo: #7a4d00;
+  --demo-bg: #fff1cc;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0e1311; --surface: #161c1a; --surface-2: #1f2724; --ink: #edf2ef; --ink-2: #b1bcb6; --ink-3: #84908a;
+    --rule: #2a3330; --accent: #7fd1bf; --accent-ink: #0e1311;
+    --c-hyd: #3987e5; --c-blr: #d95926; --c-p: #c98500; --c-q: #9085e9; --c-own: #199e70; --c-none: #56605b;
+    --g1: #6b7671; --g2: #4d5652; --g3: #363e3b; --bar: #8aa3bb;
+    --good: #7ed69f; --good-bg: #173524; --warn: #f2c26b; --warn-bg: #3a2c10; --crit: #f19a8c; --crit-bg: #3d1d18;
+    --demo: #f6cf72; --demo-bg: #3a2e0f;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1311; --surface: #161c1a; --surface-2: #1f2724; --ink: #edf2ef; --ink-2: #b1bcb6; --ink-3: #84908a;
+  --rule: #2a3330; --accent: #7fd1bf; --accent-ink: #0e1311;
+  --c-hyd: #3987e5; --c-blr: #d95926; --c-p: #c98500; --c-q: #9085e9; --c-own: #199e70; --c-none: #56605b;
+  --g1: #6b7671; --g2: #4d5652; --g3: #363e3b; --bar: #8aa3bb;
+  --good: #7ed69f; --good-bg: #173524; --warn: #f2c26b; --warn-bg: #3a2c10; --crit: #f19a8c; --crit-bg: #3d1d18;
+  --demo: #f6cf72; --demo-bg: #3a2e0f;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; }
+@media (min-width: 720px) { .wrap { padding-inline: 28px; } }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+h2 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em; }
+h3 { font-size: 1.02rem; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); font-weight: 600; }
+.muted { color: var(--ink-3); }
+.sub { color: var(--ink-2); font-size: 0.9rem; max-width: 70ch; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+button, .btn { font: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* header */
+.top { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: flex-end; justify-content: space-between; }
+.top-text { display: grid; gap: 8px; }
+.source { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.pill.demo { background: var(--demo-bg); color: var(--demo); }
+.pill.live { background: var(--good-bg); color: var(--good); }
+.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); padding: 7px 14px; border-radius: 8px; font-weight: 600; font-size: 0.86rem; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.file-in { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.error { color: var(--crit); font-size: 0.86rem; }
+
+/* filters */
+.filters { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); margin-block: 22px 8px; padding-block: 10px; border-bottom: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; }
+.fgroup { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.fgroup > span { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); font-weight: 600; }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 8px; padding: 2px; flex-wrap: wrap; }
+.seg button { border: 0; background: transparent; color: var(--ink-2); padding: 5px 11px; border-radius: 6px; font-size: 0.84rem; font-weight: 500; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); font-weight: 600; }
+.basebar { font-size: 0.84rem; color: var(--ink-2); margin-bottom: 26px; }
+
+section { margin-top: 40px; display: grid; gap: 16px; }
+.sec-head { display: grid; gap: 4px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 20px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.panel-head { display: grid; gap: 3px; }
+.grid-2 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+.grid-3 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* hero */
+.hero { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 24px; display: grid; gap: 28px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .hero { grid-template-columns: 1.35fr 1fr; padding: 28px; } }
+.verdict { display: grid; gap: 14px; align-content: start; border-top: 1px solid var(--rule); padding-top: 22px; }
+@media (min-width: 900px) { .verdict { border-top: 0; padding-top: 0; border-left: 1px solid var(--rule); padding-left: 28px; } }
+.big { font-family: var(--font-display); font-size: 3.2rem; font-weight: 700; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.statlist { display: grid; gap: 8px; font-size: 0.88rem; }
+.statlist div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--rule); padding-bottom: 6px; }
+.statlist dt, .statlist dd { margin: 0; }
+.statlist dt { color: var(--ink-2); }
+
+/* chips */
+.chip { display: inline-flex; align-items: center; gap: 5px; font-size: 0.74rem; font-weight: 600; padding: 3px 8px; border-radius: 6px; width: fit-content; }
+.chip.good { background: var(--good-bg); color: var(--good); }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.crit { background: var(--crit-bg); color: var(--crit); }
+.chip.neutral { background: var(--surface-2); color: var(--ink-2); }
+
+/* kpi tiles */
+.kpis { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 520px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .kpis { grid-template-columns: repeat(4, 1fr); } }
+.tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: 6px; min-width: 0; }
+.tile-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.tile-name { font-weight: 600; font-size: 0.92rem; }
+.tile-q { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-3); white-space: nowrap; }
+.tile-val { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile-val.dim { color: var(--ink-3); font-size: 1.4rem; }
+.tile-desc { font-size: 0.8rem; color: var(--ink-2); }
+.tile-meta { font-size: 0.76rem; color: var(--ink-3); display: grid; gap: 4px; }
+.tile-foot { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 22px; }
+
+/* legend */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+/* grouped horizontal bars */
+.gb { display: grid; gap: 14px; }
+.gb-row { display: grid; gap: 5px; }
+.gb-label { font-size: 0.86rem; color: var(--ink); }
+.gb-track { position: relative; display: flex; align-items: center; gap: 8px; height: 16px; }
+.gb-bar { height: 12px; border-radius: 0 4px 4px 0; min-width: 2px; }
+.gb-val { font-family: var(--font-mono); font-size: 0.76rem; color: var(--ink-2); white-space: nowrap; }
+.gb-area { position: relative; display: grid; gap: 3px; }
+.midline { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 1px dashed var(--ink-3); pointer-events: none; }
+.midline-label { position: absolute; top: -18px; transform: translateX(-50%); font-size: 0.68rem; color: var(--ink-3); font-family: var(--font-mono); }
+
+/* 100% stacks */
+.st { display: grid; gap: 14px; }
+.st-row { display: grid; gap: 5px; }
+.st-label { font-size: 0.86rem; display: flex; justify-content: space-between; gap: 8px; }
+.st-bar { display: flex; gap: 2px; height: 30px; }
+.st-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.72rem; color: #fff; overflow: hidden; white-space: nowrap; min-width: 0; }
+.st-seg:first-child { border-radius: 4px 0 0 4px; }
+.st-seg:last-child { border-radius: 0 4px 4px 0; }
+.st-seg.light-seg { color: #121a17; }
+
+/* ranked bars */
+.rk { display: grid; gap: 10px; }
+.rk-item { display: grid; gap: 3px; }
+.rk-label { font-size: 0.83rem; color: var(--ink); }
+.rk-track { display: flex; align-items: center; gap: 8px; }
+.rk-bar { height: 10px; background: var(--bar); border-radius: 0 4px 4px 0; min-width: 2px; }
+.rk-item.top .rk-label { font-weight: 600; }
+
+/* columns */
+.cols { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; align-items: end; height: 190px; padding-top: 18px; border-bottom: 1px solid var(--rule); position: relative; }
+.col { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; gap: 4px; }
+.col-bar { width: 100%; max-width: 44px; background: var(--bar); border-radius: 4px 4px 0 0; min-height: 2px; }
+.col-val { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-2); }
+.col-labels { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; font-size: 0.7rem; color: var(--ink-2); text-align: center; line-height: 1.25; }
+
+/* tables */
+.tscroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.86rem; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; white-space: nowrap; }
+td.n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+th.n { text-align: right; }
+.defs td:first-child { font-weight: 600; white-space: nowrap; }
+
+#tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 0.78rem; padding: 6px 9px; border-radius: 6px; max-width: 260px; line-height: 1.35; }
+.empty { font-size: 0.85rem; color: var(--ink-3); padding: 8px 0; }
+@media (prefers-reduced-motion: no-preference) { .gb-bar, .rk-bar, .st-seg, .col-bar { transition: width .25s ease, height .25s ease; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="top-text">
+      <p class="eyebrow">Ownly market research · Survey v6</p>
+      <h1>Ownly Survey Pulse</h1>
+      <p class="sub">Does a Hyderabad-localized offer beat the Bengaluru-style "cheaper bill" pitch? Plus eight KPIs on how people actually order and use Ownly.</p>
+    </div>
+    <div class="source">
+      <span id="srcPill" class="pill demo">Demo data: synthetic, not real responses</span>
+      <label class="btn" for="csvIn">Load responses CSV</label>
+      <input class="file-in" type="file" id="csvIn" accept=".csv,text/csv">
+      <button class="btn ghost" id="resetDemo" hidden>Back to demo</button>
+      <span id="loadErr" class="error" hidden></span>
+    </div>
+  </header>
+
+  <div class="filters" role="group" aria-label="Filters">
+    <div class="fgroup"><span>City</span><div class="seg" id="f-city"></div></div>
+    <div class="fgroup"><span>Occupation</span><div class="seg" id="f-occ"></div></div>
+    <div class="fgroup"><span>Membership</span><div class="seg" id="f-mem"></div></div>
+  </div>
+  <p class="basebar" id="basebar"></p>
+
+  <section aria-labelledby="h-hero">
+    <div class="sec-head">
+      <p class="eyebrow">Primary test · S7-Q3</p>
+      <h2 id="h-hero">If only one existed: Service P or Service Q?</h2>
+      <p class="sub">Brand-blind. P = "Same food. Smaller final bill." Q = "Your local regulars, and dinner that actually turns up." This always compares Hyderabad and Bengaluru; the occupation and membership filters still apply.</p>
+    </div>
+    <div class="hero">
+      <div style="display:grid;gap:16px;align-content:start">
+        <div class="legend"><span><i style="background:var(--c-p)"></i>Service P</span><span><i style="background:var(--c-none)"></i>Can't choose</span><span><i style="background:var(--c-q)"></i>Service Q</span></div>
+        <div id="heroStack" class="st"></div>
+        <div id="heroTry"></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-kpi">
+    <div class="sec-head">
+      <p class="eyebrow">Eight KPIs · respond to every filter</p>
+      <h2 id="h-kpi">What people do</h2>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section aria-labelledby="h-funnel">
+    <div class="sec-head">
+      <p class="eyebrow">Adoption</p>
+      <h2 id="h-funnel">From hearing about Ownly to ordering again</h2>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-head"><h3>Ownly funnel</h3><p class="sub">% of all respondents in each city · S8 status, S4 Ownly orders</p></div>
+        <div class="legend" id="cityLegend1"></div>
+        <div id="funnel" class="gb"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Where the last 4 weeks of orders went</h3><p class="sub">Share of all delivery orders placed by recent orderers · S4-Q1 to Q4</p></div>
+        <div class="legend"><span><i style="background:var(--g1)"></i>Swiggy</span><span><i style="background:var(--g2)"></i>Zomato</span><span><i style="background:var(--c-own)"></i>Ownly</span><span><i style="background:var(--g3)"></i>Other ways</span></div>
+        <div id="shareStack" class="st"></div>
+        <dl class="statlist" id="orderStats"></dl>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-price">
+    <div class="sec-head">
+      <p class="eyebrow">Is price the lever?</p>
+      <h2 id="h-price">What people give up for ₹30</h2>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-head"><h3>Chose the ₹230 option over ₹260</h3><p class="sub">Each trade-off holds the saving at ₹30 and changes one thing · S6-Q1 to Q3. The dashed line marks 50%: bars past it mean price wins.</p></div>
+        <div class="legend" id="cityLegend2"></div>
+        <div id="trade" class="gb"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>How much cheaper before switching apps</h3><p class="sub">% of respondents in this view · S6-Q4</p></div>
+        <div id="thresh"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Did the last bill feel fair?</h3><p class="sub">Recent orderers · S5-Q4</p></div>
+      <div class="legend"><span><i style="background:var(--good)"></i>Felt fair</span><span><i style="background:var(--c-blr)"></i>Extra charges too much</span><span><i style="background:var(--g1)"></i>Food overpriced</span><span><i style="background:var(--g3)"></i>Didn't look</span></div>
+      <div id="fairStack" class="st"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-why">
+    <div class="sec-head">
+      <p class="eyebrow">Barriers</p>
+      <h2 id="h-why">Why people haven't ordered on Ownly</h2>
+    </div>
+    <div class="grid-3">
+      <div class="panel"><div class="panel-head"><h3>Hadn't heard: what would make them try</h3><p class="sub" id="n-trigger">S9-Q1</p></div><div id="rk-trigger" class="rk"></div></div>
+      <div class="panel"><div class="panel-head"><h3>Heard, never opened: main reason</h3><p class="sub" id="n-whyNot">S10-Q2</p></div><div id="rk-whyNot" class="rk"></div></div>
+      <div class="panel"><div class="panel-head"><h3>Opened, didn't order: what stopped them</h3><p class="sub" id="n-stopped">S11-Q2</p></div><div id="rk-stopped" class="rk"></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-users">
+    <div class="sec-head">
+      <p class="eyebrow">Ownly users</p>
+      <h2 id="h-users">What Ownly users do, and what they'd change</h2>
+    </div>
+    <div class="grid-3">
+      <div class="panel"><div class="panel-head"><h3>Without Ownly, they would have…</h3><p class="sub" id="n-cf">S12-Q5</p></div><div id="rk-cf" class="rk"></div></div>
+      <div class="panel"><div class="panel-head"><h3>ONE change to order more</h3><p class="sub" id="n-change">S12-Q7</p></div><div id="rk-change" class="rk"></div></div>
+      <div class="panel"><div class="panel-head"><h3>Where they first heard of Ownly</h3><p class="sub" id="n-heard">Everyone who had heard of it · S10–S12 Q1</p></div><div id="rk-heard" class="rk"></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-seg">
+    <div class="sec-head">
+      <p class="eyebrow">Segments · city filter applies</p>
+      <h2 id="h-seg">Who behaves differently</h2>
+    </div>
+    <div class="panel">
+      <div class="tscroll"><table id="segTable"></table></div>
+      <p class="sub">"Q share" excludes "can't choose". Treat any segment with n under 30 as a direction, not a result.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-defs">
+    <div class="sec-head">
+      <p class="eyebrow">Reference</p>
+      <h2 id="h-defs">KPI definitions</h2>
+    </div>
+    <div class="panel">
+      <div class="tscroll">
+        <table class="defs">
+          <thead><tr><th>KPI</th><th>Formula</th><th>Base</th><th>Read it as</th></tr></thead>
+          <tbody>
+            <tr><td>H₀: Service Q share</td><td>Q ÷ (P + Q) on S7-Q3, Wilson 95% CI, exact binomial test against 50%</td><td>Hyderabad respondents who chose P or Q</td><td>CI entirely above 50% means the localized offer wins; entirely below means the cheaper-bill offer wins; otherwise no winner</td></tr>
+            <tr><td>Ownly awareness</td><td>Status ≠ "I hadn't heard of Ownly"</td><td>All eligible respondents</td><td>Reach. Compare Hyderabad (launched Sep 2026) with Bengaluru (Mar 2026)</td></tr>
+            <tr><td>Aware → ordered</td><td>"I've ordered on Ownly" ÷ aware</td><td>Aware respondents</td><td>How well awareness turns into a first order</td></tr>
+            <tr><td>Ownly share of orders</td><td>Σ Ownly orders ÷ Σ all orders (S4, last 4 weeks)</td><td>Orders placed by recent orderers</td><td>Revealed share of wallet, measured by behaviour rather than intent</td></tr>
+            <tr><td>Still ordering</td><td>Ownly orders in last 4 weeks &gt; 0</td><td>Ownly users whose first order was more than 4 weeks ago</td><td>Retention. Low base in Hyderabad until the app is older</td></tr>
+            <tr><td>PMF score</td><td>"Very disappointed" ÷ answered (S12-Q6)</td><td>Ownly users</td><td>Sean Ellis test: 40% or more is the usual product–market-fit bar</td></tr>
+            <tr><td>Taken from Swiggy/Zomato</td><td>"Ordered the same on Swiggy or Zomato" ÷ answered (S12-Q5)</td><td>Ownly users</td><td>High = Ownly mostly takes orders from incumbents; the rest are new orders it created</td></tr>
+            <tr><td>Fee pain</td><td>"Extra charges on top were too much" ÷ answered (S5-Q4)</td><td>Recent orderers</td><td>How much of the market Service P's "no fees" promise speaks to</td></tr>
+            <tr><td>Price-first buyers</td><td>Chose ₹230 in at least 2 of the 3 trade-offs (S6-Q1 to Q3)</td><td>Hyderabad and Bengaluru respondents</td><td>People who give up speed, reliability or choice for ₹30</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- option lists (exact v6 wording) ---------- */
+  const TRIGGER = ["A discount on my first order","My usual restaurants being on it","Seeing it's cheaper than Swiggy/Zomato for the same order","A promise of a quick refund if an order goes wrong","A friend telling me it works well","Paying by cash on delivery or meal card (Pluxee / Zeta)","Nothing, I'm happy with how I order now"];
+  const HEARD = ["Inside the Rapido app","Instagram / YouTube","Friends, classmates or colleagues","Hoardings, posters or street campaigns","News, LinkedIn or Reddit","Don't remember"];
+  const WHYNOT = ["I'm happy with my current app or membership","I don't trust a new app yet","I heard bad things about its delivery or support","I don't think it's really cheaper","Not sure it delivers to my area","I don't want another app on my phone","Just haven't got around to it"];
+  const STOPPED = ["My restaurants weren't there","Prices weren't lower than my usual app","A coupon on my usual app made that cheaper","It didn't deliver to my address","The delivery time looked too long","I couldn't pay the way I wanted","I was just looking around"];
+  const CF = ["Ordered the same on Swiggy or Zomato","Ordered on another app (Toing, Magicpin, etc.)","Ordered directly from the restaurant","Cooked, or eaten at home / mess / hostel","Gone out to eat","Skipped it or had a snack"];
+  const CHANGE = ["More restaurants","Faster delivery","More reliable, on-time delivery","Quicker refunds and support","A bigger price gap vs other apps","More offers and coupons","Cash on delivery or meal-card payment"];
+  const THRESH = ["₹10","₹20","₹30","₹50","₹75","₹100 or more","No amount, price alone wouldn't make me switch","Don't know"];
+  const THRESH_SHORT = ["₹10","₹20","₹30","₹50","₹75","₹100+","Price won't","Don't know"];
+  const FAIR = ["Yes, it felt fair","No, the extra charges on top were too much","No, the food itself was overpriced","I didn't really look at the breakdown"];
+  const SCALE = {"definitely not":1,"probably not":2,"not sure":3,"probably":4,"definitely":5};
+  const CITY_VAR = { Hyderabad: "--c-hyd", Bengaluru: "--c-blr", Other: "--c-none" };
+  const CITY_SHORT = { Hyderabad: "Hyderabad", Bengaluru: "Bengaluru", Other: "Other cities" };
+
+  /* ---------- stats ---------- */
+  function wilson(k, n, z) {
+    z = z || 1.96;
+    if (!n) return [NaN, NaN];
+    const p = k / n, d = 1 + z * z / n, c = p + z * z / (2 * n);
+    const m = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n));
+    return [Math.max(0, (c - m) / d), Math.min(1, (c + m) / d)];
+  }
+  const LF = [0];
+  function logFact(n) { while (LF.length <= n) LF.push(LF[LF.length - 1] + Math.log(LF.length)); return LF[n]; }
+  function binom2(k, n) {
+    if (!n) return NaN;
+    const lp = i => logFact(n) - logFact(i) - logFact(n - i) + n * Math.log(0.5);
+    const pk = lp(k); let s = 0;
+    for (let i = 0; i <= n; i++) { const li = lp(i); if (li <= pk + 1e-7) s += Math.exp(li); }
+    return Math.min(1, s);
+  }
+  function median(a) { if (!a.length) return NaN; const s = a.slice().sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+  const pct = (x, d) => (x == null || isNaN(x)) ? "—" : (x * 100).toFixed(d || 0) + "%";
+  const fmtP = p => isNaN(p) ? "—" : p < 0.001 ? "< 0.001" : p.toFixed(3);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  /* ---------- demo data ---------- */
+  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  let R = rng(20260916);
+  const pick = opts => { const tot = opts.reduce((a, o) => a + o[1], 0); let r = R() * tot; for (const o of opts) { if ((r -= o[1]) < 0) return o[0]; } return opts[opts.length - 1][0]; };
+  const pickW = (list, w) => pick(list.map((v, i) => [v, w[i]]));
+  const pois = l => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= R(); } while (p > L); return k - 1; };
+  const scale = m => Math.max(1, Math.min(5, Math.round(m + (R() - 0.5) * 2.6)));
+
+  function demoPerson(city) {
+    const r = { city, eligible: true };
+    r.occ = pick([["Student", 44], ["Working", 38], ["Both", 12], ["Other", 6]]);
+    const stu = r.occ === "Student";
+    r.member = pick([["member", stu ? 28 : 46], ["none", stu ? 66 : 48], ["unsure", 6]]);
+    const mem = r.member === "member";
+    r.ordered = R() < (stu ? 0.78 : 0.88);
+    r.status = city === "Hyderabad" ? pick([["unaware", 40], ["heard", 27], ["opened", 13], ["ordered", 20]])
+      : city === "Bengaluru" ? pick([["unaware", 22], ["heard", 24], ["opened", 16], ["ordered", 38]])
+      : pick([["unaware", 66], ["heard", 28], ["ordered", 6]]);
+    const user = r.status === "ordered";
+    let active = false;
+    if (user) {
+      r.first = city === "Hyderabad" ? (R() < 0.8 ? "recent" : "earlier") : city === "Bengaluru" ? (R() < 0.18 ? "recent" : "earlier") : (R() < 0.3 ? "recent" : "earlier");
+      if (!r.ordered) r.first = "earlier";
+      active = r.ordered && (r.first === "recent" || R() < (city === "Bengaluru" ? 0.61 : 0.5));
+      r.prior = r.first === "recent" ? 0 : (R() < 0.7 ? Math.max(1, pois(2)) : 0);
+      r.disap = pick(active ? [["Very disappointed", 36], ["Somewhat disappointed", 45], ["Not disappointed", 19]] : [["Very disappointed", 12], ["Somewhat disappointed", 40], ["Not disappointed", 48]]);
+      if (city !== "Other") {
+        r.cf = pickW(CF, [54, 9, 6, 14, 6, 11]);
+        r.change = pickW(CHANGE, [28, 10, 18, 12, 14, 12, 6]);
+      }
+    }
+    if (r.ordered) {
+      r.cS = pois(mem ? 3.4 : 2.4); r.cZ = pois(2.1); r.cX = pois(0.6);
+      r.cO = active ? Math.max(1, pois(city === "Bengaluru" ? 2.6 : 1.8)) : 0;
+      r.amount = Math.round(Math.exp(5.55 + R() * 0.95) / 10) * 10;
+      r.fair = pickW(FAIR, [38, mem ? 26 : 39, 12, 13]);
+    } else { r.cS = r.cZ = r.cO = r.cX = 0; }
+    if (r.status !== "unaware" && city !== "Other") r.heard = pickW(HEARD, [34, 24, 20, 12, 5, 5]);
+    if (r.status === "unaware") r.trigger = pickW(TRIGGER, [22, 16, 26, 9, 11, 5, 11]);
+    if (r.status === "heard" && city !== "Other") r.whyNot = pickW(WHYNOT, [30, 13, 6, 14, 8, 11, 18]);
+    if (r.status === "opened") r.stopped = pickW(STOPPED, [27, 18, 15, 8, 12, 5, 15]);
+    if (city !== "Other") {
+      r.t1 = R() < 0.52 + (stu ? 0.14 : -0.06) ? 1 : 0;
+      r.t2 = R() < 0.33 + (stu ? 0.10 : -0.05) ? 1 : 0;
+      r.t3 = R() < 0.30 + (stu ? 0.10 : -0.04) ? 1 : 0;
+      r.thresh = pickW(THRESH, [4, 10, 19, 24, 12, 11, 12, 8]);
+      const hyd = city === "Hyderabad";
+      r.choice = pick([["P", (hyd ? 38 : 49) - (mem ? 6 : 0) + (stu ? 5 : 0)], ["Q", (hyd ? 46 : 36) + (mem ? 6 : 0)], ["N", 16]]);
+      r.tryP = scale(r.choice === "P" ? 4.2 : r.choice === "Q" ? 3.1 : 3.5);
+      r.tryQ = scale(r.choice === "Q" ? 4.2 : r.choice === "P" ? 3.0 : 3.5);
+    }
+    return r;
+  }
+  function makeDemo() {
+    R = rng(20260916);
+    const rows = [];
+    [["Hyderabad", 124], ["Bengaluru", 104], ["Other", 38]].forEach(([c, n]) => { for (let i = 0; i < n; i++) rows.push(demoPerson(c)); });
+    for (let i = 0; i < 17; i++) rows.push({ city: pick([["Hyderabad", 1], ["Bengaluru", 1], ["Other", 0.4]]), eligible: false });
+    return rows;
+  }
+
+  /* ---------- CSV mapping (Google Forms export, duplicate headers coalesced) ---------- */
+  const FIELDS = {
+    city: ["which city do you live"], age: ["how old are you"], occ: ["best describes you"],
+    member: ["memberships do you have right now"], ordered: ["order food online for delivery at least once"],
+    cS: ["swiggy: how many"], cZ: ["zomato: how many"], cO: ["ownly (rapido"], cX: ["any other way"],
+    amount: ["total amount you paid"], fair: ["did it feel fair for what you got"],
+    t1: ["same restaurant, same food. which"], t2: ["same restaurant, same food, same delivery time"], t3: ["same food price level"],
+    thresh: ["make a different app your main one"], tryP: ["if service p were available"], tryQ: ["and if service q were available"],
+    choice: ["if only one of them existed"], status: ["before today, which of these is true"],
+    trigger: ["would most make you try"], heard: ["first hear about ownly"], whyNot: ["reason you haven't opened"],
+    stopped: ["stopped you from ordering"], first: ["first ownly order"], prior: ["4 weeks before the last 4 weeks"],
+    cf: ["if ownly didn't exist"], disap: ["no longer use ownly"], change: ["one change would make you order more"]
+  };
+  const norm = s => String(s == null ? "" : s).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').trim();
+
+  function mapRows(data) {
+    const header = data[0].map(h => norm(h).toLowerCase());
+    const idx = {};
+    for (const f in FIELDS) {
+      idx[f] = [];
+      header.forEach((h, i) => { if (FIELDS[f].some(p => h.includes(p))) idx[f].push(i); });
+    }
+    // "and if service q" also contains "if service q" but not "if service p", so tryP is safe.
+    const missing = ["city", "age", "status"].filter(f => !idx[f].length);
+    if (missing.length) throw new Error("This file doesn't look like the v6 form export: couldn't find the " + missing.join(", ") + " question. Download it from Responses → ⋮ → Download responses (.csv).");
+    const out = [];
+    for (let r = 1; r < data.length; r++) {
+      const row = data[r];
+      if (!row || row.every(c => !norm(c))) continue;
+      const g = f => { for (const i of idx[f]) { const v = norm(row[i]); if (v) return v; } return ""; };
+      const cityRaw = g("city");
+      const o = { city: /^hyd/i.test(cityRaw) ? "Hyderabad" : /^beng/i.test(cityRaw) ? "Bengaluru" : "Other" };
+      o.eligible = /^2/.test(g("age"));
+      if (!o.eligible) { out.push(o); continue; }
+      const occ = g("occ");
+      o.occ = /^student/i.test(occ) ? "Student" : /^working/i.test(occ) ? "Working" : /^studying and working/i.test(occ) ? "Both" : "Other";
+      const mem = g("member");
+      o.member = /swiggy one|zomato gold|another food/i.test(mem) ? "member" : /^none/i.test(mem) ? "none" : "unsure";
+      o.ordered = /^yes/i.test(g("ordered"));
+      ["cS", "cZ", "cO", "cX"].forEach(k => { const v = parseFloat(g(k)); o[k] = isNaN(v) ? 0 : v; });
+      const amt = parseFloat(g("amount")); if (!isNaN(amt)) o.amount = amt;
+      ["fair", "thresh", "trigger", "heard", "whyNot", "stopped", "cf", "disap", "change"].forEach(k => { const v = g(k); if (v) o[k] = v; });
+      ["t1", "t2", "t3"].forEach(k => { const v = g(k); if (v) o[k] = v.includes("230") ? 1 : 0; });
+      ["tryP", "tryQ"].forEach(k => { const v = SCALE[g(k).toLowerCase()]; if (v) o[k] = v; });
+      const ch = g("choice"); if (ch) o.choice = /service p/i.test(ch) ? "P" : /service q/i.test(ch) ? "Q" : "N";
+      const st = g("status");
+      o.status = /^i hadn't/i.test(st) ? "unaware" : /^i've ordered/i.test(st) ? "ordered" : /^i opened/i.test(st) ? "opened" : /^i'd heard/i.test(st) ? "heard" : undefined;
+      const fi = g("first"); if (fi) o.first = /^in the last 4 weeks/i.test(fi) ? "recent" : "earlier";
+      const pr = parseFloat(g("prior")); if (!isNaN(pr)) o.prior = pr;
+      out.push(o);
+    }
+    return out;
+  }
+
+  /* ---------- state ---------- */
+  let ALL = makeDemo();
+  let isDemo = true;
+  const F = { city: "All", occ: "All", mem: "All" };
+  const FILTERS = {
+    city: [["All", "All"], ["Hyderabad", "Hyderabad"], ["Bengaluru", "Bengaluru"], ["Other", "Other"]],
+    occ: [["All", "All"], ["Student", "Students"], ["Working", "Working"], ["Both", "Study + work"]],
+    mem: [["All", "All"], ["member", "Members"], ["none", "Non-members"]]
+  };
+  try { const s = JSON.parse(localStorage.getItem("ownly-v6-filters") || "{}"); Object.keys(F).forEach(k => { if (s[k] && FILTERS[k].some(o => o[0] === s[k])) F[k] = s[k]; }); } catch (e) {}
+
+  function buildFilters() {
+    Object.keys(FILTERS).forEach(k => {
+      const el = document.getElementById("f-" + k);
+      el.innerHTML = FILTERS[k].map(([v, l]) => `<button type="button" id="f-${k}-${v}" data-k="${k}" data-v="${v}" aria-pressed="${F[k] === v}">${l}</button>`).join("");
+    });
+  }
+  document.querySelector(".filters").addEventListener("click", e => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    F[b.dataset.k] = b.dataset.v;
+    try { localStorage.setItem("ownly-v6-filters", JSON.stringify(F)); } catch (err) {}
+    render();
+  });
+
+  const passOcc = r => F.occ === "All" || r.occ === F.occ;
+  const passMem = r => F.mem === "All" || r.member === F.mem;
+  const passCity = r => F.city === "All" || r.city === F.city;
+  const shownCities = () => F.city === "All" ? ["Hyderabad", "Bengaluru"] : [F.city];
+
+  /* ---------- KPIs ---------- */
+  function kpis(rows) {
+    const aware = rows.filter(r => r.status && r.status !== "unaware");
+    const users = rows.filter(r => r.status === "ordered");
+    const orderers = rows.filter(r => r.ordered);
+    const tot = orderers.reduce((a, r) => a + r.cS + r.cZ + r.cO + r.cX, 0);
+    const own = orderers.reduce((a, r) => a + r.cO, 0);
+    const earlier = users.filter(r => r.first === "earlier");
+    const disap = users.filter(r => r.disap);
+    const cf = users.filter(r => r.cf);
+    const fair = orderers.filter(r => r.fair);
+    const tr = rows.filter(r => r.t1 != null && r.t2 != null && r.t3 != null);
+    return {
+      awareness: { k: aware.length, n: rows.length },
+      trial: { k: users.length, n: aware.length },
+      share: { k: own, n: tot, resp: orderers.length, ratio: true },
+      repeat: { k: earlier.filter(r => r.cO > 0).length, n: earlier.length },
+      pmf: { k: disap.filter(r => r.disap === "Very disappointed").length, n: disap.length },
+      subst: { k: cf.filter(r => r.cf === CF[0]).length, n: cf.length },
+      fee: { k: fair.filter(r => r.fair === FAIR[1]).length, n: fair.length },
+      price: { k: tr.filter(r => r.t1 + r.t2 + r.t3 >= 2).length, n: tr.length }
+    };
+  }
+  const TILES = [
+    { id: "awareness", name: "Ownly awareness", q: "S8", desc: "Had heard of Ownly before today", base: "respondents" },
+    { id: "trial", name: "Aware → ordered", q: "S8", desc: "Of those who'd heard of it, share who have ordered", base: "aware" },
+    { id: "share", name: "Ownly share of orders", q: "S4", desc: "Ownly orders ÷ all delivery orders, last 4 weeks", base: "orders" },
+    { id: "repeat", name: "Still ordering", q: "S12 × S4", desc: "Users from 4+ weeks ago who ordered again in the last 4 weeks", base: "earlier users" },
+    { id: "pmf", name: "PMF score", q: "S12-Q6", desc: "Users who'd be very disappointed without Ownly", base: "users" },
+    { id: "subst", name: "Taken from Swiggy/Zomato", q: "S12-Q5", desc: "Ownly orders that would otherwise have gone to Swiggy or Zomato", base: "users" },
+    { id: "fee", name: "Fee pain", q: "S5-Q4", desc: "Recent orderers who said the extra charges were too much", base: "orderers" },
+    { id: "price", name: "Price-first buyers", q: "S6-Q1–3", desc: "Picked the ₹30-cheaper option in 2 or more of 3 trade-offs", base: "respondents" }
+  ];
+  function tileStatus(id, v, n) {
+    if (n < 10) return `<span class="chip neutral">✕ Too few to read</span>`;
+    let s = "";
+    if (id === "pmf") s = v >= 0.4 ? `<span class="chip good">✓ At or above 40% bar</span>` : v >= 0.25 ? `<span class="chip warn">! Below 40% bar</span>` : `<span class="chip crit">✕ Well below 40% bar</span>`;
+    if (id === "subst") s = v >= 0.6 ? `<span class="chip warn">! Mostly switched orders</span>` : `<span class="chip good">✓ Adds new orders</span>`;
+    if (n < 30 && id !== "share") s += `<span class="chip warn">! Low base</span>`;
+    return s;
+  }
+
+  function renderKpis(rows) {
+    const K = kpis(rows);
+    const byCity = F.city === "All" ? { Hyderabad: kpis(rows.filter(r => r.city === "Hyderabad")), Bengaluru: kpis(rows.filter(r => r.city === "Bengaluru")) } : null;
+    document.getElementById("kpis").innerHTML = TILES.map(t => {
+      const m = K[t.id]; const v = m.n ? m.k / m.n : NaN;
+      const tooFew = t.id === "share" ? m.resp < 10 : m.n < 10;
+      const ci = wilson(m.k, m.n);
+      const baseTxt = t.id === "share" ? `${m.n} orders from ${m.resp} orderers` : `n = ${m.n} ${t.base}`;
+      const ciTxt = t.id === "share" || tooFew ? "" : `<span class="num">95% CI ${pct(ci[0])}–${pct(ci[1])}</span>`;
+      const cityTxt = byCity ? `<span>Hyd <b class="num">${cityVal(byCity.Hyderabad[t.id])}</b> · Blr <b class="num">${cityVal(byCity.Bengaluru[t.id])}</b></span>` : "";
+      return `<article class="tile" aria-label="${esc(t.name)}">
+        <div class="tile-top"><span class="tile-name">${t.name}</span><span class="tile-q">${t.q}</span></div>
+        <div class="tile-val${tooFew ? " dim" : ""}">${tooFew ? "n &lt; 10" : pct(v)}</div>
+        <p class="tile-desc">${t.desc}</p>
+        <div class="tile-meta"><span>${baseTxt}</span>${ciTxt}${cityTxt}</div>
+        <div class="tile-foot">${tileStatus(t.id, v, t.id === "share" ? m.resp : m.n)}</div>
+      </article>`;
+    }).join("");
+  }
+  const cityVal = m => (m.n && (m.ratio ? m.resp : m.n) >= 10) ? pct(m.k / m.n) : "—";
+
+  /* ---------- chart builders ---------- */
+  function legendCities(el) {
+    el.innerHTML = shownCities().map(c => `<span><i style="background:var(${CITY_VAR[c]})"></i>${CITY_SHORT[c]}</span>`).join("");
+  }
+  function groupedBars(el, rowsSpec, mid) {
+    const LBL = "3.4rem";
+    el.innerHTML = rowsSpec.map(row => `<div class="gb-row"><div class="gb-label">${esc(row.label)}</div><div class="gb-area">
+      ${row.series.map(s => {
+        const w = s.n ? s.k / s.n : 0;
+        const tip = `${row.label} · ${CITY_SHORT[s.city]}: ${s.n ? pct(w, 1) : "no data"} (${s.k} of ${s.n})`;
+        return `<div class="gb-track" data-tip="${esc(tip)}"><div class="gb-bar" style="width:calc((100% - ${LBL}) * ${w});background:var(${CITY_VAR[s.city]})"></div><span class="gb-val">${s.n ? pct(w) : "—"}</span></div>`;
+      }).join("")}
+      ${mid ? `<div class="midline" style="left:calc((100% - ${LBL}) * 0.5)"></div>` : ""}
+    </div></div>`).join("");
+  }
+  function stack100(el, rowsSpec) {
+    el.innerHTML = rowsSpec.map(row => {
+      const tot = row.segs.reduce((a, s) => a + s.v, 0);
+      if (!tot) return `<div class="st-row"><div class="st-label"><span>${esc(row.label)}</span><span class="muted num">n = 0</span></div><div class="empty">No responses in this view</div></div>`;
+      return `<div class="st-row"><div class="st-label"><span>${esc(row.label)}</span><span class="muted num">${row.note || "n = " + tot}</span></div>
+        <div class="st-bar">${row.segs.filter(s => s.v > 0).map(s => {
+          const w = s.v / tot;
+          return `<div class="st-seg${s.light ? " light-seg" : ""}" style="width:${w * 100}%;background:var(${s.c})" data-tip="${esc(row.label + " · " + s.name + ": " + pct(w, 1) + " (" + s.v + ")")}">${w >= 0.09 ? (s.short ? s.short + " " : "") + pct(w) : ""}</div>`;
+        }).join("")}</div></div>`;
+    }).join("");
+  }
+  function ranked(el, noteEl, rows, field, options, noteBase) {
+    const have = rows.filter(r => r[field]);
+    const n = have.length;
+    noteEl.textContent = `${noteBase} · n = ${n}`;
+    if (n === 0) { el.innerHTML = `<div class="empty">No responses in this view</div>`; return; }
+    const counts = options.map(o => ({ label: o, k: have.filter(r => r[field] === o).length }));
+    have.forEach(r => { if (!options.includes(r[field])) { const x = counts.find(c => c.label === "Other answers"); x ? x.k++ : counts.push({ label: "Other answers", k: 1 }); } });
+    counts.sort((a, b) => b.k - a.k);
+    const max = counts[0].k || 1;
+    el.innerHTML = counts.map((c, i) => `<div class="rk-item${i === 0 ? " top" : ""}" data-tip="${esc(c.label + ": " + c.k + " of " + n)}">
+      <div class="rk-label">${esc(c.label)}</div>
+      <div class="rk-track"><div class="rk-bar" style="width:calc((100% - 3rem) * ${c.k / max})"></div><span class="gb-val">${pct(c.k / n)}</span></div></div>`).join("");
+  }
+
+  /* ---------- sections ---------- */
+  function renderHero() {
+    const base = ALL.filter(r => r.eligible && passOcc(r) && passMem(r));
+    const spec = ["Hyderabad", "Bengaluru"].map(c => {
+      const rs = base.filter(r => r.city === c && r.choice);
+      const cnt = v => rs.filter(r => r.choice === v).length;
+      return { label: c, segs: [
+        { name: "Service P", short: "P", v: cnt("P"), c: "--c-p", light: true },
+        { name: "Can't choose", v: cnt("N"), c: "--c-none", light: true },
+        { name: "Service Q", short: "Q", v: cnt("Q"), c: "--c-q" }
+      ] };
+    });
+    stack100(document.getElementById("heroStack"), spec);
+
+    const hyd = base.filter(r => r.city === "Hyderabad" && r.choice);
+    const blr = base.filter(r => r.city === "Bengaluru" && r.choice);
+    const dec = rs => { const q = rs.filter(r => r.choice === "Q").length, p = rs.filter(r => r.choice === "P").length; return { q, p, n: p + q, none: rs.length - p - q, all: rs.length }; };
+    const H = dec(hyd), B = dec(blr);
+    const share = H.n ? H.q / H.n : NaN, ci = wilson(H.q, H.n), pv = binom2(H.q, H.n);
+    let pill;
+    if (H.n < 10) pill = `<span class="chip neutral">✕ Too few decided answers to test</span>`;
+    else if (ci[0] > 0.5) pill = `<span class="chip good">✓ Q preferred · reject H₀</span>`;
+    else if (ci[1] < 0.5) pill = `<span class="chip neutral">✓ P preferred · reject H₀</span>`;
+    else pill = `<span class="chip neutral">● No clear winner · H₀ not rejected</span>`;
+    const noneShare = H.all ? H.none / H.all : NaN;
+    const bShare = B.n ? B.q / B.n : NaN, bci = wilson(B.q, B.n);
+
+    const tryTop = rs => {
+      const both = rs.filter(r => r.tryP && r.tryQ);
+      const yp = r => r.tryP >= 4, yq = r => r.tryQ >= 4;
+      const b = both.filter(r => yp(r) && !yq(r)).length, c = both.filter(r => !yp(r) && yq(r)).length;
+      return { n: both.length, p: both.filter(yp).length, q: both.filter(yq).length, mc: binom2(b, b + c) };
+    };
+    const T = tryTop(hyd);
+
+    document.getElementById("verdict").innerHTML = `
+      <p class="eyebrow">Hyderabad · Service Q share of decided answers</p>
+      <div class="big">${H.n >= 10 ? pct(share) : "—"}</div>
+      ${pill}
+      <dl class="statlist">
+        <div><dt>95% CI (Wilson)</dt><dd class="num">${H.n ? pct(ci[0]) + " – " + pct(ci[1]) : "—"}</dd></div>
+        <div><dt>Exact binomial p vs 50%</dt><dd class="num">${fmtP(pv)}</dd></div>
+        <div><dt>Decided (P + Q)</dt><dd class="num">${H.n}${H.n < 80 ? ' <span class="chip warn">! below planned 80</span>' : ""}</dd></div>
+        <div><dt>Can't choose</dt><dd class="num">${pct(noneShare)}${noneShare > 0.35 ? ' <span class="chip warn">! over 35%</span>' : ""}</dd></div>
+        <div><dt>Bengaluru benchmark</dt><dd class="num">${B.n >= 10 ? pct(bShare) + " Q (" + pct(bci[0]) + "–" + pct(bci[1]) + ")" : "—"}</dd></div>
+      </dl>`;
+    document.getElementById("heroTry").innerHTML = T.n ? `<dl class="statlist">
+      <div><dt>Hyderabad · would try P (Probably + Definitely)</dt><dd class="num">${pct(T.p / T.n)}</dd></div>
+      <div><dt>Hyderabad · would try Q (Probably + Definitely)</dt><dd class="num">${pct(T.q / T.n)}</dd></div>
+      <div><dt>Secondary test · McNemar exact p</dt><dd class="num">${fmtP(T.mc)}</dd></div></dl>` : "";
+  }
+
+  function renderFunnel(rows) {
+    legendCities(document.getElementById("cityLegend1"));
+    legendCities(document.getElementById("cityLegend2"));
+    const cities = shownCities();
+    const stage = (label, test) => ({ label, series: cities.map(c => { const rs = rows.filter(r => r.city === c); return { city: c, k: rs.filter(test).length, n: rs.length }; }) });
+    groupedBars(document.getElementById("funnel"), [
+      stage("Heard of Ownly", r => r.status && r.status !== "unaware"),
+      stage("Opened or ordered", r => r.status === "opened" || r.status === "ordered"),
+      stage("Ever ordered", r => r.status === "ordered"),
+      stage("Ordered in the last 4 weeks", r => r.cO > 0)
+    ]);
+
+    const orderRows = cities.map(c => {
+      const rs = rows.filter(r => r.city === c && r.ordered);
+      const sum = k => rs.reduce((a, r) => a + r[k], 0);
+      return { label: CITY_SHORT[c], note: `${rs.length} orderers`, segs: [
+        { name: "Swiggy", v: sum("cS"), c: "--g1", light: true },
+        { name: "Zomato", v: sum("cZ"), c: "--g2", light: true },
+        { name: "Ownly", v: sum("cO"), c: "--c-own" },
+        { name: "Other ways", v: sum("cX"), c: "--g3", light: true }
+      ] };
+    });
+    stack100(document.getElementById("shareStack"), orderRows);
+    document.getElementById("orderStats").innerHTML = cities.map(c => {
+      const rs = rows.filter(r => r.city === c && r.ordered);
+      const avg = rs.length ? rs.reduce((a, r) => a + r.cS + r.cZ + r.cO + r.cX, 0) / rs.length : NaN;
+      const med = median(rs.filter(r => r.amount != null).map(r => r.amount));
+      const mem = rows.filter(r => r.city === c); const mk = mem.filter(r => r.member === "member").length;
+      return `<div><dt>${CITY_SHORT[c]} · orders per orderer · median last bill · members</dt><dd class="num">${isNaN(avg) ? "—" : avg.toFixed(1)} · ${isNaN(med) ? "—" : "₹" + Math.round(med)} · ${mem.length ? pct(mk / mem.length) : "—"}</dd></div>`;
+    }).join("");
+  }
+
+  function renderPrice(rows) {
+    const cities = shownCities();
+    const tr = (label, f) => ({ label, series: cities.map(c => { const rs = rows.filter(r => r.city === c && r[f] != null); return { city: c, k: rs.filter(r => r[f] === 1).length, n: rs.length }; }) });
+    groupedBars(document.getElementById("trade"), [
+      tr("₹30 cheaper vs 15 minutes faster", "t1"),
+      tr("₹30 cheaper vs late 1 in 10 instead of 3 in 10", "t2"),
+      tr("₹30 cheaper vs most of your usual restaurants", "t3")
+    ], true);
+
+    const th = rows.filter(r => r.thresh);
+    const el = document.getElementById("thresh");
+    if (!th.length) { el.innerHTML = `<div class="empty">No responses in this view (Other city doesn't see this question)</div>`; }
+    else {
+      const counts = THRESH.map(o => th.filter(r => r.thresh === o).length);
+      const max = Math.max.apply(null, counts) || 1;
+      el.innerHTML = `<div class="cols">${counts.map((k, i) => `<div class="col" data-tip="${esc(THRESH[i] + ": " + pct(k / th.length, 1) + " (" + k + " of " + th.length + ")")}"><span class="col-val">${pct(k / th.length)}</span><div class="col-bar" style="height:calc((100% - 1.2rem) * ${k / max})"></div></div>`).join("")}</div>
+        <div class="col-labels">${THRESH_SHORT.map(s => `<span>${s}</span>`).join("")}</div>
+        <p class="sub" style="margin-top:10px">n = ${th.length}. ${pct(counts.slice(0, 3).reduce((a, b) => a + b, 0) / th.length)} would switch for ₹30 or less per order; ${pct(counts[6] / th.length)} say price alone wouldn't move them.</p>`;
+    }
+
+    stack100(document.getElementById("fairStack"), cities.map(c => {
+      const rs = rows.filter(r => r.city === c && r.fair);
+      const cnt = v => rs.filter(r => r.fair === v).length;
+      return { label: CITY_SHORT[c], segs: [
+        { name: "Felt fair", v: cnt(FAIR[0]), c: "--good" },
+        { name: "Extra charges too much", v: cnt(FAIR[1]), c: "--c-blr" },
+        { name: "Food overpriced", v: cnt(FAIR[2]), c: "--g1", light: true },
+        { name: "Didn't look at the breakdown", v: cnt(FAIR[3]), c: "--g3", light: true }
+      ] };
+    }));
+  }
+
+  function renderWhy(rows) {
+    const q = id => document.getElementById(id);
+    ranked(q("rk-trigger"), q("n-trigger"), rows, "trigger", TRIGGER, "S9-Q1");
+    ranked(q("rk-whyNot"), q("n-whyNot"), rows, "whyNot", WHYNOT, "S10-Q2");
+    ranked(q("rk-stopped"), q("n-stopped"), rows, "stopped", STOPPED, "S11-Q2");
+    ranked(q("rk-cf"), q("n-cf"), rows, "cf", CF, "S12-Q5");
+    ranked(q("rk-change"), q("n-change"), rows, "change", CHANGE, "S12-Q7");
+    ranked(q("rk-heard"), q("n-heard"), rows, "heard", HEARD, "S10–S12 Q1");
+  }
+
+  function renderSegments() {
+    const base = ALL.filter(r => r.eligible && passCity(r));
+    const segs = [
+      ["Everyone", () => true], ["Students", r => r.occ === "Student"], ["Working full-time", r => r.occ === "Working"],
+      ["Studying and working", r => r.occ === "Both"], ["Delivery members", r => r.member === "member"], ["Non-members", r => r.member === "none"],
+      ["Ordered in last 4 weeks", r => r.ordered], ["Didn't order in last 4 weeks", r => !r.ordered]
+    ];
+    const cell = (k, n) => n >= 10 ? pct(k / n) : `<span class="muted">—</span>`;
+    const rowsHtml = segs.map(([name, f]) => {
+      const rs = base.filter(f);
+      const K = kpis(rs);
+      const dec = rs.filter(r => r.choice === "P" || r.choice === "Q");
+      const qn = dec.filter(r => r.choice === "Q").length;
+      return `<tr><td>${name}</td><td class="n">${rs.length}</td><td class="n">${cell(K.awareness.k, K.awareness.n)}</td><td class="n">${cell(K.trial.k, K.trial.n)}</td><td class="n">${cell(qn, dec.length)}</td><td class="n">${cell(K.price.k, K.price.n)}</td><td class="n">${cell(K.fee.k, K.fee.n)}</td></tr>`;
+    }).join("");
+    document.getElementById("segTable").innerHTML = `<thead><tr><th>Segment</th><th class="n">n</th><th class="n">Awareness</th><th class="n">Aware → ordered</th><th class="n">Q share</th><th class="n">Price-first</th><th class="n">Fee pain</th></tr></thead><tbody>${rowsHtml}</tbody>`;
+  }
+
+  function render() {
+    buildFilters();
+    const elig = ALL.filter(r => r.eligible);
+    const rows = elig.filter(r => passCity(r) && passOcc(r) && passMem(r));
+    const byC = c => elig.filter(r => r.city === c).length;
+    document.getElementById("basebar").innerHTML = `Showing <b class="num">${rows.length}</b> of ${elig.length} eligible responses · Hyderabad <span class="num">${byC("Hyderabad")}</span> · Bengaluru <span class="num">${byC("Bengaluru")}</span> · Other <span class="num">${byC("Other")}</span> · ${ALL.length - elig.length} screened out by age`;
+    renderHero();
+    renderKpis(rows);
+    renderFunnel(rows);
+    renderPrice(rows);
+    renderWhy(rows);
+    renderSegments();
+  }
+
+  /* ---------- loading ---------- */
+  const errEl = document.getElementById("loadErr");
+  document.getElementById("csvIn").addEventListener("change", e => {
+    const file = e.target.files && e.target.files[0]; if (!file) return;
+    errEl.hidden = true;
+    if (!window.Papa) { errEl.textContent = "The CSV reader didn't load. Check your connection and reload the page."; errEl.hidden = false; return; }
+    Papa.parse(file, {
+      skipEmptyLines: true,
+      complete: res => {
+        try {
+          const rows = mapRows(res.data);
+          if (!rows.length) throw new Error("The file has a header row but no responses yet.");
+          ALL = rows; isDemo = false;
+          const pill = document.getElementById("srcPill");
+          pill.className = "pill live"; pill.textContent = "Live: " + file.name;
+          document.getElementById("resetDemo").hidden = false;
+          render();
+        } catch (err) { errEl.textContent = err.message; errEl.hidden = false; }
+        e.target.value = "";
+      },
+      error: () => { errEl.textContent = "Couldn't read that file. Make sure it's the .csv inside the zip Google Forms downloads."; errEl.hidden = false; }
+    });
+  });
+  document.getElementById("resetDemo").addEventListener("click", () => {
+    ALL = makeDemo(); isDemo = true;
+    const pill = document.getElementById("srcPill");
+    pill.className = "pill demo"; pill.textContent = "Demo data: synthetic, not real responses";
+    document.getElementById("resetDemo").hidden = true; errEl.hidden = true;
+    render();
+  });
+
+  /* ---------- tooltip ---------- */
+  const tip = document.getElementById("tip");
+  document.addEventListener("pointermove", e => {
+    const t = e.target.closest && e.target.closest("[data-tip]");
+    if (!t) { tip.hidden = true; return; }
+    tip.textContent = t.getAttribute("data-tip"); tip.hidden = false;
+    const w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = e.clientX + 12, y = e.clientY + 14;
+    if (x + w > window.innerWidth - 8) x = e.clientX - w - 12;
+    if (y + h > window.innerHeight - 8) y = e.clientY - h - 14;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  });
+  document.addEventListener("pointerleave", () => { tip.hidden = true; });
+
+  render();
+})();
+</script>
