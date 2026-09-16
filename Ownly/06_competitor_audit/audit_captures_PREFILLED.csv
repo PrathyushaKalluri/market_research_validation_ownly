@@ -1,0 +1,61 @@
+capture_ts,slot,auditor_id,drop_point_id,platform,account_state,subscription_active,restaurant_name,restaurant_listed,restaurant_open,basket_id,item_list,item_match_quality,menu_subtotal,packaging_fee,platform_fee,delivery_fee,small_cart_fee,surge_rain_fee,taxes_gst,discount_amount,discount_type,final_payable,eta_min_shown,eta_max_shown,screenshot_file,notes
+,wed_dinner,A,DP1,ownly,,,Paradise Biryani,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R1.png,groupA
+,wed_dinner,A,DP1,swiggy,,,Paradise Biryani,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R1.png,groupA
+,wed_dinner,A,DP1,zomato,,,Paradise Biryani,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R1.png,groupA
+,wed_dinner,A,DP1,ownly,,,Bawarchi,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R2.png,groupA
+,wed_dinner,A,DP1,swiggy,,,Bawarchi,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R2.png,groupA
+,wed_dinner,A,DP1,zomato,,,Bawarchi,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R2.png,groupA
+,wed_dinner,A,DP1,ownly,,,Cream Stone,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R3.png,groupA
+,wed_dinner,A,DP1,swiggy,,,Cream Stone,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R3.png,groupA
+,wed_dinner,A,DP1,zomato,,,Cream Stone,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R3.png,groupA
+,wed_dinner,A,DP1,ownly,,,Shah Ghouse,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R4.png,groupA
+,wed_dinner,A,DP1,swiggy,,,Shah Ghouse,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R4.png,groupA
+,wed_dinner,A,DP1,zomato,,,Shah Ghouse,,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R4.png,groupA
+,wed_dinner,A,DP1,ownly,,,LOCAL TIFFIN 1 (fill name),,,B3,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R5.png,groupB
+,wed_dinner,A,DP1,swiggy,,,LOCAL TIFFIN 1 (fill name),,,B3,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R5.png,groupB
+,wed_dinner,A,DP1,zomato,,,LOCAL TIFFIN 1 (fill name),,,B3,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R5.png,groupB
+,wed_dinner,A,DP1,ownly,,,LOCAL MEALS 2 (fill name),,,B3,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R6.png,groupB
+,wed_dinner,A,DP1,swiggy,,,LOCAL MEALS 2 (fill name),,,B3,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R6.png,groupB
+,wed_dinner,A,DP1,zomato,,,LOCAL MEALS 2 (fill name),,,B3,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R6.png,groupB
+,wed_dinner,A,DP1,ownly,,,LOCAL BIRYANI 3 (fill name),,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R7.png,groupB
+,wed_dinner,A,DP1,swiggy,,,LOCAL BIRYANI 3 (fill name),,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R7.png,groupB
+,wed_dinner,A,DP1,zomato,,,LOCAL BIRYANI 3 (fill name),,,B1,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R7.png,groupB
+,wed_dinner,A,DP1,ownly,,,LOCAL SNACKS 4 (fill name),,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R8.png,groupB
+,wed_dinner,A,DP1,swiggy,,,LOCAL SNACKS 4 (fill name),,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R8.png,groupB
+,wed_dinner,A,DP1,zomato,,,LOCAL SNACKS 4 (fill name),,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R8.png,groupB
+,wed_dinner,A,DP1,ownly,,,KFC,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R9.png,groupC
+,wed_dinner,A,DP1,swiggy,,,KFC,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R9.png,groupC
+,wed_dinner,A,DP1,zomato,,,KFC,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R9.png,groupC
+,wed_dinner,A,DP1,ownly,,,Domino's,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R10.png,groupC
+,wed_dinner,A,DP1,swiggy,,,Domino's,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R10.png,groupC
+,wed_dinner,A,DP1,zomato,,,Domino's,,,B2,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R10.png,groupC
+,thu_lunch,B,DP1,ownly,,,Paradise Biryani,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R1.png,groupA
+,thu_lunch,B,DP1,swiggy,,,Paradise Biryani,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R1.png,groupA
+,thu_lunch,B,DP1,zomato,,,Paradise Biryani,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R1.png,groupA
+,thu_lunch,B,DP1,ownly,,,Bawarchi,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R2.png,groupA
+,thu_lunch,B,DP1,swiggy,,,Bawarchi,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R2.png,groupA
+,thu_lunch,B,DP1,zomato,,,Bawarchi,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R2.png,groupA
+,thu_lunch,B,DP1,ownly,,,Cream Stone,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R3.png,groupA
+,thu_lunch,B,DP1,swiggy,,,Cream Stone,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R3.png,groupA
+,thu_lunch,B,DP1,zomato,,,Cream Stone,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R3.png,groupA
+,thu_lunch,B,DP1,ownly,,,Shah Ghouse,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R4.png,groupA
+,thu_lunch,B,DP1,swiggy,,,Shah Ghouse,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R4.png,groupA
+,thu_lunch,B,DP1,zomato,,,Shah Ghouse,,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R4.png,groupA
+,thu_lunch,B,DP1,ownly,,,LOCAL TIFFIN 1 (fill name),,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R5.png,groupB
+,thu_lunch,B,DP1,swiggy,,,LOCAL TIFFIN 1 (fill name),,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R5.png,groupB
+,thu_lunch,B,DP1,zomato,,,LOCAL TIFFIN 1 (fill name),,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R5.png,groupB
+,thu_lunch,B,DP1,ownly,,,LOCAL MEALS 2 (fill name),,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R6.png,groupB
+,thu_lunch,B,DP1,swiggy,,,LOCAL MEALS 2 (fill name),,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R6.png,groupB
+,thu_lunch,B,DP1,zomato,,,LOCAL MEALS 2 (fill name),,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R6.png,groupB
+,thu_lunch,B,DP1,ownly,,,LOCAL BIRYANI 3 (fill name),,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R7.png,groupB
+,thu_lunch,B,DP1,swiggy,,,LOCAL BIRYANI 3 (fill name),,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R7.png,groupB
+,thu_lunch,B,DP1,zomato,,,LOCAL BIRYANI 3 (fill name),,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R7.png,groupB
+,thu_lunch,B,DP1,ownly,,,LOCAL SNACKS 4 (fill name),,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R8.png,groupB
+,thu_lunch,B,DP1,swiggy,,,LOCAL SNACKS 4 (fill name),,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R8.png,groupB
+,thu_lunch,B,DP1,zomato,,,LOCAL SNACKS 4 (fill name),,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R8.png,groupB
+,thu_lunch,B,DP1,ownly,,,KFC,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R9.png,groupC
+,thu_lunch,B,DP1,swiggy,,,KFC,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R9.png,groupC
+,thu_lunch,B,DP1,zomato,,,KFC,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R9.png,groupC
+,thu_lunch,B,DP1,ownly,,,Domino's,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R10.png,groupC
+,thu_lunch,B,DP1,swiggy,,,Domino's,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R10.png,groupC
+,thu_lunch,B,DP1,zomato,,,Domino's,,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R10.png,groupC

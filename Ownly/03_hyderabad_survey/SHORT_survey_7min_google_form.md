@@ -1,3 +1,5 @@
+> ⚠ **SUPERSEDED 2026-09-16 by `13_survey_v3_live/`.** This spec is Hyderabad-only and predates the canonical three-city routing. Reason: `_ops/decisions.md` D4. Kept for reference.
+
 # SHORT Hyderabad Survey (~7 minutes): Google Forms Copy-Paste Spec
 
 **Version:** 2026-09-14, for the 17 September deadline. Variable names match `survey_variable_dictionary.csv` where the item is the same. New items are marked **NEW**.

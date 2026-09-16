@@ -225,8 +225,9 @@ legend { font-weight: 600; margin-block-end: 8px; padding: 0; }
   <div class="review-inner">
     <span class="review-label">Review preview · console logging only</span>
     <div class="review-switch" role="group" aria-label="Show variant">
-      <button type="button" id="rv-A" data-variant="A" aria-pressed="false">A · Bengaluru: total price</button>
-      <button type="button" id="rv-B" data-variant="B" aria-pressed="false">B · Hyderabad: local + reliable</button>
+      <button type="button" id="rv-A" data-variant="A" aria-pressed="false">A · Total</button>
+      <button type="button" id="rv-B" data-variant="B" aria-pressed="false">B · Clear bill</button>
+      <button type="button" id="rv-C" data-variant="C" aria-pressed="false">C · Arrives</button>
     </div>
   </div>
 </div>
@@ -406,36 +407,46 @@ legend { font-weight: 600; margin-block-end: 8px; padding: 0; }
   /* ================= CONFIG ================= */
   var CONFIG = {
     EXPERIMENT_ID: "hyd_vp_fakedoor_v1",
-    PAGE_VERSION: "2026-09-16.1",
+    PAGE_VERSION: "2026-09-14.1",
     // Google Apps Script web-app URL. EMPTY = review mode: console logging only,
     // variant switcher visible, every event flagged is_qa = true.
     ENDPOINT: "",
     // Link to the main Hyderabad survey (Google Form). Empty hides the survey button.
     SURVEY_URL: "",
-    VARIANTS: ["A", "B"]
+    VARIANTS: ["A", "B", "C"]
   };
   var REVIEW_MODE = !CONFIG.ENDPOINT;
 
   /* ================= VARIANT COPY (the only thing that changes) ================= */
   var COPY = {
     A: {
-      key: "A_blr_total_price",
+      key: "A_total_price",
       h1: "Same dinner. Smaller final bill.",
-      sub: "A delivery idea built around what you actually pay at the end: the restaurant's own menu prices, and one flat delivery fee.",
+      sub: "A delivery idea built around what you pay at the end: menu prices close to the restaurant's own, and one flat delivery fee.",
       points: [
         ["Judge the order by its total", "Compare what actually leaves your account, not the discount banner."],
         ["Menu prices close to the restaurant's", "Restaurants list their own prices instead of raising them for the app."],
-        ["One flat delivery fee", "No platform fee, no packaging fee, no surge. The same fee for a snack or a big dinner."]
+        ["One flat delivery fee", "The same fee for a small snack or a big dinner."]
       ]
     },
     B: {
-      key: "B_hyd_local_reliable",
-      h1: "Your Hyderabad regulars, and dinner that actually turns up.",
-      sub: "A delivery idea built around the local places you already order from, an honest delivery time, and a clear answer when something goes wrong.",
+      key: "B_transparent_bill",
+      h1: "See the real price. Pay that price.",
+      sub: "A delivery idea with no surprise lines at checkout: the food price and one flat delivery fee, shown before you add anything to your cart.",
       points: [
-        ["The places you actually order from", "Local biryani, tiffin and meals spots near you \u2014 not only the big chains."],
-        ["An honest delivery time", "The time shown is the time the order is planned around, not the most hopeful guess."],
-        ["A clear answer when it goes wrong", "A missing or very late order gets a named next step, and your money back fast."]
+        ["Every charge up front", "The delivery fee is shown on the menu screen, not revealed at the last step."],
+        ["No extra fee lines", "No separate platform fee or small-cart fee added at checkout."],
+        ["A bill you can check in five seconds", "Food, delivery, taxes. That's the whole list."]
+      ]
+    },
+    C: {
+      key: "C_reliable_value",
+      h1: "A fair price only counts if dinner arrives.",
+      sub: "A delivery idea that pairs visible, low-fee pricing with honest delivery times and a clear answer when an order goes wrong.",
+      points: [
+        ["Honest delivery times", "The time shown is the time the order is planned around, not the most hopeful guess."],
+        ["Fair, visible pricing", "The food price and one flat delivery fee, shown before checkout."],
+        ["Clear help when something goes wrong", "Missing or very late orders get a named next step, not a long chat."]
       ]
     }
   };

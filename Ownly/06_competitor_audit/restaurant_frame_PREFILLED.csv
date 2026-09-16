@@ -1,0 +1,11 @@
+restaurant_id,name,locality,cuisine,price_tier,chain_or_local,on_ownly,on_swiggy,on_zomato,on_other,selection_reason
+R1,Paradise Biryani,Gachibowli area,Biryani/Hyderabadi,mid,chain,,,,,Ownly Hyderabad showcase chain - tests published price claims
+R2,Bawarchi,Gachibowli area,Biryani/Hyderabadi,mid,chain,,,,,Ownly Hyderabad showcase chain
+R3,Cream Stone,Gachibowli area,Desserts/ice cream,low-mid,chain,,,,,Ownly showcase chain - non-meal basket
+R4,Shah Ghouse,Gachibowli area,Biryani/Hyderabadi,low-mid,chain,,,,,Local flagship anchor brand (17_ targets)
+R5,LOCAL TIFFIN 1 (fill name),Gachibowli / Kondapur,South Indian tiffin,low,local,,,,,"Ownly STATED core target: local eatery, meals under Rs150"
+R6,LOCAL MEALS 2 (fill name),Gachibowli / Nallagandla,Meals/thali,low,local,,,,,Ownly STATED core target: meals under Rs150
+R7,LOCAL BIRYANI 3 (fill name),Gachibowli / Madhapur,Biryani,low,local,,,,,"Local independent, high-frequency student basket"
+R8,LOCAL SNACKS 4 (fill name),Gachibowli / Kondapur,Snacks/fast food,low,local,,,,,"Local independent, small-basket fee sensitivity"
+R9,KFC,Gachibowli,QSR burgers/chicken,mid,chain,,,,,National QSR - record PRESENCE/ABSENCE on Ownly (went offline in BLR May 2026)
+R10,Domino's,Gachibowli,QSR pizza,mid,chain,,,,,National QSR - record PRESENCE/ABSENCE on Ownly
