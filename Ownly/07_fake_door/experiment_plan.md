@@ -124,7 +124,11 @@ n = [ z₁₋α/₂·√(2·p̄(1−p̄)) + z₁₋β·√(p₁(1−p₁) + p₂
 
 ## 9. Stopping rule
 
-- Fixed window: **10 consecutive days** from launch, or **900 eligible visitors**, whichever comes first. Decide the launch date and write it here before launch.
+- **SUPERSEDED 2026-09-17 by the 2-arm runsheet** (`AB_LAUNCH_RUNSHEET_v2.md`), which is the live rule:
+  **launch 2026-09-17 · stop Tue 30 Sep 2026, 10:00 IST, or 300 unique non-QA visitors, whichever comes first.**
+  The 300 figure replaces the 900 below because the design collapsed from 3 arms to 2 (decision D2) and
+  900 was never reachable through student channels. Fixed before any traffic; it does not move again.
+- ~~Fixed window: **10 consecutive days** from launch, or **900 eligible visitors**, whichever comes first.~~
 - One mid-point **data-quality** check only (events arriving, SRM, QA exclusion working). Conversion by variant is **not** looked at before the end.
 - No early stopping for a "winner"; no extending the test because a result is "almost significant".
 - If copy must change mid-test (e.g. audit numbers arrive), bump `PAGE_VERSION`, and analyse versions separately; never pool.

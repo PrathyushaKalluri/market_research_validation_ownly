@@ -1,3 +1,5 @@
+> **Superseded for the live page on 2026-09-17 (D15):** the page now runs the v3 arms. See `FAKE_DOOR_v3_RUNBOOK.md`. This file documents v2.
+
 # Landing-Page Copy — `hyd_vp_fakedoor_v1`
 
 Source of truth for all on-page text. `prototype/index.html` implements it verbatim. Any change → bump `PAGE_VERSION` and log it.
@@ -19,24 +21,23 @@ Source of truth for all on-page text. `prototype/index.html` implements it verba
 | Eyebrow | Food delivery around Gachibowli |
 | CTA (hero and bottom) | See how this would work → |
 | Bill module title | Checkout, side by side |
-| Bill module tag | Illustrative example |
-| Bill caption | Illustrative example only. Not a real bill from any app or restaurant, and not a promise of savings on your order. |
+| Bill module tag | Real price check · Gachibowli, 16 Sep |
+| Bill caption | From a real price check we ran in Gachibowli on 16 September 2026: the same item, same address, two apps, within ten minutes, with no coupons applied. Prices change daily, and a coupon on either app can reverse this. Not a promise of savings on your order. |
 | Footer | Independent university research prototype by a student team studying food delivery in Hyderabad. Not affiliated with any food-delivery company or restaurant. There is no app, no ordering and no payment on this page. |
 
-### Illustrative bill (ASSUMPTION-based; replace with audit medians before launch)
+### Bill module (REAL — our own Gachibowli audit, slot 1, 2026-09-16)
 
 | Line | Typical app | This idea |
 |---|---|---|
-| Food items | ₹250 | ₹235 |
-| Packaging | ₹25 | ₹25 |
-| Platform fee | ₹18 | — |
-| Delivery | ₹35 | ₹30 flat |
-| Taxes | ₹20 | ₹18 |
-| Discount | −₹15 | — |
-| **You pay** | **₹333** | **₹308** |
-| Difference in this example | | ₹25 |
+| Food item | ₹189 | ₹179 |
+| Packaging | — | — |
+| Platform fee | ₹15 | — |
+| Delivery | ₹43 | ₹0 |
+| Taxes | ₹12 | ₹9 |
+| **You pay** | **₹259** | **₹188** |
+| Difference in this example | | ₹71 |
 
-Calibration: platform fee ≈ ₹17.58 incl. GST (national media report, March 2026); taxes = 5% GST on food + packaging and 18% GST on delivery (policy since 2025-09-22); packaging kept equal on both sides because it is restaurant-set and no evidence shows the concept changes it; delivery ₹35 sits inside the reported ₹25–60 incumbent range; ₹30 flat reflects the reported Ownly Bengaluru benchmark, which is **contested** (₹30+GST vs free vs distance-based). Sources: `01_secondary_research/market_price_anchors.md` §2 and §4.
+Source (replaces the earlier assumption-based bill, 2026-09-17): one observed pair from our own price audit — the same dessert item at the same Gachibowli address (DP1), captured on both apps within ten minutes on 2026-09-16, with **no coupons applied on either side**. Row: `06_competitor_audit/audit_data_slot1.csv` (Cream Stone). This is the **mid-case** of our four comparisons, chosen deliberately: the largest observed gap ran to −52.6%, and printing that would overstate the typical case. Full analysis and caveats: `06_competitor_audit/audit_slot1_results.md`. **With each app's auto-offer applied the ranking flips in 2 of 4 comparisons**, which is why the caption says a coupon can reverse it. The bill is identical on both arms, so it cannot bias A vs B.
 
 ---
 
@@ -150,18 +151,17 @@ Copy notes: C deliberately includes pricing (point 2) so it remains the same con
 │ └─────────────────────────────────────┘ │
 │                                         │
 │ ╭◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦╮ │  ← receipt, perforated edges
-│ │ CHECKOUT, SIDE BY SIDE  ILLUSTRATIVE│ │
+│ │ CHECKOUT, SIDE BY SIDE   REAL CHECK │ │
 │ │ LINE          TYPICAL APP  THIS IDEA│ │
-│ │ Food items          ₹250      ₹235  │ │
-│ │ Packaging            ₹25       ₹25  │ │
-│ │ Platform fee         ₹18        —   │ │
-│ │ Delivery             ₹35  ₹30 flat  │ │
-│ │ Taxes                ₹20       ₹18  │ │
-│ │ Discount            −₹15        —   │ │
+│ │ Food item           ₹189      ₹179  │ │
+│ │ Packaging             —         —   │ │
+│ │ Platform fee         ₹15        —   │ │
+│ │ Delivery             ₹43       ₹0   │ │
+│ │ Taxes                ₹12       ₹9   │ │
 │ │ ─────────────────────────────────── │ │
-│ │ You pay             ₹333      ₹308  │ │
-│ │ Difference in this example   [₹25]  │ │
-│ │ Illustrative example only…          │ │
+│ │ You pay             ₹259      ₹188  │ │
+│ │ Difference in this example   [₹71]  │ │
+│ │ Real price check, Gachibowli 16 Sep…│ │
 │ ╰◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦╯ │
 │                                         │
 │ [✓] Point 1 title (varies)              │

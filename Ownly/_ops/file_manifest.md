@@ -13,13 +13,13 @@ Per decision **D7**, no duplicate tree was created. Mapping:
 | `02_secondary_research/secondary_findings.md` | `01_secondary_research/secondary_research_report.md` |
 | `02_secondary_research/evidence_map.csv` | `01_secondary_research/evidence_table.csv` (68 claims) |
 | `02_secondary_research/claims_vs_evidence.md` | `01_secondary_research/consolidated/consolidated_evidence_pack.md` §2 |
-| `03_primary_research/survey/*` | **`13_survey_v3_live/`** |
+| `03_primary_research/survey/*` | **`Survey_v6_Google_Form_Build_Guide.md`** (the live form, + the 2 Rapido questions — D13, D14) · design history in `13_survey_v3_live/` |
 | `03_primary_research/interviews/*` | `04_interviews/` (`*_v3.*` are live) |
 | `03_primary_research/whatsapp_polls/*` | **`14_quick_polls/`** |
 | `03_primary_research/fake_door/*` | `07_fake_door/` (`AB_LAUNCH_RUNSHEET_v2.md` is live) |
-| `04_market_audit/*` | `06_competitor_audit/` (`*_PREFILLED.csv` are live) |
-| `05_analysis/*` | `09_analysis/` (+ `short_plan/`), `08_clean_data/` |
-| `06_dashboard/*` | `10_dashboard/` |
+| `04_market_audit/*` | `06_competitor_audit/` — **`audit_data_slot1.csv` holds the real slot-1 captures; `audit_slot1_results.md` is the analysis**; `*_PREFILLED.csv` are the blank grids |
+| `05_analysis/*` | **`09_analysis/kpi_system/`** (the live KPI framework — D12, D14) · `09_analysis/` (+ `short_plan/`), `08_clean_data/` |
+| `06_dashboard/*` | **`10_dashboard/decision_dashboard/`** (the live dashboard — D14) |
 | `07_final_submission/*` | `11_insights/`, `12_final_presentation/` |
 | `98_reference_only/` | `Marketing Metrics 1000 Records.csv`, `Formulae Sheet (1).docx`, `Formulae Sheet 2.pdf` — see below |
 | `99_archive/` | `../archive/` |
@@ -72,3 +72,7 @@ Per decision **D7**, no duplicate tree was created. Mapping:
 | `04_interviews/interview_guide_30min.md`, `_45min.md` | `RAPID_15min_guide_v3.md` | The full design, for the "more time" appendix |
 | `../13_`–`17_*.md` (v1) | v2 framing | SUPERSEDED banners already in place |
 | `00_research_charter/O_execution_checklist_and_timeline.md` | `_ops/plan.md` | The 5-week next-phase appendix |
+| `Survey_v5_*`, `hyderabad_survey_v3_final.md`, `hyderabad_survey_v4_final.md` | `Survey_v6_Google_Form_Build_Guide.md` | Moved to `../../archive/2026-09-17_superseded/` (D14). v6 is built **on** v5, so the wording is kept for the upgrade path |
+| `Survey_v7_*`, `Survey_v6_to_v7_Conversion_Guide.md` | v6 (D13, D14) | Never fielded. v7's cuts removed questions the KPI system needs |
+| `KPI_Framework_and_Survey_Validation.md` (9 KPIs) | `09_analysis/kpi_system/` (58 rows) | Archived (D14). Its 24-response pilot readout is the reason the live form screens age/city and asks order counts |
+| `10_dashboard/ownly_transfer_scorecard.html` | `10_dashboard/decision_dashboard/` | Archived (D14). Read a v5 CSV export |

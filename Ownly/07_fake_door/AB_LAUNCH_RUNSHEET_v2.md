@@ -1,3 +1,5 @@
+> **Superseded for the live page on 2026-09-17 (D15):** the page now runs the v3 arms. See `FAKE_DOOR_v3_RUNBOOK.md`. This file documents v2.
+
 # Fake-Door A/B — Launch Runsheet (2-arm, v2)
 
 **Owner: Person 3. Time: ~45 min. Cost: ₹0.**
@@ -68,7 +70,9 @@ no posting the same link twice in one group.
 
 ## Stopping rule — fix it now, before any traffic
 
-- **Stop at:** Wed 16 Sep 22:00, **or** 300 unique non-QA visitors, whichever comes first.
+- **Stop at:** **Tue 30 Sep 2026, 10:00 IST**, **or** 300 unique non-QA visitors, whichever comes first.
+  *(Re-set on 2026-09-17: the original stop, Wed 16 Sep 22:00, passed before the page went live. This new
+  rule is fixed before any traffic arrives, and does not move again.)*
 - **Do not look at conversion by variant before the stop.** Mid-run, open the sheet only to confirm that
   events are arriving and that A and B counts are roughly equal. Peeking and stopping on a good-looking
   split is how a null result becomes a fake positive.

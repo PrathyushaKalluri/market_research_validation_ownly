@@ -1,0 +1,80 @@
+capture_ts,slot,auditor_id,drop_point_id,platform,account_state,subscription_active,restaurant_name,restaurant_listed,restaurant_open,basket_id,item_list,item_match_quality,menu_subtotal,packaging_fee,platform_fee,delivery_fee,small_cart_fee,surge_rain_fee,taxes_gst,discount_amount,discount_type,final_payable,eta_min_shown,eta_max_shown,screenshot_file,notes
+19:45,wed_dinner,A,DP1,ownly,new,NA,Paradise Biryani,y,y,B1,Special Veg Dum Biryani (serves 1-2),Exact,299,0,0,0,0,0,14.95,50,auto offer,263.95,44,49,DP1_wed_dinner_ownly_R1.png,groupA
+19:45,wed_dinner,A,DP1,ownly,new,NA,Paradise Biryani,y,y,B1,Special Veg Dum Biryani (serves 1-2),Exact,299,0,0,0,0,0,14.95,0,none,313.95,44,49,DP1_wed_dinner_ownly_R1.png,groupA
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Paradise Biryani,y,y,B1,Special Veg Dum Biryani (serves 1-2),Exact,375,0,0,0,0,0,54.76,242,auto offer,187.76,20,25,DP1_wed_dinner_swiggy_R1.png,groupA
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Paradise Biryani,y,y,B1,Special Veg Dum Biryani (serves 1-2),Exact,375,0,0,42,0,0,54.76,0,none,471.76,20,25,DP1_wed_dinner_swiggy_R1.png,groupA
+19:45,wed_dinner,A,DP1,zomato,existing,y,Paradise Biryani,y,y,B1,Special Veg Dum Biryani (serves 1-2),Exact,375,28.88,14.99,0,0,0,22.89,0,none,441.76,25,30,DP1_wed_dinner_zomato_R1.png,groupA
+19:45,wed_dinner,A,DP1,zomato,existing,y,Paradise Biryani,y,y,B1,Special Veg Dum Biryani (serves 1-2),Exact,375,28.88,14.99,43,0,0,22.89,0,none,484.76,25,30,DP1_wed_dinner_zomato_R1.png,groupA
+22:00,wed_dinner,A,DP1,ownly,new,NA,Bawarchi,y,y,B1,Veg Biryani,Exact,196,0,0,0,0,0,9.8,50,auto offer,155.8,36,41,DP1_wed_dinner_ownly_R2.png,groupA
+22:00,wed_dinner,A,DP1,ownly,new,NA,Bawarchi,y,y,B1,Veg Biryani,Exact,196,0,0,0,0,0,9.8,0,none,205.8,36,41,DP1_wed_dinner_ownly_R2.png,groupA
+22:00,wed_dinner,A,DP1,swiggy,existing,y,Bawarchi,y,y,B1,Veg Biryani,Exact,179,0,0,0,0,0,22.57,156.35,auto offer coupon,45,20,25,DP1_wed_dinner_swiggy_R2.png,groupA
+22:00,wed_dinner,A,DP1,swiggy,existing,y,Bawarchi,y,y,B1,Veg Biryani,Exact,179,0,0,48,0,0,22.57,0,none,249.35,20,25,DP1_wed_dinner_swiggy_R2.png,groupA
+22:00,wed_dinner,A,DP1,zomato,existing,y,Bawarchi,y,y,B1,Veg Biryani,Exact,179,0,14.99,0,0,0,11.65,0,none,205.64,15,20,DP1_wed_dinner_zomato_R2.png,groupA
+22:00,wed_dinner,A,DP1,zomato,existing,y,Bawarchi,y,y,B1,Veg Biryani,Exact,179,0,14.99,42,0,0,11.65,0,none,247.64,15,20,DP1_wed_dinner_zomato_R2.png,groupA
+19:45,wed_dinner,A,DP1,ownly,new,NA,Cream Stone,y,y,B2,Nutella brownie blast milk,Exact,179,0,0,0,0,0,8.95,50,auto offer,137.95,30,30,DP1_wed_dinner_ownly_R3.png,groupA
+19:45,wed_dinner,A,DP1,ownly,new,NA,Cream Stone,y,y,B2,Nutella brownie blast milk,Exact,179,0,0,0,0,0,8.95,0,none,187.95,30,30,DP1_wed_dinner_ownly_R3.png,groupA
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Cream Stone,y,y,B2,Nutella brownie blast milk,Exact,189,0,0,0,0,0,47.3,77.8,auto offer,158,10,15,DP1_wed_dinner_swiggy_R3.png,groupA
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Cream Stone,y,y,B2,Nutella brownie blast milk,Exact,189,0,0,42,0,0,47.3,0,none,277.8,10,15,DP1_wed_dinner_swiggy_R3.png,groupA
+19:45,wed_dinner,A,DP1,zomato,existing,y,Cream Stone,y,y,B2,Nutella brownie blast milk,Exact,189,0,14.99,0,0,0,12.15,0,none,216.14,15,20,DP1_wed_dinner_zomato_R3.png,groupA
+19:45,wed_dinner,A,DP1,zomato,existing,y,Cream Stone,y,y,B2,Nutella brownie blast milk,Exact,189,0,14.99,43,0,0,12.15,0,none,259.14,15,20,DP1_wed_dinner_zomato_R3.png,groupA
+19:45,wed_dinner,A,DP1,ownly,new,NA,Shah Ghouse,y,y,B1,Veg Briyani,,150,0,0,0,0,0,7.5,50,auto offer,107.5,38,43,DP1_wed_dinner_ownly_R4.png,groupA
+19:45,wed_dinner,A,DP1,ownly,new,NA,Shah Ghouse,y,y,B1,Veg Briyani,,150,0,0,0,0,0,7.5,0,none,157.5,38,43,DP1_wed_dinner_ownly_R4.png,groupA
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Shah Ghouse,y,y,B1,Veg Briyani,,254,0,0,0,0,0,30.69,90,auto offer,195,20,25,DP1_wed_dinner_swiggy_R4.png,groupA
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Shah Ghouse,y,y,B1,Veg Briyani,,254,0,0,47,0,0,30.69,0,none,332,20,25,DP1_wed_dinner_swiggy_R4.png,groupA
+19:45,wed_dinner,A,DP1,zomato,existing,y,Shah Ghouse,y,y,B1,Veg Briyani,,254,0,14.99,0,0,0,15.41,0,none,284.49,20,25,DP1_wed_dinner_zomato_R4.png,groupA
+19:45,wed_dinner,A,DP1,zomato,existing,y,Shah Ghouse,y,y,B1,Veg Briyani,,254,0,14.99,48,0,0,15.41,0,none,332.49,20,25,DP1_wed_dinner_zomato_R4.png,groupA
+19:45,wed_dinner,A,DP1,ownly,new,NA,Murgan Tiffins,y,y,B3,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R5.png,groupB
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Murgan Tiffins,y,y,B3,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R5.png,groupB
+19:45,wed_dinner,A,DP1,zomato,existing,y,Murgan Tiffins,y,y,B3,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R5.png,groupB
+19:45,wed_dinner,A,DP1,ownly,new,NA,Aanimuthyalu unlimited,y,y,B3,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R6.png,groupB
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Aanimuthyalu unlimited,n,n,B3,,,,,,,,,,,,,,,DP1_wed_dinner_swiggy_R6.png,groupB
+19:45,wed_dinner,A,DP1,zomato,existing,y,Aanimuthyalu unlimited,n,n,B3,,,,,,,,,,,,,,,DP1_wed_dinner_zomato_R6.png,groupB
+19:45,wed_dinner,A,DP1,ownly,new,NA,Mehfil,y,y,B1,Chicken Biryani single,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R7.png,groupB
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Mehfil,y,y,B1,Chicken Biryani single,,170,0,0,57,0,0,36.74,105,auto offer,159,30,40,DP1_wed_dinner_swiggy_R7.png,groupB
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Mehfil,y,y,B1,Chicken Biryani single,,170,0,0,57,0,0,36.74,0,none,264,30,40,DP1_wed_dinner_swiggy_R7.png,groupB
+19:45,wed_dinner,A,DP1,zomato,existing,y,Mehfil,y,y,B1,Chicken Biryani single,,170,0,14.99,0,0,0,11.2,0,none,196.19,10,15,DP1_wed_dinner_swiggy_R7.png,groupB
+19:45,wed_dinner,A,DP1,zomato,existing,y,Mehfil,y,y,B1,Chicken Biryani single,,170,0,14.99,42,0,0,11.2,0,none,238.19,10,15,DP1_wed_dinner_zomato_R7.png,groupB
+19:45,wed_dinner,A,DP1,ownly,new,NA,Karachi Bakery,y,y,B2,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R8.png,groupB
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Karachi Bakery,y,y,B2,Chocolate truffle cake,,1200,0,0,0,0,0,17.98,120,auto offer,1098,5,10,DP1_wed_dinner_swiggy_R8.png,groupB
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Karachi Bakery,y,y,B2,Chocolate truffle cake,,1200,0,0,42,0,0,17.98,0,none,1260,5,10,DP1_wed_dinner_swiggy_R8.png,groupB
+19:45,wed_dinner,A,DP1,zomato,existing,y,Karachi Bakery,y,y,B2,Chocolate truffle cake,,1142,60,14.99,0,0,0,9.76,0,,1224.75,10,15,DP1_wed_dinner_zomato_R8.png,groupB
+19:45,wed_dinner,A,DP1,zomato,existing,y,Karachi Bakery,y,y,B2,Chocolate truffle cake,,1142,60,14.99,42,0,0,9.76,0,,1266,10,15,DP1_wed_dinner_zomato_R8.png,groupB
+19:45,wed_dinner,A,DP1,ownly,new,NA,Wendy's Burgers,y,y,B2,,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R9.png,groupC
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Wendy's Burgers,y,y,B2,Teriyaki Fried chicekn burger,,299,0,0,0,0,0,59.27,160,auto offer,198,15,20,DP1_wed_dinner_swiggy_R9.png,groupC
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Wendy's Burgers,y,y,B2,Teriyaki Fried chicekn burger,,299,0,0,42,0,0,59.27,0,none,,15,20,DP1_wed_dinner_swiggy_R9.png,groupC
+19:45,wed_dinner,A,DP1,zomato,existing,y,Wendy's Burgers,y,y,B2,Teriyaki Fried chicekn burger,,299,29.12,14.99,0,0,0,15.35,75,coupon,283.46,20,25,DP1_wed_dinner_zomato_R9.png,groupC
+19:45,wed_dinner,A,DP1,zomato,existing,y,Wendy's Burgers,y,y,B2,Teriyaki Fried chicekn burger,,299,29.12,14.99,40,0,0,15.35,0,none,,20,25,DP1_wed_dinner_zomato_R9.png,groupC
+19:45,wed_dinner,A,DP1,ownly,new,NA,Pizza Hut,n,n,B2,3in1 Triple Spice Pizza Veg Per,,,,,,,,,,,,,,DP1_wed_dinner_ownly_R10.png,groupC
+19:45,wed_dinner,A,DP1,swiggy,existing,y,Pizza Hut,y,y,B2,3in1 Triple Spice Pizza Veg Per,,279,0,0,0,0,0,58.18,20,auto offer,317,25,30,DP1_wed_dinner_swiggy_R10.png,groupC
+20:45,wed_dinner,A,DP2,swiggy,existing,y,Pizza Hut,y,y,B3,3in1 Triple Spice Pizza Veg Per,,279,0,0,47,0,0,58.18,0,none,384.18,25,30,,
+19:45,wed_dinner,A,DP1,zomato,existing,y,Pizza Hut,y,y,B2,3in1 Triple Spice Pizza Veg Per,,279,25,14.99,85,0,0,33.2,0,,437.19,30,35,DP1_wed_dinner_zomato_R10.png,groupC
+,thu_lunch,B,DP1,ownly,new,NA,Paradise Biryani,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R1.png,groupA
+,thu_lunch,B,DP1,swiggy,existing,y,Paradise Biryani,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R1.png,groupA
+,thu_lunch,B,DP1,zomato,existing,y,Paradise Biryani,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R1.png,groupA
+,thu_lunch,B,DP1,ownly,new,NA,Bawarchi,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R2.png,groupA
+,thu_lunch,B,DP1,swiggy,existing,y,Bawarchi,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R2.png,groupA
+,thu_lunch,B,DP1,zomato,existing,y,Bawarchi,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R2.png,groupA
+,thu_lunch,B,DP1,ownly,new,NA,Cream Stone,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R3.png,groupA
+,thu_lunch,B,DP1,swiggy,existing,y,Cream Stone,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R3.png,groupA
+,thu_lunch,B,DP1,zomato,existing,y,Cream Stone,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R3.png,groupA
+,thu_lunch,B,DP1,ownly,new,NA,Shah Ghouse,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R4.png,groupA
+,thu_lunch,B,DP1,swiggy,existing,y,Shah Ghouse,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R4.png,groupA
+,thu_lunch,B,DP1,zomato,existing,y,Shah Ghouse,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R4.png,groupA
+,thu_lunch,B,DP1,ownly,new,NA,Murgan Tiffins,y,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R5.png,groupB
+,thu_lunch,B,DP1,swiggy,existing,y,Murgan Tiffins,y,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R5.png,groupB
+,thu_lunch,B,DP1,zomato,existing,y,Murgan Tiffins,y,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R5.png,groupB
+,thu_lunch,B,DP1,ownly,new,NA,Aanimuthyualu unlimited,y,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R6.png,groupB
+,thu_lunch,B,DP1,swiggy,existing,y,Aanimuthyualu unlimited,y,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R6.png,groupB
+,thu_lunch,B,DP1,zomato,existing,y,Aanimuthyualu unlimited,y,,B3,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R6.png,groupB
+,thu_lunch,B,DP1,ownly,new,NA,Mehfil,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R7.png,groupB
+,thu_lunch,B,DP1,swiggy,existing,y,Mehfil,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R7.png,groupB
+,thu_lunch,B,DP1,zomato,existing,y,Mehfil,y,,B1,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R7.png,groupB
+,thu_lunch,B,DP1,ownly,new,NA,Karachi Bakery,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R8.png,groupB
+,thu_lunch,B,DP1,swiggy,existing,y,Karachi Bakery,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R8.png,groupB
+,thu_lunch,B,DP1,zomato,existing,y,Karachi Bakery,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R8.png,groupB
+,thu_lunch,B,DP1,ownly,new,NA,KFC,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R9.png,groupC
+,thu_lunch,B,DP1,swiggy,existing,y,KFC,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R9.png,groupC
+,thu_lunch,B,DP1,zomato,existing,y,KFC,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R9.png,groupC
+,thu_lunch,B,DP1,ownly,new,NA,Domino's,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_ownly_R10.png,groupC
+,thu_lunch,B,DP1,swiggy,existing,y,Domino's,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_swiggy_R10.png,groupC
+,thu_lunch,B,DP1,zomato,existing,y,Domino's,y,,B2,,,,,,,,,,,,,,,DP1_thu_lunch_zomato_R10.png,groupC

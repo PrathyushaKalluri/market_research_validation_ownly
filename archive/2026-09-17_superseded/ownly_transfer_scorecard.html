@@ -1,0 +1,942 @@
+<title>Ownly Transfer Scorecard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --page:#f2f3ef; --surface:#fcfcfb; --surface-2:#eef0ea; --ink:#0b0b0b; --ink-2:#4d4c48; --muted:#6c6b66;
+  --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,.11);
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  --ord1:#86b6ef; --ord2:#3987e5; --ord3:#1c5cab; --track:#e4ecf6;
+  --pos:#2a78d6; --neg:#e34948;
+  --chip:#e7e7e1; --chip-ink:#3a3935;
+  --note-bg:#fbf1d6; --note-ink:#4f3b00; --note-border:#ecd48f;
+  --accent:#1f5fb0; --focus:#2a78d6;
+  --sans:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --page:#0f0f0e; --surface:#1a1a19; --surface-2:#222220; --ink:#ffffff; --ink-2:#c9c8bf; --muted:#9a988f;
+    --grid:#2c2c2a; --axis:#44443f; --border:rgba(255,255,255,.10);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --ord1:#1c5cab; --ord2:#3987e5; --ord3:#86b6ef; --track:#1f2a38;
+    --pos:#3987e5; --neg:#e66767;
+    --chip:#2c2c29; --chip-ink:#d8d7cf;
+    --note-bg:#2a2412; --note-ink:#f1dc9c; --note-border:#5a4a1c;
+    --accent:#86b6ef; --focus:#6da7ec;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --page:#0f0f0e; --surface:#1a1a19; --surface-2:#222220; --ink:#ffffff; --ink-2:#c9c8bf; --muted:#9a988f;
+  --grid:#2c2c2a; --axis:#44443f; --border:rgba(255,255,255,.10);
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --ord1:#1c5cab; --ord2:#3987e5; --ord3:#86b6ef; --track:#1f2a38;
+  --pos:#3987e5; --neg:#e66767;
+  --chip:#2c2c29; --chip-ink:#d8d7cf;
+  --note-bg:#2a2412; --note-ink:#f1dc9c; --note-border:#5a4a1c;
+  --accent:#86b6ef; --focus:#6da7ec;
+}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+h1,h2,h3{text-wrap:balance;margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+header.top{display:grid;gap:10px;margin-bottom:18px}
+header.top h1{font-size:clamp(24px,3.2vw,34px);font-weight:700;letter-spacing:-.01em;line-height:1.15;max-width:30ch}
+.lede{color:var(--ink-2);max-width:72ch;margin:0}
+.hero{font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;max-width:80ch}
+.hero strong{font-weight:700}
+.note{background:var(--note-bg);color:var(--note-ink);border:1px solid var(--note-border);border-radius:8px;padding:9px 12px;font-size:13px;max-width:90ch}
+.filters{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end;padding-block:14px;border-block:1px solid var(--border);margin-block:16px 22px}
+.field{display:grid;gap:5px}
+.field > span{font-size:12px;color:var(--muted);letter-spacing:.02em}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:3px;gap:3px;flex-wrap:wrap}
+.seg button,.seg label{appearance:none;border:0;background:transparent;color:var(--ink-2);font:500 13px var(--sans);padding:6px 11px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"],.seg label.on{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--border)}
+.seg button:hover,.seg label:hover{color:var(--ink)}
+select{font:500 13px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 10px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
+section.block{margin-top:34px}
+.block-head{display:grid;gap:4px;margin-bottom:12px}
+.block-head h2{font-size:20px;font-weight:700}
+.block-head p{margin:0;color:var(--ink-2);max-width:75ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.card.wide{grid-column:1/-1}
+.card h3{font-size:15px;font-weight:650}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:12px;color:var(--muted)}
+.src{background:var(--chip);color:var(--chip-ink);border-radius:999px;padding:1px 8px;font-size:11.5px;font-weight:500}
+.ids{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.formula{font-family:var(--mono);font-size:11.5px;color:var(--muted);border-top:1px solid var(--border);padding-top:8px}
+.chart{width:100%;min-width:0}
+.chart svg{display:block;max-width:100%;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--ink-2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+details.tbl summary{cursor:pointer;font-size:12px;color:var(--accent);width:max-content}
+.tbl-body{overflow-x:auto;margin-top:8px}
+table.plain{border-collapse:collapse;font-size:12.5px;width:100%;font-variant-numeric:tabular-nums}
+table.plain th,table.plain td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--grid);white-space:nowrap}
+table.plain th{color:var(--muted);font-weight:500}
+/* scorecard */
+.score-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+table.score{border-collapse:collapse;width:100%;min-width:860px}
+table.score th,table.score td{padding:11px 14px;border-bottom:1px solid var(--grid);vertical-align:top;text-align:left}
+table.score tr:last-child td{border-bottom:0}
+table.score thead th{font-size:12px;color:var(--muted);font-weight:500;background:var(--surface-2)}
+table.score thead th b{display:block;color:var(--ink);font-size:13.5px;font-weight:650}
+.kname{display:grid;gap:3px;min-width:220px}
+.kname .kid{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.kname strong{font-size:14px;font-weight:650}
+.kname .q{font-size:12px;color:var(--ink-2);max-width:34ch}
+.cell{display:grid;gap:2px;min-width:132px}
+.cell .v{font-size:20px;font-weight:650;line-height:1.2}
+.cell .ci,.cell .n{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.cell .sub{font-size:12px;color:var(--ink-2)}
+.meter{height:4px;background:var(--track);border-radius:2px;margin-top:4px;position:relative;max-width:120px}
+.meter b{position:absolute;left:0;top:0;bottom:0;background:var(--s1);border-radius:0 2px 2px 0}
+.cell.dir .v{color:var(--ink-2)}
+.chip{display:inline-flex;align-items:center;gap:5px;width:max-content;font-size:11.5px;font-weight:600;color:var(--chip-ink);background:var(--chip);border-radius:999px;padding:1px 8px}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;border:1.5px solid currentColor}
+.chip.dir::before{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+.chip.low::before{background:transparent}
+.chip.notyet::before{border-style:dotted}
+.chip.nc::before,.chip.na::before{border-radius:1px}
+.cmp{font-size:13px;font-weight:600}
+.cmp small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.keyrow{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;color:var(--ink-2);margin-top:10px}
+/* html bars */
+.bars{display:grid;gap:14px}
+.facets{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.facet h4{margin:0 0 6px;font-size:13px;font-weight:650}
+.facet h4 span{font-weight:400;color:var(--muted);font-size:12px;margin-left:6px}
+.brow{display:grid;grid-template-columns:minmax(0,1fr) 46px;gap:3px 8px;align-items:center;margin-bottom:8px;border-radius:4px}
+.brow .bl{grid-column:1/-1;font-size:12px;color:var(--ink-2);line-height:1.3}
+.brow .bt{height:14px;position:relative}
+.brow .bf{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--s1);min-width:2px}
+.brow .bv{font-size:12px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.brow.hot .bf{filter:brightness(1.12)}
+.bf.o1{background:var(--ord1)} .bf.o2{background:var(--ord2)} .bf.o3{background:var(--ord3)}
+.empty{font-size:12.5px;color:var(--muted);padding:6px 0}
+/* stacked */
+.stack{display:grid;gap:12px}
+.srow{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;align-items:center}
+.srow .sl{font-size:13px;font-weight:600}
+.srow .sl small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+.sbar{display:flex;gap:2px;height:22px}
+.sseg{height:100%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#0b0b0b;overflow:visible;white-space:nowrap}
+.sseg:first-child{border-radius:4px 0 0 4px}.sseg:last-child{border-radius:0 4px 4px 0}
+.sseg.hot{filter:brightness(1.1)}
+.k-s1{background:var(--s1)}.k-s2{background:var(--s2)}.k-s3{background:var(--s3)}.k-s4{background:var(--s4)}
+/* diverging */
+.drow{display:grid;grid-template-columns:minmax(90px,150px) minmax(0,1fr) 64px;gap:8px;align-items:center;margin-bottom:7px}
+.drow .dl{font-size:12px;color:var(--ink-2);line-height:1.25}
+.drow .dt{position:relative;height:14px}
+.drow .dt::after{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:1px;background:var(--axis)}
+.drow .df{position:absolute;top:0;bottom:0}
+.drow .df.pos{background:var(--pos);border-radius:0 4px 4px 0}
+.drow .df.neg{background:var(--neg);border-radius:4px 0 0 4px}
+.drow .dv{font-size:12px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.drow .dv small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+.drow.hot .df{filter:brightness(1.12)}
+/* svg chart text */
+svg text{font-family:var(--sans)}
+.g-grid{stroke:var(--grid);stroke-width:1}
+.g-ax{fill:var(--muted);font-size:11px}
+.g-lbl{fill:var(--ink);font-size:13px;font-weight:600}
+.g-sub{fill:var(--muted);font-size:11px}
+.g-val{fill:var(--ink);font-size:12.5px;font-weight:600}
+.g-na{fill:var(--muted);font-size:12px}
+.g-whisk{stroke:var(--ink-2);stroke-width:2;stroke-linecap:round;opacity:.5}
+.g-ref{stroke:var(--ink-2);stroke-width:1}
+.g-dot{stroke:var(--surface);stroke-width:2}
+.g-hollow{fill:var(--surface);stroke-width:2}
+.f-s1{fill:var(--s1)}.f-s2{fill:var(--s2)}.f-s3{fill:var(--s3)}.f-s4{fill:var(--s4)}
+.st-s1{stroke:var(--s1)}.st-s2{stroke:var(--s2)}.st-s3{stroke:var(--s3)}.st-s4{stroke:var(--s4)}
+.g-hit{fill:transparent}
+g.mark.hot circle{r:6.5}
+g.mark{outline:none}
+g.mark:focus-visible .g-hit{stroke:var(--focus);stroke-width:2}
+#tip{position:fixed;z-index:50;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;box-shadow:0 6px 20px rgba(0,0,0,.12);max-width:280px;font-size:12px}
+#tip .tv{font-size:14px;font-weight:700}
+#tip .tl{color:var(--ink-2)}
+.dq{display:grid;gap:12px}
+.fieldlist{font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.7}
+footer{margin-top:40px;font-size:12px;color:var(--muted);max-width:90ch}
+@media (max-width:520px){
+  .wrap{padding-inline:16px}
+  .srow{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .drow{grid-template-columns:minmax(80px,110px) minmax(0,1fr) 56px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Ownly · Bengaluru → Hyderabad market transfer · 9 KPIs</div>
+    <h1>Is Ownly pulling 20–30-year-olds away from Swiggy and Zomato?</h1>
+    <p class="lede">Every KPI is shown for <b>Bengaluru</b> (where Ownly's pitch matured), <b>Hyderabad</b> (the target, live since September 2026) and <b>other cities</b> (the baseline without Ownly). Values appear only when the base is large enough to read.</p>
+    <div class="note" id="source-note" role="status"></div>
+    <p class="hero" id="hero"></p>
+  </header>
+
+  <div class="filters" role="group" aria-label="Filters">
+    <div class="field">
+      <span id="lbl-src">Data</span>
+      <div class="seg" role="group" aria-labelledby="lbl-src">
+        <button type="button" id="src-example" aria-pressed="true">Example data</button>
+        <button type="button" id="src-pilot" aria-pressed="false">Pilot · 24 responses</button>
+        <label for="csv-file" id="src-csv-label">Upload survey CSV</label>
+        <input type="file" id="csv-file" accept=".csv,text/csv">
+      </div>
+    </div>
+    <div class="field">
+      <label for="f-seg"><span>Segment</span></label>
+      <select id="f-seg">
+        <option value="all">Everyone</option>
+        <option value="Students">Students</option>
+        <option value="Working professionals">Working professionals</option>
+        <option value="Studying &amp; working">Studying &amp; working</option>
+        <option value="Job seekers &amp; other">Job seekers &amp; other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="f-area"><span>Areas</span></label>
+      <select id="f-area">
+        <option value="all">All areas</option>
+        <option value="focus">Focus areas: Gachibowli area · Bengaluru pilot areas</option>
+      </select>
+    </div>
+  </div>
+
+  <section class="block" aria-labelledby="h-score">
+    <div class="block-head">
+      <h2 id="h-score">Scorecard</h2>
+      <p>The nine KPIs side by side. The last column reads the transfer: how Hyderabad compares with the Bengaluru benchmark.</p>
+    </div>
+    <div class="score-wrap"><table class="score" id="scorecard"></table></div>
+    <div class="keyrow" aria-label="Status key">
+      <span class="chip dir">Directional</span><span>base of 10–29, read with care</span>
+      <span class="chip low">Not enough data</span><span>base under 10</span>
+      <span class="chip notyet">Not measurable yet</span><span>Ownly too new in that city</span>
+      <span class="chip nc">Not in this form</span><span>question missing from the data</span>
+      <span class="chip na">Not applicable</span><span>not asked on that city's path</span>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-pull">
+    <div class="block-head">
+      <h2 id="h-pull">Is Ownly pulling people away?</h2>
+      <p>Trial among people who already order online, Ownly's share of all orders, and whether those orders came from Swiggy and Zomato.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>K1 · Penetration Share</h3>
+        <div class="meta"><span class="src">Formulae Sheet 1</span><span class="ids">ORD · N_OW</span></div>
+        <div class="chart" id="c-k1"></div>
+        <div class="formula">Ownly users in the last 4 weeks ÷ people who ordered food online in the last 4 weeks</div>
+      </div>
+      <div class="card">
+        <h3>K3 · Unit Market Share</h3>
+        <div class="meta"><span class="src">Formulae Sheet 1</span><span class="ids">N_SW · N_ZO · N_OW · N_OT</span></div>
+        <div class="legend" id="lg-apps"></div>
+        <div class="chart" id="c-k3"></div>
+        <div class="formula">Orders on each app ÷ all food delivery orders, last 4 weeks</div>
+        <details class="tbl"><summary>View as table</summary><div class="tbl-body" id="t-k3"></div></details>
+      </div>
+      <div class="card wide">
+        <h3>K2 · Cannibalization Rate: where Ownly's orders came from</h3>
+        <div class="meta"><span class="src">Formulae Sheet 2</span><span class="ids">US_ALT · N_OW</span><span>Ownly users, weighted by their Ownly orders</span></div>
+        <div class="chart" id="c-k2"></div>
+        <div class="formula">Ownly orders that would otherwise have gone to Swiggy/Zomato ÷ all Ownly orders</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-loyal">
+    <div class="block-head">
+      <h2 id="h-loyal">Do the users it wins stay?</h2>
+      <p>How much of their ordering Ownly users give it, whether they keep ordering, and whether they'd miss it.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>K4 · Unit Share of Requirements</h3>
+        <div class="meta"><span class="src">Formulae Sheet 1</span><span class="ids">N_OW · all order counts</span></div>
+        <div class="chart" id="c-k4"></div>
+        <div class="formula">Ownly orders ÷ all food orders, among Ownly users</div>
+      </div>
+      <div class="card">
+        <h3>K6 · Sean Ellis PMF score</h3>
+        <div class="meta"><span class="src">Syllabus Unit 6</span><span class="ids">US_PMF</span></div>
+        <div class="chart" id="c-k6"></div>
+        <div class="formula">"Very disappointed" without Ownly ÷ Ownly users who answered · fit signal at 40%</div>
+      </div>
+      <div class="card">
+        <h3>K5 · Retention Rate</h3>
+        <div class="meta"><span class="src">Formulae Sheet 2</span><span class="ids">US_PRIOR · N_OW · US_FIRST</span></div>
+        <div class="chart" id="c-k5"></div>
+        <div class="formula">(Customers at end − new customers) ÷ customers at start · 4-week periods</div>
+      </div>
+      <div class="card">
+        <h3>Why Bengaluru users order less</h3>
+        <div class="meta"><span class="src">Driver for K5</span><span class="ids">US_LAPSE</span></div>
+        <div class="chart" id="c-lapse"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-funnel">
+    <div class="block-head">
+      <h2 id="h-funnel">Where does interest leak?</h2>
+      <p>The Ownly funnel as a share of all respondents in each city, the conversion from opening the app to ordering, and the reasons people give at each step.</p>
+    </div>
+    <div class="grid">
+      <div class="card wide">
+        <h3>K7 · Conversion Rate and the Ownly funnel</h3>
+        <div class="meta"><span class="src">Marketing Metrics dataset</span><span class="ids">OW_STATUS</span></div>
+        <div class="chart" id="c-funnel"></div>
+        <div class="formula">Conversion Rate = people who ordered ÷ people who opened or ordered (conversions ÷ clicks)</div>
+      </div>
+      <div class="card wide">
+        <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end;justify-content:space-between">
+          <h3 id="driver-title">Reasons</h3>
+          <div class="field">
+            <label for="f-driver"><span>Driver question</span></label>
+            <select id="f-driver">
+              <option value="stop">What stopped people who opened Ownly</option>
+              <option value="hd">Why people who heard of it never opened it</option>
+              <option value="trig">What would make non-users try it</option>
+              <option value="src">Where people first heard of Ownly</option>
+              <option value="change">The one change Ownly users want</option>
+            </select>
+          </div>
+        </div>
+        <div class="meta" id="driver-meta"></div>
+        <div class="chart" id="c-driver"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-price">
+    <div class="block-head">
+      <h2 id="h-price">Is the price pitch visible in real bills?</h2>
+      <p>What respondents actually paid for their most recent order when it was a meal for one, by app.</p>
+    </div>
+    <div class="grid">
+      <div class="card wide">
+        <h3>K8 · Price per Statistical Unit (one solo meal)</h3>
+        <div class="meta"><span class="src">Formulae Sheet 1</span><span class="ids">LO_APP · LO_AMT · LO_PPL</span><span>dot = median · line = middle half of bills</span></div>
+        <div class="legend" id="lg-apps-2"></div>
+        <div class="chart" id="c-k8"></div>
+        <div class="formula">Statistical unit = one delivered meal for one person · median amount paid, all fees included</div>
+        <details class="tbl"><summary>View as table</summary><div class="tbl-body" id="t-k8"></div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-target">
+    <div class="block-head">
+      <h2 id="h-target">Who should Ownly target first?</h2>
+      <p>Brand Development Index: 100 means Ownly performs at its city average in that group; above 100 it over-indexes.</p>
+    </div>
+    <div class="grid">
+      <div class="card wide">
+        <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end;justify-content:space-between">
+          <h3>K9 · Brand Development Index</h3>
+          <div class="seg" role="group" aria-label="Group by">
+            <button type="button" id="bdi-seg" aria-pressed="true">By segment</button>
+            <button type="button" id="bdi-area" aria-pressed="false">By area</button>
+          </div>
+        </div>
+        <div class="meta"><span class="src">Formulae Sheet 1</span><span class="ids">OCC · LOC · N_OW</span><span id="bdi-basis"></span></div>
+        <div class="chart" id="c-k9"></div>
+        <div class="formula">(Ownly orders per respondent in group ÷ Ownly orders per respondent in city) × 100</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-data">
+    <div class="block-head">
+      <h2 id="h-data">Data and quality</h2>
+      <p>What was loaded, who counted, and which responses the consistency checks removed.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>Responses by city</h3><div class="tbl-body" id="dq-cities"></div></div>
+      <div class="card"><h3>Consistency checks</h3><div class="tbl-body" id="dq-flags"></div><div class="formula">A response with 2 or more flags is excluded.</div></div>
+      <div class="card"><h3>Fields in this data</h3><div class="fieldlist" id="dq-fields"></div></div>
+    </div>
+  </section>
+
+  <footer>
+    Survey: <span class="ids">Survey_v5_All_Cities.md</span> · KPI definitions: <span class="ids">KPI_Framework_and_Survey_Validation.md</span>. All values describe respondents, not whole-city markets. Percentages carry 95% Wilson intervals; ratios and medians use bootstrap intervals. To load real responses, export the Google Form to CSV (unzip it first) and use <b>Upload survey CSV</b>; the file stays in this browser.
+  </footer>
+</div>
+<div id="tip" hidden></div>
+
+<script type="application/json" id="pilot-data">[{"city":"Hyderabad","loc":"Another part of Hyderabad","age":"20–22","occ":"Student (undergraduate)","ord":"Yes","lo_app":"Swiggy","lo_amt":100,"lo_ppl":"Just me","ow":"never","trig":"A promise of a quick refund if an order goes wrong","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Other","loc":"Not in Hyderabad","age":"Under 20","occ":"Student (undergraduate)","ord":"Yes","lo_app":"Swiggy","lo_amt":200,"lo_ppl":"Just me","ow":"never","trig":"A discount on my first order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Other","loc":"Not in Hyderabad","age":"20–22","occ":"Working full-time","ord":"Yes","lo_app":"","lo_amt":325,"lo_ppl":"2 people","ow":"ordered","trig":"","src":"Inside the Rapido app","hd":"","stop":"","where":"Bengaluru only","first":"In the last 4 weeks","prior":2,"alt":"Gone out to eat"},{"city":"Hyderabad","loc":"Gachibowli","age":"20–22","occ":"Student (undergraduate)","ord":"Yes","lo_app":"","lo_amt":750,"lo_ppl":"Just me","ow":"never","trig":"Seeing it's cheaper than Swiggy/Zomato for the same order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Other","loc":"Not in Hyderabad","age":"23–25","occ":"Working full-time","ord":"Yes","lo_app":"Swiggy","lo_amt":750,"lo_ppl":"2 people","ow":"never","trig":"A discount on my first order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Other","loc":"Not in Hyderabad","age":"20–22","occ":"Student (undergraduate)","ord":"Yes","lo_app":"Zomato","lo_amt":200,"lo_ppl":"Just me","ow":"never","trig":"A discount on my first order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"23–25","occ":"Student (postgraduate / PhD)","ord":"Yes","lo_app":"","lo_amt":100,"lo_ppl":"Just me","ow":"never","trig":"A discount on my first order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Serilingampally / Nallagandla / Tellapur","age":"26–28","occ":"Working full-time","ord":"Yes","lo_app":"","lo_amt":750,"lo_ppl":"Just me","ow":"never","trig":"A discount on my first order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"20–22","occ":"Student (postgraduate / PhD)","ord":"Yes","lo_app":"Swiggy","lo_amt":200,"lo_ppl":"Just me","ow":"never","trig":"A discount on my first order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Another part of Hyderabad","age":"23–25","occ":"Looking for a job","ord":"Yes","lo_app":"Swiggy","lo_amt":200,"lo_ppl":"2 people","ow":"never","trig":"Nothing, I'm happy with how I order now","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"23–25","occ":"Looking for a job","ord":"Yes","lo_app":"EatSure","lo_amt":325,"lo_ppl":"3–4 people","ow":"heard","trig":"A discount on my first order","src":"Friends, classmates or colleagues","hd":"I don't want another app on my phone","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"20–22","occ":"Student (postgraduate / PhD)","ord":"Yes","lo_app":"","lo_amt":null,"lo_ppl":"Just me","ow":"heard","trig":"A friend telling me it works well","src":"Inside the Rapido app","hd":"I don't want another app on my phone","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"Under 20","occ":"Student (undergraduate)","ord":"Yes","lo_app":"","lo_amt":750,"lo_ppl":"Just me","ow":"never","trig":"A discount on my first order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"Under 20","occ":"Student (undergraduate)","ord":"Yes","lo_app":"","lo_amt":750,"lo_ppl":"Just me","ow":"never","trig":"Seeing it's cheaper than Swiggy/Zomato for the same order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"23–25","occ":"Student (postgraduate / PhD)","ord":"Yes","lo_app":"","lo_amt":100,"lo_ppl":"Just me","ow":"heard","trig":"Seeing it's cheaper than Swiggy/Zomato for the same order","src":"Instagram / YouTube","hd":"I don't want another app on my phone","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"23–25","occ":"Student (postgraduate / PhD)","ord":"Yes","lo_app":"","lo_amt":750,"lo_ppl":"2 people","ow":"opened","trig":"","src":"Inside the Rapido app","hd":"","stop":"A coupon on my usual app made that cheaper","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"26–28","occ":"Working full-time","ord":"Yes","lo_app":"","lo_amt":500,"lo_ppl":"2 people","ow":"never","trig":"My usual restaurants being on it","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"Under 20","occ":"Student (undergraduate)","ord":"Yes","lo_app":"","lo_amt":500,"lo_ppl":"2 people","ow":"heard","trig":"Seeing it's cheaper than Swiggy/Zomato for the same order","src":"Inside the Rapido app","hd":"Just haven't got around to it","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Other","loc":"Not in Hyderabad","age":"26–28","occ":"Student (postgraduate / PhD)","ord":"Yes","lo_app":"","lo_amt":500,"lo_ppl":"Just me","ow":"never","trig":"My usual restaurants being on it","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"Under 20","occ":"Student (undergraduate)","ord":"Yes","lo_app":"","lo_amt":325,"lo_ppl":"Just me","ow":"never","trig":"Seeing it's cheaper than Swiggy/Zomato for the same order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Financial District / Nanakramguda","age":"Over 30","occ":"Other","ord":"Yes","lo_app":"","lo_amt":750,"lo_ppl":"2 people","ow":"never","trig":"Seeing it's cheaper than Swiggy/Zomato for the same order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Other","loc":"Not in Hyderabad","age":"23–25","occ":"Working full-time","ord":"Yes","lo_app":"","lo_amt":500,"lo_ppl":"2 people","ow":"never","trig":"Seeing it's cheaper than Swiggy/Zomato for the same order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Financial District / Nanakramguda","age":"26–28","occ":"Working full-time","ord":"Yes","lo_app":"","lo_amt":200,"lo_ppl":"Just me","ow":"heard","trig":"A friend telling me it works well","src":"Inside the Rapido app","hd":"I'm happy with my current app or membership","stop":"","where":"","first":"","prior":null,"alt":""},{"city":"Hyderabad","loc":"Gachibowli","age":"23–25","occ":"Student (postgraduate / PhD)","ord":"Yes","lo_app":"","lo_amt":325,"lo_ppl":"Just me","ow":"never","trig":"A discount on my first order","src":"","hd":"","stop":"","where":"","first":"","prior":null,"alt":""}]</script>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- constants ---------------- */
+const CITIES=[
+  {key:"Bengaluru",label:"Bengaluru",role:"Benchmark"},
+  {key:"Hyderabad",label:"Hyderabad",role:"Target"},
+  {key:"Other",label:"Other cities",role:"Baseline"}
+];
+const APPS=[
+  {key:"ownly",label:"Ownly",cls:"s1"},
+  {key:"swiggy",label:"Swiggy",cls:"s2"},
+  {key:"zomato",label:"Zomato",cls:"s3"},
+  {key:"other",label:"Other apps & direct",cls:"s4"}
+];
+const ELIGIBLE=new Set(["20–22","23–25","26–28","29–30"]);
+const ALL_FIELDS=["city","loc","age","occ","ord","n_sw","n_zo","n_ow","n_ot","lo_app","lo_amt","lo_ppl","ow","trig","src","hd","stop","where","first","prior","alt","pmf","lapse","change"];
+const SZ="Ordered the same on Swiggy or Zomato";
+const OTHER_CH=["Ordered on another app (Toing, Magicpin, etc.)","Ordered directly from the restaurant"];
+const NEW_ORD=["Cooked, or eaten at home / mess / hostel","Gone out to eat","Skipped it or had a snack"];
+
+const state={source:"example",rows:[],missing:new Set(),fileName:"",seg:"all",area:"all",driver:"stop",bdiBy:"segment",loaded:0};
+
+/* ---------------- utils ---------------- */
+function rng(seed){let a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function poisson(l,r){if(l<=0)return 0;const L=Math.exp(-l);let k=0,p=1;do{k++;p*=r();}while(p>L);return k-1;}
+function pick(w,r){const e=Object.entries(w);const tot=e.reduce((s,x)=>s+x[1],0);let u=r()*tot;for(const [k,v] of e){if((u-=v)<=0)return k;}return e[e.length-1][0];}
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+function quantile(sorted,q){if(!sorted.length)return NaN;const pos=(sorted.length-1)*q,b=Math.floor(pos),rest=pos-b;return sorted[b+1]!==undefined?sorted[b]+rest*(sorted[b+1]-sorted[b]):sorted[b];}
+function median(a){return quantile([...a].sort((x,y)=>x-y),.5);}
+function wilson(k,n){if(!n)return[NaN,NaN];const z=1.96,p=k/n,d=1+z*z/n,c=p+z*z/(2*n),m=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n));return[(c-m)/d,(c+m)/d];}
+function boot(arr,fn){if(arr.length<2)return[NaN,NaN];const r=rng(7),out=[];for(let b=0;b<400;b++){const s=new Array(arr.length);for(let i=0;i<arr.length;i++)s[i]=arr[Math.floor(r()*arr.length)];const v=fn(s);if(isFinite(v))out.push(v);}out.sort((x,y)=>x-y);return[quantile(out,.025),quantile(out,.975)];}
+function pct(v){if(v==null||!isFinite(v))return"—";const x=v*100;return(Math.abs(x)<10&&x!==0?x.toFixed(1):Math.round(x))+"%";}
+const rupee=v=>(v==null||!isFinite(v))?"—":"₹"+Math.round(v).toLocaleString("en-IN");
+function h(tag,attrs,text){const e=document.createElement(tag);if(attrs)for(const k in attrs){if(k==="class")e.className=attrs[k];else if(k==="style")e.style.cssText=attrs[k];else e.setAttribute(k,attrs[k]);}if(text!=null)e.textContent=text;return e;}
+const NS="http://www.w3.org/2000/svg";
+function s(tag,attrs,text){const e=document.createElementNS(NS,tag);if(attrs)for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e;}
+function appKey(v){if(!v)return"";if(v.startsWith("Ownly"))return"ownly";if(v==="Swiggy")return"swiggy";if(v==="Zomato")return"zomato";return"other";}
+function segOf(o){if(!o)return"";if(o.startsWith("Student"))return"Students";if(o==="Working full-time")return"Working professionals";if(o.startsWith("Studying and working"))return"Studying & working";return"Job seekers & other";}
+
+/* ---------------- tooltip ---------------- */
+const tip=document.getElementById("tip");
+function place(x,y){const w=tip.offsetWidth,hh=tip.offsetHeight;let left=x+14,top=y+14;if(left+w>innerWidth-8)left=x-w-14;if(top+hh>innerHeight-8)top=y-hh-14;tip.style.left=Math.max(8,left)+"px";tip.style.top=Math.max(8,top)+"px";}
+function attachTip(el,lines){
+  el.setAttribute("tabindex","0");el.setAttribute("aria-label",lines.join(". "));
+  const show=e=>{tip.replaceChildren();lines.forEach((l,i)=>tip.appendChild(h("div",{class:i===0?"tv":"tl"},l)));tip.hidden=false;el.classList.add("hot");if(e&&e.clientX!=null)place(e.clientX,e.clientY);else{const r=el.getBoundingClientRect();place(r.right,r.top);}};
+  const hide=()=>{tip.hidden=true;el.classList.remove("hot");};
+  el.addEventListener("pointerenter",show);el.addEventListener("pointermove",e=>place(e.clientX,e.clientY));el.addEventListener("pointerleave",hide);
+  el.addEventListener("focus",()=>show(null));el.addEventListener("blur",hide);
+}
+
+/* ---------------- example data ---------------- */
+function makeExample(){
+  const r=rng(20260916),rows=[];
+  const LOCS={
+    Bengaluru:{"Koramangala / HSR Layout / BTM Layout":.3,"Indiranagar / Domlur / Old Airport Road":.14,"Whitefield / Marathahalli / Bellandur / Sarjapur Road":.22,"Electronic City / Bommanahalli":.12,"Jayanagar / JP Nagar / Banashankari":.1,"Hebbal / Yelahanka / North Bengaluru":.07,"Another part of Bengaluru":.05},
+    Hyderabad:{"Gachibowli":.3,"Financial District / Nanakramguda":.14,"Kondapur":.14,"Madhapur / HITEC City":.16,"Manikonda":.07,"Narsingi / Kokapet":.05,"Serilingampally / Nallagandla / Tellapur":.06,"Another part of Hyderabad":.08},
+    Other:{"Chennai":.22,"Pune":.24,"Mumbai":.2,"Delhi NCR":.22,"Kolkata":.06,"Another Indian city":.06}
+  };
+  const P={
+    Bengaluru:{n:124,ord:.9,aware:.8,opened:.64,ordered:.74,ow:2.3,very:.41,sz:.5,price:{ownly:218,swiggy:282,zomato:298,other:236}},
+    Hyderabad:{n:106,ord:.88,aware:.46,opened:.47,ordered:.52,ow:1.3,very:.27,sz:.58,price:{ownly:231,swiggy:268,zomato:286,other:230}},
+    Other:{n:48,ord:.86,aware:.27,opened:0,ordered:.14,ow:0,very:.3,sz:.5,price:{ownly:230,swiggy:292,zomato:307,other:241}}
+  };
+  const TRIG={"A discount on my first order":.26,"My usual restaurants being on it":.18,"Seeing it's cheaper than Swiggy/Zomato for the same order":.24,"A promise of a quick refund if an order goes wrong":.1,"A friend telling me it works well":.1,"Paying by cash on delivery or meal card (Pluxee / Zeta)":.04,"Nothing, I'm happy with how I order now":.08};
+  const SRC={"Inside the Rapido app":.34,"Instagram / YouTube":.22,"Friends, classmates or colleagues":.22,"Hoardings, posters or street campaigns":.1,"News, LinkedIn or Reddit":.07,"Don't remember":.05};
+  const CHANGE={"More restaurants":.26,"Faster delivery":.12,"More reliable, on-time delivery":.2,"Quicker refunds and support":.12,"A bigger price gap vs other apps":.1,"More offers and coupons":.12,"Cash on delivery or meal-card payment":.08};
+  const LAPSE={"I don't order less than before":.46,"The restaurants I want aren't there":.14,"Late or failed deliveries":.12,"Refund or support problems":.08,"Prices are no longer clearly lower":.08,"Offers ended":.07,"Went back to my Swiggy One / Zomato Gold membership":.05};
+  for(const city of ["Bengaluru","Hyderabad","Other"]){
+    const p=P[city];
+    for(let i=0;i<p.n;i++){
+      const occ=pick({"Student (undergraduate)":.23,"Student (postgraduate / PhD)":.24,"Working full-time":.37,"Studying and working (internship / part-time)":.1,"Looking for a job":.04,"Other":.02},r);
+      const working=occ==="Working full-time";
+      const row={city,loc:pick(LOCS[city],r),age:pick({"Under 20":.03,"20–22":.28,"23–25":.35,"26–28":.21,"29–30":.13},r),occ,ord:"No",n_sw:0,n_zo:0,n_ow:0,n_ot:0,lo_app:"",lo_amt:null,lo_ppl:"",ow:"never",trig:"",src:"",hd:"",stop:"",where:"",first:"",prior:null,alt:"",pmf:"",lapse:"",change:""};
+      const pilotArea=row.loc==="Koramangala / HSR Layout / BTM Layout";
+      let active=false;
+      if(city==="Other"){
+        const aware=r()<p.aware;const ordered=aware&&r()<p.ordered;
+        row.ow=ordered?"ordered":aware?"heard":"never";
+        if(ordered){row.where=pick({"Bengaluru":.6,"Hyderabad":.25,"Both":.15},r);row.pmf=pick({"Very disappointed":p.very,"Somewhat disappointed":.42,"Not disappointed":.28},r);}
+        else row.trig=pick(TRIG,r);
+      }else{
+        const aware=r()<p.aware;
+        const opened=aware&&r()<p.opened+(working?.08:0)+(pilotArea?.06:0);
+        const ordered=opened&&r()<p.ordered;
+        row.ow=ordered?"ordered":opened?"opened":aware?"heard":"never";
+        if(row.ow==="never")row.trig=pick(TRIG,r);
+        if(row.ow==="heard"){row.src=pick(SRC,r);row.hd=pick({"I'm happy with my current app or membership":.22,"I don't trust a new app yet":.16,"I heard bad things about its delivery or support":city==="Bengaluru"?.22:.1,"I don't think it's really cheaper":.12,"Not sure it delivers to my area":city==="Hyderabad"?.22:.08,"I don't want another app on my phone":.14,"Just haven't got around to it":.1},r);}
+        if(row.ow==="opened"){row.src=pick(SRC,r);row.stop=pick({"My restaurants weren't there":.22,"Prices weren't lower than my usual app":.14,"A coupon on my usual app made that cheaper":.16,"It didn't deliver to my address":city==="Hyderabad"?.24:.1,"The delivery time looked too long":.1,"I couldn't pay the way I wanted":.06,"I was just looking around":.18},r);}
+        if(ordered){
+          row.src=pick(SRC,r);
+          if(city==="Bengaluru"){row.first=pick({"In the last 4 weeks":.16,"1–3 months ago":.34,"3–6 months ago":.33,"More than 6 months ago":.17},r);}
+          else{row.where=pick({"Hyderabad only":.82,"Both":.11,"Bengaluru only":.07},r);row.first=row.where==="Hyderabad only"?"In the last 4 weeks":pick({"In the last 4 weeks":.3,"More than 4 weeks ago":.7},r);}
+          if(row.first==="In the last 4 weeks"){row.prior=0;active=true;}
+          else{row.prior=r()<.8?1+poisson(p.ow,r):0;active=row.prior>0?r()<.8:r()<.15;}
+          row.alt=pick({[SZ]:p.sz,"Ordered on another app (Toing, Magicpin, etc.)":.08,"Ordered directly from the restaurant":.06,"Cooked, or eaten at home / mess / hostel":.15,"Gone out to eat":.09,"Skipped it or had a snack":.12},r);
+          row.pmf=pick({"Very disappointed":p.very+(active?.08:-.15),"Somewhat disappointed":.42,"Not disappointed":.2},r);
+          row.change=pick(CHANGE,r);
+          if(city==="Bengaluru")row.lapse=active?pick({"I don't order less than before":.8,"The restaurants I want aren't there":.08,"Late or failed deliveries":.06,"Offers ended":.06},r):pick(LAPSE,r);
+        }
+      }
+      if(active||r()<p.ord){
+        row.ord="Yes";
+        row.n_ow=active?1+poisson(p.ow,r):0;
+        row.n_sw=Math.round(poisson(working?3.4:2.3,r)*(active?.7:1));
+        row.n_zo=poisson(working?2:1.3,r);
+        row.n_ot=poisson(.6,r);
+        if(row.n_sw+row.n_zo+row.n_ow+row.n_ot===0)row.n_sw=1;
+        const w={ownly:row.n_ow*2.6,swiggy:row.n_sw,zomato:row.n_zo,other:row.n_ot};
+        const k=pick(w,r);
+        row.lo_app=k==="ownly"?"Ownly (or food inside the Rapido app)":k==="swiggy"?"Swiggy":k==="zomato"?"Zomato":pick({"Toing":.3,"Magicpin":.2,"EatSure":.2,"Directly from the restaurant":.3},r);
+        row.lo_ppl=pick({"Just me":.6,"2 people":.28,"3–4 people":.1,"5 or more people":.02},r);
+        const f={"Just me":1,"2 people":1.9,"3–4 people":3.1,"5 or more people":4.6}[row.lo_ppl];
+        row.lo_amt=Math.round(p.price[k]*f*(.72+r()*.56)/5)*5;
+      }
+      rows.push(row);
+    }
+  }
+  return rows;
+}
+
+/* ---------------- CSV import (survey v5 export) ---------------- */
+function parseCSV(text){
+  text=text.replace(/^﻿/,"");const rows=[];let row=[],f="",q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){f+='"';i++;}else q=false;}else f+=c;}
+    else if(c==='"')q=true;else if(c===","){row.push(f);f="";}else if(c==="\n"){row.push(f);rows.push(row);row=[];f="";}else if(c!=="\r")f+=c;}
+  if(f!==""||row.length){row.push(f);rows.push(row);}
+  return rows.filter(r=>r.some(x=>x.trim()!==""));
+}
+const norm=t=>t.replace(/[’‘]/g,"'").replace(/\[(hyd|blr|other)[^\]]*\]/gi,"").replace(/\s+/g," ").trim().toLowerCase();
+const MAP=[
+  ["city",x=>x.startsWith("which city do you live")],
+  ["loc",x=>x==="which area?"||x==="which city?"||x.startsWith("loc.")],
+  ["age",x=>x.startsWith("how old are you")],
+  ["occ",x=>x.includes("best describes you")],
+  ["ord",x=>x.includes("order food online for delivery at least once")],
+  ["n_sw",x=>x.startsWith("swiggy: how many")],
+  ["n_zo",x=>x.startsWith("zomato: how many")],
+  ["n_ow",x=>x.startsWith("ownly (rapido")],
+  ["n_ot",x=>x.startsWith("any other way")],
+  ["lo_app",x=>x.includes("which app did you use for your most recent")],
+  ["lo_amt",x=>x.includes("total amount you paid")],
+  ["lo_ppl",x=>x.includes("how many people was that order for")],
+  ["ow",x=>x.includes("before today, which of these is true")],
+  ["prior",x=>x.includes("4 weeks before the last 4 weeks")],
+  ["first",x=>x.includes("first ownly order")],
+  ["trig",x=>x.includes("would most make you try")],
+  ["src",x=>x.includes("first hear about ownly")],
+  ["hd",x=>x.includes("reason you haven't opened")],
+  ["stop",x=>x.includes("stopped you from ordering")],
+  ["where",x=>x.includes("where have you ordered on ownly")||x.includes("where did you order on ownly")],
+  ["alt",x=>x.includes("if ownly didn't exist")],
+  ["pmf",x=>x.includes("no longer use ownly")],
+  ["lapse",x=>x.includes("less than you used to")],
+  ["change",x=>x.includes("one change would make you order more")]
+];
+function importCSV(text){
+  const t=parseCSV(text);if(t.length<2)throw new Error("The file has no responses.");
+  const head=t[0].map(norm);const cols={};
+  head.forEach((hd,i)=>{const m=MAP.find(([,test])=>test(hd));if(m)(cols[m[0]]=cols[m[0]]||[]).push(i);});
+  if(!cols.city)throw new Error("This doesn't look like the survey v5 export: no “Which city do you live, study or work in” column was found.");
+  const missing=new Set(ALL_FIELDS.filter(k=>!cols[k]));
+  const rows=t.slice(1).map(line=>{
+    const get=k=>{for(const i of cols[k]||[]){const v=(line[i]||"").trim();if(v)return v.replace(/[’‘]/g,"'");}return"";};
+    const num=k=>{const v=parseFloat(get(k));return isFinite(v)?v:null;};
+    const cityRaw=get("city");
+    const owRaw=get("ow").toLowerCase();
+    const ow=owRaw.startsWith("i've ordered")?"ordered":owRaw.startsWith("i opened")?"opened":owRaw.startsWith("i'd heard")?"heard":owRaw.startsWith("i hadn't")?"never":"";
+    const ordRaw=get("ord");
+    return {city:cityRaw==="Hyderabad"?"Hyderabad":cityRaw==="Bengaluru"?"Bengaluru":cityRaw?"Other":"",
+      loc:get("loc"),age:get("age"),occ:get("occ"),ord:ordRaw.startsWith("Yes")?"Yes":ordRaw?"No":"",
+      n_sw:num("n_sw"),n_zo:num("n_zo"),n_ow:num("n_ow"),n_ot:num("n_ot"),
+      lo_app:get("lo_app"),lo_amt:num("lo_amt"),lo_ppl:get("lo_ppl"),ow,trig:get("trig"),src:get("src"),hd:get("hd"),stop:get("stop"),
+      where:get("where"),first:get("first"),prior:num("prior"),alt:get("alt"),pmf:get("pmf"),lapse:get("lapse"),change:get("change")};
+  });
+  return {rows,missing};
+}
+
+/* ---------------- preparation ---------------- */
+function prepare(){
+  const countsMissing=["n_sw","n_zo","n_ow","n_ot"].some(k=>state.missing.has(k));
+  return state.rows.map(r=>{
+    const ord=r.ord==="Yes";
+    const c=k=>(r[k]==null?(ord&&!countsMissing?0:null):r[k]);
+    const n={sw:c("n_sw"),zo:c("n_zo"),ow:c("n_ow"),ot:c("n_ot")};
+    const tot=countsMissing?null:(ord?(n.sw||0)+(n.zo||0)+(n.ow||0)+(n.ot||0):0);
+    const flags=[];
+    if(!countsMissing){
+      const ak=appKey(r.lo_app);
+      if(ord&&((ak==="swiggy"&&n.sw===0)||(ak==="zomato"&&n.zo===0)||(ak==="ownly"&&n.ow===0)))flags.push("C1");
+      if(n.ow>=1&&r.ow&&r.ow!=="ordered")flags.push("C2");
+      if((ord&&tot===0)||tot>60)flags.push("C3");
+    }
+    if(r.first==="In the last 4 weeks"&&r.prior>=1)flags.push("C4");
+    if(r.city==="Hyderabad"&&r.where==="Hyderabad only"&&r.first==="More than 4 weeks ago")flags.push("C5");
+    if(r.lo_ppl==="Just me"&&r.lo_amt>1500)flags.push("C6");
+    const eligible=ELIGIBLE.has(r.age)&&!!r.city;
+    const focus=r.city==="Hyderabad"?r.loc!=="Another part of Hyderabad":r.city==="Bengaluru"?r.loc==="Koramangala / HSR Layout / BTM Layout":true;
+    return Object.assign({},r,{sw:n.sw,zo:n.zo,owN:n.ow,ot:n.ot,tot,flags,keep:flags.length<2,eligible,seg:segOf(r.occ),focus});
+  });
+}
+
+/* ---------------- KPI engine ---------------- */
+function status(n,missing){if(missing)return"nc";if(n>=30)return"shown";if(n>=10)return"dir";return"low";}
+function cityUsers(rows,city){return rows.filter(r=>r.ow==="ordered"&&!(city==="Hyderabad"&&r.where==="Bengaluru only"));}
+const miss=k=>state.missing.has(k);
+const countsMiss=()=>["n_sw","n_zo","n_ow","n_ot"].some(miss);
+
+const KPIS=[
+ {id:"K1",name:"Penetration Share",src:"Formulae Sheet 1",ids:"ORD · N_OW",q:"Of people who order food online, how many used Ownly in the last 4 weeks?",kind:"pct",cmp:"ratio",
+  calc(rows){const den=rows.filter(r=>r.ord==="Yes"),n=den.length,k=den.filter(r=>r.owN>=1).length;const [lo,hi]=wilson(k,n);return{status:status(n,countsMiss()),value:n?k/n:NaN,lo,hi,n,base:"online orderers"};}},
+ {id:"K2",name:"Cannibalization Rate",src:"Formulae Sheet 2",ids:"US_ALT · N_OW",q:"What share of Ownly's orders would otherwise have gone to Swiggy or Zomato?",kind:"pct",cmp:"pts",
+  calc(rows,city){if(city==="Other")return{status:"na"};const u=cityUsers(rows,city).filter(r=>r.alt),n=u.length;const w=r=>Math.max(r.owN||0,1);const f=a=>{const t=sum(a,w);return t?sum(a.filter(r=>r.alt===SZ),w)/t:NaN;};const [lo,hi]=boot(u,f);
+   const t=sum(u,w);const parts={inc:t?sum(u.filter(r=>r.alt===SZ),w)/t:NaN,oth:t?sum(u.filter(r=>OTHER_CH.includes(r.alt)),w)/t:NaN,neu:t?sum(u.filter(r=>NEW_ORD.includes(r.alt)),w)/t:NaN};
+   return{status:status(n,miss("alt")),value:f(u),lo,hi,n,base:"Ownly users",parts};}},
+ {id:"K3",name:"Unit Market Share",src:"Formulae Sheet 1",ids:"N_SW · N_ZO · N_OW · N_OT",q:"What share of all food delivery orders went to Ownly?",kind:"pct",cmp:"ratio",
+  calc(rows){const den=rows.filter(r=>r.tot>0),n=den.length;const T=sum(den,r=>r.tot);const sh=k=>T?sum(den,r=>r[k]||0)/T:NaN;const f=a=>{const t=sum(a,r=>r.tot);return t?sum(a,r=>r.owN)/t:NaN;};const [lo,hi]=boot(den,f);
+   return{status:status(n,countsMiss()),value:sh("owN"),lo,hi,n,base:"respondents with orders",shares:{ownly:sh("owN"),swiggy:sh("sw"),zomato:sh("zo"),other:sh("ot")},orders:T};}},
+ {id:"K4",name:"Unit Share of Requirements",src:"Formulae Sheet 1",ids:"N_OW · all order counts",q:"Among Ownly users, what share of their food orders go to Ownly?",kind:"pct",cmp:"pts",
+  calc(rows,city){if(city==="Other")return{status:"na"};const u=rows.filter(r=>r.owN>=1&&!(city==="Hyderabad"&&r.where==="Bengaluru only")),n=u.length;const f=a=>{const t=sum(a,r=>r.tot);return t?sum(a,r=>r.owN)/t:NaN;};const [lo,hi]=boot(u,f);
+   return{status:status(n,countsMiss()),value:f(u),lo,hi,n,base:"Ownly users (last 4 weeks)"};}},
+ {id:"K5",name:"Retention Rate",src:"Formulae Sheet 2",ids:"US_PRIOR · N_OW · US_FIRST",q:"Do Ownly customers keep ordering from one 4-week period to the next?",kind:"pct",cmp:"pts",
+  calc(rows,city){if(city==="Other")return{status:"na"};const u=cityUsers(rows,city);const start=u.filter(r=>r.prior>=1),n=start.length;const end=u.filter(r=>r.owN>=1).length,neu=u.filter(r=>r.first==="In the last 4 weeks").length;const kept=start.filter(r=>r.owN>=1).length;const [lo,hi]=wilson(kept,n);
+   let st=status(n,countsMiss()||miss("prior"));if(city==="Hyderabad"&&st!=="nc"&&n<10)st="notyet";
+   return{status:st,value:n?(end-neu)/n:NaN,lo,hi,n,base:"customers at start",cohort:n?kept/n:NaN,end,neu};}},
+ {id:"K6",name:"Sean Ellis PMF score",src:"Syllabus Unit 6",ids:"US_PMF",q:"Would Ownly users be very disappointed without it? (fit signal at 40%)",kind:"pct",cmp:"pts",
+  calc(rows,city){const u=cityUsers(rows,city).filter(r=>r.pmf),n=u.length,k=u.filter(r=>r.pmf==="Very disappointed").length;const [lo,hi]=wilson(k,n);return{status:status(n,miss("pmf")),value:n?k/n:NaN,lo,hi,n,base:"Ownly users"};}},
+ {id:"K7",name:"Conversion Rate",src:"Marketing Metrics dataset",ids:"OW_STATUS",q:"Of people who opened Ownly, how many placed an order?",kind:"pct",cmp:"pts",
+  calc(rows,city){if(city==="Other")return{status:"na"};const clicks=rows.filter(r=>r.ow==="opened"||r.ow==="ordered"),n=clicks.length,k=clicks.filter(r=>r.ow==="ordered").length;const [lo,hi]=wilson(k,n);return{status:status(n,miss("ow")),value:n?k/n:NaN,lo,hi,n,base:"opened or ordered"};}},
+ {id:"K8",name:"Price per Statistical Unit",src:"Formulae Sheet 1",ids:"LO_APP · LO_AMT · LO_PPL",q:"What does one solo meal cost on Ownly, next to Swiggy and Zomato?",kind:"rupee",cmp:"rupee",
+  calc(rows,city){const solo=rows.filter(r=>r.lo_ppl==="Just me"&&r.lo_amt!=null&&appKey(r.lo_app));const by={};
+   APPS.forEach(a=>{const v=solo.filter(r=>appKey(r.lo_app)===a.key).map(r=>r.lo_amt).sort((x,y)=>x-y);by[a.key]={n:v.length,med:quantile(v,.5),p25:quantile(v,.25),p75:quantile(v,.75),vals:v};});
+   const o=by.ownly,n=o.n;const [lo,hi]=boot(o.vals,a=>median(a));
+   const inc=[by.swiggy,by.zomato].filter(x=>x.n>=10).map(x=>x.med);
+   const st=city==="Other"?"na":status(n,miss("lo_amt")||miss("lo_ppl")||miss("lo_app"));
+   return{status:st,value:o.med,lo,hi,n,base:"solo Ownly orders",by,incMin:inc.length?Math.min(...inc):NaN};}},
+ {id:"K9",name:"Brand Development Index",src:"Formulae Sheet 1",ids:"OCC · LOC · N_OW",q:"In which segment is Ownly strongest (100 = city average)?",kind:"index",cmp:"text",
+  calc(rows,city){if(city==="Other")return{status:"na"};return bdi(rows,city,"seg");}}
+];
+
+function bdi(rows,city,by){
+  const trial=countsMiss();
+  const metric=r=>trial?(r.ow==="ordered"&&!(city==="Hyderabad"&&r.where==="Bengaluru only")?1:0):(r.owN||0);
+  const users=rows.filter(r=>metric(r)>0).length;
+  const overall=rows.length?sum(rows,metric)/rows.length:0;
+  const groups={};rows.forEach(r=>{const g=by==="seg"?r.seg:r.loc;if(!g)return;(groups[g]=groups[g]||[]).push(r);});
+  const list=Object.entries(groups).map(([g,a])=>({label:g,n:a.length,users:a.filter(r=>metric(r)>0).length,bdi:overall>0?(sum(a,metric)/a.length)/overall*100:NaN})).sort((a,b)=>b.n-a.n);
+  const readable=list.filter(x=>x.n>=5&&isFinite(x.bdi));
+  const top=readable.length?readable.reduce((a,b)=>b.bdi>a.bdi?b:a):null;
+  return{status:status(users,false),value:top?top.bdi:NaN,n:users,base:trial?"Ownly triers (trial-based)":"Ownly users",list,top,trial};
+}
+
+/* ---------------- render: scorecard ---------------- */
+const CHIP={dir:"Directional",low:"Not enough data",notyet:"Not measurable yet",nc:"Not in this form",na:"Not applicable"};
+function fmtValue(k,res){if(k.kind==="pct")return pct(res.value);if(k.kind==="rupee")return rupee(res.value);if(k.kind==="index")return isFinite(res.value)?Math.round(res.value).toString():"—";return String(res.value);}
+function fmtCI(k,res){if(!isFinite(res.lo)||!isFinite(res.hi))return"";if(k.kind==="pct")return"95% CI "+pct(res.lo)+"–"+pct(res.hi);if(k.kind==="rupee")return"95% CI "+rupee(res.lo)+"–"+rupee(res.hi);return"";}
+function cellFor(k,res,city){
+  const td=h("td");const box=h("div",{class:"cell"+(res.status==="dir"?" dir":"")});td.appendChild(box);
+  const readable=res.status==="shown"||res.status==="dir";
+  if(k.id==="K8"&&city==="Other"&&res.by){
+    box.appendChild(h("div",{class:"v"},"No Ownly"));
+    const parts=["swiggy","zomato"].filter(a=>res.by[a].n>=10).map(a=>(a==="swiggy"?"Swiggy ":"Zomato ")+rupee(res.by[a].med));
+    box.appendChild(h("div",{class:"sub"},parts.length?"Solo meal: "+parts.join(" · "):"Too few solo orders"));
+    return td;
+  }
+  if(readable&&isFinite(res.value)){
+    box.appendChild(h("div",{class:"v"},fmtValue(k,res)));
+    if(k.id==="K8"&&isFinite(res.incMin))box.appendChild(h("div",{class:"sub"},"Cheapest incumbent "+rupee(res.incMin)));
+    if(k.id==="K9"&&res.top)box.appendChild(h("div",{class:"sub"},res.top.label+(res.trial?" · trial-based":"")));
+    if(k.id==="K5"&&isFinite(res.cohort))box.appendChild(h("div",{class:"sub"},"Cohort check "+pct(res.cohort)));
+    const ci=fmtCI(k,res);if(ci)box.appendChild(h("div",{class:"ci"},ci));
+    box.appendChild(h("div",{class:"n"},"n "+res.n+" "+res.base));
+    if(k.kind==="pct"){const m=h("div",{class:"meter"});const b=h("b");b.style.width=Math.max(0,Math.min(100,res.value*100))+"%";m.appendChild(b);box.appendChild(m);}
+    if(res.status==="dir")box.appendChild(h("span",{class:"chip dir"},CHIP.dir));
+  }else{
+    const st=readable?"low":res.status;
+    box.appendChild(h("span",{class:"chip "+st},CHIP[st]));
+    const why=st==="low"?"n "+(res.n||0)+(res.base?" "+res.base:""):st==="notyet"?"Ownly launched Sep 2026":st==="nc"?"Question not in this data":city==="Other"?"Ownly isn't offered here":"Not asked";
+    box.appendChild(h("div",{class:"n"},why));
+  }
+  return td;
+}
+function compareCell(k,b,hy){
+  const td=h("td");const div=h("div",{class:"cmp"});td.appendChild(div);
+  const ok=r=>(r.status==="shown"||r.status==="dir")&&isFinite(r.value);
+  if(hy.status==="notyet"){div.textContent="Not yet";div.appendChild(h("small",null,"Hyderabad has no earlier period"));return td;}
+  if(!ok(b)||!ok(hy)){div.textContent="—";div.appendChild(h("small",null,"Needs readable values in both cities"));return td;}
+  if(k.cmp==="ratio"){div.textContent=(b.value>0?Math.round(hy.value/b.value*100):0)+"% of Bengaluru";div.appendChild(h("small",null,pct(hy.value)+" vs "+pct(b.value)));}
+  else if(k.cmp==="pts"){const d=Math.round((hy.value-b.value)*100);div.textContent=(d>0?"+":d<0?"−":"±")+Math.abs(d)+" pts";div.appendChild(h("small",null,pct(hy.value)+" vs "+pct(b.value)));}
+  else if(k.cmp==="rupee"){const d=Math.round(hy.value-b.value);div.textContent=(d>0?"+":d<0?"−":"±")+"₹"+Math.abs(d);div.appendChild(h("small",null,"Hyderabad "+rupee(hy.value)+" vs "+rupee(b.value)));}
+  else{div.textContent=(hy.top?hy.top.label:"—");div.appendChild(h("small",null,"Bengaluru top: "+(b.top?b.top.label:"—")));}
+  return td;
+}
+function renderScorecard(res){
+  const t=document.getElementById("scorecard");t.replaceChildren();
+  const thead=h("thead"),tr=h("tr");
+  tr.appendChild(h("th",{scope:"col"},"KPI"));
+  CITIES.forEach(c=>{const th=h("th",{scope:"col"});th.appendChild(h("b",null,c.label));th.appendChild(document.createTextNode(c.role));tr.appendChild(th);});
+  const thc=h("th",{scope:"col"});thc.appendChild(h("b",null,"Hyderabad vs Bengaluru"));thc.appendChild(document.createTextNode("Transfer read"));tr.appendChild(thc);
+  thead.appendChild(tr);t.appendChild(thead);
+  const tb=h("tbody");
+  KPIS.forEach(k=>{
+    const row=h("tr");const th=h("th",{scope:"row"});const kn=h("div",{class:"kname"});
+    kn.appendChild(h("span",{class:"kid"},k.id+" · "+k.src));kn.appendChild(h("strong",null,k.name));kn.appendChild(h("span",{class:"q"},k.q));th.appendChild(kn);row.appendChild(th);
+    CITIES.forEach(c=>row.appendChild(cellFor(k,res[k.id][c.key],c.key)));
+    row.appendChild(compareCell(k,res[k.id].Bengaluru,res[k.id].Hyderabad));
+    tb.appendChild(row);
+  });
+  t.appendChild(tb);
+}
+
+/* ---------------- render: charts ---------------- */
+function naText(r,city){const st=(r.status==="shown"||r.status==="dir")?"low":r.status;if(st==="low")return"Not enough data · n "+(r.n||0);if(st==="notyet")return"Not measurable yet · launched Sep 2026";if(st==="nc")return"Not in this form";return city==="Other"?"Not applicable · Ownly not offered":"Not applicable";}
+function dotWhisker(el,items,opt){
+  el.replaceChildren();
+  const W=Math.max(280,el.clientWidth||320),narrow=W<420,labelW=narrow?96:124,valW=narrow?54:66,rowH=46,top=opt.ref?26:10,bottom=24;
+  const H=top+items.length*rowH+bottom,x0=labelW,x1=W-valW,max=opt.max||1;
+  const X=v=>x0+Math.max(0,Math.min(max,v))/max*(x1-x0);
+  const svg=s("svg",{viewBox:"0 0 "+W+" "+H,width:W,height:H,role:"img","aria-label":opt.aria});
+  [0,.25,.5,.75,1].forEach(t=>{const v=t*max,x=X(v);svg.appendChild(s("line",{class:"g-grid",x1:x,x2:x,y1:top-4,y2:H-bottom}));svg.appendChild(s("text",{class:"g-ax",x:x,y:H-bottom+15,"text-anchor":"middle"},opt.tick(v)));});
+  if(opt.ref){const x=X(opt.ref.value);svg.appendChild(s("line",{class:"g-ref",x1:x,x2:x,y1:top-8,y2:H-bottom}));svg.appendChild(s("text",{class:"g-sub",x:x,y:top-12,"text-anchor":"middle"},opt.ref.label));}
+  items.forEach((it,i)=>{
+    const y=top+i*rowH+rowH/2;
+    svg.appendChild(s("text",{class:"g-lbl",x:0,y:y-3},it.label));
+    svg.appendChild(s("text",{class:"g-sub",x:0,y:y+12},it.role));
+    const r=it.res;
+    if((r.status==="shown"||r.status==="dir")&&isFinite(r.value)){
+      const g=s("g",{class:"mark"});
+      g.appendChild(s("rect",{class:"g-hit",x:x0,y:y-rowH/2+4,width:x1-x0,height:rowH-8,rx:4}));
+      if(isFinite(r.lo)&&isFinite(r.hi))g.appendChild(s("line",{class:"g-whisk",x1:X(r.lo),x2:X(r.hi),y1:y,y2:y}));
+      g.appendChild(s("circle",{cx:X(r.value),cy:y,r:5,class:r.status==="shown"?"g-dot f-s1":"g-hollow st-s1"}));
+      g.appendChild(s("text",{class:"g-val",x:x1+8,y:y+4},opt.fmt(r.value)));
+      svg.appendChild(g);
+      attachTip(g,[opt.fmt(r.value),it.label+(r.status==="dir"?" · directional":""),isFinite(r.lo)?"95% CI "+opt.fmt(r.lo)+"–"+opt.fmt(r.hi):"","n "+r.n+" "+(r.base||"")].filter(Boolean));
+    }else svg.appendChild(s("text",{class:"g-na",x:x0,y:y+4},naText(r,it.key)));
+  });
+  el.appendChild(svg);
+}
+function cityItems(res){return CITIES.map(c=>({key:c.key,label:c.label,role:c.role,res:res[c.key]}));}
+
+function stack100(el,res){
+  el.replaceChildren();const wrap=h("div",{class:"stack"});
+  CITIES.forEach(c=>{
+    const r=res[c.key];const row=h("div",{class:"srow"});const lab=h("div",{class:"sl"},c.label);lab.appendChild(h("small",null,(r.n!=null?"n "+r.n:"")+(r.orders?" · "+r.orders+" orders":"")));row.appendChild(lab);
+    if((r.status==="shown"||r.status==="dir")&&r.shares){
+      const bar=h("div",{class:"sbar"});const trackW=Math.max(120,(el.clientWidth||320)-(innerWidth<520?0:120));
+      APPS.forEach(a=>{const v=r.shares[a.key]||0;if(v<=0)return;const seg=h("div",{class:"sseg k-"+a.cls});seg.style.flex=v+" 1 0";if(v*trackW>=40)seg.textContent=pct(v);
+        attachTip(seg,[pct(v),a.label+" · "+c.label,"Share of "+r.orders+" orders"+(r.status==="dir"?" · directional":"")]);bar.appendChild(seg);});
+      row.appendChild(bar);
+    }else row.appendChild(h("div",{class:"empty"},naText(r,c.key)));
+    wrap.appendChild(row);
+  });
+  el.appendChild(wrap);
+}
+function barFacets(el,facets,opt){
+  el.replaceChildren();
+  const max=opt.max||Math.max(.01,...facets.flatMap(f=>f.bars?f.bars.map(b=>b.value):[]));
+  const grid=h("div",{class:"facets"});
+  facets.forEach(f=>{
+    const box=h("div",{class:"facet"});const t=h("h4",null,f.title);if(f.note)t.appendChild(h("span",null,f.note));box.appendChild(t);
+    if(!f.bars||!f.bars.length){box.appendChild(h("div",{class:"empty"},f.empty||"No answers"));grid.appendChild(box);return;}
+    f.bars.forEach(b=>{
+      const row=h("div",{class:"brow"});row.appendChild(h("div",{class:"bl"},b.label));
+      const tr=h("div",{class:"bt"});const fill=h("div",{class:"bf"+(b.cls?" "+b.cls:"")});fill.style.width=Math.max(0,b.value/max*100)+"%";tr.appendChild(fill);row.appendChild(tr);
+      row.appendChild(h("div",{class:"bv"},opt.fmt(b.value)));
+      attachTip(row,[opt.fmt(b.value),b.label,f.title+(b.detail?" · "+b.detail:"")]);
+      box.appendChild(row);
+    });
+    grid.appendChild(box);
+  });
+  el.appendChild(grid);
+}
+function priceChart(el,res){
+  el.replaceChildren();
+  const W=Math.max(300,el.clientWidth||600),narrow=W<480,labelW=narrow?82:150,valW=narrow?78:110,rowH=26,facetH=26,bottom=26;
+  const vals=[];CITIES.forEach(c=>APPS.forEach(a=>{const b=res[c.key].by&&res[c.key].by[a.key];if(b&&b.n)vals.push(b.p75);}));
+  const max=Math.max(200,Math.ceil(Math.max(0,...vals.filter(isFinite))*1.1/100)*100);
+  const H=CITIES.length*(facetH+APPS.length*rowH+8)+bottom,x0=labelW,x1=W-valW,X=v=>x0+Math.min(max,Math.max(0,v))/max*(x1-x0);
+  const svg=s("svg",{viewBox:"0 0 "+W+" "+H,width:W,height:H,role:"img","aria-label":"Median price of a solo meal by app and city"});
+  const step=max<=600?100:200;
+  for(let v=0;v<=max;v+=step){const x=X(v);svg.appendChild(s("line",{class:"g-grid",x1:x,x2:x,y1:4,y2:H-bottom}));svg.appendChild(s("text",{class:"g-ax",x:x,y:H-bottom+15,"text-anchor":"middle"},"₹"+v));}
+  let y=0;const table=[];
+  CITIES.forEach(c=>{
+    svg.appendChild(s("text",{class:"g-lbl",x:0,y:y+17},c.label+" · "+c.role));y+=facetH;
+    const by=res[c.key].by||{};
+    APPS.forEach(a=>{
+      const b=by[a.key]||{n:0};const cy=y+rowH/2;
+      svg.appendChild(s("text",{class:"g-sub",x:0,y:cy+4},a.label));
+      if(b.n>0&&isFinite(b.med)){
+        const g=s("g",{class:"mark"});g.appendChild(s("rect",{class:"g-hit",x:x0,y:y+2,width:x1-x0,height:rowH-4,rx:4}));
+        if(b.n>=2)g.appendChild(s("line",{class:"g-whisk",x1:X(b.p25),x2:X(b.p75),y1:cy,y2:cy}));
+        g.appendChild(s("circle",{cx:X(b.med),cy:cy,r:5,class:b.n>=10?"g-dot f-"+a.cls:"g-hollow st-"+a.cls}));
+        g.appendChild(s("text",{class:b.n>=10?"g-val":"g-na",x:x1+8,y:cy+4},rupee(b.med)+" · n "+b.n));
+        svg.appendChild(g);
+        attachTip(g,[rupee(b.med)+" median",a.label+" · "+c.label,"Middle half "+rupee(b.p25)+"–"+rupee(b.p75),"n "+b.n+" solo orders"+(b.n<10?" · too few to read":b.n<30?" · directional":"")]);
+      }else svg.appendChild(s("text",{class:"g-na",x:x0,y:cy+4},miss("lo_amt")?"Not in this form":"No solo orders"));
+      table.push([c.label,a.label,b.n?rupee(b.med):"—",b.n?rupee(b.p25)+"–"+rupee(b.p75):"—",String(b.n||0)]);
+      y+=rowH;
+    });
+    y+=8;
+  });
+  el.appendChild(svg);
+  return table;
+}
+function divergingBDI(el,facets){
+  el.replaceChildren();const grid=h("div",{class:"facets"});
+  facets.forEach(f=>{
+    const box=h("div",{class:"facet"});const t=h("h4",null,f.title);if(f.note)t.appendChild(h("span",null,f.note));box.appendChild(t);
+    if(!f.list||!f.list.length){box.appendChild(h("div",{class:"empty"},f.empty));grid.appendChild(box);return;}
+    f.list.forEach(g=>{
+      const row=h("div",{class:"drow"});row.appendChild(h("div",{class:"dl"},g.label));
+      const tr=h("div",{class:"dt"});
+      if(isFinite(g.bdi)&&g.n>=5){const d=Math.max(-100,Math.min(100,g.bdi-100));const fill=h("div",{class:"df "+(d>=0?"pos":"neg")});const w=Math.abs(d)/100*50;fill.style.width=w+"%";fill.style.left=(d>=0?50:50-w)+"%";tr.appendChild(fill);}
+      row.appendChild(tr);
+      const v=h("div",{class:"dv"},g.n>=5&&isFinite(g.bdi)?String(Math.round(g.bdi)):"—");v.appendChild(h("small",null,"n "+g.n));row.appendChild(v);
+      attachTip(row,[g.n>=5&&isFinite(g.bdi)?"BDI "+Math.round(g.bdi):"Too few respondents",g.label+" · "+f.title,g.users+" Ownly "+(f.trial?"triers":"users")+" of "+g.n+" respondents"]);
+      box.appendChild(row);
+    });
+    grid.appendChild(box);
+  });
+  el.appendChild(grid);
+}
+function plainTable(el,headers,rows){el.replaceChildren();const t=h("table",{class:"plain"});const tr=h("tr");headers.forEach(x=>tr.appendChild(h("th",{scope:"col"},x)));const th=h("thead");th.appendChild(tr);t.appendChild(th);const tb=h("tbody");rows.forEach(r=>{const row=h("tr");r.forEach(c=>row.appendChild(h("td",null,c)));tb.appendChild(row);});t.appendChild(tb);el.appendChild(t);}
+
+/* ---------------- render: all ---------------- */
+const DRIVERS={
+  stop:{field:"stop",title:"What stopped people who opened Ownly from ordering",ids:"OP_STOP · asked to people who opened but didn't order",who:r=>r.ow==="opened",cities:["Bengaluru","Hyderabad"]},
+  hd:{field:"hd",title:"Why people who heard of Ownly never opened it",ids:"HD_REASON · asked to people who heard of it but never opened it",who:r=>r.ow==="heard",cities:["Bengaluru","Hyderabad"]},
+  trig:{field:"trig",title:"What would make non-users try Ownly",ids:"NH_TRIGGER · asked to people who hadn't heard of Ownly (and other-city non-users)",who:r=>!!r.trig,cities:["Bengaluru","Hyderabad","Other"]},
+  src:{field:"src",title:"Where people first heard of Ownly",ids:"SRC · asked to everyone aware of Ownly in Bengaluru and Hyderabad",who:r=>!!r.src,cities:["Bengaluru","Hyderabad"]},
+  change:{field:"change",title:"The one change Ownly users want",ids:"US_CHANGE · asked to Ownly users",who:r=>r.ow==="ordered",cities:["Bengaluru","Hyderabad"]}
+};
+function driverFacets(byCity,field,who,cities){
+  const pooled={};cities.forEach(c=>byCity[c].filter(who).forEach(r=>{if(r[field])pooled[r[field]]=(pooled[r[field]]||0)+1;}));
+  const order=Object.entries(pooled).sort((a,b)=>b[1]-a[1]).slice(0,7).map(x=>x[0]);
+  return cities.map(c=>{
+    const a=byCity[c].filter(who).filter(r=>r[field]);const n=a.length;const label=CITIES.find(x=>x.key===c).label;
+    if(miss(field))return{title:label,empty:"Not in this form"};
+    if(!n)return{title:label,note:"n 0",empty:"No answers yet"};
+    return{title:label,note:"n "+n+(n<10?" · too few to read":n<30?" · directional":""),bars:order.map(o=>({label:o,value:a.filter(r=>r[field]===o).length/n,detail:a.filter(r=>r[field]===o).length+" of "+n}))};
+  });
+}
+
+let lastRes=null;
+function render(){
+  const prepared=prepare();
+  const used=prepared.filter(r=>r.eligible&&r.keep&&(state.seg==="all"||r.seg===state.seg)&&(state.area==="all"||r.focus));
+  const byCity={};CITIES.forEach(c=>byCity[c.key]=used.filter(r=>r.city===c.key));
+  const res={};KPIS.forEach(k=>{res[k.id]={};CITIES.forEach(c=>res[k.id][c.key]=k.calc(byCity[c.key],c.key));});
+  lastRes=res;
+
+  // source note + hero
+  const note=document.getElementById("source-note");
+  if(state.source==="example")note.textContent="Example data: made-up responses generated inside this page so every chart has something to show. These are not survey results. Load the real survey export with Upload survey CSV.";
+  else if(state.source==="pilot")note.textContent="Pilot responses (15–16 Sep 2026, 24 responses) from the earlier form. It had no per-app order counts, no Bengaluru path and no PMF question, so several KPIs show “Not in this form”. Order amounts were collected in bands and are shown at band midpoints.";
+  else note.textContent="Survey export “"+state.fileName+"”: "+state.loaded+" responses loaded. Values describe respondents, not whole-city markets.";
+  const hero=document.getElementById("hero");hero.replaceChildren();
+  const k1b=res.K1.Bengaluru,k1h=res.K1.Hyderabad,ok=r=>(r.status==="shown"||r.status==="dir")&&isFinite(r.value);
+  if(ok(k1b)&&ok(k1h)){
+    hero.appendChild(document.createTextNode("Hyderabad's penetration share is "));hero.appendChild(h("strong",null,pct(k1h.value)));
+    hero.appendChild(document.createTextNode(" against Bengaluru's "));hero.appendChild(h("strong",null,pct(k1b.value)));
+    hero.appendChild(document.createTextNode(": "+(k1b.value>0?Math.round(k1h.value/k1b.value*100):0)+"% of the benchmark"+(ok(res.K2.Hyderabad)?", with "+pct(res.K2.Hyderabad.value)+" of Hyderabad's Ownly orders taken from Swiggy or Zomato.":".")+(k1h.status==="dir"||k1b.status==="dir"?" Read as directional.":"")));
+  }else hero.textContent="The transfer read needs at least 10 online food orderers in both Bengaluru and Hyderabad. "+(countsMiss()?"This data has no per-app order counts, so penetration share can't be computed.":"Keep collecting responses in both cities.");
+
+  renderScorecard(res);
+
+  // legends
+  ["lg-apps","lg-apps-2"].forEach(id=>{const lg=document.getElementById(id);lg.replaceChildren();APPS.forEach(a=>{const sp=h("span");const i=h("i",{class:"k-"+a.cls});sp.appendChild(i);sp.appendChild(document.createTextNode(a.label));lg.appendChild(sp);});});
+
+  dotWhisker(document.getElementById("c-k1"),cityItems(res.K1),{fmt:pct,tick:v=>Math.round(v*100)+"%",max:1,aria:"Penetration share by city"});
+  stack100(document.getElementById("c-k3"),res.K3);
+  plainTable(document.getElementById("t-k3"),["City","Ownly","Swiggy","Zomato","Other","Orders","n"],CITIES.map(c=>{const r=res.K3[c.key];const sh=r.shares||{};return[c.label,pct(sh.ownly),pct(sh.swiggy),pct(sh.zomato),pct(sh.other),String(r.orders||0),String(r.n||0)];}));
+
+  barFacets(document.getElementById("c-k2"),CITIES.filter(c=>c.key!=="Other").map(c=>{const r=res.K2[c.key];
+    if(r.status==="nc")return{title:c.label,empty:"Not in this form"};
+    if(!r.n)return{title:c.label,note:"n 0",empty:"No Ownly users yet"};
+    return{title:c.label,note:"n "+r.n+" users"+(r.n<10?" · too few to read":r.n<30?" · directional":""),bars:[
+      {label:"From Swiggy or Zomato (cannibalization rate)",value:r.parts.inc,detail:isFinite(r.lo)?"95% CI "+pct(r.lo)+"–"+pct(r.hi):""},
+      {label:"From other apps or the restaurant directly",value:r.parts.oth},
+      {label:"New orders (would have cooked, eaten out or skipped)",value:r.parts.neu}]};}),{fmt:pct,max:1});
+
+  dotWhisker(document.getElementById("c-k4"),cityItems(res.K4),{fmt:pct,tick:v=>Math.round(v*100)+"%",max:1,aria:"Share of requirements by city"});
+  dotWhisker(document.getElementById("c-k6"),cityItems(res.K6),{fmt:pct,tick:v=>Math.round(v*100)+"%",max:1,ref:{value:.4,label:"Fit signal 40%"},aria:"Sean Ellis score by city"});
+  const k5items=cityItems(res.K5);const k5max=Math.max(1,...k5items.map(i=>i.res.value).filter(v=>isFinite(v)));
+  dotWhisker(document.getElementById("c-k5"),k5items,{fmt:pct,tick:v=>Math.round(v*100)+"%",max:Math.ceil(k5max*4)/4,aria:"Retention rate by city"});
+  const lapse=driverFacets(byCity,"lapse",r=>r.ow==="ordered",["Bengaluru"]);
+  barFacets(document.getElementById("c-lapse"),lapse,{fmt:pct});
+
+  // funnel
+  barFacets(document.getElementById("c-funnel"),CITIES.map(c=>{
+    const a=byCity[c.key],n=a.length,r=res.K7[c.key];
+    if(miss("ow"))return{title:c.label,empty:"Not in this form"};
+    if(!n)return{title:c.label,note:"n 0",empty:"No respondents"};
+    const heard=a.filter(x=>x.ow&&x.ow!=="never").length,opened=a.filter(x=>x.ow==="opened"||x.ow==="ordered").length,ordered=a.filter(x=>x.ow==="ordered").length;
+    const bars=[{label:"Heard of Ownly",value:heard/n,cls:"o1",detail:heard+" of "+n}];
+    if(c.key!=="Other")bars.push({label:"Opened or browsed it",value:opened/n,cls:"o2",detail:opened+" of "+n});
+    bars.push({label:"Ordered on Ownly",value:ordered/n,cls:"o3",detail:ordered+" of "+n});
+    const conv=(r.status==="shown"||r.status==="dir")&&isFinite(r.value)?"Conversion "+pct(r.value)+" (n "+r.n+(r.status==="dir"?", directional":"")+")":c.key==="Other"?"Conversion not applicable":"Conversion: "+naText(r,c.key).toLowerCase();
+    return{title:c.label,note:"n "+n+" · "+conv,bars};
+  }),{fmt:pct,max:1});
+
+  const d=DRIVERS[state.driver];
+  document.getElementById("driver-title").textContent=d.title;
+  const dm=document.getElementById("driver-meta");dm.replaceChildren();dm.appendChild(h("span",{class:"ids"},d.ids));
+  barFacets(document.getElementById("c-driver"),driverFacets(byCity,d.field,d.who,d.cities),{fmt:pct});
+
+  const t8=priceChart(document.getElementById("c-k8"),res.K8);
+  plainTable(document.getElementById("t-k8"),["City","App","Median","Middle half","n"],t8);
+
+  const bdiF=CITIES.filter(c=>c.key!=="Other").map(c=>{const b=bdi(byCity[c.key],c.key,state.bdiBy==="segment"?"seg":"loc");
+    return{title:c.label,trial:b.trial,note:b.n+" Ownly "+(b.trial?"triers":"users")+(b.n<10?" · too few to read":b.n<30?" · directional":""),list:b.n?b.list:[],empty:b.n?"":"No Ownly users yet"};});
+  document.getElementById("bdi-basis").textContent=countsMiss()?"Trial-based (this data has no order counts)":"Based on Ownly orders in the last 4 weeks · groups under 5 respondents not scored";
+  divergingBDI(document.getElementById("c-k9"),bdiF);
+
+  // data quality
+  plainTable(document.getElementById("dq-cities"),["City","Loaded","Aged 20–30","Excluded","Used"],CITIES.map(c=>{const all=prepared.filter(r=>r.city===c.key);return[c.label,String(all.length),String(all.filter(r=>r.eligible).length),String(all.filter(r=>r.eligible&&!r.keep).length),String(byCity[c.key].length)];}));
+  const F={C1:"Last order on an app with 0 orders",C2:"Ownly orders but status isn't “ordered”",C3:"Order total 0 or above 60",C4:"New user with earlier orders",C5:"Hyderabad order before launch",C6:"Solo meal above ₹1,500"};
+  plainTable(document.getElementById("dq-flags"),["Check","What it catches","Flagged"],Object.entries(F).map(([k,v])=>[k,v,String(prepared.filter(r=>r.flags.includes(k)).length)]));
+  const fl=document.getElementById("dq-fields");fl.replaceChildren();
+  const have=ALL_FIELDS.filter(k=>!state.missing.has(k)),lack=ALL_FIELDS.filter(k=>state.missing.has(k));
+  fl.appendChild(h("div",null,"Present ("+have.length+"): "+have.join(", ")));
+  fl.appendChild(h("div",null,"Missing ("+lack.length+"): "+(lack.length?lack.join(", "):"none")));
+}
+
+/* ---------------- wiring ---------------- */
+function setSource(src){
+  state.source=src;
+  document.getElementById("src-example").setAttribute("aria-pressed",String(src==="example"));
+  document.getElementById("src-pilot").setAttribute("aria-pressed",String(src==="pilot"));
+  document.getElementById("src-csv-label").classList.toggle("on",src==="csv");
+}
+function loadExample(){state.rows=makeExample();state.missing=new Set();setSource("example");render();}
+function loadPilot(){
+  const raw=JSON.parse(document.getElementById("pilot-data").textContent);
+  state.rows=raw.map(r=>Object.assign({n_sw:null,n_zo:null,n_ow:null,n_ot:null,pmf:"",lapse:"",change:""},r));
+  state.missing=new Set(["n_sw","n_zo","n_ow","n_ot","pmf","lapse","change"]);setSource("pilot");render();
+}
+document.getElementById("src-example").addEventListener("click",loadExample);
+document.getElementById("src-pilot").addEventListener("click",loadPilot);
+document.getElementById("csv-file").addEventListener("change",e=>{
+  const file=e.target.files&&e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{try{const out=importCSV(String(reader.result));state.rows=out.rows;state.missing=out.missing;state.fileName=file.name;state.loaded=out.rows.length;setSource("csv");render();}
+    catch(err){document.getElementById("source-note").textContent="Couldn't load “"+file.name+"”. "+err.message+" If the export is a .zip, unzip it and upload the .csv inside.";}
+    e.target.value="";};
+  reader.readAsText(file);
+});
+document.getElementById("f-seg").addEventListener("change",e=>{state.seg=e.target.value;render();});
+document.getElementById("f-area").addEventListener("change",e=>{state.area=e.target.value;render();});
+document.getElementById("f-driver").addEventListener("change",e=>{state.driver=e.target.value;render();});
+function setBDI(by){state.bdiBy=by;document.getElementById("bdi-seg").setAttribute("aria-pressed",String(by==="segment"));document.getElementById("bdi-area").setAttribute("aria-pressed",String(by==="area"));render();}
+document.getElementById("bdi-seg").addEventListener("click",()=>setBDI("segment"));
+document.getElementById("bdi-area").addEventListener("click",()=>setBDI("area"));
+let rt;new ResizeObserver(()=>{clearTimeout(rt);rt=setTimeout(()=>{if(state.rows.length)render();},150);}).observe(document.querySelector(".wrap"));
+
+loadExample();
+})();
+</script>

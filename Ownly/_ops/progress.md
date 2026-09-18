@@ -46,13 +46,69 @@ of a human. Work Block 1 does nothing but fix that.
 Also established: 74% of the secondary base is media report or company claim, only 24% verified, and
 **Hyderabad is mentioned in 4 of 524 social items.** That gap is the project.
 
+## 2026-09-16 — Person 3 report: serviceability answered, frame named, audit sheet live
+
+**Task 3.1 — Ownly serviceability at DP1 (Gachibowli). ANSWERED. Q3 closed.**
+
+| Question | Answer | What it means |
+|---|---|---|
+| Does Ownly deliver to DP1? | **Yes** | The audit runs in Gachibowli itself. No substitute area, no caveat on the slide. |
+| Standalone app, inside Rapido, or both? | **Both** | The Rapido-distribution hypothesis is testable: survey Q7 × Q25/Q28 now has a real mechanism behind it. |
+| Restaurants shown at DP1 | **221** | First observed Hyderabad supply number in the project. Compare with Bengaluru's claimed ~20–25k (company claim) — that is a **live, city-level assortment gap**, and it is ours, not a media figure. |
+| Is Toing live at DP1? | **Yes** | Swiggy's budget app is already in the market Ownly is entering. The "only affordable option" framing is not available in Hyderabad. |
+
+**Implications logged:** (a) coverage denominator for the audit is 221 listed restaurants at DP1;
+(b) Toing belongs in the competitive set — record its presence per restaurant in `on_other`, and capture
+Toing prices for the Group B baskets if slot 1 finishes early (not a blocker, not part of the 60-row grid).
+
+**Task 3.2 — Group B named. ✅** R5 Murgan Tiffins · R6 Aanimuthyualu Unlimited · R7 Mehfil ·
+R8 Karachi Bakery. Frame is now 10 named restaurants (4 showcase chains, 4 local, 2 national QSR).
+*Fix applied:* the file had been saved with Rainbow CSV column padding (123 of 124 cells carried spaces),
+which would have broken `analyze_audit_lite.py`. Padding stripped; names preserved.
+
+**Task 3.3 — Audit sheet imported and shared. ✅** Link in `task_board.md`.
+
+## 2026-09-17 — FIRST PRIMARY DATA: price audit slot 1 analysed
+
+**Source:** P3 captured 37 priced checkout rows at DP1 on Wed 16 Sep, 19:45–22:00, published the sheet, and it
+is mirrored into the repo as `06_competitor_audit/audit_data_slot1.csv`. Full write-up:
+`06_competitor_audit/audit_slot1_results.md`. **Evidence label: FACT — observed by us.**
+
+**The headline, and it is a better finding than "Ownly is cheaper":**
+
+| View | Ownly cheapest | Median gap vs cheapest incumbent |
+|---|---|---|
+| List price + fees, **no offers** | **4 of 4** | **−30.5%** |
+| **With each app's auto-offer** | 2 of 4 | **+13.9%** (Ownly dearer) |
+
+A ₹156 Swiggy coupon turned a ₹205.80 Ownly order at Bawarchi into a ₹45 Swiggy order. The Bengaluru social
+corpus predicted exactly this (18 posts: coupons erase the gap); we have now observed it in Gachibowli.
+**The decisive survey variable is therefore `beh_offer_dependency` (Q13) and `beh_subscriptions` (Q12)** —
+how often people actually order with a coupon decides which column they live in.
+
+**Supporting observations (all first-party):**
+- **Menu parity is real but not universal:** Ownly's menu price was lower at Shah Ghouse (−40.9%), Paradise
+  (−20.3%) and Cream Stone (−5.3%), but **higher at Bawarchi (+9.5%)**.
+- **Fee stack:** non-food share of the bill — Ownly **4.8%** (tax only, ₹0 delivery in 8 of 8 rows) ·
+  Zomato 15.1% · Swiggy 27.4%.
+- **Speed is the trade:** Ownly median ETA **39.5 min** vs Swiggy 22.5 and Zomato 17.5 → **+17 min**. This maps
+  straight onto survey Q16 (₹30 cheaper vs 15 min slower).
+- **Coverage:** 9 of 10 frame restaurants listed on Ownly; **Pizza Hut absent from Ownly**;
+  **Aanimuthyalu Unlimited is on Ownly only**, absent from both incumbents. Ownly lists 221 restaurants at DP1.
+
+**Caveats carried forward:** n=4 comparisons · Ownly was a **new** account (₹50 first-order offer) while
+Swiggy/Zomato were **existing accounts with memberships** · Ownly's ₹0 delivery fee may be a launch condition ·
+Murgan Tiffins and Mehfil have no Ownly price yet (app closed at midnight), so **every Ownly price we hold is a
+showcase chain, not the under-₹150 local segment Ownly says it targets**. That gap is the first thing the
+`thu_lunch` slot should close.
+
 ## Counts
 | | Target | Now |
 |---|---:|---:|
 | Hyderabad survey responses | 80–100 | **0** |
 | Bengaluru survey responses | 15–30 | **0** |
 | Interviews | 8 | **0** |
-| Audit captures | 60 | **0** |
+| Audit captures | 60 | **37 priced rows · 4 complete 3-app comparisons · coverage on all 10** |
 | Test orders | 3 | **0** |
 | Fake-door visitors | 80+ | **0** |
 | Poll votes | 170+ | **0** |

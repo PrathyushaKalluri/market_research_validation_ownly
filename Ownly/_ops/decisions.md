@@ -290,6 +290,7 @@ as history.
 
 ---
 
+
 ## D13 · 2026-09-17 — Field survey v6 with two Rapido questions; A2/A3 not added
 
 **Decision (user instruction):** v6 is the live form, which overrides D11 (v7). It gets two one-tap Rapido questions and nothing else:
@@ -303,3 +304,49 @@ No new sections and no branching changes.
 **Consequence:** K71 (promo-dependency gap) and K51/K52 (fulfilment failure) show INSUFFICIENT EVIDENCE on the dashboard.
 The promotion and reliability rows fall back to K32 (stated repeat without offer), K24 (reliability trade-off), the audit
 ETA gap, and interview codes.
+
+---
+## D14 · 2026-09-17 — One live set: v6 + 2 Rapido questions, their KPI system, their dashboard. Everything else archived.
+
+**Decision (user instruction, closes the open question left in D12):**
+
+| Thing | Live | Archived |
+|---|---|---|
+| Survey | **v6 + the two Rapido questions** (D13) | v3, v4, v5 and **all v7 files** |
+| KPI framework | **`09_analysis/kpi_system/`** (58 rows, P0/P1/P2) | `KPI_Framework_and_Survey_Validation.md` (the 9-KPI set) |
+| Dashboard | **`10_dashboard/decision_dashboard/`** | `ownly_transfer_scorecard.html` |
+| Fake door | `07_fake_door/` — unchanged, 2 arms, live page | — |
+| Price audit | `06_competitor_audit/audit_data_slot1.csv` + `audit_slot1_results.md` | — |
+
+**Why v7 is archived rather than fielded:** D11 chose v7 for length, but v7's cuts removed questions the
+adopted KPI system depends on, and P1 has already published a v6-based form. Two live survey specs in one
+repo is how a team builds the wrong instrument the night before a deadline.
+
+**Why the 9-KPI framework is archived rather than merged:** both frameworks are defensible, but a deck can
+only tell one story, and the KPI system is the one the dashboard is built against. The audit work already
+done feeds it directly — K20, K21, K22, K26, K40, K41 and K42 all draw on `audit_data_slot1.csv`.
+
+**Nothing is deleted.** Everything moved to `archive/2026-09-17_superseded/` with a README explaining what
+each file was and what replaced it, because the path from v3 to v6 is part of the method story.
+
+**Supersedes:** D11 (v7 is the form we build). D13 stands.
+
+---
+
+## D15 — Fake door v3 is built and runs on ₹1,000 of Meta ads over 48 hours (2026-09-17)
+
+**Decision (user chose Option B in `07_fake_door/FAKE_DOOR_REDESIGN_v3.md` §7):**
+- The live page is rebuilt to v3: **A `A_everyday_low_price`** vs **B `B_discount_led`**, page version `2026-09-17.v3`.
+- Distribution: **one neutral Meta ad → the same plain link**; the page randomises (sticky 50/50 per browser).
+  No per-arm ads, no `?v=` links in public.
+- Stop: **Sat 19 Sep 2026 00:00 → Mon 21 Sep 2026 00:00 IST**, no early stop. Replaces the 30 Sep / 300 rule for v3.
+- K13 is **directional**; **K14 stays primary** (expected ~20–50 visitors per arm).
+- Post-tap costly action is a **one-tap question** (try without an offer / only with an offer / not for me), not a
+  WhatsApp number, so the page and sheet stay personal-data-free and the collector needs no redeploy.
+
+**Details:** `07_fake_door/FAKE_DOOR_v3_RUNBOOK.md`. **Supersedes:** the v2 arms and v2 stopping rule in
+`AB_LAUNCH_RUNSHEET_v2.md`.
+
+**D15 amendment (2026-09-17, user instruction):** the research disclosure panel is removed. After the tap the page
+shows a Buffer-style "Coming soon — we're not taking orders in Gachibowli yet"; the "Research study" tag, the
+university footer and "if this existed" wording are gone. Page version `2026-09-17.v3b`; analyse v3b only.

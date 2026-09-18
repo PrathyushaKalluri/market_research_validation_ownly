@@ -228,6 +228,8 @@ def build_visitors(rows, page_version=None, start=None, end=None):
         mini = [r["_payload"] for r in evs if r.get("event_name") == "mini_survey_submit"]
         seg = mini[-1] if mini else {}
         bills = [r["_payload"] for r in evs if r.get("event_name") == "secondary_intent"]
+        # v3 (2026-09-17.v3): the post-disclosure question sends payload action = try_yes | try_offer_only | try_no | skipped
+        answers = {r["_payload"].get("action") for r in evs if r.get("event_name") in ("secondary_intent", "secondary_skip")}
         src = (first.get("utm_source") or "").strip().lower()
         if not src:
             src = ("ref:" + first["referrer_domain"]) if first.get("referrer_domain") else "(direct/none)"
@@ -241,6 +243,8 @@ def build_visitors(rows, page_version=None, start=None, end=None):
             "scroll": names["scroll_50"] > 0,
             "cta": names["cta_click"] > 0,
             "secondary": names["secondary_intent"] > 0,
+            "try_yes": "try_yes" in answers,
+            "try_offer_only": "try_offer_only" in answers,
             "mini": names["mini_survey_submit"] > 0,
             "survey_click": names["survey_link_click"] > 0,
             "bounce": names["cta_click"] == 0 and names["scroll_50"] == 0 and exit_dwell < BOUNCE_DWELL_MS,
@@ -263,8 +267,11 @@ METRICS = [
     ("vp_view_rate", "vp", None, "Value-proposition view / visitors"),
     ("cta_ctr", "cta", None, "CTA click / visitors  [PRIMARY]"),
     ("cta_given_vp", "cta", "vp", "CTA click / VP viewers"),
-    ("secondary_rate", "secondary", None, "Bill-compare completed / visitors  [KEY SECONDARY]"),
-    ("secondary_given_cta", "secondary", "cta", "Bill-compare completed / CTA clickers"),
+    ("secondary_rate", "secondary", None, "Secondary intent / visitors  [KEY SECONDARY; v3 = yes or offer-only; v2 = bill compare]"),
+    ("secondary_given_cta", "secondary", "cta", "Secondary intent / CTA clickers"),
+    ("try_yes_rate", "try_yes", None, "v3: 'Yes, even without an offer' / visitors"),
+    ("try_offer_only_rate", "try_offer_only", None, "v3: 'Only with a first-order offer' / visitors"),
+    ("try_offer_only_given_cta", "try_offer_only", "cta", "v3: offer-only / CTA clickers"),
     ("mini_given_cta", "mini", "cta", "Mini-survey submitted / CTA clickers"),
     ("survey_click_given_cta", "survey_click", "cta", "Main-survey link click / CTA clickers"),
     ("bounce_rate", "bounce", None, "Bounce / visitors"),

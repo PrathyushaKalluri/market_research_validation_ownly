@@ -1,1 +1,9 @@
 .DS_Store
+
+# Reference books and course material (large, not our work)
+*.epub
+Testing Business Ideas*.pdf
+Class slides.pdf
+Courses-Syllabus*.pdf
+Screenshot 2026-08-23*.png
+.vscode/
