@@ -1,0 +1,12 @@
+# Netlify build settings for the fake-door prototype.
+# There is no build step — the folder is already the site.
+[build]
+  publish = "deploy"
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"

@@ -1,0 +1,2173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Ownly Gachibowli — Research Prototype</title>
+<!--
+  ════════════════════════════════════════════════════════════════════════════
+  v4 — 2026-09-22 · THE FULL ORDER JOURNEY
+  ════════════════════════════════════════════════════════════════════════════
+
+  WHAT CHANGED FROM v3, AND WHY
+
+  1. THE JOURNEY NOW RUNS END TO END: home → dish → places → menu → cart →
+     pricing choice → delivery choice → place order. A fake door that stops at
+     "I would like this" only ever measures interest. Carrying it through a real
+     cart and a real bill measures the thing that actually decides an order.
+
+  2. OFFERS ARE A 2x2 GRID, NOT A CAROUSEL. In v3 they scrolled horizontally,
+     so a question asking which offer you saw was unanswerable — most were off
+     screen. All four are now visible at once before the question fires.
+
+  3. THE OFFER QUESTION IS NOW ARM-AWARE. v3 offered "the food it was about" as
+     a reason for tapping "₹100 OFF", which is about money, not food. Money
+     offers and assortment offers now get different option sets.
+
+  4. DELIVERY TIME FOLLOWS THE SWIGGY/ZOMATO MENTAL MODEL: a white boxed
+     "38 MINS" in the bottom-right corner of the restaurant image, not a line
+     of grey meta text.
+
+  5. THE FILTER TABS WORK. v3 had a decorative "See all" that did nothing.
+     Dead affordances teach participants the prototype is fake. ALL / OFFERS /
+     FAST / RATED 4+ genuinely filter, and which one is tapped is itself data.
+
+  6. THREE PRICING MODELS ARE OFFERED AT CHECKOUT — a within-subject discrete
+     choice over the same basket. At n=40 this is worth far more than the
+     between-arms comparison, because every participant answers it.
+
+  7. DELIVERY INNOVATION IS TESTED: "Rapido Link" routes the order to a captain
+     already heading this way. It is the one thing Ownly could do that Swiggy
+     and Zomato structurally cannot, and nothing in the project has ever tested
+     whether anyone wants it.
+
+  WHERE THE ETHICAL LINE IS — UNCHANGED AND TIGHTER AT CHECKOUT
+  No card, UPI or payment field of any kind exists. No payment method is even
+  shown. Tapping "Place Order" does NOT produce a confirmation — it goes
+  straight to a screen that says the order cannot be placed and why. That is
+  the whole point: the door opens onto the truth at the exact moment a real app
+  would lie. No restaurant is ever shown as available; the demand list is only
+  ever a request, and it is collected AFTER the disclosure. Original visual
+  system — no Ownly or Rapido logo, screenshot or layout is reproduced. Ownly is
+  NAMED because hiding the brand makes results uninterpretable. Prices, ratings,
+  times and offers are illustrative and disclosed on every screen.
+
+  QUESTIONS STILL FIRE IN THE MOMENT. Every choice — offer, dish, restaurant,
+  menu item, pricing model, delivery option — is followed within one tap by one
+  question about that choice, naming it. There is no questionnaire at the end.
+  Typing exists only in the search boxes, where the query is itself the finding.
+  ════════════════════════════════════════════════════════════════════════════
+-->
+<style>
+:root{
+  --bg:#f4f4f2; --card:#fff; --ink:#1b1b19; --ink2:#55564f; --muted:#8b8c85;
+  --line:#eae8e2; --line2:#d4d2ca;
+  --brand:#e2562b; --brand-dk:#bc3f18; --brand-lt:#fdece5;
+  --deep:#17211d; --green:#1a8a4a; --greenlt:#e8f6ee; --gold:#f2a01c;
+  --purple:#7a3fb8; --warnbg:#fff4d6;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;}
+body{padding-top:env(safe-area-inset-top,0px);}
+#banner{position:sticky;top:0;z-index:80;background:var(--warnbg);border-bottom:1px solid #edd9a4;
+  color:#6a4700;font-size:11px;font-weight:800;text-align:center;padding:6px 12px;line-height:1.3;}
+.phone{max-width:440px;margin:0 auto;padding:0 0 96px;}
+.pad{padding:0 16px;}
+.screen{display:none;} .screen.on{display:block;}
+
+/* ══ app chrome ══ */
+.appbar{background:linear-gradient(165deg,var(--brand) 0%,var(--brand-dk) 100%);color:#fff;padding:12px 16px 13px;}
+.locrow{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.loc{font-size:15.5px;font-weight:900;letter-spacing:-.015em;display:flex;align-items:center;gap:5px;}
+.addr{font-size:11.5px;opacity:.85;margin-top:1px;}
+.av{width:33px;height:33px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;
+  place-items:center;font-size:15px;flex:none;}
+.fakesearch{margin-top:12px;background:#fff;border-radius:12px;padding:12px 14px;display:flex;
+  align-items:center;gap:10px;color:var(--muted);font-size:14.5px;width:100%;border:none;
+  font-family:inherit;text-align:left;cursor:pointer;min-height:46px;}
+
+/* ══ working filter tabs (v3's dead "See all" is gone) ══ */
+.ftabs{display:flex;gap:0;background:var(--card);border-bottom:1px solid var(--line);
+  overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:50;}
+.ftabs::-webkit-scrollbar{display:none;}
+.ftab{flex:none;background:none;border:none;font-family:inherit;font-size:12.5px;font-weight:900;
+  letter-spacing:.04em;color:var(--muted);padding:13px 17px 11px;cursor:pointer;
+  border-bottom:3px solid transparent;min-height:46px;white-space:nowrap;}
+.ftab.on{color:var(--brand);border-bottom-color:var(--brand);}
+
+/* ══ offers: a 2x2 GRID, all four on screen at once ══ */
+.offgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;}
+.offer{border-radius:16px;padding:13px 14px;color:#fff;cursor:pointer;font-family:inherit;
+  text-align:left;border:none;height:112px;display:flex;flex-direction:column;
+  justify-content:center;position:relative;overflow:hidden;}
+.offer .kick{display:block;font-size:9.5px;font-weight:900;letter-spacing:.13em;
+  text-transform:uppercase;opacity:.9;position:relative;z-index:2;}
+.offer .big{display:block;font-size:23px;font-weight:900;line-height:1;margin-top:6px;
+  letter-spacing:-.035em;position:relative;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.16);}
+.offer .emoji{position:absolute;right:-8px;bottom:-16px;font-size:68px;opacity:.27;z-index:1;line-height:1;}
+.o1{background:linear-gradient(135deg,#f0643a,#bf2f10);}
+.o2{background:linear-gradient(135deg,#17805d,#0a4230);}
+.o3{background:linear-gradient(135deg,#8348c9,#4a1f84);}
+.o4{background:linear-gradient(135deg,#f5ae12,#c9760a);}
+
+.sechead{padding:20px 16px 11px;}
+.sechead h3{font-size:17px;margin:0;font-weight:900;letter-spacing:-.02em;}
+.sechead .sub{font-size:12.5px;color:var(--muted);margin-top:2px;}
+
+/* ══ "What's on your mind?" ══ */
+.cats{display:flex;gap:15px;overflow-x:auto;padding:4px 16px 6px;scrollbar-width:none;}
+.cats::-webkit-scrollbar{display:none;}
+.cat{flex:none;background:none;border:none;font-family:inherit;cursor:pointer;width:72px;padding:0;text-align:center;}
+.cat .circ{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;font-size:33px;
+  background:var(--card);border:1px solid var(--line);margin:0 auto 7px;}
+.cat .lbl{font-size:12px;font-weight:800;color:var(--ink2);line-height:1.2;display:block;}
+.cat.sel .circ{border-color:var(--brand);border-width:2px;background:var(--brand-lt);}
+.cat.sel .lbl{color:var(--brand-dk);}
+
+/* ══ restaurant cards — Swiggy geometry ══ */
+.rcard{display:block;width:calc(100% - 32px);margin:0 16px 20px;background:none;border:none;
+  padding:0;font-family:inherit;text-align:left;cursor:pointer;}
+.rhero{height:172px;border-radius:17px;position:relative;overflow:hidden;display:grid;
+  place-items:center;font-size:62px;}
+.rhero::after{content:"";position:absolute;inset:auto 0 0 0;height:78px;
+  background:linear-gradient(to top,rgba(0,0,0,.72),transparent);}
+/* the delivery time: a white BOX bottom-right, the way Swiggy does it */
+.reta{position:absolute;right:0;bottom:0;background:#fff;color:var(--deep);
+  border-radius:13px 0 0 0;padding:7px 13px 7px 15px;font-size:14.5px;font-weight:900;
+  letter-spacing:-.02em;z-index:3;border-top:3px solid var(--deep);}
+.roff{position:absolute;left:12px;bottom:13px;z-index:3;color:#fff;font-size:15.5px;
+  font-weight:900;letter-spacing:-.02em;display:flex;align-items:center;gap:6px;}
+.roff .pct{background:var(--brand);border-radius:50%;width:19px;height:19px;display:grid;
+  place-items:center;font-size:11px;flex:none;}
+.rbadge{position:absolute;left:12px;top:12px;z-index:3;background:rgba(255,255,255,.94);
+  color:var(--deep);font-size:10px;font-weight:900;letter-spacing:.04em;border-radius:6px;padding:4px 8px;}
+.rname{font-size:17px;font-weight:900;letter-spacing:-.02em;margin-top:11px;}
+.rmeta{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink2);margin-top:3px;font-weight:600;}
+.star{background:var(--green);color:#fff;border-radius:50%;width:17px;height:17px;display:inline-grid;
+  place-items:center;font-size:9px;flex:none;}
+.rcuis{font-size:13px;color:var(--muted);margin-top:1px;}
+
+/* ══ search screens ══ */
+.searchtop{background:linear-gradient(165deg,var(--brand) 0%,var(--brand-dk) 100%);padding:10px 16px 14px;}
+.searchtop .back{background:none;border:none;color:#fff;font-size:14px;font-weight:800;
+  padding:4px 0 9px;cursor:pointer;font-family:inherit;min-height:34px;}
+.sbox{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:3px 13px;}
+.sbox input{flex:1;border:none;outline:none;font:inherit;font-size:16px;padding:12px 0;
+  background:transparent;color:var(--ink);min-height:46px;}
+.sbox .clr{background:none;border:none;color:var(--muted);font-size:17px;cursor:pointer;
+  padding:6px;min-height:36px;min-width:36px;}
+.sugg-h{font-size:11.5px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:18px 16px 10px;}
+.chips{display:flex;flex-wrap:wrap;gap:9px;padding:0 16px;}
+.dchip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 15px;
+  font-size:14.5px;font-family:inherit;color:var(--ink);cursor:pointer;min-height:46px;
+  display:flex;align-items:center;gap:8px;font-weight:650;}
+.dchip:active{border-color:var(--brand);background:var(--brand-lt);color:var(--brand-dk);}
+.slist{list-style:none;margin:0;padding:0;}
+.slist li{border-bottom:1px solid var(--line);}
+.srow{display:flex;align-items:center;gap:12px;width:100%;background:none;border:none;
+  font:inherit;text-align:left;padding:14px 16px;min-height:58px;cursor:pointer;color:var(--ink);}
+.srow:active{background:#fbfaf8;}
+.srow .se{font-size:23px;width:28px;text-align:center;flex:none;}
+.srow .sn{font-weight:700;font-size:15px;}
+.srow .sm{font-size:12px;color:var(--muted);}
+.emptyq{padding:18px 16px;font-size:14.5px;color:var(--ink2);}
+.dishpill{display:inline-flex;align-items:center;gap:6px;background:var(--brand-lt);
+  color:var(--brand-dk);border-radius:999px;padding:5px 13px;font-size:13px;font-weight:800;}
+
+/* ══ restaurant menu ══ */
+.mhead{background:var(--deep);padding:12px 16px 20px;}
+.mhead .back{background:none;border:none;color:#fff;font-size:14px;font-weight:800;
+  padding:4px 0 10px;cursor:pointer;font-family:inherit;min-height:34px;}
+.mcard{background:#fff;border-radius:18px;padding:16px;}
+.mtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.mtitle{font-size:21px;font-weight:900;letter-spacing:-.025em;}
+.msub{font-size:13.5px;color:var(--ink2);margin-top:3px;font-weight:600;}
+.mrate{background:var(--green);color:#fff;border-radius:9px;padding:5px 9px;text-align:center;flex:none;}
+.mrate b{font-size:14px;font-weight:900;display:block;line-height:1;}
+.mrate span{font-size:8.5px;font-weight:700;opacity:.9;}
+.moffer{margin-top:14px;padding-top:13px;border-top:1px dashed var(--line2);display:flex;
+  align-items:center;gap:11px;}
+.moffer .tag{width:34px;height:34px;border-radius:9px;background:var(--brand-lt);display:grid;
+  place-items:center;font-size:17px;flex:none;}
+.moffer b{font-size:14.5px;font-weight:900;display:block;letter-spacing:-.01em;}
+.moffer span{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.03em;}
+.mitem{display:flex;gap:13px;padding:17px 16px;border-bottom:1px solid var(--line);align-items:flex-start;}
+.mleft{flex:1;min-width:0;}
+.vdot{width:15px;height:15px;border:1.5px solid var(--green);border-radius:3px;display:inline-grid;
+  place-items:center;margin-bottom:5px;}
+.vdot i{width:7px;height:7px;border-radius:50%;background:var(--green);display:block;}
+.vdot.nv{border-color:#b33;} .vdot.nv i{background:#b33;}
+.mbest{color:var(--brand);font-size:11.5px;font-weight:900;margin-bottom:3px;}
+.mname{font-size:15.5px;font-weight:800;letter-spacing:-.01em;}
+.mprice{font-size:14.5px;font-weight:800;margin-top:3px;}
+.mprice s{color:var(--muted);font-weight:600;margin-right:6px;}
+.mdesc{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.4;}
+.mright{width:112px;flex:none;position:relative;}
+.mimg{width:112px;height:96px;border-radius:12px;display:grid;place-items:center;font-size:40px;}
+.addbtn{position:absolute;left:50%;transform:translateX(-50%);bottom:-13px;background:#fff;
+  color:var(--green);border:1px solid var(--line2);border-radius:10px;font-family:inherit;
+  font-size:14px;font-weight:900;letter-spacing:.04em;padding:9px 20px;cursor:pointer;
+  box-shadow:0 3px 9px rgba(0,0,0,.11);min-height:40px;}
+.addbtn.added{color:#fff;background:var(--green);border-color:var(--green);}
+.stepper{display:inline-flex;align-items:center;gap:0;background:#fff;border:1px solid var(--line2);
+  border-radius:10px;overflow:hidden;}
+.stepper button{background:none;border:none;font-family:inherit;font-size:17px;font-weight:900;
+  color:var(--green);width:34px;min-height:38px;cursor:pointer;}
+.stepper b{font-size:14px;font-weight:900;color:var(--green);width:24px;text-align:center;}
+
+/* ══ floating cart bar ══ */
+.cartbar{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;width:min(408px,calc(100% - 32px));
+  background:var(--green);color:#fff;border-radius:14px;padding:13px 17px;display:none;
+  align-items:center;justify-content:space-between;z-index:60;cursor:pointer;border:none;
+  font-family:inherit;box-shadow:0 6px 20px rgba(0,0,0,.2);min-height:54px;}
+.cartbar.on{display:flex;}
+.cartbar .l{font-size:13px;font-weight:700;opacity:.92;}
+.cartbar .r{font-size:15px;font-weight:900;letter-spacing:-.01em;}
+
+/* ══ cart ══ */
+.savestrip{background:var(--greenlt);border:1px solid #b9e2cb;color:#0d6b3f;border-radius:12px;
+  margin:13px 16px;padding:12px 14px;font-size:14px;font-weight:700;}
+.savestrip b{font-weight:900;}
+.block{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:0 16px 13px;
+  padding:15px 16px;}
+.block h4{font-size:11.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 13px;}
+.crow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);}
+.crow:last-child{border-bottom:none;}
+.crow .cn{flex:1;min-width:0;font-size:14.5px;font-weight:700;}
+.crow .cp{font-size:14px;font-weight:800;width:74px;text-align:right;}
+.crow .cp s{display:block;color:var(--muted);font-weight:600;font-size:12px;}
+.optrow{display:flex;gap:13px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line);
+  cursor:pointer;width:100%;background:none;border-left:none;border-right:none;border-top:none;
+  font-family:inherit;text-align:left;}
+.optrow:last-of-type{border-bottom:none;}
+.radio{width:21px;height:21px;border-radius:50%;border:2px solid var(--line2);flex:none;margin-top:2px;
+  display:grid;place-items:center;}
+.optrow.on .radio{border-color:var(--brand);}
+.optrow.on .radio::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--brand);}
+.optrow .ot{font-size:15px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;
+  gap:8px;flex-wrap:wrap;}
+.optrow .od{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4;}
+.optrow .oamt{margin-left:auto;font-size:15px;font-weight:900;flex:none;text-align:right;white-space:nowrap;}
+.optrow .oamt small{display:block;font-size:10.5px;color:var(--muted);font-weight:700;}
+.pill{font-size:9.5px;font-weight:900;letter-spacing:.06em;border-radius:5px;padding:3px 6px;
+  background:var(--brand-lt);color:var(--brand-dk);}
+.pill.new{background:#efe4fb;color:var(--purple);}
+.pill.eco{background:var(--greenlt);color:#0d6b3f;}
+.billwrap{border:1.5px solid var(--line2);border-radius:14px;margin-bottom:10px;overflow:hidden;
+  background:var(--card);}
+.billwrap.on{border-color:var(--brand);border-width:2px;}
+.billwrap .optrow{border-bottom:none;padding:14px 15px;}
+.acc{display:none;padding:0 15px 15px;border-top:1px dashed var(--line2);margin:0 0 0;}
+.billwrap.on .acc{display:block;padding-top:13px;}
+.acc .accnote{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:10px;
+  padding-top:10px;border-top:1px solid var(--line);}
+.delwrap{border:1.5px solid var(--line2);border-radius:14px;margin-bottom:10px;background:var(--card);}
+.delwrap.on{border-color:var(--brand);border-width:2px;}
+.delwrap .optrow{border-bottom:none;padding:14px 15px;}
+/* minutes and charge are one block: the charge reads as part of the time,
+   not as a detail somewhere else on the card */
+.deltime{flex:none;text-align:right;min-width:74px;}
+.deltime b{font-size:27px;font-weight:900;letter-spacing:-.035em;line-height:1;display:block;}
+.deltime small{font-size:9px;font-weight:800;letter-spacing:.09em;color:var(--muted);
+  display:block;margin-top:2px;}
+.deltime i{display:block;font-style:normal;font-size:15px;font-weight:900;margin-top:7px;
+  letter-spacing:-.02em;}
+.deltime i.paid{color:var(--brand);}
+.deltime i.free{color:var(--green);font-size:13px;}
+.tradeoff{font-size:11.5px;color:var(--ink2);line-height:1.45;padding:0 15px 13px;
+  display:flex;gap:6px;align-items:flex-start;}
+.tradeoff span{color:var(--gold);flex:none;}
+.delwrap .optrow{align-items:center;}
+.bill{font-size:14px;}
+.bill .br{display:flex;justify-content:space-between;padding:8px 0;color:var(--ink2);}
+.bill .br.tot{border-top:1px solid var(--line2);margin-top:7px;padding-top:12px;
+  font-weight:900;color:var(--ink);font-size:16.5px;}
+.bill .free{color:var(--green);font-weight:900;}
+.bill s{color:var(--muted);margin-right:6px;}
+.placebar{position:sticky;bottom:0;background:linear-gradient(to top,var(--bg) 74%,transparent);
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));}
+
+/* ══ generic ══ */
+h1{font-size:23px;line-height:1.16;letter-spacing:-.025em;margin:0 0 7px;font-weight:900;text-wrap:balance;}
+h2{font-size:20px;line-height:1.2;margin:0 0 6px;font-weight:900;letter-spacing:-.025em;}
+p{margin:0 0 13px;color:var(--ink2);font-size:14.5px;}
+.small{font-size:12.5px;color:var(--muted);}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;
+  border-radius:13px;border:1px solid transparent;font:inherit;font-size:16px;font-weight:900;
+  cursor:pointer;padding:13px 16px;letter-spacing:-.01em;}
+.btn-primary{background:var(--brand);color:#fff;}
+.btn-go{background:var(--green);color:#fff;}
+.btn-sec{background:var(--card);color:var(--ink);border:1px solid var(--line2);}
+.btn-ghost{background:none;color:var(--brand);border:none;min-height:46px;
+  text-decoration:underline;font-weight:800;font-size:14.5px;}
+.btn[disabled]{background:var(--line2);color:#fff;cursor:not-allowed;}
+.btnrow{display:flex;flex-direction:column;gap:9px;padding:15px 16px 0;}
+button:focus-visible,input:focus-visible{outline:3px solid var(--brand);outline-offset:2px;}
+.stop{background:var(--card);border:2px solid var(--brand);border-radius:17px;padding:20px;margin:18px 16px 0;}
+.disc{background:var(--card);border:2px solid var(--brand);border-radius:16px;padding:18px;margin:0 16px;}
+.disc h2{color:var(--brand-dk);}
+.disc ul{margin:0 0 12px;padding-left:19px;} .disc li{font-size:14px;color:var(--ink2);margin-bottom:6px;}
+.confirm{background:var(--brand-lt);border:1px solid #f3c9b8;border-radius:16px;padding:17px;margin:0 16px 13px;}
+.confirm .big{font-size:17.5px;font-weight:900;color:var(--brand-dk);margin-bottom:4px;letter-spacing:-.02em;}
+footer.fine{margin:22px 16px 0;padding-top:14px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--muted);line-height:1.6;}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+/* ══ wish list (post-disclosure demand capture) ══ */
+.pickgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;}
+.pick{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 11px;
+  cursor:pointer;font-family:inherit;text-align:left;min-height:88px;display:flex;
+  flex-direction:column;gap:3px;position:relative;}
+.pick .pe{font-size:23px;} .pick .pn{font-size:13.5px;font-weight:800;line-height:1.2;}
+.pick .pm{font-size:11px;color:var(--muted);}
+.pick.on{border-color:var(--brand);background:var(--brand-lt);}
+.pick.on::after{content:"\2713";position:absolute;top:8px;right:10px;color:var(--brand);font-weight:900;font-size:15px;}
+.cuisine-h{font-size:11.5px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:18px 16px 9px;}
+.picksearch{position:sticky;top:0;z-index:40;background:var(--bg);padding:11px 16px 9px;border-bottom:1px solid var(--line);}
+.picksearch .sbox{border:1px solid var(--line2);}
+.custwrap{padding:0 16px;}
+.custchip{display:inline-flex;align-items:center;gap:8px;background:var(--brand-lt);
+  border:1px solid #f3c9b8;color:var(--brand-dk);border-radius:999px;padding:7px 8px 7px 14px;
+  font-size:13px;font-weight:800;margin:0 7px 7px 0;}
+.custchip button{background:none;border:none;color:var(--brand-dk);font-size:15px;cursor:pointer;
+  padding:2px 6px;min-height:32px;min-width:32px;line-height:1;}
+
+/* ══ bottom nav ══ */
+.bnav{position:fixed;left:0;right:0;bottom:0;max-width:440px;margin:0 auto;background:#fff;
+  border-top:1px solid var(--line);display:flex;z-index:55;padding-bottom:env(safe-area-inset-bottom,0px);}
+.bnav button{flex:1;background:none;border:none;font-family:inherit;font-size:9.5px;font-weight:800;
+  color:var(--muted);padding:7px 0 8px;cursor:pointer;min-height:54px;letter-spacing:.03em;}
+.bnav button .bi{display:block;font-size:20px;margin-bottom:2px;}
+.bnav button.on{color:var(--brand);}
+
+/* ══ micro-question sheet ══ */
+#scrim{position:fixed;inset:0;background:rgba(18,18,16,.54);z-index:95;opacity:0;
+  pointer-events:none;transition:opacity .18s;}
+#scrim.on{opacity:1;pointer-events:auto;}
+#sheet{position:fixed;left:0;right:0;bottom:0;z-index:96;background:#fff;
+  border-radius:22px 22px 0 0;max-width:440px;margin:0 auto;transform:translateY(103%);
+  transition:transform .24s cubic-bezier(.2,.85,.25,1);max-height:90vh;overflow-y:auto;
+  padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 30px rgba(0,0,0,.18);
+  visibility:hidden;}
+#sheet.on{transform:translateY(0);visibility:visible;}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--line2);margin:9px auto 0;}
+.qhead{padding:14px 20px 4px;}
+.qkick{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brand);display:block;margin-bottom:7px;}
+.qhead h2{font-size:20px;margin:0;letter-spacing:-.025em;line-height:1.2;text-wrap:balance;}
+.qhint{font-size:12.5px;color:var(--muted);margin:6px 0 0;}
+.qopts{padding:14px 16px 4px;display:flex;flex-direction:column;gap:9px;}
+.qopt{display:flex;align-items:center;gap:12px;width:100%;background:var(--card);
+  border:1.5px solid var(--line2);border-radius:13px;padding:14px 15px;font:inherit;font-size:15px;
+  font-weight:600;text-align:left;cursor:pointer;min-height:54px;color:var(--ink);line-height:1.3;}
+.qopt:active{border-color:var(--brand);background:var(--brand-lt);}
+.qopt .qe{font-size:21px;flex:none;width:26px;text-align:center;}
+.qskip{text-align:center;padding:12px 16px 4px;}
+.qskip button{background:none;border:none;font:inherit;font-size:13px;color:var(--muted);
+  text-decoration:underline;cursor:pointer;min-height:40px;padding:0 12px;}
+.qtiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px 4px;}
+.qtile{border:none;border-radius:14px;padding:13px;height:94px;color:#fff;cursor:pointer;
+  font-family:inherit;text-align:left;position:relative;overflow:hidden;display:flex;
+  flex-direction:column;justify-content:center;}
+.qtile .kick{font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  opacity:.88;position:relative;z-index:2;}
+.qtile .big{font-size:18px;font-weight:900;line-height:1;margin-top:5px;letter-spacing:-.03em;
+  position:relative;z-index:2;}
+.qtile .emoji{position:absolute;right:-8px;bottom:-14px;font-size:56px;opacity:.26;z-index:1;}
+.qnone{grid-column:1 / -1;background:var(--card);border:1.5px solid var(--line2);color:var(--ink);
+  border-radius:13px;padding:14px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;
+  min-height:52px;text-align:center;}
+@media (prefers-reduced-motion:reduce){ #sheet,#scrim{transition:none;} }
+
+#qa{position:fixed;inset:auto 0 0 0;z-index:99;background:#1b1b19;color:#eae8e2;font-family:var(--mono);
+  font-size:11px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));display:none;
+  gap:7px;align-items:center;flex-wrap:wrap;}
+#qa.on{display:flex;}
+#qa button{font:inherit;background:#2e302b;color:#eae8e2;border:1px solid #474941;border-radius:6px;
+  padding:5px 9px;cursor:pointer;min-height:32px;}
+</style>
+</head>
+<body>
+
+<div id="banner">RESEARCH PROTOTYPE · not a live service · no order can be placed here</div>
+<p class="sr" id="live" role="status" aria-live="polite"></p>
+
+<div class="phone">
+
+  <!-- ══════════ 1 · HOME ══════════ -->
+  <section class="screen on" id="s-home">
+    <div class="appbar">
+      <div class="locrow">
+        <div>
+          <div class="loc"><span aria-hidden="true">📍</span> Gachibowli
+            <span aria-hidden="true" style="opacity:.75;font-size:11px">▾</span></div>
+          <div class="addr">DLF Cyber City Road, Hyderabad</div>
+        </div>
+        <div class="av" aria-hidden="true">👤</div>
+      </div>
+      <button class="fakesearch" id="fakesearch" aria-label="Search for a dish or a restaurant">
+        <span aria-hidden="true">🔍</span> <span id="searchph">Search "biryani"</span>
+      </button>
+    </div>
+
+    <div class="ftabs" role="tablist" aria-label="Filter restaurants" id="ftabs">
+      <button class="ftab on" role="tab" data-filter="all" aria-selected="true">ALL</button>
+      <button class="ftab" role="tab" data-filter="offers" aria-selected="false">OFFERS</button>
+      <button class="ftab" role="tab" data-filter="fast" aria-selected="false">FAST DELIVERY</button>
+      <button class="ftab" role="tab" data-filter="rated" aria-selected="false">RATED 4+</button>
+    </div>
+
+    <div class="sechead"><h3 id="offers-h">Offers for you</h3></div>
+    <div class="offgrid" id="offers"></div>
+
+    <div class="sechead" style="padding-bottom:4px"><h3>What's on your mind?</h3></div>
+    <div class="cats" role="group" aria-label="Food categories" id="cats"></div>
+
+    <div class="sechead"><h3 id="feed-h">Top restaurants to explore</h3>
+      <div class="sub" id="feed-sub">Delivering to Gachibowli</div></div>
+    <div id="feed"></div>
+
+    <footer class="fine">Research prototype · not a live service · not affiliated with Ownly, Rapido
+    or any delivery company. Restaurants, ratings, delivery times, prices and offers shown here are
+    illustrative. Nothing here means a restaurant has agreed to join anything.</footer>
+  </section>
+
+  <!-- ══════════ 2 · DISH SEARCH ══════════ -->
+  <section class="screen" id="s-dish">
+    <div class="searchtop">
+      <button class="back" id="dish-back" aria-label="Back">‹ Back</button>
+      <div class="sbox">
+        <span aria-hidden="true">🔍</span>
+        <label class="sr" for="dish-q">Search for a dish</label>
+        <input id="dish-q" type="search" inputmode="search" autocomplete="off"
+               placeholder="What do you feel like eating?">
+        <button class="clr" id="dish-clr" type="button" aria-label="Clear">✕</button>
+      </div>
+    </div>
+    <div class="sugg-h" id="dish-sugg-h">Popular in Gachibowli right now</div>
+    <div class="chips" id="dish-chips"></div>
+    <ul class="slist" id="dish-results"></ul>
+    <div class="emptyq" id="dish-empty" hidden></div>
+    <footer class="fine">Research prototype · nothing you search for is ordered.</footer>
+  </section>
+
+  <!-- ══════════ 3 · PLACES FOR THAT DISH ══════════ -->
+  <section class="screen" id="s-list">
+    <div class="searchtop">
+      <button class="back" id="rs-back" aria-label="Back">‹ Back</button>
+      <div class="sbox">
+        <span aria-hidden="true">🔍</span>
+        <label class="sr" for="rs-q">Search for a restaurant</label>
+        <input id="rs-q" type="search" inputmode="search" autocomplete="off"
+               placeholder="Search a place you order from">
+        <button class="clr" id="rs-clr" type="button" aria-label="Clear">✕</button>
+      </div>
+    </div>
+    <div class="sechead" style="padding-top:16px"><h3 id="rs-h">Places near you</h3></div>
+    <div id="rs-results"></div>
+    <div class="emptyq" id="rs-empty" hidden></div>
+    <footer class="fine">Research prototype · not a live service.</footer>
+  </section>
+
+  <!-- ══════════ 4 · RESTAURANT MENU ══════════ -->
+  <section class="screen" id="s-menu">
+    <div class="mhead">
+      <button class="back" id="menu-back" aria-label="Back">‹ Back</button>
+      <div class="mcard">
+        <div class="mtop">
+          <div>
+            <div class="mtitle" id="menu-name">Restaurant</div>
+            <div class="msub" id="menu-sub">38 mins · Gachibowli</div>
+          </div>
+          <div class="mrate"><b id="menu-rate">4.3</b><span>★ 2K+</span></div>
+        </div>
+        <div class="moffer">
+          <span class="tag" aria-hidden="true">🏷</span>
+          <div><b id="menu-offer">Extra ₹20 off</b><span>NO CODE REQUIRED · ABOVE ₹199</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="sechead" style="padding-bottom:6px"><h3>Menu</h3>
+      <div class="sub">Prices are illustrative — this is a research prototype</div></div>
+    <div id="menu-items"></div>
+    <footer class="fine">Research prototype · no order can be placed · prices illustrative.</footer>
+  </section>
+
+  <!-- ══════════ 5 · DELIVERY — its own screen, decided before any total is visible ══════════ -->
+  <section class="screen" id="s-deliv">
+    <div class="searchtop" style="padding-bottom:12px">
+      <button class="back" id="deliv-back" aria-label="Back">‹ Back</button>
+      <div style="color:#fff;font-size:19px;font-weight:900;letter-spacing:-.025em">How fast do you want it?</div>
+      <div style="color:#fff;opacity:.85;font-size:13px;margin-top:3px" id="deliv-sub">Delivering to Gachibowli</div>
+    </div>
+    <div style="padding:16px 16px 0" id="deliv-opts"></div>
+    <footer class="fine">Research prototype · delivery times and charges shown are illustrative.</footer>
+    <div class="placebar">
+      <button class="btn btn-go" id="cta-deliv-next">Continue</button>
+    </div>
+  </section>
+
+  <!-- ══════════ 6 · CART & CHECKOUT ══════════ -->
+  <section class="screen" id="s-cart">
+    <div class="searchtop" style="padding-bottom:12px">
+      <button class="back" id="cart-back" aria-label="Back">‹ Back</button>
+      <div style="color:#fff;font-size:17px;font-weight:900;letter-spacing:-.02em" id="cart-rest">Your order</div>
+    </div>
+
+    <div class="savestrip" id="savestrip"></div>
+
+    <div class="block">
+      <h4>Your order</h4>
+      <div id="cart-items"></div>
+    </div>
+
+    <div class="block" id="deliv-recap"></div>
+
+    <!-- THE OFFER CHOICE — four coupons, priced against this basket -->
+    <div class="block">
+      <h4>Offers you can use</h4>
+      <p class="small" style="margin:-6px 0 10px">Tap one to apply it. The amount shown is what it
+      takes off <b>this</b> bill.</p>
+      <div id="offer-opts"></div>
+    </div>
+
+    <!-- THE PRICING CHOICE — the bill opens underneath whichever one is selected -->
+    <div class="block">
+      <h4>Choose how you pay</h4>
+      <p class="small" style="margin:-6px 0 10px">Same food, same speed. Three ways Ownly could
+      charge for it. The full bill opens under whichever you pick.</p>
+      <div id="bill-opts"></div>
+    </div>
+
+    <footer class="fine">Research prototype · no payment is taken and no payment details are ever
+    requested. Nothing on this screen charges you anything.</footer>
+
+    <div class="placebar">
+      <button class="btn btn-go" id="cta-place">Place Order</button>
+    </div>
+  </section>
+
+  <!-- ══════════ 6 · THE HONEST STOP ══════════ -->
+  <section class="screen" id="s-stop">
+    <div class="stop">
+      <div style="font-size:40px;line-height:1;margin-bottom:12px" aria-hidden="true">✋</div>
+      <h2>We can't place this order.</h2>
+      <p>And we are not going to pretend we did.</p>
+      <p><b>Nothing was charged. No order exists. No restaurant was contacted.</b> You were never asked
+      for a card, a UPI ID or a phone number, and you never will be on this page.</p>
+      <p style="margin-bottom:0">This is a research prototype, and this screen is where a real app
+      would have shown you a confirmation. Here is what it actually is.</p>
+    </div>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="cta-stop-next">Tell me what this was</button>
+    </div>
+  </section>
+
+  <!-- ══════════ 7 · DISCLOSURE ══════════ -->
+  <section class="screen" id="s-disc">
+    <div class="disc" style="margin-top:16px">
+      <h2>This was a research prototype, not a live service.</h2>
+      <p>We're a student research team studying what people in Gachibowli want to eat, which places
+      they want it from, and how they want to be charged for it.</p>
+      <p><b>Ownly is a real app, but this page is not run by Ownly or Rapido, and they did not ask us
+      to build it.</b> The restaurants, menus, ratings, delivery times, prices and offers were all
+      illustrative. Nothing here means a restaurant is joining any app.</p>
+      <ul>
+        <li>We recorded what you searched for, what you added, which pricing and delivery options you
+        chose, and your answers to the quick questions.</li>
+        <li>We did <b>not</b> record your name, phone number, email, location or any payment detail —
+        we never asked for any of them.</li>
+      </ul>
+      <p class="small" style="margin-bottom:0">One last thing, and it is the most useful thing you can
+      give us.</p>
+    </div>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="cta-wish">Tell us which places you want here</button>
+      <button class="btn btn-ghost" id="cta-end">No thanks — finish</button>
+    </div>
+  </section>
+
+  <!-- ══════════ 8 · DEMAND LIST (post-disclosure, honest) ══════════ -->
+  <section class="screen" id="s-wish">
+    <div class="pad" style="padding-top:16px">
+      <h1>Which places do you actually order from?</h1>
+      <p>You already know this is research, so there is nothing to sell you. We are building a list of
+      the Gachibowli restaurants people want. <b>A name that isn't on our list is the most useful
+      thing you can add.</b></p>
+    </div>
+    <div class="picksearch">
+      <div class="sbox">
+        <span aria-hidden="true">🔍</span>
+        <label class="sr" for="pick-q">Search the list, or type a place that isn't on it</label>
+        <input id="pick-q" type="search" inputmode="search" autocomplete="off"
+               placeholder="Search or add a restaurant…">
+        <button class="clr" id="pick-clr" type="button" aria-label="Clear">✕</button>
+      </div>
+    </div>
+    <div class="custwrap" id="custchips"></div>
+    <div id="pickzones"></div>
+    <div class="emptyq" id="pick-empty" hidden></div>
+    <div style="padding:15px 16px 0">
+      <button class="btn btn-sec" id="cta-addown">＋ My place isn't listed — add it</button>
+    </div>
+    <div class="placebar">
+      <button class="btn btn-primary" id="cta-submit" disabled>Add to the Gachibowli list</button>
+      <button class="btn btn-ghost" id="cta-none">Skip this</button>
+    </div>
+  </section>
+
+  <!-- ══════════ 9 · END ══════════ -->
+  <section class="screen" id="s-end">
+    <div class="confirm" style="margin-top:17px">
+      <div class="big">Thank you — that's everything.</div>
+      <p class="small" style="margin:0;color:var(--brand-dk)">You can close this page now.</p>
+    </div>
+    <div class="btnrow" id="fu-row">
+      <button class="btn btn-sec" id="cta-followup">I'm happy to be asked a few follow-up questions</button>
+    </div>
+    <div class="pad" style="padding-top:18px">
+      <p class="small">If you want your answers removed, or want to know what we found, contact the
+      research team using the details on the recruitment sheet and quote this code:</p>
+      <div style="font-family:var(--mono);font-size:13px;background:var(--card);border:1px solid var(--line);
+        border-radius:12px;padding:13px" id="pid-out"></div>
+    </div>
+    <footer class="fine">Research prototype · not a live service · not affiliated with any delivery
+    company. No payment was taken, no payment details were requested, and no order was placed.</footer>
+  </section>
+</div>
+
+<button class="cartbar" id="cartbar" type="button">
+  <span class="l" id="cartbar-l">1 item</span>
+  <span class="r" id="cartbar-r">View cart ›</span>
+</button>
+
+<nav class="bnav" id="bnav" aria-label="App navigation">
+  <button type="button" class="on" data-nav="home"><span class="bi" aria-hidden="true">🍽</span>FOOD</button>
+  <button type="button" data-nav="search"><span class="bi" aria-hidden="true">🔍</span>SEARCH</button>
+  <button type="button" data-nav="cart"><span class="bi" aria-hidden="true">🛒</span>CART</button>
+  <button type="button" data-nav="account"><span class="bi" aria-hidden="true">👤</span>ACCOUNT</button>
+</nav>
+
+<div id="scrim"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="qtitle" aria-hidden="true">
+  <div class="grab" aria-hidden="true"></div>
+  <div class="qhead">
+    <span class="qkick" id="qkick">Quick question</span>
+    <h2 id="qtitle"></h2>
+    <p class="qhint" id="qhint"></p>
+  </div>
+  <div id="qbody"></div>
+  <div class="qskip"><button type="button" id="qskip">Skip this question</button></div>
+</div>
+
+<div id="qa">
+  <b>QA</b><span id="qa-info"></span>
+  <button type="button" id="qa-json">JSON</button>
+  <button type="button" id="qa-csv">CSV</button>
+  <button type="button" id="qa-clear">Clear</button>
+  <button type="button" id="qa-reset">Restart</button>
+</div>
+
+<script>
+(function () {
+"use strict";
+
+var CONFIG = {
+  EXPERIMENT_ID: "hyd_gach_fakedoor_2026_09",
+  PAGE_VERSION: "2026-09-23.v5",
+  ENDPOINT: "",
+  ARMS: ["discount", "restaurants"]
+};
+
+/* ══════════════════════════════════════════════════════════════
+   THE ARMS — a 2x2 grid, all four visible before any question
+   about them fires. `kind` drives which follow-up options appear:
+   asking "was it the food?" about "₹100 OFF" was v3's bug.
+   ══════════════════════════════════════════════════════════════ */
+var ARM = {
+  discount: {
+    offersTitle: "Offers for you",
+    offers: [
+      { id:"d_flat100", cls:"o1", kick:"First order", big:"₹100 OFF",    e:"🎉", kind:"money" },
+      { id:"d_60pc",    cls:"o4", kick:"Today only",  big:"60% OFF",     e:"🔥", kind:"money" },
+      { id:"d_free",    cls:"o2", kick:"Every order", big:"₹0 DELIVERY", e:"🛵", kind:"money" },
+      { id:"d_bogo",    cls:"o3", kick:"Weekend",     big:"BUY 1 GET 1", e:"🍿", kind:"money" }
+    ]
+  },
+  restaurants: {
+    offersTitle: "New in Gachibowli",
+    offers: [
+      { id:"r_regulars", cls:"o2", kick:"Your regulars", big:"NOW HERE",    e:"📍", kind:"place" },
+      { id:"r_biryani",  cls:"o1", kick:"Hyderabad",     big:"BIRYANI ST.", e:"🍛", kind:"place" },
+      { id:"r_tiffin",   cls:"o4", kick:"From 7 am",     big:"TIFFIN OPEN", e:"🥞", kind:"place" },
+      { id:"r_late",     cls:"o3", kick:"Late night",    big:"OPEN TILL 2", e:"🌙", kind:"place" }
+    ]
+  }
+};
+/* NOTE — removed in v5. v4 carried a "which of these did you see?" question with
+   a never-shown decoy as a false-recall control. That question only made sense
+   when the offers were a horizontally scrolling rail and most were off screen.
+   Once they became a 2x2 grid that everyone sees in full, the question measured
+   nothing, and the decoy had nothing to control for. Offer preference is now
+   tested at checkout, where an offer is worth actual money — see OFFERS below. */
+
+/* ══════════════════════════════════════════════════════════════
+   THE PRICING MODELS — the within-subject discrete choice.
+
+   Same basket, same restaurant, three ways of charging. Every
+   participant answers this, so unlike the between-arms contrast
+   it is not destroyed by n = 40.
+
+   A · MENU PRICE   the restaurant's own price, fees shown openly
+   B · ALL-IN       fees folded into a higher menu price
+   C · MEMBERSHIP   a monthly fee, then menu price and no fees
+
+   The ranking between them FLIPS depending on the delivery option
+   chosen, which is deliberate: it stops the choice being a proxy
+   for "pick the cheapest number on screen".
+   ══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   HOW YOU PAY — a transparency test that never says the word.
+
+   All three charge the SAME delivery fee for the speed already chosen.
+   v6 let two of them zero it out, which meant picking a payment model
+   retroactively changed a delivery decision the participant had
+   already made. Holding delivery constant is what keeps the three
+   behaviours independent.
+
+   What actually differs is how much of the bill you are allowed to
+   see, and what that costs:
+     A itemised, every line              — the most expensive
+     B one number, no breakdown          — CHEAPER, and shows nothing
+     C a monthly plan, lowest per order  — and a commitment
+
+   B being cheaper is the whole design. If people still choose A when
+   B costs less, seeing the lines is worth real money to them. If they
+   take B, the lower number wins and Service P's "the total you see is
+   the total you pay" is weaker than the survey suggested. Neither the
+   labels nor the copy hint at which way we expect it to go.
+   ══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   WHAT SHOULD OWNLY CHARGE FOR?
+
+   `[AUDIT]` Ownly charged ZERO on 8 of 8 Gachibowli captures — no
+   delivery, platform, packaging, small-cart or surge fee, only GST.
+   Fee load 5.2% of the bill against an incumbent median of 23.4%.
+   (Caveat on the record: those captures were made on a new account
+   carrying a ₹50 intro discount, so ₹0 is observed, not guaranteed.)
+   That position cannot hold. The open question is what people will
+   accept being charged for instead.
+
+   WHY NOT TEST BILL TRANSPARENCY HERE. A transparency test EXISTS and
+   was never fielded — 03_hyderabad_survey/bill_comparison_scenarios.md
+   designed `bill_s1`: two bills totalling an IDENTICAL ₹245, one
+   simple, one itemised. That is the correct shape for that question,
+   and v7's version got it wrong by making the opaque option ₹10
+   cheaper, which decides the choice before it is read. It belongs in
+   that instrument, at equal totals, not bolted onto a paid-options
+   list. Scoped out deliberately; not answered.
+
+   WHAT THE THREE OPTIONS TEST — none of it measured anywhere yet:
+
+     1 PER ORDER    will they accept ANY fee on an app charging none?
+                    ₹15 is Zomato's audited platform fee (₹14.99 on
+                    every one of 14 captures) — the market rate.
+     2 MONTHLY PLAN room for a THIRD subscription? `[GACH]` 82.5%
+                    (33/40) already hold Swiggy One and/or Zomato Gold,
+                    and that lock-in is the largest barrier measured in
+                    the study — a membership flips 1 of 4 audited
+                    baskets away from Ownly before any coupon.
+     3 PROTECTION   will they PAY for a refund guarantee? `[GACH]`
+                    Q26 "what would most make you try Ownly": a quick
+                    refund promise came 2nd (6 of 23), behind price (8)
+                    and at THREE TIMES a first-order discount (2).
+                    `[PUBLIC]` refund delay or denial appears in 43% of
+                    37 app reviews at mean severity 3.31, and support
+                    or refund failure is the single largest review
+                    family at 79%. Stated everywhere, never priced.
+
+   The protection price is RANDOMISED per participant, so its take-up
+   is a demand curve rather than one number — the same treatment the
+   delivery saving and the wallet amount get.
+
+   All three charge the same delivery fee and all three itemise in
+   full, so this cannot rewrite the delivery decision and nothing here
+   hides a margin.
+   ══════════════════════════════════════════════════════════════ */
+var PROTECT_PRICES = [9, 19, 29, 39];
+
+var BILLS = [
+  { id:"per_order", name:"Pay per order",
+    desc:"A ₹15 fee on each order. Nothing else added.",
+    pill:"", pillCls:"" },
+  { id:"membership", name:"Ownly Plus · ₹99 a month",
+    desc:"No per-order fee at all, however many times you order. Cancel any time.",
+    pill:"", pillCls:"new" },
+  { id:"protected", name:"Order Protection",
+    desc:"₹15 order fee + ₹14 cover. Late, cold or wrong — tap once and the full amount is back the same day. No photographs, no chat bot, no five-day wait.",
+    pill:"", pillCls:"eco" }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   THE OFFERS — moved from decoration to a priced choice.
+
+   WHAT THIS TESTS. The case study's central claim is that Ownly's
+   Bengaluru win was a RESTAURANT win, not a PRICE win. These four
+   are the same claim written as four coupons: the biggest number
+   today, the fee removal, the one that keeps working, and the one
+   worth nothing today but which unlocks a local place.
+
+   Each is priced live against the participant's own basket, so the
+   comparison is in rupees they can see, not in the abstract. The
+   fourth is deliberately worth ₹0 on this bill and says so — anyone
+   who picks it is telling us assortment beats cash in hand, which
+   is the single most useful thing they could tell us.
+
+   They are IDENTICAL in both arms. The arm changes what people saw
+   on the home screen; this measures what they do about it.
+   ══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   OFFERS — four promotional LOGICS, not four discounts.
+
+   THE LOOPHOLE THIS CLOSES. v6 carried a "free delivery" coupon while
+   delivery was a paid choice on the same screen. Anyone could take the
+   expensive fast option and then cancel its cost with the coupon — so
+   neither the delivery preference nor the offer preference meant
+   anything. Every coupon here discounts the FOOD ONLY. Delivery costs
+   the same whatever is applied, so the two decisions cannot cross.
+
+   The four test four different answers to "what makes someone stay":
+     cash now · a discount that lasts · a reason to try somewhere new ·
+     a reason to come back a fifth time.
+   `[GACH]` 87.5% expect a new app's prices to rise and only 25% say
+   they would stay once an intro offer ends, so the split between the
+   immediate one and the durable ones is the point of the exercise.
+   ══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   OFFERS — how steeply do they discount a reward that is not today?
+
+   WHAT WAS WRONG WITH v7. It offered "every 5th order free" and
+   "₹75 off your next 3 orders from a kitchen you haven't tried".
+   Both asked someone who has never used this app to bet on four or
+   five future orders, and then to REMEMBER they had done so. Neither
+   is a coupon a real app would run, and neither is tempting. Worse,
+   a ₹0-today reward from an unfamiliar brand loses to ₹100 in hand
+   every single time — so the result was fixed before anyone tapped.
+   Measuring which of four unappealing things is least bad is not
+   measuring preference.
+
+   WHAT THESE THREE DO INSTEAD. All three are offer types Indian
+   delivery apps actually run. All three are legible the moment you
+   read them. NONE requires the participant to remember anything or
+   to predict their own future behaviour:
+
+     1  cash now, certain
+     2  MORE cash, one order away, dropped into a wallet balance that
+        auto-applies — the mechanic Swiggy already uses as "Free Cash"
+     3  a recurring discount that applies itself for a month
+
+   The wallet amount is RANDOMISED per participant, so the point at
+   which deferred money beats ₹100 now is a curve rather than a guess.
+   That number is the retention question stated in rupees: if nothing
+   reasonable beats cash in hand, Ownly has to buy every single order
+   forever. `[GACH]` only 25% said they would stay once an intro offer
+   ended, and this is that finding priced.
+
+   Every coupon discounts FOOD only. None touches delivery.
+   ══════════════════════════════════════════════════════════════ */
+var WALLET_AMOUNTS = [120, 150, 200, 250];
+
+var OFFERS = [
+  { id:"flat100", name:"₹100 off this order",
+    desc:"Comes off the bill below, right now.", cls:"o1", e:"🎉" },
+  { id:"wallet", name:"₹150 in Ownly Money",
+    desc:"Lands in your balance the moment this order is placed. Applies itself to your next order — nothing to remember. Valid 30 days.",
+    cls:"o2", e:"👛" },
+  { id:"recur10", name:"10% off every order for 30 days",
+    desc:"Applies automatically to every order you place this month, this one included.",
+    cls:"o4", e:"🔁" }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   DELIVERY — including the one option only Ownly could build.
+
+   Rapido runs a bike-taxi fleet. A captain already riding toward
+   this area could carry the order at close to zero marginal cost.
+   Swiggy and Zomato structurally cannot do this. Nothing in the
+   survey, the interviews or the review mining has ever asked
+   whether anyone would actually choose it.
+   ══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   DELIVERY — the time-for-money question, measured as a curve.
+
+   A fixed menu gives you a CHOICE. It does not give you a willingness
+   to pay. v6 offered 42min/₹0, 25min/₹30 and 20min/₹55 — and the top
+   rung asked ₹25 for five minutes, which nobody weighs seriously, so
+   it was a dominated option that told us nothing.
+
+   v7 drops to TWO options and RANDOMISES the price of the fast one
+   across participants. Everyone faces the same 17-minute saving at a
+   different price, so the take-up rate at each price traces a demand
+   curve for time. That is a Gabor-Granger design, and it is the only
+   way a fixed-menu prototype yields a rate rather than a single point.
+
+   NOTHING IN THE PARTICIPANT-FACING COPY EXPLAINS ANY OF THIS.
+   ══════════════════════════════════════════════════════════════ */
+var RL_PRICES = [15, 25, 35, 49];
+
+var DELIVERY = [
+  { id:"standard", name:"Standard", mins:42, fee:0,
+    desc:"Assigned to a rider once the restaurant starts cooking.",
+    tradeoff:"Can wait longer at busy times.",
+    pill:"", pillCls:"" },
+  { id:"rapido_link", name:"Rapido Link", mins:25, fee:30,
+    desc:"A Rapido captain heading your way brings it with them.",
+    tradeoff:"They may drop a passenger first. Live tracking starts once they have your order.",
+    pill:"FASTER", pillCls:"new" }
+];
+
+/* Real Gachibowli names from our own price-audit frame and Ownly's Hyderabad
+   listing page. Ratings, times, distances, prices, menus and offers are
+   ILLUSTRATIVE and disclosed as such on every screen. */
+var RESTAURANTS = [
+  { n:"Paradise Biryani",       c:"Biryani · Hyderabadi",   e:"🍛", g:"#7c3b2c", r:4.3, rv:"32K+", t:38, d:"2.1 km", o:"Items at ₹99",  badge:"BEST IN BIRYANI", cu:"Biryani" },
+  { n:"Bawarchi",               c:"Biryani · Mughlai",      e:"🍗", g:"#8d5a17", r:4.1, rv:"18K+", t:41, d:"3.4 km", o:"50% OFF up to ₹100", badge:"", cu:"Biryani" },
+  { n:"Shah Ghouse",            c:"Biryani · Cafe",         e:"🥘", g:"#3b5b37", r:4.2, rv:"24K+", t:44, d:"4.0 km", o:"Free delivery", badge:"", cu:"Biryani" },
+  { n:"Mehfil",                 c:"Biryani · Andhra",       e:"🍚", g:"#6d4123", r:4.0, rv:"9K+",  t:36, d:"2.8 km", o:"20% OFF",       badge:"", cu:"Biryani" },
+  { n:"Cream Stone",            c:"Desserts · Ice cream",   e:"🍨", g:"#6d3d6d", r:4.5, rv:"12K+", t:29, d:"1.4 km", o:"Buy 1 Get 1",   badge:"BEST IN DESSERTS", cu:"Desserts" },
+  { n:"Karachi Bakery",         c:"Bakery · Snacks",        e:"🍪", g:"#8d6a17", r:4.4, rv:"7K+",  t:33, d:"2.6 km", o:"",              badge:"", cu:"Desserts" },
+  { n:"Bakelore",               c:"Bakery · Cakes",         e:"🎂", g:"#a3507a", r:4.2, rv:"3K+",  t:35, d:"3.0 km", o:"15% OFF",       badge:"", cu:"Desserts" },
+  { n:"Harley's Fine Baking",   c:"Bakery · Desserts",      e:"🧁", g:"#7c486d", r:4.6, rv:"5K+",  t:40, d:"3.6 km", o:"",              badge:"TOP RATED", cu:"Desserts" },
+  { n:"Murgan Tiffins",         c:"South Indian · Tiffins", e:"🥞", g:"#8d3844", r:4.3, rv:"11K+", t:31, d:"1.9 km", o:"Items at ₹49",  badge:"", cu:"South Indian" },
+  { n:"Vivaha Bhojanambu",      c:"Andhra · Meals",         e:"🍲", g:"#2d5560", r:4.1, rv:"6K+",  t:43, d:"3.8 km", o:"",              badge:"", cu:"South Indian" },
+  { n:"Aanimuthyalu Unlimited", c:"Andhra · Thali",         e:"🍱", g:"#486d2d", r:3.9, rv:"2K+",  t:46, d:"4.4 km", o:"10% OFF",       badge:"", cu:"South Indian" },
+  { n:"Punjabi Affair",         c:"North Indian · Curry",   e:"🍜", g:"#a35217", r:4.0, rv:"4K+",  t:42, d:"3.2 km", o:"",              badge:"", cu:"North Indian" },
+  { n:"Barbeque Nation",        c:"North Indian · Grill",   e:"🍢", g:"#7a3520", r:4.2, rv:"15K+", t:45, d:"4.1 km", o:"₹150 OFF",      badge:"", cu:"North Indian" },
+  { n:"100N",                   c:"Continental · Cafe",     e:"🥗", g:"#3d6b50", r:4.2, rv:"3K+",  t:37, d:"2.2 km", o:"Free dessert",  badge:"", cu:"Cafe" },
+  { n:"Roastery Coffee House",  c:"Cafe · Coffee",          e:"☕", g:"#5c4432", r:4.5, rv:"8K+",  t:34, d:"3.1 km", o:"",              badge:"TOP RATED", cu:"Cafe" },
+  { n:"Chai Point",             c:"Tea · Snacks",           e:"🫖", g:"#6b5230", r:4.1, rv:"5K+",  t:26, d:"1.2 km", o:"",              badge:"FASTEST", cu:"Cafe" },
+  { n:"Domino's",               c:"Pizza · Fast food",      e:"🍕", g:"#9e2e2e", r:4.1, rv:"41K+", t:28, d:"1.6 km", o:"Items at ₹39",  badge:"BEST IN PIZZA", cu:"Pizza" },
+  { n:"Pizza Hut",              c:"Pizza · Fast food",      e:"🍕", g:"#8d2e3d", r:3.9, rv:"22K+", t:32, d:"2.4 km", o:"",              badge:"", cu:"Pizza" },
+  { n:"KFC",                    c:"Fried chicken",          e:"🍗", g:"#8d382e", r:4.0, rv:"29K+", t:30, d:"2.0 km", o:"Bucket deal",   badge:"", cu:"Fast food" },
+  { n:"Wendy's Burgers",        c:"Burgers · Fast food",    e:"🍔", g:"#7c482d", r:3.8, rv:"4K+",  t:35, d:"2.9 km", o:"",              badge:"", cu:"Fast food" }
+];
+
+/* Illustrative menus by cuisine. Real dish names, invented prices — and the
+   prototype says so on the menu screen itself. */
+var MENUS = {
+  "Biryani":[
+    { n:"Chicken Dum Biryani", p:280, was:340, v:0, e:"🍛", best:1, d:"Boneless, slow-cooked, served with mirchi ka salan and raita" },
+    { n:"Mutton Biryani",      p:360, was:420, v:0, e:"🍖", best:1, d:"Hyderabadi kacchi style, cooked on dum" },
+    { n:"Veg Dum Biryani",     p:220, was:0,   v:1, e:"🍚", best:0, d:"Seasonal vegetables, saffron rice" },
+    { n:"Chicken 65",          p:210, was:250, v:0, e:"🍗", best:1, d:"Spicy fried chicken, curry-leaf tempering" },
+    { n:"Haleem",              p:240, was:0,   v:0, e:"🥣", best:0, d:"Slow-pounded wheat and mutton, seasonal" },
+    { n:"Double ka Meetha",    p:110, was:0,   v:1, e:"🍮", best:0, d:"Bread pudding with saffron and dry fruit" }
+  ],
+  "Desserts":[
+    { n:"Death by Chocolate",  p:190, was:230, v:1, e:"🍫", best:1, d:"Brownie, chocolate ice cream, hot fudge" },
+    { n:"Butterscotch Sundae", p:170, was:0,   v:1, e:"🍨", best:1, d:"Butterscotch crunch, whipped cream" },
+    { n:"Walnut Brownie",      p:150, was:180, v:1, e:"🍪", best:0, d:"Served warm" },
+    { n:"Osmania Biscuits",    p:120, was:0,   v:1, e:"🥠", best:0, d:"250g pack, Hyderabad classic" },
+    { n:"Fresh Cream Cake",    p:420, was:0,   v:1, e:"🎂", best:0, d:"Half kilo, choose the flavour at checkout" }
+  ],
+  "South Indian":[
+    { n:"Ghee Podi Idli",      p:110, was:0,   v:1, e:"🍚", best:1, d:"Four idlis tossed in ghee and gunpowder" },
+    { n:"Masala Dosa",         p:120, was:150, v:1, e:"🥞", best:1, d:"Crisp dosa, potato masala, two chutneys" },
+    { n:"Medu Vada",           p:90,  was:0,   v:1, e:"🍩", best:0, d:"Two pieces with sambar" },
+    { n:"Andhra Veg Meals",    p:180, was:0,   v:1, e:"🍱", best:1, d:"Unlimited rice, five curries, rasam, curd" },
+    { n:"Filter Coffee",       p:50,  was:0,   v:1, e:"☕", best:0, d:"Strong decoction, served in a tumbler" }
+  ],
+  "North Indian":[
+    { n:"Paneer Butter Masala",p:260, was:310, v:1, e:"🍛", best:1, d:"Rich tomato gravy, cream finish" },
+    { n:"Dal Makhani",         p:220, was:0,   v:1, e:"🥘", best:1, d:"Slow-cooked overnight" },
+    { n:"Butter Naan",         p:60,  was:0,   v:1, e:"🥖", best:0, d:"Tandoor-baked, brushed with butter" },
+    { n:"Chole Bhature",       p:180, was:210, v:1, e:"🫓", best:0, d:"Two bhature with chana masala" },
+    { n:"Gulab Jamun",         p:80,  was:0,   v:1, e:"🍡", best:0, d:"Two pieces, warm" }
+  ],
+  "Pizza":[
+    { n:"Margherita",          p:199, was:0,   v:1, e:"🍕", best:1, d:"Classic cheese and tomato, 7 inch" },
+    { n:"Farmhouse",           p:359, was:429, v:1, e:"🍕", best:1, d:"Onion, capsicum, mushroom, tomato" },
+    { n:"Chicken Pepperoni",   p:389, was:0,   v:0, e:"🍕", best:0, d:"Double pepperoni, extra cheese" },
+    { n:"Garlic Breadsticks",  p:129, was:159, v:1, e:"🥖", best:0, d:"Served with herb dip" },
+    { n:"Choco Lava Cake",     p:109, was:0,   v:1, e:"🍫", best:0, d:"Molten centre, serves one" }
+  ],
+  "Fast food":[
+    { n:"Zinger Burger",       p:189, was:229, v:0, e:"🍔", best:1, d:"Crispy fillet, lettuce, mayo" },
+    { n:"Chicken Bucket (6)",  p:499, was:599, v:0, e:"🍗", best:1, d:"Six pieces, hot and crispy" },
+    { n:"Veg Shawarma Roll",   p:149, was:0,   v:1, e:"🌯", best:0, d:"Garlic sauce, pickled onion" },
+    { n:"Peri Peri Fries",     p:99,  was:0,   v:1, e:"🍟", best:0, d:"Regular portion" },
+    { n:"Cold Coffee",         p:120, was:0,   v:1, e:"🥤", best:0, d:"Thick shake, no sugar option" }
+  ],
+  "Cafe":[
+    { n:"Cold Coffee",         p:180, was:0,   v:1, e:"🥤", best:1, d:"Double shot, served over ice" },
+    { n:"Cappuccino",          p:160, was:0,   v:1, e:"☕", best:0, d:"Single origin, Chikmagalur beans" },
+    { n:"Grilled Veg Sandwich",p:190, was:220, v:1, e:"🥪", best:1, d:"Sourdough, cheese, pesto" },
+    { n:"Caesar Salad",        p:240, was:0,   v:1, e:"🥗", best:0, d:"Romaine, parmesan, croutons" },
+    { n:"Masala Chai",         p:40,  was:0,   v:1, e:"🫖", best:0, d:"Cutting size" }
+  ]
+};
+
+var DISHES = [
+  { n:"Chicken biryani", e:"🍛", cu:"Biryani" },
+  { n:"Mutton biryani",  e:"🍖", cu:"Biryani" },
+  { n:"Veg biryani",     e:"🍚", cu:"Biryani" },
+  { n:"Haleem",          e:"🥣", cu:"Biryani" },
+  { n:"Kebab",           e:"🍢", cu:"Biryani" },
+  { n:"Shawarma",        e:"🌯", cu:"Fast food" },
+  { n:"Pizza",           e:"🍕", cu:"Pizza" },
+  { n:"Burger",          e:"🍔", cu:"Fast food" },
+  { n:"Fried chicken",   e:"🍗", cu:"Fast food" },
+  { n:"Dosa",            e:"🥞", cu:"South Indian" },
+  { n:"Idli",            e:"🍚", cu:"South Indian" },
+  { n:"Vada",            e:"🍩", cu:"South Indian" },
+  { n:"Andhra thali",    e:"🍱", cu:"South Indian" },
+  { n:"Paneer butter masala", e:"🍛", cu:"North Indian" },
+  { n:"Butter naan",     e:"🥖", cu:"North Indian" },
+  { n:"Chole bhature",   e:"🫓", cu:"North Indian" },
+  { n:"Ice cream",       e:"🍨", cu:"Desserts" },
+  { n:"Cake",            e:"🎂", cu:"Desserts" },
+  { n:"Brownie",         e:"🍪", cu:"Desserts" },
+  { n:"Milkshake",       e:"🥤", cu:"Desserts" },
+  { n:"Salad",           e:"🥗", cu:"Cafe" },
+  { n:"Coffee",          e:"☕", cu:"Cafe" },
+  { n:"Chai",            e:"🫖", cu:"Cafe" }
+];
+
+var CATS = [
+  { e:"🍛", n:"Biryani" }, { e:"🍕", n:"Pizza" }, { e:"🍨", n:"Desserts" },
+  { e:"🥞", n:"South Indian" }, { e:"🍜", n:"North Indian" },
+  { e:"🍔", n:"Fast food" }, { e:"☕", n:"Cafe" }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   THE QUESTION BANK — one question, one tap, fired at the moment
+   of the choice it is about, naming what was just chosen.
+   ══════════════════════════════════════════════════════════════ */
+var QBANK = {
+  /* THE OFFER QUESTION, MOVED.
+     v4 asked this the moment someone tapped an offer card on the home screen.
+     Two things were wrong with that. People do not tap offer cards — they read
+     them and move on, so the question almost never fired. And when it did, it
+     interrupted someone who was halfway through finding food to ask about a
+     banner, which is not a question they were in any position to care about.
+
+     It now fires at the cart, where four offers sit against a real basket with
+     their real rupee value on THIS bill, and applying one changes the total.
+     That is the only moment in the journey where an offer has a consequence,
+     so it is the only moment where a choice between offers means anything. */
+  why_offer: {
+    kick:"About the offer you applied", type:"list",
+    title:"Why that one?",
+    hint:"Whichever is closest.",
+    opts:[
+      { v:"now_certain",  e:"💰", l:"Money off now, no thinking about it" },
+      { v:"more_later",   e:"👛", l:"It is more money and I will be ordering again anyway" },
+      { v:"adds_up",      e:"🔁", l:"The 10% adds up across a month" },
+      { v:"wont_return",  e:"🤷", l:"I am not sure I would order here again" },
+      { v:"distrust_future", e:"🧐", l:"I don't trust that I would actually get the later one" }
+    ]
+  },
+  why_filter: {
+    kick:"About that filter", type:"list",
+    title:"You filtered by {sub}. What were you hoping to find?",
+    hint:"One tap.",
+    opts:[
+      { v:"cheapest",  e:"💰", l:"The cheapest option going" },
+      { v:"quickest",  e:"⚡", l:"Something that arrives quickly" },
+      { v:"trustable", e:"✅", l:"Somewhere I can trust the food" },
+      { v:"browsing",  e:"👀", l:"Nothing specific — just looking" }
+    ]
+  },
+  why_dish: {
+    kick:"About what you just picked", type:"list",
+    title:"Why {sub}, right now?",
+    hint:"There is no right answer.",
+    opts:[
+      { v:"craving",     e:"🤤", l:"I am craving it specifically" },
+      { v:"default",     e:"🔁", l:"It is my usual — I order it a lot" },
+      { v:"time_of_day", e:"🕐", l:"It is what I eat at this time of day" },
+      { v:"sharing",     e:"👥", l:"I would be ordering for more than one person" },
+      { v:"safe",        e:"🛡", l:"It is the safest thing to order — hard to get wrong" }
+    ]
+  },
+  why_rest: {
+    kick:"About the place you picked", type:"list",
+    title:"Why {sub} for that?",
+    hint:"Pick the closest one.",
+    opts:[
+      { v:"only_place", e:"🎯", l:"Only place that makes it the way I like" },
+      { v:"consistent", e:"✅", l:"It is consistent — it never disappoints" },
+      { v:"value",      e:"💰", l:"Best value for what you get" },
+      { v:"fastest",    e:"⚡", l:"It is the fastest or the nearest" },
+      { v:"habit",      e:"🔁", l:"Habit — it is just what I always pick" }
+    ]
+  },
+  app_gap: {
+    kick:"One more about {sub}", type:"list",
+    title:"Can you order {sub} on the app you use most today?",
+    hint:"Honestly — it is fine either way.",
+    opts:[
+      { v:"yes_easy",   e:"👍", l:"Yes, it is on there" },
+      { v:"yes_costly", e:"💸", l:"Yes, but it works out expensive there" },
+      { v:"no",         e:"🚫", l:"No — it is not on my app" },
+      { v:"dont_know",  e:"🤷", l:"I have never checked" }
+    ]
+  },
+  missing_action: {
+    kick:"This one matters to us", type:"list",
+    title:"“{sub}” is not on here. What would you actually do?",
+    hint:"What you would genuinely do — not what sounds reasonable.",
+    opts:[
+      { v:"other_place", e:"🔄", l:"Order the same thing from another place here" },
+      { v:"other_app",   e:"📱", l:"Go back to my usual app and order it there" },
+      { v:"other_food",  e:"🍽", l:"Order something completely different here" },
+      { v:"not_order",   e:"❌", l:"Not order at all right now" }
+    ]
+  },
+  /* fires the moment an item goes into the cart */
+  why_item: {
+    kick:"You just added it", type:"list",
+    title:"Why {sub} and not something else on that menu?",
+    hint:"One tap.",
+    opts:[
+      { v:"came_for_it", e:"🎯", l:"It is what I came here for" },
+      { v:"bestseller",  e:"⭐", l:"It was marked as a bestseller" },
+      { v:"price",       e:"💰", l:"The price or the discount on it" },
+      { v:"picture",     e:"📸", l:"It looked good" },
+      { v:"portion",     e:"🍽", l:"The portion looked right for me" }
+    ]
+  },
+  /* THE pricing question — every participant reaches it */
+  why_bill: {
+    kick:"About how you want to pay", type:"list",
+    title:"Why that one?",
+    hint:"Whichever is closest.",
+    opts:[
+      { v:"cheapest_now",  e:"💰", l:"It costs the least for this order" },
+      { v:"order_often",   e:"📉", l:"I order often enough that the plan pays off" },
+      { v:"no_third_sub",  e:"🚫", l:"I already pay for one or two apps — not a third" },
+      { v:"want_cover",    e:"🛡", l:"Orders go wrong often enough that I would want the cover" },
+      { v:"doubt_refund",  e:"🧐", l:"I do not believe the refund would actually happen" },
+      { v:"new_app",       e:"🤷", l:"It is a new app — I would not commit to anything yet" }
+    ]
+  },
+  /* THE delivery-innovation question */
+  why_delivery: {
+    kick:"About the delivery option", type:"list",
+    title:"Why {sub}?",
+    hint:"One tap.",
+    opts:[
+      { v:"speed",     e:"⚡", l:"It is the fastest" },
+      { v:"price",     e:"💰", l:"It is the cheapest" },
+      { v:"rider_idea",e:"🛵", l:"I liked that a rider was already heading this way" },
+      { v:"default",   e:"🤷", l:"It was already selected and I left it" },
+      { v:"green",     e:"🌱", l:"Fewer bikes on the road" }
+    ]
+  },
+  /* only fires for someone who actually chose Rapido Link */
+  rapido_link_trust: {
+    kick:"About Rapido Link", type:"list",
+    title:"What would worry you about a passing captain bringing your food?",
+    hint:"Honestly — this is the useful bit.",
+    opts:[
+      { v:"nothing",     e:"👍", l:"Nothing, it sounds fine" },
+      { v:"food_safety", e:"🍱", l:"Whether the food stays sealed and warm" },
+      { v:"detour",      e:"🗺", l:"The passenger they might drop off first" },
+      { v:"no_tracking", e:"📍", l:"Not being able to track it from the start" },
+      { v:"late_anyway", e:"⏱", l:"That it would end up late anyway" }
+    ]
+  },
+  miss_most: {
+    kick:"Last one about your list", type:"list",
+    title:"Of the places you picked, which would you miss most?",
+    hint:"If only one of them could be on the app, which would it have to be?"
+  },
+  meal_slot: {
+    kick:"Final question", type:"list",
+    title:"When do you usually order {sub}?",
+    hint:"The time you would most often want it.",
+    opts:[
+      { v:"breakfast",  e:"🌅", l:"Breakfast — before 10 am" },
+      { v:"lunch",      e:"🍽", l:"Lunch — during the working day" },
+      { v:"evening",    e:"🫖", l:"Evening snack" },
+      { v:"dinner",     e:"🌆", l:"Dinner" },
+      { v:"late_night", e:"🌙", l:"Late night — after 11 pm" }
+    ]
+  }
+};
+
+/* ══════════════════════ plumbing ══════════════════════ */
+function $(id){ return document.getElementById(id); }
+var STORAGE_OK = (function(){
+  try { var t="__p__"; localStorage.setItem(t,"1"); var ok=localStorage.getItem(t)==="1";
+        localStorage.removeItem(t); return ok; } catch(e){ return false; }
+})();
+function ls(k,v){ if(!STORAGE_OK) return null;
+  try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); }
+  catch(e){ STORAGE_OK=false; return null; } }
+function uuid(){
+  try{ var b=new Uint8Array(16); crypto.getRandomValues(b); b[6]=(b[6]&15)|64; b[8]=(b[8]&63)|128;
+    var h=Array.prototype.map.call(b,function(x){ return ("0"+x.toString(16)).slice(-2); }).join("");
+    return h.slice(0,8)+"-"+h.slice(8,12)+"-"+h.slice(12,16)+"-"+h.slice(16,20)+"-"+h.slice(20);
+  }catch(e){ return "fb-"+Date.now()+"-"+Math.floor(Math.random()*1e9); }
+}
+function qp(k){ try{ return new URLSearchParams(location.search).get(k); }catch(e){ return null; } }
+function esc(s){ return String(s==null?"":s).replace(/[<>&"]/g, function(c){
+  return { "<":"&lt;", ">":"&gt;", "&":"&amp;", '"':"&quot;" }[c]; }); }
+function scrubQ(v){
+  return String(v==null?"":v)
+    .replace(/[\w.+-]+@[\w-]+\.[\w.]+/g,"[removed]")
+    .replace(/(\+?\d[\d\s-]{8,}\d)/g,"[removed]")
+    .trim().slice(0,60);
+}
+function rupee(n){ return "₹" + Math.round(n); }
+
+/* Journey state. Declared HERE, above the first track() call, because the QA
+   panel reads the cart on every event — including the very first one. With
+   these declared further down, `var` hoisting left them undefined and the
+   opening experiment_view threw before anything rendered. */
+var curRest=null, cart=[], wish=[];
+var billId="per_order", delId="standard", offerId="", billTouched=false, delTouched=false;
+
+var SEARCH = { dish_query:"", dish_selected:"", rest_query:"", rest_selected:"",
+               pick_query:"", dish_typed:false, rest_typed:false, pick_typed:false,
+               dish_from_list:false, rest_from_list:false };
+
+var visitorId = ls("fd_visitor_id"); if(!visitorId){ visitorId=uuid(); ls("fd_visitor_id",visitorId); }
+var sessionId = uuid();
+var forced = qp("variant");
+var isQA = !!forced || qp("qa")==="1";
+var variant = (forced && ARM[forced]) ? forced : null;
+if(!variant){
+  variant = ls("fd_variant");
+  if(!variant || !ARM[variant]){
+    var rr=new Uint32Array(1);
+    try{ crypto.getRandomValues(rr); }catch(e){ rr[0]=Math.floor(Math.random()*4294967295); }
+    variant = CONFIG.ARMS[rr[0] % CONFIG.ARMS.length];
+    ls("fd_variant", variant);
+  }
+}
+/* Each participant meets the same 17-minute saving at ONE randomly assigned
+   price. Persisted, so a reload does not re-roll it and hand them a better deal. */
+var rlPrice = parseInt(ls("fd_rlprice")||"", 10);
+if(!(rlPrice>0)){
+  var rp=new Uint32Array(1);
+  try{ crypto.getRandomValues(rp); }catch(e){ rp[0]=Math.floor(Math.random()*4294967295); }
+  rlPrice = RL_PRICES[rp[0] % RL_PRICES.length];
+  ls("fd_rlprice", String(rlPrice));
+}
+var forcedPrice = parseInt(qp("rl")||"", 10);
+if(forcedPrice>0) rlPrice=forcedPrice;
+DELIVERY[1].fee = rlPrice;
+
+/* The deferred reward is randomised too. ₹100 now is the fixed comparator, so
+   the amount at which the wallet starts winning IS the discount rate. */
+var walletAmt = parseInt(ls("fd_wallet")||"", 10);
+if(!(walletAmt>0)){
+  var wp=new Uint32Array(1);
+  try{ crypto.getRandomValues(wp); }catch(e){ wp[0]=Math.floor(Math.random()*4294967295); }
+  walletAmt = WALLET_AMOUNTS[wp[0] % WALLET_AMOUNTS.length];
+  ls("fd_wallet", String(walletAmt));
+}
+var forcedWallet = parseInt(qp("w")||"", 10);
+if(forcedWallet>0) walletAmt=forcedWallet;
+
+/* The refund guarantee is the #2 stated reason people would try Ownly and has
+   never been priced. Randomising it turns take-up into a willingness-to-pay
+   curve for reliability cover. */
+var protectPrice = parseInt(ls("fd_protect")||"", 10);
+if(!(protectPrice>0)){
+  var pp=new Uint32Array(1);
+  try{ crypto.getRandomValues(pp); }catch(e){ pp[0]=Math.floor(Math.random()*4294967295); }
+  protectPrice = PROTECT_PRICES[pp[0] % PROTECT_PRICES.length];
+  ls("fd_protect", String(protectPrice));
+}
+var forcedProtect = parseInt(qp("p")||"", 10);
+if(forcedProtect>0) protectPrice=forcedProtect;
+BILLS[2].desc = "\u20b915 order fee + \u20b9"+protectPrice+" cover. Late, cold or wrong \u2014 "+
+  "tap once and the full amount is back the same day. No photographs, no chat bot, "+
+  "no five-day wait.";
+OFFERS[1].name = "\u20b9"+walletAmt+" in Ownly Money";
+
+var source = qp("source") || "direct";
+var ua = navigator.userAgent || "";
+var deviceType = /iPad|Tablet/i.test(ua) ? "tablet" : /Mobi|Android|iPhone/i.test(ua) ? "mobile" : "desktop";
+var botSuspect = !!navigator.webdriver || /bot|crawl|spider|headless|lighthouse/i.test(ua);
+
+var LOGKEY="fd_events", t0=Date.now(), tPrev=t0, MEM=[], furthest="home";
+function storedLog(){ try{ return JSON.parse(ls(LOGKEY)||"[]"); }catch(e){ return []; } }
+function readLog(){
+  if(!STORAGE_OK) return MEM.slice();
+  var st=storedLog(), seen={}; st.forEach(function(e){ seen[e.event_id]=true; });
+  return st.concat(MEM.filter(function(e){ return !seen[e.event_id]; }));
+}
+function track(name,payload){
+  var now=Date.now();
+  var ev={ event_id:uuid(), experiment_id:CONFIG.EXPERIMENT_ID, page_version:CONFIG.PAGE_VERSION,
+    variant_id:variant, variant_key:variant, source:source, anon_visitor_id:visitorId,
+    anon_session_id:sessionId, event_name:name, ts_iso:new Date().toISOString(),
+    time_since_load_ms:now-t0, time_since_prev_ms:now-tPrev, device_type:deviceType,
+    viewport_w:window.innerWidth, is_qa:isQA, is_bot_suspect:botSuspect, payload:payload||{} };
+  tPrev=now; MEM.push(ev);
+  if(STORAGE_OK){ var lg=storedLog(); lg.push(ev);
+    try{ ls(LOGKEY,JSON.stringify(lg)); }catch(e){ STORAGE_OK=false; } }
+  try{ console.log("[fd]",name,ev); }catch(e){}
+  if(CONFIG.ENDPOINT){
+    var body=JSON.stringify(ev);
+    try{
+      if(navigator.sendBeacon) navigator.sendBeacon(CONFIG.ENDPOINT,new Blob([body],{type:"text/plain;charset=utf-8"}));
+      else fetch(CONFIG.ENDPOINT,{ method:"POST", mode:"no-cors", keepalive:true,
+        headers:{"Content-Type":"text/plain;charset=utf-8"}, body:body });
+    }catch(e){}
+  }
+  updateQA();
+}
+
+var firstTapDone=false, entryMode="";
+function firstTap(kind, detail){
+  if(firstTapDone) return; firstTapDone=true;
+  entryMode=kind;
+  track("first_meaningful_tap",{ tap_kind:kind, detail:detail, ms_to_first_tap:Date.now()-t0 });
+}
+
+/* ══════════════════════ micro-question engine ══════════════════════ */
+var qQueue=[], qBusy=false, qAfter=null, qCur=null, qShownAt=0, qAsked={};
+function ask(ids, after){
+  var list=[].concat(ids).filter(function(x){
+    var id=(typeof x==="string")?x:x.id;
+    var key=(typeof x==="object" && x.once===false) ? id+"|"+(x.sub||"") : id;
+    if(qAsked[key]) return false;
+    qAsked[key]=true; return true;
+  });
+  if(after) qAfter=after;
+  if(!list.length){ if(!qBusy) drain(); return; }
+  qQueue=qQueue.concat(list);
+  if(!qBusy) pump();
+}
+function drain(){ qBusy=false; closeSheet(); var f=qAfter; qAfter=null; if(f) f(); }
+function pump(){ if(!qQueue.length) return drain(); qBusy=true; renderSheet(qQueue.shift()); }
+function closeSheet(){
+  $("sheet").classList.remove("on"); $("scrim").classList.remove("on");
+  $("sheet").setAttribute("aria-hidden","true");
+}
+function renderSheet(spec){
+  var id=(typeof spec==="string")?spec:spec.id;
+  var def=QBANK[id];
+  var sub=(typeof spec==="object" && spec.sub)?spec.sub:"";
+  var opts=(typeof spec==="object" && spec.opts)?spec.opts:def.opts;
+  qCur={ id:id, sub:sub, ctx:(typeof spec==="object" && spec.ctx)?spec.ctx:"" };
+
+  $("qkick").textContent = def.kick.replace("{sub}", sub);
+  $("qtitle").textContent= def.title.replace("{sub}", sub);
+  $("qhint").textContent = def.hint || "";
+
+  if(def.type==="tiles"){
+    $("qbody").innerHTML='<div class="qtiles">'+opts.map(function(o){
+      return '<button type="button" class="qtile '+o.cls+'" data-v="'+esc(o.id)+'">'+
+        '<span class="kick">'+esc(o.kick)+'</span><span class="big">'+esc(o.big)+'</span>'+
+        '<span class="emoji" aria-hidden="true">'+o.e+'</span></button>'; }).join("")+
+      '<button type="button" class="qnone" data-v="none">I did not notice any of these</button></div>';
+  } else {
+    $("qbody").innerHTML='<div class="qopts">'+opts.map(function(o){
+      return '<button type="button" class="qopt" data-v="'+esc(o.v)+'">'+
+        '<span class="qe" aria-hidden="true">'+(o.e||"")+'</span><span>'+esc(o.l)+'</span></button>'; }).join("")+'</div>';
+  }
+  $("sheet").setAttribute("aria-hidden","false");
+  $("scrim").classList.add("on"); $("sheet").classList.add("on");
+  $("sheet").scrollTop=0; qShownAt=Date.now();
+  track("micro_shown",{ q_id:id, subject:sub, screen:furthest });
+  setTimeout(function(){ var b=$("qbody").querySelector("button");
+    if(b){ try{ b.focus({preventScroll:true}); }catch(e){} } },260);
+}
+function answer(v){
+  if(!qCur) return;
+  track("micro_answer",{ q_id:qCur.id, answer:v, subject:qCur.sub, screen:furthest,
+    detail:qCur.ctx, ms_to_answer:Date.now()-qShownAt });
+  qCur=null; $("live").textContent="Answer recorded."; pump();
+}
+$("qbody").addEventListener("click", function(e){
+  var b=e.target.closest("[data-v]"); if(!b) return; answer(b.getAttribute("data-v"));
+});
+$("qskip").addEventListener("click", function(){ answer("skipped"); });
+document.addEventListener("keydown", function(e){ if(e.key==="Escape" && qCur) answer("skipped"); });
+
+/* ══════════════════════ render home ══════════════════════ */
+var A = ARM[variant] || ARM.discount;
+$("offers-h").textContent = A.offersTitle;
+
+$("offers").innerHTML = A.offers.map(function(o,i){
+  return '<button type="button" class="offer '+o.cls+'" data-offer="'+esc(o.big)+'" '+
+    'data-oid="'+esc(o.id)+'" data-kind="'+esc(o.kind)+'" data-idx="'+i+'">'+
+    '<span class="kick">'+esc(o.kick)+'</span><span class="big">'+esc(o.big)+'</span>'+
+    '<span class="emoji" aria-hidden="true">'+o.e+'</span></button>';
+}).join("");
+
+$("cats").innerHTML = CATS.map(function(c){
+  return '<button type="button" class="cat" data-cat="'+esc(c.n)+'">'+
+    '<span class="circ" aria-hidden="true">'+c.e+'</span>'+
+    '<span class="lbl">'+esc(c.n)+'</span></button>';
+}).join("");
+
+/* The delivery time is a white BOX in the bottom-right of the image — the
+   shape a Swiggy or Zomato user already reads without thinking. */
+function feedCard(r){
+  return '<button type="button" class="rcard" data-rest="'+esc(r.n)+'">'+
+    '<span class="rhero" style="background:'+r.g+'">'+
+      '<span aria-hidden="true">'+r.e+'</span>'+
+      (r.badge?'<span class="rbadge">'+esc(r.badge)+'</span>':'')+
+      (r.o?'<span class="roff"><span class="pct" aria-hidden="true">%</span>'+esc(r.o)+'</span>':'')+
+      '<span class="reta">'+r.t+' MINS</span>'+
+    '</span>'+
+    '<span class="rname">'+esc(r.n)+'</span>'+
+    '<span class="rmeta"><span class="star" aria-hidden="true">★</span>'+r.r+
+      ' ('+esc(r.rv)+') · Gachibowli · '+esc(r.d)+'</span>'+
+    '<span class="rcuis">'+esc(r.c)+'</span>'+
+  '</button>';
+}
+
+var curFilter="all", curCat="";
+function feedList(){
+  var out = RESTAURANTS.slice();
+  if(curCat) out = out.filter(function(r){ return r.cu===curCat; });
+  if(curFilter==="offers") out = out.filter(function(r){ return !!r.o; });
+  if(curFilter==="fast")   out = out.filter(function(r){ return r.t<=35; });
+  if(curFilter==="rated")  out = out.filter(function(r){ return r.r>=4.2; });
+  return out;
+}
+function renderFeed(){
+  var list=feedList();
+  $("feed").innerHTML = list.length
+    ? list.map(feedCard).join("")
+    : '<div class="emptyq">Nothing matches that here.</div>';
+  $("feed-h").textContent = curCat ? curCat+" near you" : "Top restaurants to explore";
+  $("feed-sub").textContent = list.length+" place"+(list.length===1?"":"s")+
+    (curFilter==="all" ? " delivering to Gachibowli" : " match this filter");
+}
+renderFeed();
+
+var cuisines=[]; RESTAURANTS.forEach(function(r){ if(cuisines.indexOf(r.cu)<0) cuisines.push(r.cu); });
+
+var PH=['Search "biryani"','Search "Paradise"','Search "dosa"','Search "ice cream"','Search "shawarma"'];
+var phi=0;
+setInterval(function(){ phi=(phi+1)%PH.length; var el=$("searchph"); if(el) el.textContent=PH[phi]; },2600);
+
+track("experiment_view",{ entry_screen:"home", storage_ok:STORAGE_OK });
+track("landing_page_view",{ variant_key:variant, source:source, n_offers:A.offers.length });
+
+if(!STORAGE_OK){
+  var w=document.createElement("div"); w.setAttribute("role","alert");
+  w.style.cssText="position:sticky;top:0;z-index:85;background:#7c1f1f;color:#fff;font-size:12px;"+
+    "font-weight:800;text-align:center;padding:8px 12px";
+  w.textContent="FACILITATOR: storage blocked — download the log before closing this tab.";
+  document.body.insertBefore(w, document.body.firstChild);
+}
+
+/* ══════════════════════ home interactions ══════════════════════ */
+/* Tapping an offer does what a real delivery app does — it filters the feed to
+   places with offers. No question fires here. The card is the ARM MANIPULATION,
+   not a measurement hook: its effect is read downstream, from which coupon they
+   apply at checkout and how they navigate, not from interrupting them here. */
+$("offers").addEventListener("click", function(e){
+  var b=e.target.closest("[data-offer]"); if(!b) return;
+  firstTap("offer", b.getAttribute("data-oid"));
+  track("offer_card_click",{ offer:b.getAttribute("data-oid"),
+    detail:b.getAttribute("data-offer"), position:+b.getAttribute("data-idx") });
+  curFilter="offers"; renderFeed();
+  Array.prototype.forEach.call($("ftabs").children,function(c){
+    c.classList.remove("on"); c.setAttribute("aria-selected","false"); });
+  var tab=$("ftabs").querySelector('[data-filter="offers"]');
+  tab.classList.add("on"); tab.setAttribute("aria-selected","true");
+  $("live").textContent="Showing places with offers.";
+  try{ $("feed").scrollIntoView({behavior:"smooth",block:"start"}); }catch(err){}
+});
+
+/* The filter tabs work. Which one someone reaches for is a demand signal in
+   its own right: price, speed, or trust. */
+$("ftabs").addEventListener("click", function(e){
+  var b=e.target.closest("[data-filter]"); if(!b) return;
+  var f=b.getAttribute("data-filter");
+  firstTap("filter", f);
+  Array.prototype.forEach.call($("ftabs").children,function(c){
+    c.classList.remove("on"); c.setAttribute("aria-selected","false"); });
+  b.classList.add("on"); b.setAttribute("aria-selected","true");
+  curFilter=f; renderFeed();
+  track("filter_tab_click",{ detail:f, category:curCat });
+  if(f!=="all") ask([{ id:"why_filter", sub:b.textContent.toLowerCase() }]);
+});
+$("cats").addEventListener("click", function(e){
+  var b=e.target.closest("[data-cat]"); if(!b) return;
+  var cat=b.getAttribute("data-cat");
+  firstTap("category", cat);
+  var already=b.classList.contains("sel");
+  Array.prototype.forEach.call($("cats").children,function(c){ c.classList.remove("sel"); });
+  if(!already){ b.classList.add("sel"); curCat=cat; } else { curCat=""; }
+  renderFeed();
+  track("category_chip_click",{ category:curCat||"cleared" });
+});
+
+$("feed").addEventListener("click", function(e){
+  var b=e.target.closest("[data-rest]"); if(!b) return;
+  var nm=b.getAttribute("data-rest");
+  firstTap("restaurant", nm);
+  track("restaurant_card_click",{ restaurant_name:nm });
+  SEARCH.rest_selected=nm; SEARCH.rest_from_list=true;
+  /* place-first: ask about the place, then go straight to its menu */
+  ask([{ id:"why_rest", sub:nm, ctx:"" }, { id:"app_gap", sub:nm }],
+      function(){ goMenu(nm); });
+});
+
+$("fakesearch").addEventListener("click", function(){
+  firstTap("search",""); track("search_tap",{}); goDish("");
+});
+$("bnav").addEventListener("click", function(e){
+  var b=e.target.closest("[data-nav]"); if(!b) return;
+  var nav=b.getAttribute("data-nav");
+  track("bottom_nav_click",{ detail:nav });
+  if(nav==="search"){ firstTap("search","bottom_nav"); goDish(""); }
+  else if(nav==="cart" && cart.length){ goDeliv(); }
+  else if(nav==="home"){ show("s-home"); }
+  else { $("live").textContent="Not available in this prototype."; }
+});
+
+/* ══════════════════════ 2 · DISH SEARCH ══════════════════════ */
+var dishFor="";
+function goDish(restName){
+  dishFor=restName||"";
+  show("s-dish"); $("dish-q").value=""; renderDish("");
+  track("dish_search_view",{ detail:dishFor||"", tap_kind:entryMode });
+  setTimeout(function(){ try{ $("dish-q").focus(); }catch(e){} },120);
+}
+function dishRows(q){
+  var ql=q.trim().toLowerCase();
+  return ql ? DISHES.filter(function(d){ return d.n.toLowerCase().indexOf(ql)>=0; }) : [];
+}
+function renderDish(q){
+  var rows=dishRows(q), ql=q.trim();
+  $("dish-sugg-h").textContent = ql ? "Matching dishes"
+    : (dishFor ? "What would you order from "+dishFor+"?" : "Popular in Gachibowli right now");
+  $("dish-chips").hidden=!!ql;
+  $("dish-results").innerHTML=rows.map(function(d){
+    return '<li><button type="button" class="srow" data-dish="'+esc(d.n)+'" data-known="1">'+
+      '<span class="se" aria-hidden="true">'+d.e+'</span>'+
+      '<span><span class="sn">'+esc(d.n)+'</span><br>'+
+      '<span class="sm">'+esc(d.cu)+'</span></span></button></li>'; }).join("");
+  var none = ql && rows.length===0;
+  $("dish-empty").hidden=!none;
+  if(none){
+    $("dish-empty").innerHTML='Nothing in our list matches “'+esc(ql)+'” — '+
+      'which is useful to know on its own.<div style="margin-top:12px">'+
+      '<button type="button" class="btn btn-primary" data-dish="'+esc(ql)+'" data-known="0">'+
+      'Find places for “'+esc(ql)+'”</button></div>';
+  }
+}
+$("dish-chips").innerHTML=DISHES.slice(0,12).map(function(d){
+  return '<button type="button" class="dchip" data-dish="'+esc(d.n)+'" data-known="1">'+
+    '<span aria-hidden="true">'+d.e+'</span>'+esc(d.n)+'</button>'; }).join("");
+renderDish("");
+
+$("dish-q").addEventListener("input", function(){
+  if(!SEARCH.dish_typed && this.value.length>0){
+    SEARCH.dish_typed=true; track("dish_search_started",{ ms_to_start:Date.now()-t0 });
+  }
+  SEARCH.dish_query=scrubQ(this.value); renderDish(this.value);
+});
+$("dish-clr").addEventListener("click", function(){
+  $("dish-q").value=""; SEARCH.dish_query=""; renderDish(""); $("dish-q").focus(); });
+$("dish-back").addEventListener("click", function(){ show("s-home"); });
+
+["dish-chips","dish-results","dish-empty"].forEach(function(id){
+  $(id).addEventListener("click", function(e){
+    var b=e.target.closest("[data-dish]"); if(!b) return;
+    var nm=b.getAttribute("data-dish");
+    firstTap("dish", nm);
+    SEARCH.dish_selected=scrubQ(nm);
+    SEARCH.dish_from_list=b.getAttribute("data-known")==="1";
+    track("dish_selected",{ dish:SEARCH.dish_selected, query:SEARCH.dish_query,
+      from_list:SEARCH.dish_from_list, typed:SEARCH.dish_typed, detail:dishFor });
+    if(dishFor){
+      ask([{ id:"why_dish", sub:SEARCH.dish_selected }], function(){ goMenu(dishFor); });
+    } else {
+      ask([{ id:"why_dish", sub:SEARCH.dish_selected }], goList);
+    }
+  });
+});
+
+/* ══════════════════════ 3 · PLACES FOR THAT DISH ══════════════════════ */
+function restRows(q){
+  var ql=q.trim().toLowerCase();
+  if(ql) return RESTAURANTS.filter(function(r){ return r.n.toLowerCase().indexOf(ql)>=0; });
+  var d=DISHES.filter(function(x){ return x.n===SEARCH.dish_selected; })[0];
+  return d ? RESTAURANTS.filter(function(r){ return r.cu===d.cu; }) : RESTAURANTS.slice(0,8);
+}
+function renderList(q){
+  var rows=restRows(q), ql=q.trim();
+  $("rs-h").innerHTML = ql ? "Matching places"
+    : (SEARCH.dish_selected
+        ? 'Places for <span class="dishpill">'+esc(SEARCH.dish_selected)+'</span>'
+        : "Places near you");
+  $("rs-results").innerHTML=rows.map(function(r){
+    return feedCard(r).replace('data-rest=','data-rs=');
+  }).join("");
+  var none = ql && rows.length===0;
+  $("rs-empty").hidden=!none;
+  if(none){
+    $("rs-empty").innerHTML='We do not have “'+esc(ql)+'” here.'+
+      '<div style="margin-top:12px"><button type="button" class="btn btn-primary" '+
+      'data-rs="'+esc(ql)+'" data-known="0">Ask for “'+esc(ql)+'” in Gachibowli</button></div>';
+  }
+}
+function goList(){
+  show("s-list"); $("rs-q").value=""; renderList("");
+  track("restaurant_search_view",{ dish:SEARCH.dish_selected });
+}
+$("rs-q").addEventListener("input", function(){
+  if(!SEARCH.rest_typed && this.value.length>0){
+    SEARCH.rest_typed=true;
+    track("restaurant_search_started",{ dish:SEARCH.dish_selected, ms_to_start:Date.now()-t0 });
+  }
+  SEARCH.rest_query=scrubQ(this.value); renderList(this.value);
+});
+$("rs-clr").addEventListener("click", function(){
+  $("rs-q").value=""; SEARCH.rest_query=""; renderList(""); $("rs-q").focus(); });
+$("rs-back").addEventListener("click", function(){ show("s-dish"); });
+
+["rs-results","rs-empty"].forEach(function(id){
+  $(id).addEventListener("click", function(e){
+    var b=e.target.closest("[data-rs]"); if(!b) return;
+    var nm=b.getAttribute("data-rs");
+    var known = RESTAURANTS.some(function(r){ return r.n===nm; });
+    SEARCH.rest_selected=scrubQ(nm); SEARCH.rest_from_list=known;
+    track("restaurant_search_selected",{ restaurant_name:SEARCH.rest_selected,
+      query:SEARCH.rest_query, dish:SEARCH.dish_selected, from_list:known, typed:SEARCH.rest_typed });
+    if(known){
+      ask([{ id:"why_rest", sub:nm, ctx:SEARCH.dish_selected }, { id:"app_gap", sub:nm }],
+          function(){ goMenu(nm); });
+    } else {
+      track("restaurant_added_custom",{ restaurant_name:SEARCH.rest_selected, from_list:false,
+        source_screen:"restaurant_search", dish:SEARCH.dish_selected });
+      var want=SEARCH.rest_selected;
+      wish.indexOf(want)<0 && wish.push(want);
+      ask([{ id:"missing_action", sub:want, ctx:SEARCH.dish_selected },
+           { id:"why_rest", sub:want, ctx:SEARCH.dish_selected }], goList);
+    }
+  });
+});
+
+/* ══════════════════════ 4 · RESTAURANT MENU ══════════════════════ */
+function menuFor(r){ return MENUS[r.cu] || MENUS["Biryani"]; }
+function goMenu(name){
+  curRest = RESTAURANTS.filter(function(r){ return r.n===name; })[0] || RESTAURANTS[0];
+  $("menu-name").textContent=curRest.n;
+  $("menu-sub").textContent=curRest.t+" mins · Gachibowli · "+curRest.d;
+  $("menu-rate").textContent=curRest.r;
+  $("menu-offer").textContent=curRest.o || "Extra ₹20 off";
+  renderMenu(); show("s-menu");
+  track("menu_view",{ restaurant_name:curRest.n, dish:SEARCH.dish_selected });
+}
+function qtyOf(name){
+  var it=cart.filter(function(c){ return c.n===name; })[0]; return it?it.q:0;
+}
+function renderMenu(){
+  var items=menuFor(curRest);
+  $("menu-items").innerHTML=items.map(function(m,i){
+    var q=qtyOf(m.n);
+    return '<div class="mitem">'+
+      '<div class="mleft">'+
+        '<span class="vdot'+(m.v?'':' nv')+'" aria-label="'+(m.v?'Vegetarian':'Non-vegetarian')+'"><i></i></span>'+
+        (m.best?'<div class="mbest">★ Bestseller</div>':'')+
+        '<div class="mname">'+esc(m.n)+'</div>'+
+        '<div class="mprice">'+(m.was?'<s>'+rupee(m.was)+'</s>':'')+rupee(m.p)+'</div>'+
+        '<div class="mdesc">'+esc(m.d)+'</div>'+
+      '</div>'+
+      '<div class="mright">'+
+        '<div class="mimg" style="background:'+curRest.g+'22" aria-hidden="true">'+m.e+'</div>'+
+        (q>0
+          ? '<span class="stepper addbtn" style="padding:0;border:1px solid var(--line2)">'+
+              '<button type="button" data-dec="'+esc(m.n)+'" aria-label="Remove one">−</button>'+
+              '<b>'+q+'</b>'+
+              '<button type="button" data-inc="'+esc(m.n)+'" aria-label="Add one">+</button></span>'
+          : '<button type="button" class="addbtn" data-add="'+esc(m.n)+'">ADD</button>')+
+      '</div></div>';
+  }).join("");
+}
+$("menu-back").addEventListener("click", function(){
+  show(SEARCH.dish_selected && !dishFor ? "s-list" : "s-home"); });
+
+$("menu-items").addEventListener("click", function(e){
+  var add=e.target.closest("[data-add]"), inc=e.target.closest("[data-inc]"),
+      dec=e.target.closest("[data-dec]");
+  if(add){
+    var nm=add.getAttribute("data-add");
+    var m=menuFor(curRest).filter(function(x){ return x.n===nm; })[0];
+    cart.push({ n:nm, p:m.p, was:m.was, q:1, e:m.e, best:m.best });
+    track("item_added",{ item_name:nm, item_price:m.p, restaurant_name:curRest.n,
+      dish:SEARCH.dish_selected, detail:m.best?"bestseller":"" });
+    renderMenu(); renderCartBar();
+    ask([{ id:"why_item", sub:nm, ctx:curRest.n }]);
+    return;
+  }
+  if(inc||dec){
+    var name=(inc||dec).getAttribute(inc?"data-inc":"data-dec");
+    var it=cart.filter(function(c){ return c.n===name; })[0];
+    if(!it) return;
+    it.q += inc?1:-1;
+    if(it.q<=0) cart=cart.filter(function(c){ return c.n!==name; });
+    track("item_qty_changed",{ item_name:name, n_selected:it.q>0?it.q:0,
+      detail: inc?"increase":"decrease" });
+    renderMenu(); renderCartBar();
+  }
+});
+
+function cartCount(){ return cart.reduce(function(a,c){ return a+c.q; },0); }
+function cartSubtotal(){ return cart.reduce(function(a,c){ return a+c.p*c.q; },0); }
+function renderCartBar(){
+  var n=cartCount();
+  $("cartbar").classList.toggle("on", n>0 && furthest==="menu");
+  $("cartbar-l").textContent = n+" item"+(n===1?"":"s")+" · "+rupee(cartSubtotal());
+  $("cartbar-r").textContent = "View cart ›";
+}
+$("cartbar").addEventListener("click", goDeliv);
+
+/* ══════════════════════ 5 · CART & CHECKOUT ══════════════════════
+   The two choices here are the ones nothing else in the project has
+   ever put in front of anyone: how they want to be charged, and
+   whether a Rapido captain already on the road is acceptable. */
+function priceOf(billId_, delId_, offerId_){
+  var S=cartSubtotal();
+  var del=DELIVERY.filter(function(d){ return d.id===delId_; })[0]||DELIVERY[0];
+
+  /* DELIVERY IS THE SAME NUMBER IN ALL THREE PAYMENT MODELS. That is what stops
+     a payment choice from retroactively rewriting a delivery choice already made,
+     and it is why the two behaviours can be read independently. */
+  var delivery=del.fee, platform=0, member=0;
+  if(billId_==="per_order")  platform=15;   /* Zomato's audited platform fee */
+  if(billId_==="protected")  platform=15+protectPrice;
+  if(billId_==="membership"){ platform=0; member=99; }
+
+  /* Every offer discounts the FOOD. None touches delivery — see OFFERS. */
+  var discount=0;
+  if(offerId_==="flat100") discount=Math.min(100, S);
+  if(offerId_==="recur10") discount=Math.round(0.10*S);
+  /* "wallet" deliberately discounts nothing today — that is the whole test. */
+
+  var taxable=Math.max(0, S-discount)+platform+delivery;
+  var gst=Math.round(0.05*taxable);
+  return { S:S, discount:discount, platform:platform, delivery:delivery, member:member,
+           gst:gst, mins:del.mins, rlPrice:rlPrice,
+           total:taxable+gst+member, perOrder:taxable+gst };
+}
+function offerWorth(id){ return priceOf(billId, delId, "").total - priceOf(billId, delId, id).total; }
+function renderOfferOpts(){
+  $("offer-opts").innerHTML=OFFERS.map(function(o){
+    var w=offerWorth(o.id);
+    return '<button type="button" class="optrow'+(o.id===offerId?' on':'')+'" data-offer-id="'+esc(o.id)+'">'+
+      '<span class="radio" aria-hidden="true"></span>'+
+      '<span style="flex:1;min-width:0">'+
+        '<span class="ot">'+esc(o.name)+'</span>'+
+        '<span class="od">'+esc(o.desc)+'</span>'+
+      '</span>'+
+      '<span class="oamt" style="'+(w>0?'color:var(--green)':'color:var(--muted)')+'">'+
+        (w>0?'\u2212'+rupee(w)+'<small>off this bill</small>'
+            :'+'+rupee(walletAmt)+'<small>next order</small>')+'</span></button>';
+  }).join("");
+}
+function renderBillOpts(){
+  $("bill-opts").innerHTML=BILLS.map(function(b){
+    var p=priceOf(b.id, delId, offerId);
+    var on=b.id===billId;
+    return '<div class="billwrap'+(on?' on':'')+'">'+
+      '<button type="button" class="optrow'+(on?' on':'')+'" data-bill="'+esc(b.id)+'" '+
+        'aria-expanded="'+(on?'true':'false')+'">'+
+        '<span class="radio" aria-hidden="true"></span>'+
+        '<span style="flex:1;min-width:0">'+
+          '<span class="ot">'+esc(b.name)+(b.pill?' <span class="pill '+b.pillCls+'">'+esc(b.pill)+'</span>':'')+'</span>'+
+          '<span class="od">'+esc(b.desc)+'</span>'+
+        '</span>'+
+        '<span class="oamt">'+rupee(p.total)+
+          (b.id==="membership"?'<small>then '+rupee(p.perOrder)+'/order</small>':'')+
+        '</span></button>'+
+      '<div class="acc">'+(on?billHTML(b.id):'')+'</div>'+
+    '</div>';
+  }).join("");
+}
+function renderDelOpts(){
+  $("deliv-opts").innerHTML=DELIVERY.map(function(d){
+    var on=d.id===delId;
+    return '<div class="delwrap'+(on?' on':'')+'">'+
+      '<button type="button" class="optrow" data-del="'+esc(d.id)+'">'+
+        '<span class="radio" aria-hidden="true"></span>'+
+        '<span style="flex:1;min-width:0">'+
+          '<span class="ot">'+esc(d.name)+(d.pill?' <span class="pill '+d.pillCls+'">'+esc(d.pill)+'</span>':'')+'</span>'+
+          '<span class="od">'+esc(d.desc)+'</span>'+
+        '</span>'+
+        '<span class="deltime">'+
+          '<b>'+d.mins+'</b><small>MIN</small>'+
+          '<i class="'+(d.fee?'paid':'free')+'">'+(d.fee?'+'+rupee(d.fee):'No charge')+'</i>'+
+        '</span></button>'+
+      '<div class="tradeoff"><span aria-hidden="true">\u26A0</span> '+esc(d.tradeoff)+'</div>'+
+    '</div>';
+  }).join("");
+}
+function renderDelivRecap(){
+  var d=DELIVERY.filter(function(x){ return x.id===delId; })[0]||DELIVERY[0];
+  $("deliv-recap").innerHTML='<h4>Delivery</h4>'+
+    '<div style="display:flex;align-items:center;gap:12px">'+
+      '<span style="flex:1"><b style="font-size:15px">'+esc(d.name)+'</b>'+
+        '<span class="small" style="display:block">'+d.mins+' min'+
+        (d.fee?' \u00b7 +'+rupee(d.fee):' \u00b7 no charge')+'</span></span>'+
+      '<button type="button" class="btn-ghost" id="cta-change-deliv" '+
+        'style="width:auto;padding:0">Change</button></div>';
+  var b=$("cta-change-deliv");
+  if(b) b.addEventListener("click", function(){
+    track("delivery_revisited",{ delivery_id:delId }); show("s-deliv"); renderDelOpts(); });
+}
+/* Every model itemises in full. Nothing is bundled, nothing is hidden —
+   the thing under test is what people will PAY FOR, not what they can see. */
+function billHTML(bid){
+  var p=priceOf(bid, delId, offerId);
+  var del=DELIVERY.filter(function(d){ return d.id===delId; })[0]||DELIVERY[0];
+  var rows=[], note="";
+
+  rows.push(['Item total', rupee(p.S)]);
+  if(p.discount) rows.push([offerName(), '<span class="free">\u2212'+rupee(p.discount)+'</span>']);
+
+  if(bid==="membership"){
+    rows.push(['Order fee', '<s>\u20b915</s><span class="free">\u20b90</span>']);
+  } else if(bid==="protected"){
+    rows.push(['Order fee', rupee(15)]);
+    rows.push(['Order Protection', rupee(protectPrice)]);
+  } else {
+    rows.push(['Order fee', rupee(15)]);
+  }
+
+  rows.push(['Delivery \u00b7 '+del.mins+' min',
+    del.fee ? rupee(del.fee) : '<span class="free">\u20b90</span>']);
+  rows.push(['GST (5%)', rupee(p.gst)]);
+  if(p.member) rows.push(['Ownly Plus \u00b7 first month', rupee(p.member)]);
+
+  if(bid==="membership")      note="Your next order would be <b>"+rupee(p.perOrder)+"</b>, with no \u20b999.";
+  else if(bid==="protected")  note="Covers this order only. Refunded in full to your original payment method.";
+
+  return '<div class="bill">'+rows.map(function(r){
+      return '<div class="br"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join("")+
+    '<div class="br tot"><span>To pay</span><span>'+rupee(p.total)+'</span></div>'+
+    (note?'<div class="accnote">'+note+'</div>':'')+'</div>';
+}
+function offerName(){
+  var o=OFFERS.filter(function(x){ return x.id===offerId; })[0];
+  return 'Offer \u00b7 '+(o?esc(o.name):'');
+}
+function refreshHeader(){
+  var p=priceOf(billId, delId, offerId);
+  var baseline=priceOf("per_order","standard","").total;
+  var saved=Math.max(0, baseline-p.total);
+  $("savestrip").innerHTML = saved>0
+    ? '<b>'+rupee(saved)+' less</b> than the same order with everything bundled in'
+    : 'Every charge on this order is itemised under the option you picked. Nothing is hidden.';
+  $("cta-place").textContent = "Place Order \u00b7 "+rupee(p.total);
+}
+function refreshCart(){
+  $("cart-rest").textContent = curRest ? curRest.n : "Your order";
+  $("cart-items").innerHTML = cart.map(function(c){
+    return '<div class="crow"><span aria-hidden="true">'+c.e+'</span>'+
+      '<span class="cn">'+esc(c.n)+'</span>'+
+      '<span class="stepper"><button type="button" data-cdec="'+esc(c.n)+'" aria-label="Remove one">−</button>'+
+      '<b>'+c.q+'</b><button type="button" data-cinc="'+esc(c.n)+'" aria-label="Add one">+</button></span>'+
+      '<span class="cp">'+(c.was?'<s>'+rupee(c.was*c.q)+'</s>':'')+rupee(c.p*c.q)+'</span></div>';
+  }).join("");
+  renderDelivRecap(); renderOfferOpts(); renderBillOpts(); refreshHeader();
+}
+function goDeliv(){
+  if(!cart.length){ $("live").textContent="Your cart is empty."; return; }
+  show("s-deliv"); renderDelOpts();
+  $("deliv-sub").textContent = curRest ? "From "+curRest.n+" to Gachibowli" : "Delivering to Gachibowli";
+  track("delivery_screen_view",{ restaurant_name:curRest?curRest.n:"", rl_price:rlPrice });
+}
+$("deliv-back").addEventListener("click", function(){ show("s-menu"); });
+$("cta-deliv-next").addEventListener("click", function(){
+  track("delivery_confirmed",{ delivery_id:delId, mins:priceOf(billId,delId,offerId).mins,
+    rl_price:rlPrice, delivery_touched:delTouched });
+  goCart();
+});
+$("deliv-opts").addEventListener("click", function(e){
+  var b=e.target.closest("[data-del]"); if(!b) return;
+  var id=b.getAttribute("data-del"); if(id===delId && delTouched) return;
+  var was=delId; delId=id; delTouched=true; renderDelOpts();
+  var d=DELIVERY.filter(function(x){ return x.id===id; })[0];
+  track("delivery_option_chosen",{ delivery_id:id, detail:was, mins:d.mins,
+    rl_price:rlPrice, offer:offerId });
+  var qs=[{ id:"why_delivery", sub:d.name, ctx:id }];
+  if(id==="rapido_link") qs.push({ id:"rapido_link_trust" });
+  ask(qs);
+});
+
+function goCart(){
+  if(!cart.length){ $("live").textContent="Your cart is empty."; return; }
+  show("s-cart"); refreshCart();
+  track("cart_view",{ restaurant_name:curRest?curRest.n:"", n_selected:cartCount(),
+    item_price:cartSubtotal(), wallet_amt:walletAmt, rl_price:rlPrice,
+    protect_price:protectPrice });
+}
+$("cart-back").addEventListener("click", function(){ show("s-menu"); });
+$("cart-items").addEventListener("click", function(e){
+  var inc=e.target.closest("[data-cinc]"), dec=e.target.closest("[data-cdec]");
+  if(!inc && !dec) return;
+  var name=(inc||dec).getAttribute(inc?"data-cinc":"data-cdec");
+  var it=cart.filter(function(c){ return c.n===name; })[0]; if(!it) return;
+  it.q += inc?1:-1;
+  if(it.q<=0) cart=cart.filter(function(c){ return c.n!==name; });
+  track("item_qty_changed",{ item_name:name, n_selected:it.q>0?it.q:0,
+    detail:(inc?"increase":"decrease")+"_in_cart" });
+  if(!cart.length){ show("s-menu"); renderMenu(); renderCartBar(); return; }
+  refreshCart();
+});
+
+$("offer-opts").addEventListener("click", function(e){
+  var b=e.target.closest("[data-offer-id]"); if(!b) return;
+  var id=b.getAttribute("data-offer-id");
+  if(id===offerId){ offerId=""; refreshCart();
+    track("offer_removed",{ offer:id }); return; }
+  var was=offerId; offerId=id; refreshCart();
+  var o=OFFERS.filter(function(x){ return x.id===id; })[0];
+  track("offer_applied",{ offer:id, detail:was, offer_worth:offerWorth(id), wallet_amt:walletAmt,
+    bill_id:billId, delivery_id:delId, bill_total:priceOf(billId,delId,id).total,
+    item_price:cartSubtotal() });
+  ask([{ id:"why_offer", sub:o.name, ctx:id }]);
+});
+$("bill-opts").addEventListener("click", function(e){
+  var b=e.target.closest("[data-bill]"); if(!b) return;
+  var id=b.getAttribute("data-bill"); if(id===billId && billTouched) return;
+  var was=billId; billId=id; billTouched=true; refreshCart();
+  var bill=BILLS.filter(function(x){ return x.id===id; })[0];
+  var p=priceOf(id, delId, offerId);
+  track("bill_option_chosen",{ bill_id:id, detail:was, bill_total:p.total,
+    protect_price:protectPrice,
+    delivery_id:delId, item_price:cartSubtotal() });
+  ask([{ id:"why_bill", sub:bill.name, ctx:id }]);
+});
+/* The fake door opens onto the truth at exactly the moment a real app would
+   have shown a confirmation. No confirmation state exists in this file. */
+$("cta-place").addEventListener("click", function(){
+  var p=priceOf(billId, delId, offerId);
+  track("place_order_click",{
+    bill_id:billId, delivery_id:delId, offer:offerId, offer_worth:p.discount,
+    wallet_amt:walletAmt, rl_price:rlPrice, protect_price:protectPrice,
+    bill_total:p.total, mins:p.mins,
+    item_price:cartSubtotal(), n_selected:cartCount(),
+    restaurant_name:curRest?curRest.n:"", dish:SEARCH.dish_selected,
+    bill_touched:billTouched, delivery_touched:delTouched });
+  show("s-stop");
+  track("honest_stop_view",{ furthest_step:"cart" });
+});
+$("cta-stop-next").addEventListener("click", function(){
+  show("s-disc"); track("research_disclosure_view",{ n_requests:wish.length });
+});
+
+/* ══════════════════════ 8 · DEMAND LIST (post-disclosure) ══════════════════════
+   Deliberately AFTER the disclosure. The list is a stated artifact, not a
+   behavioural measure, so knowing it is research does not invalidate it —
+   and a debriefed participant gives a more honest list, not a worse one. */
+function sel(name){
+  var all=document.querySelectorAll("[data-pick]");
+  for(var i=0;i<all.length;i++){ if(all[i].getAttribute("data-pick")===name) return all[i]; }
+  return null;
+}
+$("cta-wish").addEventListener("click", function(){
+  show("s-wish"); $("pick-q").value=""; renderPicker(""); renderCustom(); refreshSubmit();
+  track("wishlist_view",{ n_requests:wish.length });
+});
+function renderPicker(q){
+  var ql=(q||"").trim().toLowerCase(), shown=0;
+  $("pickzones").innerHTML=cuisines.map(function(cu){
+    var items=RESTAURANTS.filter(function(r){
+      return r.cu===cu && (!ql || r.n.toLowerCase().indexOf(ql)>=0); });
+    if(!items.length) return "";
+    shown+=items.length;
+    return '<div class="cuisine-h">'+esc(cu)+'</div><div class="pickgrid">'+
+      items.map(function(r){
+        var on=wish.indexOf(r.n)>=0;
+        return '<button type="button" class="pick'+(on?' on':'')+'" data-pick="'+esc(r.n)+'" '+
+          'aria-pressed="'+(on?'true':'false')+'">'+
+          '<span class="pe" aria-hidden="true">'+r.e+'</span>'+
+          '<span class="pn">'+esc(r.n)+'</span><span class="pm">'+esc(r.c)+'</span></button>';
+      }).join("")+'</div>';
+  }).join("");
+  var none = ql && shown===0;
+  $("pick-empty").hidden=!none;
+  if(none){
+    $("pick-empty").innerHTML='“'+esc(q.trim())+'” is not in our list — '+
+      'that is exactly what we want to record.'+
+      '<div style="margin-top:12px"><button type="button" class="btn btn-primary" '+
+      'id="pick-add-inline">Add “'+esc(q.trim())+'” to the list</button></div>';
+    var btn=$("pick-add-inline");
+    if(btn) btn.addEventListener("click", function(){ addCustom(q); });
+  }
+}
+function renderCustom(){
+  var cust=wish.filter(function(p){ return !RESTAURANTS.some(function(r){ return r.n===p; }); });
+  $("custchips").innerHTML = cust.length
+    ? '<div style="font-size:11.5px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;'+
+      'color:var(--muted);padding:12px 0 8px">Added by you</div>'+
+      cust.map(function(c){
+        return '<span class="custchip">'+esc(c)+
+          '<button type="button" data-rm="'+esc(c)+'" aria-label="Remove '+esc(c)+'">×</button></span>';
+      }).join("") : "";
+}
+function addCustom(raw){
+  var clean=scrubQ(raw); if(!clean) return;
+  if(wish.indexOf(clean)<0){
+    wish.push(clean);
+    track("restaurant_added_custom",{ restaurant_name:clean, from_list:false,
+      source_screen:"wishlist", dish:SEARCH.dish_selected });
+    ask([{ id:"missing_action", sub:clean, ctx:SEARCH.dish_selected }]);
+  }
+  $("pick-q").value=""; renderPicker(""); renderCustom(); refreshSubmit();
+  $("live").textContent=clean+" added to the list.";
+}
+function refreshSubmit(){
+  $("cta-submit").disabled = wish.length===0;
+  $("cta-submit").textContent = wish.length
+    ? "Add "+wish.length+" place"+(wish.length>1?"s":"")+" to the Gachibowli list"
+    : "Add to the Gachibowli list";
+}
+$("pick-q").addEventListener("input", function(){
+  if(!SEARCH.pick_typed && this.value.length>0){
+    SEARCH.pick_typed=true; track("picker_search_started",{ ms_to_start:Date.now()-t0 });
+  }
+  SEARCH.pick_query=scrubQ(this.value); renderPicker(this.value);
+});
+$("pick-q").addEventListener("keydown", function(e){
+  if(e.key==="Enter"){ e.preventDefault();
+    var v=this.value.trim();
+    var exact=RESTAURANTS.filter(function(r){ return r.n.toLowerCase()===v.toLowerCase(); })[0];
+    if(exact){ toggleWish(exact.n, true); this.value=""; renderPicker(""); }
+    else if(v){ addCustom(v); }
+  }
+});
+$("pick-clr").addEventListener("click", function(){
+  $("pick-q").value=""; SEARCH.pick_query=""; renderPicker(""); $("pick-q").focus(); });
+$("cta-addown").addEventListener("click", function(){
+  track("picker_add_own_click",{}); $("pick-q").focus();
+  $("live").textContent="Type the name of your place, then press enter."; });
+$("custchips").addEventListener("click", function(e){
+  var b=e.target.closest("[data-rm]"); if(!b) return;
+  var nm=b.getAttribute("data-rm"), i=wish.indexOf(nm);
+  if(i>=0){ wish.splice(i,1); track("restaurant_removed",{ restaurant_name:nm }); }
+  renderCustom(); refreshSubmit();
+});
+function toggleWish(name, force){
+  var btn=sel(name), i=wish.indexOf(name);
+  var want=(force===undefined)?(i<0):force;
+  if(want && i<0) wish.push(name);
+  if(!want && i>=0) wish.splice(i,1);
+  if(btn){ btn.classList.toggle("on", want); btn.setAttribute("aria-pressed", want?"true":"false"); }
+  refreshSubmit();
+}
+$("pickzones").addEventListener("click", function(e){
+  var b=e.target.closest("[data-pick]"); if(!b) return;
+  var name=b.getAttribute("data-pick");
+  toggleWish(name);
+  track("restaurant_selected",{ restaurant_name:name, selected:wish.indexOf(name)>=0,
+    n_selected:wish.length });
+});
+$("cta-submit").addEventListener("click", function(){
+  if(!wish.length) return;
+  track("restaurant_request_submitted",{ restaurant_name:wish.join("|"), n_requests:wish.length,
+    dish_query:SEARCH.dish_query, dish_selected:SEARCH.dish_selected,
+    restaurant_query:SEARCH.rest_query, restaurant_search_selected:SEARCH.rest_selected,
+    picker_query:SEARCH.pick_query, tap_kind:entryMode,
+    n_custom:wish.filter(function(p){
+      return !RESTAURANTS.some(function(r){ return r.n===p; }); }).length });
+  var qs=[];
+  if(wish.length>1) qs.push({ id:"miss_most",
+    opts: wish.slice(0,8).map(function(p){ return { v:p, e:"🍽", l:p }; }) });
+  qs.push({ id:"meal_slot", sub: SEARCH.dish_selected || "food" });
+  ask(qs, function(){ finish(true); });
+});
+$("cta-none").addEventListener("click", function(){
+  track("picker_declined",{ n_selected:0 }); finish(false); });
+$("cta-end").addEventListener("click", function(){ finish(false); });
+
+/* ══════════════════════ nav ══════════════════════ */
+function show(id){
+  ["s-home","s-dish","s-list","s-menu","s-deliv","s-cart","s-stop","s-disc","s-wish","s-end"]
+    .forEach(function(s){ $(s).classList.toggle("on", s===id); });
+  furthest=id.replace("s-","");
+  $("bnav").style.display=(id==="s-home")?"flex":"none";
+  renderCartBar();
+  window.scrollTo(0,0);
+  var h=document.querySelector("#"+id+" h1, #"+id+" h2, #"+id+" .mtitle, #"+id+" .big");
+  if(h){ h.setAttribute("tabindex","-1"); try{ h.focus({preventScroll:true}); }catch(e){} }
+}
+function finish(gave){
+  $("pid-out").textContent=visitorId;
+  show("s-end");
+  track("prototype_exit",{ furthest_step:furthest, completed_posttest:gave,
+    dwell_ms:Date.now()-t0, n_requests:wish.length, tap_kind:entryMode,
+    bill_id:billTouched?billId:"", delivery_id:delTouched?delId:"", offer:offerId });
+}
+$("cta-followup").addEventListener("click", function(){
+  track("followup_consent_given",{ contact_channel:"in_person" });
+  $("fu-row").innerHTML='<p class="small" style="text-align:center;margin:0">Thank you — the '+
+    'researcher will ask you in person. Nothing was typed into this page.</p>';
+});
+
+var exited=false;
+function bye(){ if(exited) return; exited=true;
+  track("prototype_exit",{ furthest_step:furthest, reason:"page_hidden", dwell_ms:Date.now()-t0,
+    n_requests:wish.length, tap_kind:entryMode }); }
+window.addEventListener("pagehide", bye);
+document.addEventListener("visibilitychange", function(){
+  if(document.visibilityState==="hidden") bye(); });
+
+/* ══════════════════════ QA ══════════════════════ */
+function updateQA(){
+  if(!isQA) return;
+  $("qa-info").textContent=" arm="+variant+" · ev="+readLog().length+
+    " · entry="+(entryMode||"-")+" · cart="+cartCount()+
+    " · rl=\u20b9"+rlPrice+" w=\u20b9"+walletAmt+" p=\u20b9"+protectPrice+" · "+billId+"/"+delId+"/"+(offerId||"-")+
+    " · storage="+(STORAGE_OK?"ok":"BLOCKED")+" · endpoint="+(CONFIG.ENDPOINT?"on":"OFF");
+}
+function dl(fn,txt,mime){
+  var b=new Blob([txt],{type:mime}), u=URL.createObjectURL(b), a=document.createElement("a");
+  a.href=u; a.download=fn; document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); },400);
+}
+function toCSV(rows){
+  var cols=["event_id","experiment_id","page_version","variant_id","source","anon_visitor_id",
+    "anon_session_id","event_name","ts_iso","time_since_load_ms","time_since_prev_ms",
+    "device_type","viewport_w","is_qa","is_bot_suspect","payload_json"];
+  var q=function(v){ v=(v==null)?"":String(v);
+    return /[",\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; };
+  return [cols.join(",")].concat(rows.map(function(r){
+    return cols.map(function(c){
+      return q(c==="payload_json"?JSON.stringify(r.payload||{}):r[c]); }).join(",");
+  })).join("\n");
+}
+if(isQA){
+  $("qa").classList.add("on");
+  $("qa-json").addEventListener("click",function(){
+    dl("fd_"+visitorId.slice(0,8)+".json", JSON.stringify(readLog(),null,2), "application/json"); });
+  $("qa-csv").addEventListener("click",function(){
+    dl("fd_"+visitorId.slice(0,8)+".csv", toCSV(readLog()), "text/csv"); });
+  $("qa-clear").addEventListener("click",function(){
+    if(confirm("Delete this device's log and arm assignment?")){
+      ["fd_events","fd_variant","fd_visitor_id"].forEach(function(k){
+        try{ localStorage.removeItem(k); }catch(e){} });
+      location.href=location.pathname;
+    }});
+  $("qa-reset").addEventListener("click",function(){ location.href=location.pathname+location.search; });
+  updateQA();
+}
+})();
+</script>
+</body>
+</html>

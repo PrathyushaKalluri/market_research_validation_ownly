@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Ownly Gachibowli — Research Prototype</title>
+<!--
+  WHAT THIS IS, AND WHERE THE LINE IS DRAWN.
+
+  A high-fidelity food-delivery UI, because a prototype that looks obviously fake
+  produces unrealistic behaviour. Fidelity here is a research requirement.
+
+  It deliberately does NOT use Ownly's or Rapido's logos, brand marks, exact
+  colours, screenshots or app layout. The visual system is original.
+
+  It DOES name Ownly (hiding the brand would make results uninterpretable), carry
+  a permanent research banner, never show a restaurant as available, never take
+  payment, never confirm an order, and disclose within one screen of the intent
+  action. Ratings, delivery times and offers are illustrative and disclosed.
+
+  TYPING EXISTS ONLY IN SEARCH. The post-test questionnaire is taps only.
+  Two searches are captured: the DISH a person wants, then the RESTAURANT they
+  want it from. Both free-text queries are stored, scrubbed of anything that
+  looks like contact detail, because the dish query is new evidence in its own
+  right — nothing in the survey ever asked what people actually want to eat.
+-->
+<style>
+:root{
+  --bg:#f7f6f3; --card:#fff; --ink:#191b19; --ink2:#4d524d; --muted:#858a85;
+  --line:#e6e4de; --line2:#cdcbc3;
+  --brand:#136a4e; --brand-dk:#0d4e39; --brand-lt:#e4f2ec;
+  --hot:#e04a2f; --gold:#f0a500; --warnbg:#fff5da;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;}
+body{padding-top:env(safe-area-inset-top,0px);}
+#banner{position:sticky;top:0;z-index:80;background:var(--warnbg);border-bottom:1px solid #ecdcaa;
+  color:#6b4a00;font-size:11px;font-weight:700;text-align:center;padding:6px 12px;line-height:1.3;}
+.phone{max-width:440px;margin:0 auto;padding:0 0 80px;}
+.pad{padding:0 15px;}
+
+.appbar{background:var(--brand);color:#fff;padding:11px 15px 13px;}
+.loc{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;}
+.addr{font-size:11.5px;opacity:.82;margin-top:1px;}
+.fakesearch{margin-top:11px;background:#fff;border-radius:11px;padding:11px 13px;display:flex;
+  align-items:center;gap:9px;color:var(--muted);font-size:14.5px;width:100%;border:none;
+  font-family:inherit;text-align:left;cursor:pointer;min-height:44px;}
+
+.cats{display:flex;gap:8px;overflow-x:auto;padding:13px 15px 4px;scrollbar-width:none;}
+.cats::-webkit-scrollbar{display:none;}
+.cat{flex:none;background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:9px 12px 8px;min-width:70px;text-align:center;font-size:11.5px;color:var(--ink2);
+  cursor:pointer;font-family:inherit;min-height:60px;}
+.cat .e{display:block;font-size:20px;margin-bottom:3px;}
+.cat.sel{border-color:var(--brand);background:var(--brand-lt);color:var(--brand-dk);}
+
+.sechead{display:flex;align-items:baseline;justify-content:space-between;padding:18px 15px 9px;}
+.sechead h3{font-size:16px;margin:0;font-weight:800;letter-spacing:-.01em;}
+.sechead .more{font-size:12px;color:var(--brand);font-weight:700;}
+.rail{display:flex;gap:11px;overflow-x:auto;padding:0 15px 4px;scrollbar-width:none;}
+.rail::-webkit-scrollbar{display:none;}
+.offer{flex:none;width:212px;border-radius:15px;padding:14px;color:#fff;cursor:pointer;
+  font-family:inherit;text-align:left;border:none;min-height:118px;display:flex;
+  flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
+.offer .kick{display:block;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;opacity:.9;}
+.offer .big{display:block;font-size:21px;font-weight:900;line-height:1.05;margin:5px 0 3px;letter-spacing:-.02em;}
+.offer .sub{display:block;font-size:11.5px;opacity:.92;line-height:1.3;}
+.offer .emoji{position:absolute;right:-6px;bottom:-12px;font-size:56px;opacity:.26;}
+.o1{background:linear-gradient(135deg,#e04a2f,#b8341c);}
+.o2{background:linear-gradient(135deg,#136a4e,#0a3f2d);}
+.o3{background:linear-gradient(135deg,#7a3fb8,#4e2379);}
+.o4{background:linear-gradient(135deg,#f0a500,#c47a00);}
+
+.rcard{display:flex;gap:12px;background:var(--card);border-radius:14px;padding:11px;
+  margin:0 15px 11px;border:1px solid var(--line);cursor:pointer;font-family:inherit;
+  text-align:left;width:calc(100% - 30px);min-height:96px;}
+.rimg{width:84px;border-radius:11px;flex:none;display:grid;place-items:center;font-size:32px;
+  position:relative;overflow:hidden;}
+.rimg .tag{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.62);color:#fff;
+  font-size:9px;font-weight:800;text-align:center;padding:2.5px 0;}
+.rbody{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;}
+.rtitle{font-size:15px;font-weight:700;letter-spacing:-.01em;}
+.rmeta{font-size:12px;color:var(--muted);}
+.rrow{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink2);margin-top:2px;}
+.star{background:var(--brand);color:#fff;border-radius:5px;padding:1px 5px;font-size:11px;font-weight:800;}
+.dot{color:var(--line2);}
+.roffer{font-size:11.5px;color:var(--hot);font-weight:800;margin-top:4px;
+  border-top:1px dashed var(--line);padding-top:5px;}
+
+.pickgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 15px;}
+.pick{background:var(--card);border:2px solid var(--line);border-radius:13px;padding:11px 10px;
+  cursor:pointer;font-family:inherit;text-align:left;min-height:84px;display:flex;
+  flex-direction:column;gap:3px;position:relative;}
+.pick .pe{font-size:22px;}
+.pick .pn{font-size:13.5px;font-weight:700;line-height:1.2;}
+.pick .pm{font-size:11px;color:var(--muted);}
+.pick.on{border-color:var(--brand);background:var(--brand-lt);}
+.pick.on::after{content:"\\2713";position:absolute;top:7px;right:9px;color:var(--brand);
+  font-weight:900;font-size:15px;}
+.picksearch{position:sticky;top:0;z-index:40;background:var(--bg);padding:10px 15px 8px;
+  border-bottom:1px solid var(--line);}
+.picksearch .sbox{border:1px solid var(--line2);}
+.custwrap{padding:0 15px;margin-bottom:4px;}
+.custchip{display:inline-flex;align-items:center;gap:8px;background:var(--brand-lt);
+  border:1px solid #bcdccf;color:var(--brand-dk);border-radius:999px;padding:7px 8px 7px 13px;
+  font-size:13px;font-weight:700;margin:0 7px 7px 0;}
+.custchip button{background:none;border:none;color:var(--brand-dk);font-size:15px;cursor:pointer;
+  padding:2px 6px;min-height:32px;min-width:32px;line-height:1;}
+.addbar{padding:14px 15px 0;}
+.searchtop{background:var(--brand);padding:11px 15px 13px;}
+.searchtop .back{background:none;border:none;color:#fff;font-size:14px;font-weight:700;
+  padding:4px 0 8px;cursor:pointer;font-family:inherit;min-height:32px;}
+.sbox{display:flex;align-items:center;gap:9px;background:#fff;border-radius:11px;padding:4px 13px;}
+.sbox input{flex:1;border:none;outline:none;font:inherit;font-size:16px;padding:11px 0;
+  background:transparent;color:var(--ink);min-height:44px;}
+.sbox .clr{background:none;border:none;color:var(--muted);font-size:17px;cursor:pointer;
+  padding:6px;min-height:36px;min-width:36px;}
+.sugg-h{font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);padding:16px 15px 9px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 15px;}
+.dchip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:9px 14px;
+  font-size:14px;font-family:inherit;color:var(--ink);cursor:pointer;min-height:44px;
+  display:flex;align-items:center;gap:7px;}
+.dchip:active,.dchip.on{border-color:var(--brand);background:var(--brand-lt);color:var(--brand-dk);}
+.slist{list-style:none;margin:0;padding:0;}
+.slist li{border-bottom:1px solid var(--line);}
+.srow{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;
+  font:inherit;text-align:left;padding:13px 15px;min-height:56px;cursor:pointer;color:var(--ink);}
+.srow:active{background:#fbfaf8;}
+.srow .se{font-size:20px;}
+.srow .sn{font-weight:600;font-size:15px;}
+.srow .sm{font-size:12px;color:var(--muted);}
+.srow .sgo{margin-left:auto;font-size:12px;font-weight:700;color:var(--brand);}
+.emptyq{padding:18px 15px;font-size:14px;color:var(--ink2);}
+.dishpill{display:inline-flex;align-items:center;gap:6px;background:var(--brand-lt);
+  color:var(--brand-dk);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;}
+.cuisine-h{font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);padding:16px 15px 8px;}
+
+h1{font-size:23px;line-height:1.18;letter-spacing:-.02em;margin:0 0 7px;font-weight:800;text-wrap:balance;}
+h2{font-size:19px;line-height:1.22;margin:0 0 6px;font-weight:800;}
+p{margin:0 0 13px;color:var(--ink2);font-size:14.5px;}
+.small{font-size:12.5px;color:var(--muted);}
+.screen{display:none;} .screen.on{display:block;}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;
+  border-radius:13px;border:1px solid transparent;font:inherit;font-size:16px;font-weight:700;
+  cursor:pointer;padding:13px 16px;}
+.btn-primary{background:var(--brand);color:#fff;}
+.btn-primary:hover{background:var(--brand-dk);}
+.btn-primary[disabled]{background:var(--line2);cursor:not-allowed;}
+.btn-ghost{background:none;color:var(--brand);border:none;min-height:46px;
+  text-decoration:underline;font-weight:700;font-size:14.5px;}
+.btnrow{display:flex;flex-direction:column;gap:9px;padding:14px 15px 0;}
+button:focus-visible,input:focus-visible{outline:3px solid var(--brand);outline-offset:2px;}
+.sticky{position:sticky;bottom:0;background:linear-gradient(to top,var(--bg) 72%,transparent);
+  padding:14px 15px calc(14px + env(safe-area-inset-bottom,0px));}
+
+.confirm{background:var(--brand-lt);border:1px solid #bcdccf;border-radius:15px;padding:16px;margin:0 15px 13px;}
+.confirm .big{font-size:17px;font-weight:800;color:var(--brand-dk);margin-bottom:4px;}
+.chipwrap{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px;}
+.rq{font-size:12.5px;background:#fff;border:1px solid #bcdccf;border-radius:999px;padding:5px 11px;
+  color:var(--brand-dk);font-weight:700;}
+.disc{background:var(--card);border:2px solid var(--brand);border-radius:15px;padding:17px;margin:0 15px;}
+.disc h2{color:var(--brand-dk);}
+.disc ul{margin:0 0 12px;padding-left:18px;} .disc li{font-size:14px;color:var(--ink2);margin-bottom:6px;}
+fieldset{border:1px solid var(--line);border-radius:13px;padding:13px;margin:0 15px 12px;background:var(--card);}
+legend{font-size:14.5px;font-weight:700;padding:0 6px;}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:9px 4px;min-height:44px;cursor:pointer;
+  font-size:14.5px;color:var(--ink2);}
+.opt input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--brand);}
+.stepbar{display:flex;gap:4px;padding:10px 15px 0;}
+.stepbar i{height:3px;flex:1;border-radius:2px;background:var(--line2);}
+.stepbar i.done{background:var(--brand);}
+footer.fine{margin:20px 15px 0;padding-top:13px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--muted);line-height:1.55;}
+#qa{position:fixed;inset:auto 0 0 0;z-index:90;background:#191b19;color:#e9e7e1;font-family:var(--mono);
+  font-size:11px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));display:none;
+  gap:7px;align-items:center;flex-wrap:wrap;}
+#qa.on{display:flex;}
+#qa button{font:inherit;background:#2d302c;color:#e9e7e1;border:1px solid #454842;border-radius:6px;
+  padding:5px 9px;cursor:pointer;min-height:32px;}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<div id="banner">RESEARCH PROTOTYPE · not a live service · you cannot order food here</div>
+<p class="sr" id="live" role="status" aria-live="polite"></p>
+
+<div class="phone">
+
+  <!-- ══ 1 · THE APP ══ -->
+  <section class="screen on" id="s-home">
+    <div class="appbar">
+      <div class="loc"><span aria-hidden="true">📍</span> Gachibowli <span aria-hidden="true" style="opacity:.7;font-size:11px">▾</span></div>
+      <div class="addr">DLF Cyber City Rd · delivering in 38–45 min</div>
+      <button class="fakesearch" id="fakesearch" aria-label="Search restaurants">
+        <span aria-hidden="true">🔍</span> Search biryani, pizza, desserts…
+      </button>
+    </div>
+
+    <div class="cats" role="group" aria-label="Food categories" id="cats"></div>
+
+    <div class="sechead"><h3 id="offers-h">Offers for you</h3><span class="more" aria-hidden="true">See all</span></div>
+    <div class="rail" id="offers"></div>
+
+    <div class="sechead"><h3 id="feed-h">Restaurants near you</h3></div>
+    <div id="feed"></div>
+
+    <footer class="fine">Research prototype · not a live service · not affiliated with Ownly, Rapido
+    or any delivery company. Restaurants, ratings, times and offers shown are illustrative — nothing
+    here means a restaurant has agreed to join anything.</footer>
+
+    <div class="sticky">
+      <button class="btn btn-primary" id="cta-explore">Pick the places you actually order from</button>
+    </div>
+  </section>
+
+  <!-- ══ 2a · DISH SEARCH ══ -->
+  <section class="screen" id="s-dish">
+    <div class="searchtop">
+      <button class="back" id="dish-back" aria-label="Back">‹ Back</button>
+      <div class="sbox">
+        <span aria-hidden="true">🔍</span>
+        <label class="sr" for="dish-q">Search for a dish</label>
+        <input id="dish-q" type="search" inputmode="search" autocomplete="off"
+               placeholder="What do you feel like eating?">
+        <button class="clr" id="dish-clr" type="button" aria-label="Clear">✕</button>
+      </div>
+    </div>
+    <div class="sugg-h" id="dish-sugg-h">Popular in Gachibowli</div>
+    <div class="chips" id="dish-chips"></div>
+    <ul class="slist" id="dish-results"></ul>
+    <div class="emptyq" id="dish-empty" hidden></div>
+    <footer class="fine">Research prototype · not a live service. Nothing you search for is ordered.</footer>
+  </section>
+
+  <!-- ══ 2b · RESTAURANT SEARCH ══ -->
+  <section class="screen" id="s-rsearch">
+    <div class="searchtop">
+      <button class="back" id="rs-back" aria-label="Back">‹ Back</button>
+      <div class="sbox">
+        <span aria-hidden="true">🔍</span>
+        <label class="sr" for="rs-q">Search for a restaurant</label>
+        <input id="rs-q" type="search" inputmode="search" autocomplete="off"
+               placeholder="Search a place you order from">
+        <button class="clr" id="rs-clr" type="button" aria-label="Clear">✕</button>
+      </div>
+    </div>
+    <div class="sugg-h" id="rs-h">Places near you</div>
+    <ul class="slist" id="rs-results"></ul>
+    <div class="emptyq" id="rs-empty" hidden></div>
+    <div class="sticky">
+      <button class="btn btn-primary" id="rs-next">Choose from the full list instead</button>
+    </div>
+  </section>
+
+  <!-- ══ 2 · PICKER ══ -->
+  <section class="screen" id="s-pick">
+    <div class="stepbar"><i class="done"></i><i class="done"></i><i></i><i></i></div>
+    <div class="pad" style="padding-top:14px">
+      <h1>Which of these do you actually order from?</h1>
+      <p>Tap as many as you like, or search for a place. This is a request list — nothing here is
+      available yet.</p>
+    </div>
+    <div class="picksearch">
+      <div class="sbox">
+        <span aria-hidden="true">🔍</span>
+        <label class="sr" for="pick-q">Search the list, or type a place that isn't on it</label>
+        <input id="pick-q" type="search" inputmode="search" autocomplete="off"
+               placeholder="Search or add a restaurant…">
+        <button class="clr" id="pick-clr" type="button" aria-label="Clear">✕</button>
+      </div>
+    </div>
+    <div class="custwrap" id="custchips"></div>
+    <div id="pickzones"></div>
+    <div class="emptyq" id="pick-empty" hidden></div>
+    <div class="addbar">
+      <button class="btn btn-secondary" id="cta-addown">＋ My place isn't listed — add it</button>
+    </div>
+    <div class="sticky">
+      <button class="btn btn-primary" id="cta-submit" disabled>Add to my request list</button>
+      <button class="btn btn-ghost" id="cta-none">None of these are my regulars</button>
+    </div>
+  </section>
+
+  <!-- ══ 3 · CONFIRM ══ -->
+  <section class="screen" id="s-confirm">
+    <div class="stepbar"><i class="done"></i><i class="done"></i><i class="done"></i><i></i></div>
+    <div class="confirm" style="margin-top:14px">
+      <div class="big">Added to the request list for Gachibowli.</div>
+      <p class="small" style="margin:0;color:var(--brand-dk)">This records what you want. It does not
+      mean these places are available or joining.</p>
+      <div class="chipwrap" id="reqchips"></div>
+    </div>
+    <fieldset>
+      <legend>Do you order from these now?</legend>
+      <label class="opt"><input type="radio" name="cur" value="yes"> Yes — regularly</label>
+      <label class="opt"><input type="radio" name="cur" value="sometimes"> Now and then</label>
+      <label class="opt"><input type="radio" name="cur" value="no"> No — I'd like to start</label>
+    </fieldset>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="cta-notify">Tell us you're interested</button>
+      <button class="btn btn-ghost" id="cta-back">Pick different places</button>
+      <button class="btn btn-ghost" id="cta-skip">Skip — I'm not interested</button>
+    </div>
+    <footer class="fine">Research prototype · not a live service.</footer>
+  </section>
+
+  <!-- ══ 4 · DISCLOSURE ══ -->
+  <section class="screen" id="s-disc">
+    <div class="stepbar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i></div>
+    <div class="disc" style="margin-top:14px">
+      <h2>This was a research prototype, not a live service.</h2>
+      <p>You can't order food here, and nothing you did placed an order.</p>
+      <p>We're a student research team studying how people in Gachibowli choose food-delivery apps.
+      We showed you one of two versions of this screen to see which one people respond to.</p>
+      <p><b>Ownly is a real app, but this page is not run by Ownly or Rapido, and they did not ask us
+      to build it.</b> The restaurants, ratings, delivery times and offers were illustrative. Nothing
+      here means a restaurant is joining any app.</p>
+      <ul>
+        <li>We recorded which things you tapped and how long you took.</li>
+        <li>We did <b>not</b> record your name, phone number, email or location.</li>
+      </ul>
+      <p class="small" style="margin-bottom:0">The next step is optional.</p>
+    </div>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="cta-post">Answer 6 quick questions</button>
+      <button class="btn btn-ghost" id="cta-end">No thanks — finish</button>
+    </div>
+  </section>
+
+  <!-- ══ 5 · POST-TEST · taps only ══ -->
+  <section class="screen" id="s-post">
+    <div class="pad" style="padding-top:16px"><h2>Six quick questions</h2>
+      <p class="small">About what you just did. Tap your answer — nothing to type.</p></div>
+    <form id="postform" novalidate>
+      <fieldset>
+        <legend>1. What made you keep looking past the first screen?</legend>
+        <label class="opt"><input type="radio" name="q1" value="offer"> The offer caught my eye</label>
+        <label class="opt"><input type="radio" name="q1" value="restaurants"> I wanted to see which restaurants it had</label>
+        <label class="opt"><input type="radio" name="q1" value="cheaper"> It looked cheaper than what I use</label>
+        <label class="opt"><input type="radio" name="q1" value="curious"> Just curious about a new app</label>
+        <label class="opt"><input type="radio" name="q1" value="asked"> I was asked to, so I did</label>
+      </fieldset>
+
+      <div id="blk-did">
+        <fieldset>
+          <legend>2. The places you picked — are they on the app you use most today?</legend>
+          <label class="opt"><input type="radio" name="q2" value="already_on"> Yes, all of them already</label>
+          <label class="opt"><input type="radio" name="q2" value="some"> Some are, some aren't</label>
+          <label class="opt"><input type="radio" name="q2" value="not_on"> No, they're not</label>
+          <label class="opt"><input type="radio" name="q2" value="unsure"> Not sure</label>
+        </fieldset>
+        <fieldset>
+          <legend>3. Why did you pick the first one you tapped?</legend>
+          <label class="opt"><input type="radio" name="q3" value="most_often"> I order from there most often</label>
+          <label class="opt"><input type="radio" name="q3" value="missing_elsewhere"> I can't get it on the apps I use</label>
+          <label class="opt"><input type="radio" name="q3" value="first_thought"> It was the first one I recognised</label>
+          <label class="opt"><input type="radio" name="q3" value="was_shown"> It was near the top of the screen</label>
+        </fieldset>
+      </div>
+
+      <div id="blk-didnt" hidden>
+        <fieldset>
+          <legend>2. You didn't pick any places. What stopped you?</legend>
+          <label class="opt"><input type="radio" name="q4" value="not_mine"> None of them are places I order from</label>
+          <label class="opt"><input type="radio" name="q4" value="not_real"> I didn't think it was real</label>
+          <label class="opt"><input type="radio" name="q4" value="not_interested"> I wasn't interested enough</label>
+          <label class="opt"><input type="radio" name="q4" value="too_much"> It felt like too much effort</label>
+          <label class="opt"><input type="radio" name="q4" value="other"> Something else</label>
+        </fieldset>
+      </div>
+
+      <fieldset>
+        <legend>4. Did you notice the delivery time at the top?</legend>
+        <label class="opt"><input type="radio" name="q5" value="noticed_fine"> Yes — it seemed fine</label>
+        <label class="opt"><input type="radio" name="q5" value="noticed_slow"> Yes — it seemed slow</label>
+        <label class="opt"><input type="radio" name="q5" value="not_noticed"> No, I didn't notice it</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>5. Before this page told you, what did you think it was?</legend>
+        <label class="opt"><input type="radio" name="q6" value="live"> A live app I could order from</label>
+        <label class="opt"><input type="radio" name="q6" value="preview"> A preview of something launching</label>
+        <label class="opt"><input type="radio" name="q6" value="ad"> An advertisement</label>
+        <label class="opt"><input type="radio" name="q6" value="research"> A research study</label>
+        <label class="opt"><input type="radio" name="q6" value="unsure"> Not sure</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>6. Tick any that apply to you</legend>
+        <label class="opt"><input type="checkbox" name="seg" value="member"> I pay for Swiggy One or Zomato Gold</label>
+        <label class="opt"><input type="checkbox" name="seg" value="rapido"> I've used Rapido in the last month</label>
+        <label class="opt"><input type="checkbox" name="seg" value="heard_ownly"> I'd heard of Ownly before today</label>
+        <label class="opt"><input type="checkbox" name="seg" value="tried_ownly"> I've ordered on Ownly before</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Optional — a 15-minute follow-up chat?</legend>
+        <label class="opt"><input type="radio" name="followup" value="yes"> Yes — the researcher can ask me in person</label>
+        <label class="opt"><input type="radio" name="followup" value="no"> No thanks</label>
+        <p class="small" style="margin:6px 0 0">Nothing is typed into this page. If you say yes, the
+        person running this takes your details face to face.</p>
+      </fieldset>
+
+      <div class="btnrow">
+        <button class="btn btn-primary" type="submit">Submit answers</button>
+        <button class="btn btn-ghost" type="button" id="cta-skip-post">Skip — finish now</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ══ 6 · END ══ -->
+  <section class="screen" id="s-end">
+    <div class="confirm" style="margin-top:16px">
+      <div class="big">Thank you — that's everything.</div>
+      <p class="small" style="margin:0;color:var(--brand-dk)">You can close this page now.</p>
+    </div>
+    <div class="pad">
+      <p class="small">If you want your answers removed, or want to know what we found, contact the
+      research team using the details on the recruitment sheet and quote this code:</p>
+      <div style="font-family:var(--mono);font-size:13px;background:var(--card);border:1px solid var(--line);
+        border-radius:11px;padding:12px" id="pid-out"></div>
+    </div>
+    <footer class="fine">Research prototype · not a live service · not affiliated with any delivery
+    company. No payment was taken and no order was placed.</footer>
+  </section>
+</div>
+
+<div id="qa">
+  <b>QA</b><span id="qa-info"></span>
+  <button type="button" id="qa-json">JSON</button>
+  <button type="button" id="qa-csv">CSV</button>
+  <button type="button" id="qa-clear">Clear</button>
+  <button type="button" id="qa-reset">Restart</button>
+</div>
+
+<script>
+(function () {
+"use strict";
+
+var CONFIG = {
+  EXPERIMENT_ID: "hyd_gach_fakedoor_2026_09",
+  PAGE_VERSION: "2026-09-22.v2",
+  ENDPOINT: "",
+  ARMS: ["discount", "restaurants"]
+};
+
+/* The manipulation: the headline of the rail AND which offers it contains. */
+var ARM = {
+  discount: {
+    offersTitle: "Offers for you",
+    offers: [
+      { cls:"o1", kick:"First order", big:"FLAT ₹100 OFF", sub:"New to Ownly in Gachibowli", e:"🎉" },
+      { cls:"o4", kick:"Today only",  big:"60% OFF",           sub:"up to ₹120 on selected orders", e:"🔥" },
+      { cls:"o3", kick:"Weekend",     big:"Meal + movie",      sub:"Combo deals from ₹199", e:"🍿" },
+      { cls:"o2", kick:"Every order", big:"₹0 delivery",  sub:"On orders above ₹199", e:"🛵" }
+    ]
+  },
+  restaurants: {
+    offersTitle: "New in Gachibowli",
+    offers: [
+      { cls:"o2", kick:"Your regulars",    big:"Now in Gachibowli", sub:"The places you already order from", e:"📍" },
+      { cls:"o1", kick:"Local favourites", big:"Biryani street",    sub:"Hyderabad classics near you", e:"🍛" },
+      { cls:"o3", kick:"Tiffins",          big:"Morning menu",      sub:"Idli, dosa, vada from 7am", e:"🥞" },
+      { cls:"o4", kick:"Late night",       big:"Open till 2am",     sub:"For the Cyber City shift", e:"🌙" }
+    ]
+  },
+  everyday: {
+    offersTitle: "Why Ownly costs less",
+    offers: [
+      { cls:"o2", kick:"Every order", big:"No platform fee",  sub:"Not just your first one", e:"💚" },
+      { cls:"o1", kick:"Every order", big:"No packaging fee", sub:"What you see is what you pay", e:"🧾" },
+      { cls:"o3", kick:"Even at peak",big:"No surge",         sub:"Your price holds at dinner rush", e:"⏱" },
+      { cls:"o4", kick:"Menu price",  big:"No markup",        sub:"The restaurant's own price", e:"🏷" }
+    ]
+  }
+};
+
+/* Real Gachibowli names, from our own price audit and Ownly's Hyderabad page.
+   Ratings, times, distances and offers are ILLUSTRATIVE and disclosed as such. */
+var RESTAURANTS = [
+  { n:"Paradise Biryani",       c:"Biryani · Hyderabadi", e:"🍛", g:"#7a3b2e", r:4.3, t:"40–45", d:"2.1 km", o:"Flat ₹125 OFF", cu:"Biryani" },
+  { n:"Bawarchi",               c:"Biryani · Mughlai",    e:"🍗", g:"#8a5a1b", r:4.1, t:"38–43", d:"3.4 km", o:"50% OFF up to ₹100", cu:"Biryani" },
+  { n:"Shah Ghouse",            c:"Biryani · Cafe",       e:"🥘", g:"#3d5a3a", r:4.2, t:"42–48", d:"4.0 km", o:"Free delivery", cu:"Biryani" },
+  { n:"Mehfil",                 c:"Biryani · Andhra",     e:"🍚", g:"#6b4226", r:4.0, t:"39–44", d:"2.8 km", o:"20% OFF", cu:"Biryani" },
+  { n:"Cream Stone",            c:"Desserts · Ice cream", e:"🍨", g:"#6b3f6b", r:4.5, t:"30–35", d:"1.4 km", o:"Buy 1 Get 1", cu:"Desserts" },
+  { n:"Karachi Bakery",         c:"Bakery · Snacks",      e:"🍪", g:"#8a6a1b", r:4.4, t:"35–40", d:"2.6 km", o:"", cu:"Desserts" },
+  { n:"Bakelore",               c:"Bakery · Cakes",       e:"🎂", g:"#a0527a", r:4.2, t:"36–42", d:"3.0 km", o:"15% OFF", cu:"Desserts" },
+  { n:"Harley's Fine Baking",   c:"Bakery · Desserts",    e:"🧁", g:"#7a4a6b", r:4.6, t:"38–44", d:"3.6 km", o:"", cu:"Desserts" },
+  { n:"Murgan Tiffins",         c:"South Indian · Tiffins", e:"🥞", g:"#8a3a47", r:4.3, t:"33–38", d:"1.9 km", o:"₹50 OFF above ₹199", cu:"South Indian" },
+  { n:"Vivaha Bhojanambu",      c:"Andhra · Meals",       e:"🍲", g:"#2f5560", r:4.1, t:"41–47", d:"3.8 km", o:"", cu:"South Indian" },
+  { n:"Aanimuthyalu Unlimited", c:"Andhra · Thali",       e:"🍱", g:"#4a6b2f", r:3.9, t:"43–49", d:"4.4 km", o:"10% OFF", cu:"South Indian" },
+  { n:"Punjabi Affair",         c:"North Indian · Curry", e:"🍜", g:"#a0541b", r:4.0, t:"40–46", d:"3.2 km", o:"", cu:"North Indian" },
+  { n:"100N",                   c:"Continental · Cafe",   e:"🥗", g:"#3f6b52", r:4.2, t:"37–42", d:"2.2 km", o:"Free dessert", cu:"Cafe" },
+  { n:"Domino's",               c:"Pizza · Fast food",    e:"🍕", g:"#9c2f2f", r:4.1, t:"30–35", d:"1.6 km", o:"₹99 pizza", cu:"Pizza" },
+  { n:"Pizza Hut",              c:"Pizza · Fast food",    e:"🍕", g:"#8a2f3f", r:3.9, t:"34–40", d:"2.4 km", o:"", cu:"Pizza" },
+  { n:"KFC",                    c:"Fried chicken",             e:"🍗", g:"#8a3a2f", r:4.0, t:"32–38", d:"2.0 km", o:"Bucket deal", cu:"Fast food" },
+  { n:"Wendy's Burgers",        c:"Burgers · Fast food",  e:"🍔", g:"#7a4a2f", r:3.8, t:"35–41", d:"2.9 km", o:"", cu:"Fast food" }
+];
+
+/* Dishes people actually search for, each mapped to the audit-frame restaurants
+   that plausibly serve it. Used for suggestions and for filtering results. */
+var DISHES = [
+  { n:"Chicken biryani", e:"\uD83C\uDF5B", cu:"Biryani" },
+  { n:"Mutton biryani",  e:"\uD83C\uDF5B", cu:"Biryani" },
+  { n:"Veg biryani",     e:"\uD83C\uDF5A", cu:"Biryani" },
+  { n:"Haleem",          e:"\uD83E\uDD63", cu:"Biryani" },
+  { n:"Kebab",           e:"\uD83C\uDF62", cu:"Biryani" },
+  { n:"Pizza",           e:"\uD83C\uDF55", cu:"Pizza" },
+  { n:"Garlic bread",    e:"\uD83E\uDD56", cu:"Pizza" },
+  { n:"Burger",          e:"\uD83C\uDF54", cu:"Fast food" },
+  { n:"Fried chicken",   e:"\uD83C\uDF57", cu:"Fast food" },
+  { n:"Dosa",            e:"\uD83E\uDD5E", cu:"South Indian" },
+  { n:"Idli",            e:"\uD83C\uDF5A", cu:"South Indian" },
+  { n:"Vada",            e:"\uD83E\uDD6F", cu:"South Indian" },
+  { n:"Andhra thali",    e:"\uD83C\uDF71", cu:"South Indian" },
+  { n:"Paneer butter masala", e:"\uD83C\uDF5B", cu:"North Indian" },
+  { n:"Butter naan",     e:"\uD83E\uDD59", cu:"North Indian" },
+  { n:"Ice cream",       e:"\uD83C\uDF68", cu:"Desserts" },
+  { n:"Cake",            e:"\uD83C\uDF82", cu:"Desserts" },
+  { n:"Cookies",         e:"\uD83C\uDF6A", cu:"Desserts" },
+  { n:"Milkshake",       e:"\uD83E\uDD5B", cu:"Desserts" },
+  { n:"Salad",           e:"\uD83E\uDD57", cu:"Cafe" },
+  { n:"Coffee",          e:"\u2615", cu:"Cafe" }
+];
+
+var CATS = [
+  { e:"🍛", n:"Biryani" }, { e:"🍕", n:"Pizza" },
+  { e:"🍨", n:"Desserts" }, { e:"🥞", n:"South Indian" },
+  { e:"🍜", n:"North Indian" }, { e:"🍔", n:"Fast food" },
+  { e:"🥗", n:"Cafe" }
+];
+
+function $(id){ return document.getElementById(id); }
+var STORAGE_OK = (function(){
+  try { var t="__p__"; localStorage.setItem(t,"1"); var ok=localStorage.getItem(t)==="1";
+        localStorage.removeItem(t); return ok; } catch(e){ return false; }
+})();
+function ls(k,v){ if(!STORAGE_OK) return null;
+  try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); }
+  catch(e){ STORAGE_OK=false; return null; } }
+function uuid(){
+  try{ var b=new Uint8Array(16); crypto.getRandomValues(b); b[6]=(b[6]&15)|64; b[8]=(b[8]&63)|128;
+    var h=Array.prototype.map.call(b,function(x){ return ("0"+x.toString(16)).slice(-2); }).join("");
+    return h.slice(0,8)+"-"+h.slice(8,12)+"-"+h.slice(12,16)+"-"+h.slice(16,20)+"-"+h.slice(20);
+  }catch(e){ return "fb-"+Date.now()+"-"+Math.floor(Math.random()*1e9); }
+}
+function qp(k){ try{ return new URLSearchParams(location.search).get(k); }catch(e){ return null; } }
+function esc(s){ return String(s==null?"":s).replace(/[<>&"]/g, function(c){
+  return { "<":"&lt;", ">":"&gt;", "&":"&amp;", '"':"&quot;" }[c]; }); }
+/* Free-text search queries are stored, so they are scrubbed of anything that
+   looks like an email or a phone number before they ever leave the page. */
+function scrubQ(v){
+  return String(v==null?"":v)
+    .replace(/[\w.+-]+@[\w-]+\.[\w.]+/g,"[removed]")
+    .replace(/(\+?\d[\d\s-]{8,}\d)/g,"[removed]")
+    .trim().slice(0,60);
+}
+var SEARCH = { dish_query:"", dish_selected:"", rest_query:"", rest_selected:"",
+               pick_query:"", dish_typed:false, rest_typed:false, pick_typed:false };
+
+function sel(name){
+  /* CSS.escape is not universal; match on the attribute the slow way instead. */
+  var all=document.querySelectorAll("[data-pick]");
+  for(var i=0;i<all.length;i++){ if(all[i].getAttribute("data-pick")===name) return all[i]; }
+  return null;
+}
+
+var visitorId = ls("fd_visitor_id"); if(!visitorId){ visitorId=uuid(); ls("fd_visitor_id",visitorId); }
+var sessionId = uuid();
+var forced = qp("variant");
+var isQA = !!forced || qp("qa")==="1";
+var variant = (forced && ARM[forced]) ? forced : null;
+if(!variant){
+  variant = ls("fd_variant");
+  if(!variant || !ARM[variant]){
+    var rr=new Uint32Array(1);
+    try{ crypto.getRandomValues(rr); }catch(e){ rr[0]=Math.floor(Math.random()*4294967295); }
+    variant = CONFIG.ARMS[rr[0] % CONFIG.ARMS.length];
+    ls("fd_variant", variant);
+  }
+}
+var source = qp("source") || "direct";
+var ua = navigator.userAgent || "";
+var deviceType = /iPad|Tablet/i.test(ua) ? "tablet" : /Mobi|Android|iPhone/i.test(ua) ? "mobile" : "desktop";
+var botSuspect = !!navigator.webdriver || /bot|crawl|spider|headless|lighthouse/i.test(ua);
+
+var LOGKEY="fd_events", t0=Date.now(), tPrev=t0, MEM=[], furthest="home";
+function storedLog(){ try{ return JSON.parse(ls(LOGKEY)||"[]"); }catch(e){ return []; } }
+function readLog(){
+  if(!STORAGE_OK) return MEM.slice();
+  var st=storedLog(), seen={}; st.forEach(function(e){ seen[e.event_id]=true; });
+  return st.concat(MEM.filter(function(e){ return !seen[e.event_id]; }));
+}
+function track(name,payload){
+  var now=Date.now();
+  var ev={ event_id:uuid(), experiment_id:CONFIG.EXPERIMENT_ID, page_version:CONFIG.PAGE_VERSION,
+    variant_id:variant, variant_key:variant, source:source, anon_visitor_id:visitorId,
+    anon_session_id:sessionId, event_name:name, ts_iso:new Date().toISOString(),
+    time_since_load_ms:now-t0, time_since_prev_ms:now-tPrev, device_type:deviceType,
+    viewport_w:window.innerWidth, is_qa:isQA, is_bot_suspect:botSuspect, payload:payload||{} };
+  tPrev=now; MEM.push(ev);
+  if(STORAGE_OK){ var lg=storedLog(); lg.push(ev);
+    try{ ls(LOGKEY,JSON.stringify(lg)); }catch(e){ STORAGE_OK=false; } }
+  try{ console.log("[fd]",name,ev); }catch(e){}
+  if(CONFIG.ENDPOINT){
+    var body=JSON.stringify(ev);
+    try{
+      if(navigator.sendBeacon) navigator.sendBeacon(CONFIG.ENDPOINT,new Blob([body],{type:"text/plain;charset=utf-8"}));
+      else fetch(CONFIG.ENDPOINT,{ method:"POST", mode:"no-cors", keepalive:true,
+        headers:{"Content-Type":"text/plain;charset=utf-8"}, body:body });
+    }catch(e){}
+  }
+  updateQA();
+}
+
+/* ══ THE KEY NEW MEASURE ══
+   Offers and restaurants share one screen. Whichever a participant reaches for
+   FIRST is a revealed preference between a discount pull and an assortment pull,
+   measured WITHIN each person — so it does not depend on the underpowered
+   between-arms comparison. Fires exactly once per session. */
+var firstTapDone=false;
+function firstTap(kind, detail){
+  if(firstTapDone) return; firstTapDone=true;
+  track("first_meaningful_tap",{ tap_kind:kind, detail:detail, ms_to_first_tap:Date.now()-t0 });
+}
+
+var A = ARM[variant] || ARM.discount;
+$("offers-h").textContent = A.offersTitle;
+
+$("cats").innerHTML = CATS.map(function(c){
+  return '<button type="button" class="cat" data-cat="'+esc(c.n)+'">'+
+    '<span class="e" aria-hidden="true">'+c.e+'</span>'+esc(c.n)+'</button>';
+}).join("");
+
+$("offers").innerHTML = A.offers.map(function(o,i){
+  return '<button type="button" class="offer '+o.cls+'" data-offer="'+esc(o.big)+'" data-idx="'+i+'">'+
+    '<span><span class="kick">'+esc(o.kick)+'</span><span class="big">'+esc(o.big)+'</span>'+
+    '<span class="sub">'+esc(o.sub)+'</span></span>'+
+    '<span class="emoji" aria-hidden="true">'+o.e+'</span></button>';
+}).join("");
+
+function feedCard(r){
+  return '<button type="button" class="rcard" data-rest="'+esc(r.n)+'">'+
+    '<span class="rimg" style="background:'+r.g+'"><span aria-hidden="true">'+r.e+'</span>'+
+      (r.o?'<span class="tag">'+esc(r.o)+'</span>':'')+'</span>'+
+    '<span class="rbody"><span class="rtitle">'+esc(r.n)+'</span>'+
+      '<span class="rmeta">'+esc(r.c)+'</span>'+
+      '<span class="rrow"><span class="star">★ '+r.r+'</span><span class="dot">·</span>'+
+        esc(r.t)+' min<span class="dot">·</span>'+esc(r.d)+'</span>'+
+      (r.o?'<span class="roffer">'+esc(r.o)+'</span>':'')+
+    '</span></button>';
+}
+$("feed").innerHTML = RESTAURANTS.slice(0,8).map(feedCard).join("");
+
+var cuisines=[]; RESTAURANTS.forEach(function(r){ if(cuisines.indexOf(r.cu)<0) cuisines.push(r.cu); });
+$("pickzones").innerHTML = cuisines.map(function(cu){
+  var items=RESTAURANTS.filter(function(r){ return r.cu===cu; });
+  return '<div class="cuisine-h">'+esc(cu)+'</div><div class="pickgrid">'+
+    items.map(function(r){
+      return '<button type="button" class="pick" data-pick="'+esc(r.n)+'" aria-pressed="false">'+
+        '<span class="pe" aria-hidden="true">'+r.e+'</span>'+
+        '<span class="pn">'+esc(r.n)+'</span><span class="pm">'+esc(r.c)+'</span></button>';
+    }).join("")+'</div>';
+}).join("");
+
+track("experiment_view",{ entry_screen:"home", storage_ok:STORAGE_OK });
+track("landing_page_view",{ variant_key:variant, source:source, n_offers:A.offers.length });
+
+if(!STORAGE_OK){
+  var w=document.createElement("div"); w.setAttribute("role","alert");
+  w.style.cssText="position:sticky;top:0;z-index:85;background:#7a1f1f;color:#fff;font-size:12px;"+
+    "font-weight:700;text-align:center;padding:8px 12px";
+  w.textContent="FACILITATOR: storage blocked — download before closing this tab.";
+  document.body.insertBefore(w, document.body.firstChild);
+}
+
+$("offers").addEventListener("click", function(e){
+  var b=e.target.closest("[data-offer]"); if(!b) return;
+  firstTap("offer", b.getAttribute("data-offer"));
+  track("offer_card_click",{ offer:b.getAttribute("data-offer"), position:+b.getAttribute("data-idx") });
+  $("live").textContent="Offers are illustrative in this prototype.";
+});
+$("cats").addEventListener("click", function(e){
+  var b=e.target.closest("[data-cat]"); if(!b) return;
+  var cat=b.getAttribute("data-cat");
+  firstTap("category", cat);
+  Array.prototype.forEach.call($("cats").children,function(c){ c.classList.remove("sel"); });
+  b.classList.add("sel");
+  track("category_chip_click",{ category:cat });
+  var f=RESTAURANTS.filter(function(r){ return r.cu===cat; });
+  $("feed").innerHTML=(f.length?f:RESTAURANTS.slice(0,8)).map(feedCard).join("");
+});
+$("feed").addEventListener("click", function(e){
+  var b=e.target.closest("[data-rest]"); if(!b) return;
+  var nm=b.getAttribute("data-rest");
+  firstTap("restaurant", nm);
+  track("restaurant_card_click",{ restaurant_name:nm });
+  goPick(nm);
+});
+$("fakesearch").addEventListener("click", function(){
+  firstTap("search","");
+  track("search_tap",{});
+  show("s-dish");
+  setTimeout(function(){ try{ $("dish-q").focus(); }catch(e){} },80);
+});
+$("cta-explore").addEventListener("click", function(){
+  firstTap("cta","explore");
+  track("explore_restaurants_click",{ cta_position:"sticky_footer" });
+  show("s-dish");
+});
+
+/* ══════════════ SEARCH 1 · DISH ══════════════ */
+function dishRows(q){
+  var ql=q.trim().toLowerCase();
+  return ql ? DISHES.filter(function(d){ return d.n.toLowerCase().indexOf(ql)>=0; }) : [];
+}
+function renderDish(q){
+  var rows=dishRows(q), ql=q.trim();
+  $("dish-sugg-h").textContent = ql ? "Matching dishes" : "Popular in Gachibowli";
+  $("dish-chips").hidden = !!ql;
+  $("dish-results").innerHTML = rows.map(function(d){
+    return '<li><button type="button" class="srow" data-dish="'+esc(d.n)+'">'+
+      '<span class="se" aria-hidden="true">'+d.e+'</span>'+
+      '<span><span class="sn">'+esc(d.n)+'</span><br>'+
+      '<span class="sm">'+esc(d.cu)+'</span></span>'+
+      '<span class="sgo">Find places \u203A</span></button></li>';
+  }).join("");
+  var none = ql && rows.length===0;
+  $("dish-empty").hidden = !none;
+  if(none){
+    $("dish-empty").innerHTML = 'No match for \u201C'+esc(ql)+'\u201D in our list \u2014 '+
+      'that is useful to know.<div style="margin-top:11px">'+
+      '<button type="button" class="btn btn-primary" data-dish="'+esc(ql)+'">'+
+      'Look for places serving \u201C'+esc(ql)+'\u201D</button></div>';
+  }
+}
+$("dish-chips").innerHTML = DISHES.slice(0,10).map(function(d){
+  return '<button type="button" class="dchip" data-dish="'+esc(d.n)+'">'+
+    '<span aria-hidden="true">'+d.e+'</span>'+esc(d.n)+'</button>';
+}).join("");
+renderDish("");
+
+$("dish-q").addEventListener("input", function(){
+  if(!SEARCH.dish_typed && this.value.length>0){
+    SEARCH.dish_typed=true;
+    track("dish_search_started",{ ms_to_start:Date.now()-t0 });
+  }
+  SEARCH.dish_query=scrubQ(this.value);
+  renderDish(this.value);
+});
+$("dish-clr").addEventListener("click", function(){
+  $("dish-q").value=""; SEARCH.dish_query=""; renderDish(""); $("dish-q").focus();
+});
+$("dish-back").addEventListener("click", function(){ show("s-home"); });
+
+function pickDish(name){
+  SEARCH.dish_selected = scrubQ(name);
+  track("dish_selected",{ dish:SEARCH.dish_selected,
+    query:SEARCH.dish_query, from_list: dishRows(SEARCH.dish_selected).length>0,
+    typed:SEARCH.dish_typed });
+  goRestSearch();
+}
+["dish-chips","dish-results","dish-empty"].forEach(function(id){
+  $(id).addEventListener("click", function(e){
+    var b=e.target.closest("[data-dish]"); if(!b) return;
+    firstTap("dish", b.getAttribute("data-dish"));
+    pickDish(b.getAttribute("data-dish"));
+  });
+});
+
+/* ══════════════ SEARCH 2 · RESTAURANT ══════════════ */
+function restRows(q){
+  var ql=q.trim().toLowerCase();
+  if(ql) return RESTAURANTS.filter(function(r){ return r.n.toLowerCase().indexOf(ql)>=0; });
+  var d=DISHES.filter(function(x){ return x.n===SEARCH.dish_selected; })[0];
+  return d ? RESTAURANTS.filter(function(r){ return r.cu===d.cu; }) : RESTAURANTS.slice(0,8);
+}
+function renderRest(q){
+  var rows=restRows(q), ql=q.trim();
+  $("rs-h").innerHTML = ql ? "Matching places"
+    : (SEARCH.dish_selected
+        ? 'Places for <span class="dishpill">'+esc(SEARCH.dish_selected)+'</span>'
+        : "Places near you");
+  $("rs-results").innerHTML = rows.map(function(r){
+    return '<li><button type="button" class="srow" data-rs="'+esc(r.n)+'">'+
+      '<span class="se" aria-hidden="true">'+r.e+'</span>'+
+      '<span><span class="sn">'+esc(r.n)+'</span><br>'+
+      '<span class="sm">'+esc(r.c)+' \u00B7 \u2605 '+r.r+' \u00B7 '+esc(r.t)+' min</span></span>'+
+      '<span class="sgo">Add \u203A</span></button></li>';
+  }).join("");
+  var none = ql && rows.length===0;
+  $("rs-empty").hidden = !none;
+  if(none){
+    $("rs-empty").innerHTML = 'We do not have \u201C'+esc(ql)+'\u201D in this list \u2014 '+
+      'that is exactly the kind of gap we want to record.'+
+      '<div style="margin-top:11px"><button type="button" class="btn btn-primary" '+
+      'data-rs="'+esc(ql)+'">Request \u201C'+esc(ql)+'\u201D</button></div>';
+  }
+}
+function goRestSearch(){
+  show("s-rsearch");
+  $("rs-q").value=""; renderRest("");
+  track("restaurant_search_view",{ dish:SEARCH.dish_selected });
+  setTimeout(function(){ try{ $("rs-q").focus(); }catch(e){} },80);
+}
+$("rs-q").addEventListener("input", function(){
+  if(!SEARCH.rest_typed && this.value.length>0){
+    SEARCH.rest_typed=true;
+    track("restaurant_search_started",{ dish:SEARCH.dish_selected, ms_to_start:Date.now()-t0 });
+  }
+  SEARCH.rest_query=scrubQ(this.value);
+  renderRest(this.value);
+});
+$("rs-clr").addEventListener("click", function(){
+  $("rs-q").value=""; SEARCH.rest_query=""; renderRest(""); $("rs-q").focus();
+});
+$("rs-back").addEventListener("click", function(){ show("s-dish"); });
+$("rs-next").addEventListener("click", function(){
+  track("restaurant_search_skipped",{ dish:SEARCH.dish_selected, query:SEARCH.rest_query });
+  goPick(null);
+});
+["rs-results","rs-empty"].forEach(function(id){
+  $(id).addEventListener("click", function(e){
+    var b=e.target.closest("[data-rs]"); if(!b) return;
+    var nm=b.getAttribute("data-rs");
+    SEARCH.rest_selected=scrubQ(nm);
+    var known = RESTAURANTS.some(function(r){ return r.n===nm; });
+    track("restaurant_search_selected",{ restaurant_name:SEARCH.rest_selected,
+      query:SEARCH.rest_query, dish:SEARCH.dish_selected,
+      from_list:known, typed:SEARCH.rest_typed });
+    goPick(known ? nm : null);
+    if(!known) customPick(nm);
+  });
+});
+
+var picks=[];
+/* a typed restaurant that is not in our frame still counts as a request */
+function customPick(name){ addCustom(name); }
+function show(id){
+  ["s-home","s-dish","s-rsearch","s-pick","s-confirm","s-disc","s-post","s-end"].forEach(function(s){
+    $(s).classList.toggle("on", s===id); });
+  furthest=id.replace("s-","");
+  window.scrollTo(0,0);
+  var h=document.querySelector("#"+id+" h1, #"+id+" h2, #"+id+" .big");
+  if(h){ h.setAttribute("tabindex","-1"); try{ h.focus({preventScroll:true}); }catch(e){} }
+}
+function goPick(preselect){
+  show("s-pick");
+  $("pick-q").value=""; renderPicker(""); renderCustom(); refreshSubmit();
+  track("picker_view",{ preselected:preselect||"" });
+  if(preselect) togglePick(preselect, true);
+}
+function togglePick(name, force){
+  var btn=sel(name), i=picks.indexOf(name);
+  var want = (force===undefined) ? (i<0) : force;
+  if(want && i<0) picks.push(name);
+  if(!want && i>=0) picks.splice(i,1);
+  if(btn){ btn.classList.toggle("on", want); btn.setAttribute("aria-pressed", want?"true":"false"); }
+  refreshSubmit();
+}
+/* The picker is searchable, and anything not in our frame can still be added.
+   Without this a participant whose restaurant is missing would either drop out or
+   tap a place they do not actually use — which would corrupt the primary metric. */
+function renderPicker(q){
+  var ql=(q||"").trim().toLowerCase();
+  var shown=0;
+  $("pickzones").innerHTML = cuisines.map(function(cu){
+    var items=RESTAURANTS.filter(function(r){
+      return r.cu===cu && (!ql || r.n.toLowerCase().indexOf(ql)>=0);
+    });
+    if(!items.length) return "";
+    shown += items.length;
+    return '<div class="cuisine-h">'+esc(cu)+'</div><div class="pickgrid">'+
+      items.map(function(r){
+        var on = picks.indexOf(r.n)>=0;
+        return '<button type="button" class="pick'+(on?' on':'')+'" data-pick="'+esc(r.n)+'" '+
+          'aria-pressed="'+(on?'true':'false')+'">'+
+          '<span class="pe" aria-hidden="true">'+r.e+'</span>'+
+          '<span class="pn">'+esc(r.n)+'</span><span class="pm">'+esc(r.c)+'</span></button>';
+      }).join("")+'</div>';
+  }).join("");
+
+  var none = ql && shown===0;
+  $("pick-empty").hidden = !none;
+  if(none){
+    $("pick-empty").innerHTML = '\u201C'+esc(q.trim())+'\u201D is not in our list \u2014 '+
+      'that is exactly what we want to record.'+
+      '<div style="margin-top:11px"><button type="button" class="btn btn-primary" '+
+      'id="pick-add-inline">Add \u201C'+esc(q.trim())+'\u201D to my list</button></div>';
+    var btn=$("pick-add-inline");
+    if(btn) btn.addEventListener("click", function(){ addCustom(q); });
+  }
+}
+function renderCustom(){
+  var cust = picks.filter(function(p){
+    return !RESTAURANTS.some(function(r){ return r.n===p; }); });
+  $("custchips").innerHTML = cust.length
+    ? '<div style="font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;'+
+      'color:var(--muted);padding:10px 0 7px">Added by you</div>'+
+      cust.map(function(c){
+        return '<span class="custchip">'+esc(c)+
+          '<button type="button" data-rm="'+esc(c)+'" aria-label="Remove '+esc(c)+'">\u00D7</button></span>';
+      }).join("")
+    : "";
+}
+function addCustom(raw){
+  var clean=scrubQ(raw);
+  if(!clean) return;
+  if(picks.indexOf(clean)<0){
+    picks.push(clean);
+    track("restaurant_added_custom",{ restaurant_name:clean, from_list:false,
+      source_screen:"picker", dish:SEARCH.dish_selected });
+  }
+  SEARCH.rest_query = SEARCH.rest_query || clean;
+  $("pick-q").value=""; renderPicker(""); renderCustom(); refreshSubmit();
+  $("live").textContent = clean+" added to your request list.";
+}
+function refreshSubmit(){
+  $("cta-submit").disabled = picks.length===0;
+  $("cta-submit").textContent = picks.length
+    ? "Add "+picks.length+" place"+(picks.length>1?"s":"")+" to my request list"
+    : "Add to my request list";
+}
+$("pick-q").addEventListener("input", function(){
+  if(!SEARCH.pick_typed && this.value.length>0){
+    SEARCH.pick_typed=true;
+    track("picker_search_started",{ ms_to_start:Date.now()-t0 });
+  }
+  SEARCH.pick_query=scrubQ(this.value);
+  renderPicker(this.value);
+});
+$("pick-q").addEventListener("keydown", function(e){
+  if(e.key==="Enter"){ e.preventDefault();
+    var v=this.value.trim();
+    var exact=RESTAURANTS.filter(function(r){ return r.n.toLowerCase()===v.toLowerCase(); })[0];
+    if(exact){ togglePick(exact.n, true); this.value=""; renderPicker(""); }
+    else if(v){ addCustom(v); }
+  }
+});
+$("pick-clr").addEventListener("click", function(){
+  $("pick-q").value=""; SEARCH.pick_query=""; renderPicker(""); $("pick-q").focus();
+});
+$("cta-addown").addEventListener("click", function(){
+  track("picker_add_own_click",{});
+  $("pick-q").focus();
+  $("live").textContent="Type the name of your place, then press enter or tap Add.";
+});
+$("custchips").addEventListener("click", function(e){
+  var b=e.target.closest("[data-rm]"); if(!b) return;
+  var nm=b.getAttribute("data-rm"), i=picks.indexOf(nm);
+  if(i>=0){ picks.splice(i,1); track("restaurant_removed",{ restaurant_name:nm }); }
+  renderCustom(); refreshSubmit();
+});
+
+$("pickzones").addEventListener("click", function(e){
+  var b=e.target.closest("[data-pick]"); if(!b) return;
+  var name=b.getAttribute("data-pick");
+  togglePick(name);
+  track("restaurant_selected",{ restaurant_name:name,
+    selected: picks.indexOf(name)>=0, n_selected:picks.length });
+});
+$("cta-submit").addEventListener("click", function(){
+  if(!picks.length) return;
+  $("reqchips").innerHTML = picks.map(function(p){ return '<span class="rq">'+esc(p)+'</span>'; }).join("");
+  track("restaurant_request_submitted",{ restaurant_name:picks.join("|"), n_requests:picks.length,
+    dish_query:SEARCH.dish_query, dish_selected:SEARCH.dish_selected,
+    restaurant_query:SEARCH.rest_query, restaurant_search_selected:SEARCH.rest_selected,
+    picker_query:SEARCH.pick_query,
+    n_custom:picks.filter(function(pp){
+      return !RESTAURANTS.some(function(r){ return r.n===pp; }); }).length });
+  show("s-confirm");
+});
+$("cta-none").addEventListener("click", function(){
+  track("picker_declined",{ n_selected:0 }); goDisclosure();
+});
+$("cta-back").addEventListener("click", function(){ show("s-pick"); });
+
+function currentAnswer(){
+  var el=document.querySelector('input[name="cur"]:checked'); return el?el.value:"not_answered";
+}
+$("cta-notify").addEventListener("click", function(){
+  track("notify_me_click",{ step_reached:"confirm", is_current_customer:currentAnswer(),
+                            n_requests:picks.length });
+  goDisclosure();
+});
+$("cta-skip").addEventListener("click", function(){
+  track("intent_declined",{ step_reached:"confirm", is_current_customer:currentAnswer() });
+  goDisclosure();
+});
+function goDisclosure(){ show("s-disc"); track("research_disclosure_view",{ n_requests:picks.length }); }
+
+$("cta-post").addEventListener("click", function(){
+  var made=picks.length>0;
+  $("blk-did").hidden=!made; $("blk-didnt").hidden=made;
+  show("s-post");
+});
+$("cta-end").addEventListener("click", function(){ finish(false); });
+$("cta-skip-post").addEventListener("click", function(){ finish(false); });
+
+$("postform").addEventListener("submit", function(e){
+  e.preventDefault();
+  var d={ made_request:picks.length>0, n_requests:picks.length,
+          dish_query:SEARCH.dish_query, dish_selected:SEARCH.dish_selected,
+          restaurant_query:SEARCH.rest_query };
+  ["q1","q2","q3","q4","q5","q6","followup"].forEach(function(k){
+    var el=document.querySelector('input[name="'+k+'"]:checked'); d[k]=el?el.value:"";
+  });
+  d.segments=Array.prototype.slice.call(document.querySelectorAll('input[name="seg"]:checked'))
+    .map(function(x){ return x.value; }).join("|");
+  track("posttest_submitted", d);
+  if(d.followup==="yes") track("followup_consent_given",{ contact_channel:"in_person" });
+  finish(true);
+});
+
+function finish(didPost){
+  $("pid-out").textContent=visitorId;
+  show("s-end");
+  track("prototype_exit",{ furthest_step:furthest, completed_posttest:!!didPost,
+                           dwell_ms:Date.now()-t0, n_requests:picks.length });
+}
+var exited=false;
+function bye(){ if(exited) return; exited=true;
+  track("prototype_exit",{ furthest_step:furthest, reason:"page_hidden", dwell_ms:Date.now()-t0 }); }
+window.addEventListener("pagehide", bye);
+document.addEventListener("visibilitychange", function(){
+  if(document.visibilityState==="hidden") bye(); });
+
+function updateQA(){
+  if(!isQA) return;
+  $("qa-info").textContent=" arm="+variant+" · src="+source+" · ev="+readLog().length+
+    " · storage="+(STORAGE_OK?"ok":"BLOCKED")+" · endpoint="+(CONFIG.ENDPOINT?"on":"OFF");
+}
+function dl(fn,txt,mime){
+  var b=new Blob([txt],{type:mime}), u=URL.createObjectURL(b), a=document.createElement("a");
+  a.href=u; a.download=fn; document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); },400);
+}
+function toCSV(rows){
+  var cols=["event_id","experiment_id","page_version","variant_id","source","anon_visitor_id",
+    "anon_session_id","event_name","ts_iso","time_since_load_ms","time_since_prev_ms",
+    "device_type","viewport_w","is_qa","is_bot_suspect","payload_json"];
+  var q=function(v){ v=(v==null)?"":String(v);
+    return /[",\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; };
+  return [cols.join(",")].concat(rows.map(function(r){
+    return cols.map(function(c){
+      return q(c==="payload_json" ? JSON.stringify(r.payload||{}) : r[c]); }).join(",");
+  })).join("\n");
+}
+if(isQA){
+  $("qa").classList.add("on");
+  $("qa-json").addEventListener("click",function(){
+    dl("fd_"+visitorId.slice(0,8)+".json", JSON.stringify(readLog(),null,2), "application/json"); });
+  $("qa-csv").addEventListener("click",function(){
+    dl("fd_"+visitorId.slice(0,8)+".csv", toCSV(readLog()), "text/csv"); });
+  $("qa-clear").addEventListener("click",function(){
+    if(confirm("Delete this device's log and arm assignment?")){
+      ["fd_events","fd_variant","fd_visitor_id"].forEach(function(k){
+        try{ localStorage.removeItem(k); }catch(e){} });
+      location.href=location.pathname;
+    }});
+  $("qa-reset").addEventListener("click",function(){ location.href=location.pathname+location.search; });
+  updateQA();
+}
+})();
+</script>
+</body>
+</html>

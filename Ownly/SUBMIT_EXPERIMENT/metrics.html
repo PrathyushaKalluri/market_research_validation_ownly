@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ownly Fake Door — Metrics</title>
+<!--
+  ════════════════════════════════════════════════════════════════════════════
+  LIVE METRICS FOR THE FAKE DOOR
+
+  Two ways in, both offline-capable once loaded:
+    1. LIVE   — reads the Google Sheet through the collector's key-gated
+                read endpoint. Endpoint + key are stored in THIS browser only.
+    2. FILE   — drop the CSV exported from the Sheet. No network at all.
+
+  The read key never appears in fake_door.html. That file stays write-only,
+  which is what makes it safe to host publicly.
+
+  No CDN, no build step, no dependencies. Charts are inline SVG.
+  ════════════════════════════════════════════════════════════════════════════
+-->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f4f4f2; --surface-1:#fcfcfb; --surface-2:#f0efec;
+  --line:#e4e3de; --line-strong:#cfcec8;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#86847e;
+  --series-1:#2a78d6;
+  --seq-250:#86b6ef; --seq-350:#5598e7; --seq-450:#2a78d6; --seq-550:#1c5cab; --seq-650:#104281;
+  --good:#0ca30c; --warning:#fab219; --critical:#d03b3b;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#131312; --surface-1:#1a1a19; --surface-2:#232322;
+    --line:#2f2f2d; --line-strong:#43423f;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#908e86;
+    --series-1:#3987e5;
+    --seq-250:#184f95; --seq-350:#256abf; --seq-450:#3987e5; --seq-550:#6da7ec; --seq-650:#9ec5f4;
+    --good:#0ca30c; --warning:#fab219; --critical:#d03b3b;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#131312; --surface-1:#1a1a19; --surface-2:#232322;
+  --line:#2f2f2d; --line-strong:#43423f;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#908e86;
+  --series-1:#3987e5;
+  --seq-250:#184f95; --seq-350:#256abf; --seq-450:#3987e5; --seq-550:#6da7ec; --seq-650:#9ec5f4;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text-primary);font-family:var(--sans);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1040px;margin:0 auto;padding:22px 20px 80px;}
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  margin-bottom:18px;}
+h1{font-size:24px;letter-spacing:-.025em;margin:0 0 3px;font-weight:800;}
+.sub{font-size:13.5px;color:var(--text-secondary);margin:0;}
+h2{font-size:18px;letter-spacing:-.02em;margin:30px 0 4px;font-weight:800;}
+h2:first-of-type{margin-top:22px;}
+.note{font-size:13px;color:var(--text-secondary);margin:0 0 14px;max-width:70ch;}
+.card{background:var(--surface-1);border:1px solid var(--line);border-radius:14px;
+  padding:18px 18px 14px;margin-bottom:14px;}
+.card h3{font-size:15px;margin:0 0 3px;font-weight:700;letter-spacing:-.01em;}
+.card .cap{font-size:12.5px;color:var(--text-secondary);margin:0 0 14px;}
+
+/* ── controls ── */
+.bar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;background:var(--surface-1);
+  border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-bottom:16px;}
+.bar input{flex:1;min-width:210px;font:inherit;font-size:13px;font-family:var(--mono);
+  padding:9px 11px;border:1px solid var(--line-strong);border-radius:8px;
+  background:var(--bg);color:var(--text-primary);}
+button{font:inherit;font-size:13.5px;font-weight:650;padding:9px 15px;border-radius:8px;
+  border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text-primary);
+  cursor:pointer;min-height:38px;}
+button.primary{background:var(--series-1);border-color:var(--series-1);color:#fff;}
+button:focus-visible,input:focus-visible{outline:2px solid var(--series-1);outline-offset:2px;}
+.status{font-size:13px;color:var(--text-secondary);padding:2px 0;}
+.status.err{color:var(--critical);font-weight:650;}
+.status.ok{color:var(--good);font-weight:650;}
+#drop{border:2px dashed var(--line-strong);border-radius:12px;padding:26px;text-align:center;
+  color:var(--text-secondary);font-size:14px;margin-bottom:16px;background:var(--surface-1);}
+#drop.over{border-color:var(--series-1);background:var(--surface-2);}
+
+/* ── stat tiles ── */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:12px;margin-bottom:8px;}
+.tile{background:var(--surface-1);border:1px solid var(--line);border-radius:14px;padding:15px 16px;}
+.tile .k{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:6px;}
+.tile .v{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1;}
+.tile .d{font-size:12.5px;color:var(--text-secondary);margin-top:5px;}
+
+/* ── charts ── */
+svg{display:block;width:100%;height:auto;overflow:visible;}
+.gridline{stroke:var(--line);stroke-width:1;}
+.axis{fill:var(--text-secondary);font-size:11.5px;}
+.vlabel{fill:var(--text-primary);font-size:12px;font-weight:700;}
+.clabel{fill:var(--text-secondary);font-size:12px;}
+.mark{transition:opacity .12s;}
+.mark:hover{opacity:.82;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px;}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);}
+th{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);font-weight:700;}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+details{margin-top:10px;} summary{cursor:pointer;font-size:13px;color:var(--text-secondary);}
+.empty{color:var(--text-muted);font-size:13.5px;padding:8px 0;}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;
+  background:var(--surface-2);color:var(--text-secondary);margin-left:6px;}
+.pill.warn{background:#fab21922;color:#a67200;}
+:root:not([data-theme="light"]) .pill.warn{color:var(--warning);}
+#tip{position:fixed;pointer-events:none;background:var(--text-primary);color:var(--bg);
+  font-size:12.5px;padding:6px 9px;border-radius:7px;opacity:0;transition:opacity .1s;z-index:9;
+  white-space:nowrap;font-weight:600;}
+.hide{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>Fake door — live metrics</h1>
+    <p class="sub">Gachibowli · <span id="hdr-sub">not connected</span></p>
+  </div>
+  <button id="theme" type="button">Dark / light</button>
+</header>
+
+<div class="bar">
+  <input id="ep" type="url" placeholder="Paste the /exec URL from Apps Script" autocomplete="off">
+  <input id="key" type="password" placeholder="Read key" autocomplete="off" style="min-width:150px">
+  <button class="primary" id="load" type="button">Load</button>
+  <button id="forget" type="button">Forget</button>
+  <span class="status" id="status">Saved in this browser only — never in the prototype.</span>
+</div>
+
+<div id="drop">…or drop the <b>events</b> CSV exported from the Sheet here (no network needed)</div>
+
+<div id="out" class="hide"></div>
+
+</div>
+<div id="tip"></div>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){ return document.getElementById(id); };
+var esc=function(s){ return String(s==null?"":s).replace(/[<>&"]/g,function(c){
+  return {"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]; }); };
+
+/* ══ theme ══ */
+$("theme").addEventListener("click", function(){
+  var cur=document.documentElement.getAttribute("data-theme");
+  var next = cur==="dark" ? "light" : cur==="light" ? "dark"
+    : (matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark");
+  document.documentElement.setAttribute("data-theme", next);
+  try{ localStorage.setItem("m_theme", next); }catch(e){}
+  if(ROWS) render(ROWS);
+});
+try{ var t=localStorage.getItem("m_theme"); if(t) document.documentElement.setAttribute("data-theme",t); }catch(e){}
+
+/* ══ credentials live here, never in the public prototype ══ */
+try{
+  $("ep").value  = localStorage.getItem("m_ep")  || "";
+  $("key").value = localStorage.getItem("m_key") || "";
+}catch(e){}
+$("forget").addEventListener("click", function(){
+  try{ localStorage.removeItem("m_ep"); localStorage.removeItem("m_key"); }catch(e){}
+  $("ep").value=""; $("key").value=""; setStatus("Cleared from this browser.","");
+});
+function setStatus(msg, cls){ var el=$("status"); el.textContent=msg; el.className="status "+(cls||""); }
+
+$("load").addEventListener("click", function(){
+  var ep=$("ep").value.trim(), key=$("key").value.trim();
+  if(!ep){ setStatus("Paste the /exec URL first.","err"); return; }
+  try{ localStorage.setItem("m_ep",ep); localStorage.setItem("m_key",key); }catch(e){}
+  setStatus("Loading…","");
+  var url=ep+(ep.indexOf("?")>=0?"&":"?")+"action=events&key="+encodeURIComponent(key);
+  fetch(url).then(function(r){ return r.json(); }).then(function(j){
+    if(j.error==="bad_key"){ setStatus("That read key was rejected.","err"); return; }
+    if(j.error==="read_disabled"){ setStatus("Reading is off — set READ_KEY in the Apps Script.","err"); return; }
+    if(!j.rows){ setStatus("No rows came back.","err"); return; }
+    setStatus("Loaded "+j.n+" events.","ok");
+    ROWS=j.rows.map(normalise); render(ROWS);
+  }).catch(function(err){
+    setStatus("Could not reach the endpoint. Check the URL, or drop the CSV below instead.","err");
+  });
+});
+
+/* ══ CSV fallback — no network at all ══ */
+var dz=$("drop");
+["dragenter","dragover"].forEach(function(e){ dz.addEventListener(e,function(ev){
+  ev.preventDefault(); dz.classList.add("over"); }); });
+["dragleave","drop"].forEach(function(e){ dz.addEventListener(e,function(ev){
+  ev.preventDefault(); dz.classList.remove("over"); }); });
+dz.addEventListener("drop", function(ev){
+  var f=ev.dataTransfer.files[0]; if(!f) return;
+  var fr=new FileReader();
+  fr.onload=function(){ try{
+    ROWS=parseCSV(fr.result).map(normalise);
+    setStatus("Loaded "+ROWS.length+" events from "+f.name,"ok"); render(ROWS);
+  }catch(e){ setStatus("Could not read that file.","err"); } };
+  fr.readAsText(f);
+});
+dz.addEventListener("click", function(){
+  var i=document.createElement("input"); i.type="file"; i.accept=".csv,text/csv";
+  i.onchange=function(){ var f=i.files[0]; if(!f) return;
+    var fr=new FileReader();
+    fr.onload=function(){ try{ ROWS=parseCSV(fr.result).map(normalise);
+      setStatus("Loaded "+ROWS.length+" events from "+f.name,"ok"); render(ROWS);
+    }catch(e){ setStatus("Could not read that file.","err"); } };
+    fr.readAsText(f); };
+  i.click();
+});
+
+/* A real CSV parser — payload_json is full of commas and escaped quotes. */
+function parseCSV(text){
+  var rows=[], row=[], cur="", q=false, i=0;
+  text=text.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
+  for(;i<text.length;i++){
+    var c=text[i];
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){ cur+='"'; i++; } else q=false; }
+      else cur+=c;
+    } else {
+      if(c==='"') q=true;
+      else if(c===","){ row.push(cur); cur=""; }
+      else if(c==="\n"){ row.push(cur); rows.push(row); row=[]; cur=""; }
+      else cur+=c;
+    }
+  }
+  if(cur.length||row.length){ row.push(cur); rows.push(row); }
+  var head=rows.shift().map(function(h){ return h.trim(); });
+  return rows.filter(function(r){ return r.length>1; }).map(function(r){
+    var o={}; head.forEach(function(h,j){ o[h]=r[j]; }); return o; });
+}
+
+function normalise(r){
+  var p={};
+  try{ p=JSON.parse(r.payload_json||"{}")||{}; }catch(e){ p={}; }
+  return {
+    pid: r.anon_visitor_id||"", ev: r.event_name||"", arm: r.variant_id||"",
+    qa: String(r.is_qa).toLowerCase()==="true", bot: String(r.is_bot_suspect).toLowerCase()==="true",
+    ts: r.ts_iso||"", p:p
+  };
+}
+
+/* ══ statistics ══ */
+function wilson(k,n){
+  if(!n) return [null,null,null];
+  var z=1.959963985, p=k/n, d=1+z*z/n;
+  var c=(p+z*z/(2*n))/d, h=z*Math.sqrt(p*(1-p)/n + z*z/(4*n*n))/d;
+  return [100*p, 100*Math.max(0,c-h), 100*Math.min(1,c+h)];
+}
+function median(a){ var s=a.slice().sort(function(x,y){return x-y;}); if(!s.length) return null;
+  var n=s.length; return n%2 ? s[(n-1)/2] : (s[n/2-1]+s[n/2])/2; }
+
+/* ══ chart primitives ══ */
+var tip=$("tip");
+function hover(el, text){
+  el.addEventListener("mousemove", function(e){
+    tip.textContent=text; tip.style.opacity="1";
+    tip.style.left=Math.min(e.clientX+12, innerWidth-tip.offsetWidth-8)+"px";
+    tip.style.top=(e.clientY-34)+"px";
+  });
+  el.addEventListener("mouseleave", function(){ tip.style.opacity="0"; });
+}
+function svgEl(w,h){
+  var s=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  s.setAttribute("viewBox","0 0 "+w+" "+h);
+  s.setAttribute("role","img");
+  return s;
+}
+function mk(tag,attrs){
+  var e=document.createElementNS("http://www.w3.org/2000/svg",tag);
+  for(var k in attrs) e.setAttribute(k,attrs[k]);
+  return e;
+}
+
+/* Horizontal bars. One series, so no legend — the title names it.
+   Every bar carries a direct label, which also discharges the palette's
+   contrast relief rule. */
+function barsH(rows, opts){
+  opts=opts||{};
+  var W=760, rowH=30, pad=6, labelW=opts.labelW||230, valW=96;
+  var H=rows.length*rowH+pad*2;
+  var max=opts.max || Math.max.apply(null, rows.map(function(r){ return r.v; }).concat([1]));
+  var plotW=W-labelW-valW;
+  var s=svgEl(W,H);
+  s.setAttribute("aria-label", opts.aria||"bar chart");
+  rows.forEach(function(r,i){
+    var y=pad+i*rowH, bw=max? Math.max(2, (r.v/max)*plotW) : 2;
+    var g=mk("g",{});
+    var lbl=mk("text",{x:labelW-10,y:y+rowH/2+4,"text-anchor":"end","class":"clabel"});
+    lbl.textContent=r.k; g.appendChild(lbl);
+    var bar=mk("rect",{x:labelW,y:y+5,width:bw,height:rowH-14,rx:4,
+      fill:r.color||"var(--series-1)","class":"mark"});
+    g.appendChild(bar);
+    var vt=mk("text",{x:labelW+bw+9,y:y+rowH/2+4,"class":"vlabel"});
+    vt.textContent=r.label!=null?r.label:r.v; g.appendChild(vt);
+    s.appendChild(g);
+    hover(bar, r.tip || (r.k+": "+(r.label!=null?r.label:r.v)));
+  });
+  return s;
+}
+
+/* Price-response curve: dots + a connecting line + a CI whisker per point.
+   One series, direct labels on every point. */
+function curve(points, opts){
+  opts=opts||{};
+  var W=760, H=250, L=54, R=24, T=22, B=44;
+  var pw=W-L-R, ph=H-T-B;
+  var xs=points.map(function(p){ return p.x; });
+  var xmin=Math.min.apply(null,xs), xmax=Math.max.apply(null,xs);
+  var span=(xmax-xmin)||1;
+  var X=function(v){ return L + ((v-xmin)/span)*pw; };
+  var Y=function(v){ return T + ph - (v/100)*ph; };
+  var s=svgEl(W,H);
+  s.setAttribute("aria-label", opts.aria||"price response curve");
+  [0,25,50,75,100].forEach(function(g){
+    s.appendChild(mk("line",{x1:L,x2:W-R,y1:Y(g),y2:Y(g),"class":"gridline"}));
+    var t=mk("text",{x:L-9,y:Y(g)+4,"text-anchor":"end","class":"axis"});
+    t.textContent=g+"%"; s.appendChild(t);
+  });
+  var d=points.map(function(p,i){ return (i?"L":"M")+X(p.x)+" "+Y(p.pt); }).join(" ");
+  s.appendChild(mk("path",{d:d,fill:"none",stroke:"var(--series-1)","stroke-width":2,
+    "stroke-linejoin":"round","stroke-linecap":"round"}));
+  points.forEach(function(p){
+    s.appendChild(mk("line",{x1:X(p.x),x2:X(p.x),y1:Y(p.lo),y2:Y(p.hi),
+      stroke:"var(--series-1)","stroke-width":2,opacity:.3,"stroke-linecap":"round"}));
+    var c=mk("circle",{cx:X(p.x),cy:Y(p.pt),r:5.5,fill:"var(--series-1)",
+      stroke:"var(--surface-1)","stroke-width":2,"class":"mark"});
+    s.appendChild(c);
+    hover(c, opts.xPrefix+p.x+" → "+p.pt.toFixed(0)+"% ("+p.k+"/"+p.n+"), 95% CI "+
+      p.lo.toFixed(0)+"–"+p.hi.toFixed(0));
+    var vt=mk("text",{x:X(p.x),y:Y(p.pt)-14,"text-anchor":"middle","class":"vlabel"});
+    vt.textContent=p.pt.toFixed(0)+"%"; s.appendChild(vt);
+    var xt=mk("text",{x:X(p.x),y:H-20,"text-anchor":"middle","class":"axis"});
+    xt.textContent=opts.xPrefix+p.x; s.appendChild(xt);
+    var nt=mk("text",{x:X(p.x),y:H-6,"text-anchor":"middle","class":"axis",opacity:.7});
+    nt.textContent="n="+p.n; s.appendChild(nt);
+  });
+  return s;
+}
+
+function card(title, cap, node, tableRows){
+  var c=document.createElement("div"); c.className="card";
+  c.innerHTML='<h3>'+esc(title)+'</h3>'+(cap?'<p class="cap">'+cap+'</p>':'');
+  if(node) c.appendChild(node);
+  if(tableRows && tableRows.length){
+    var d=document.createElement("details");
+    d.innerHTML='<summary>Show as a table</summary><table><thead><tr><th>Item</th>'+
+      '<th class="num">n</th><th class="num">Share</th></tr></thead><tbody>'+
+      tableRows.map(function(r){ return '<tr><td>'+esc(r.k)+'</td><td class="num">'+r.v+
+        '</td><td class="num">'+(r.pct!=null?r.pct.toFixed(1)+"%":"—")+'</td></tr>'; }).join("")+
+      '</tbody></table>';
+    c.appendChild(d);
+  }
+  return c;
+}
+
+/* ══ labels ══ */
+var LBL={
+  why_offer:{"now_certain": "Money off now", "more_later": "More money later", "adds_up": "10% adds up", "wont_return": "Might not order again", "distrust_future": "Don't trust the later one"},
+  why_filter:{"cheapest": "Cheapest", "quickest": "Quickest", "trustable": "Food I trust", "browsing": "Just looking"},
+  why_dish:{"craving": "Craving it", "default": "My usual", "time_of_day": "Time of day", "sharing": "For more than one", "safe": "Safest choice"},
+  why_rest:{"only_place": "Only place that makes it right", "consistent": "It's consistent", "value": "Best value", "fastest": "Fastest / nearest", "habit": "Habit"},
+  app_gap:{"yes_easy": "Yes, it's on my app", "yes_costly": "Yes, but expensive there", "no": "NO — not on my app", "dont_know": "Never checked"},
+  missing_dish:{"other_dish": "Something else here", "other_app": "My usual app", "find_place": "Find a place that makes it", "not_order": "Would not order", "rarely_want": "Only wanted it today"},
+  missing_action:{"other_place": "Another place here", "other_app": "My usual app", "other_food": "Something else here", "not_order": "Would not order"},
+  why_item:{"came_for_it": "What I came for", "bestseller": "Marked bestseller", "price": "Price / discount", "picture": "It looked good", "portion": "Portion looked right"},
+  why_bill:{"cheapest_now": "Cheapest today", "order_often": "Plan pays off", "no_third_sub": "Not a third subscription", "want_cover": "Want the cover", "doubt_refund": "Doubt the refund", "new_app": "Won't commit yet"},
+  why_delivery:{"worth_it": "Sooner is worth it", "not_worth": "Not worth paying", "rider_idea": "Liked the passing rider", "hungry_now": "Want it now", "risk": "Faster felt riskier"},
+  rapido_link_trust:{"nothing": "Nothing", "food_safety": "Sealed and warm", "detour": "Passenger first", "no_tracking": "Tracking", "late_anyway": "Late anyway"},
+  meal_slot:{"breakfast": "Breakfast", "lunch": "Lunch", "evening": "Evening", "dinner": "Dinner", "late_night": "Late night"},
+};
+var QTITLE={
+  why_filter:"Why that filter?", why_dish:"Why that dish, right now?",
+  why_rest:"Why that place?", app_gap:"Can you get it on your app today?",
+  missing_dish:"The DISH isn't here — what would you do?",
+  missing_action:"The PLACE isn't here — what would you do?",
+  why_item:"Why that menu item?", why_offer:"Why that offer?",
+  why_bill:"Why that way of paying?", why_delivery:"Why that delivery option?",
+  rapido_link_trust:"What would worry you about Rapido Link?",
+  meal_slot:"When do you usually order it?"
+};
+function lbl(q,v){ return (LBL[q]&&LBL[q][v]) || v; }
+
+/* ══ render ══ */
+var ROWS=null;
+function render(rows){
+  var out=$("out"); out.className=""; out.innerHTML="";
+
+  var kept=rows.filter(function(r){ return !r.qa && !r.bot && r.pid; });
+  var dropped=rows.length-kept.length;
+
+  var P={};
+  kept.forEach(function(r){
+    var p=P[r.pid]||(P[r.pid]={evs:{},list:[],arm:r.arm});
+    p.evs[r.ev]=true; p.list.push(r);
+  });
+  var pids=Object.keys(P), N=pids.length;
+  $("hdr-sub").textContent = N+" participants · "+kept.length+" events"+
+    (dropped?" · "+dropped+" test/bot rows excluded":"");
+
+  if(!N){ out.innerHTML='<div class="card"><p class="empty">No real participants yet. '+
+    'Test rows (<code>?qa=1</code>) are excluded on purpose.</p></div>'; return; }
+
+  function has(p,e){ return !!p.evs[e]; }
+  function count(e){ return pids.filter(function(id){ return has(P[id],e); }).length; }
+  function lastPayload(p,ev,key){
+    var v=null; p.list.forEach(function(r){ if(r.ev===ev && r.p[key]!=null && r.p[key]!=="") v=r.p[key]; });
+    return v;
+  }
+  function answer(p,q){
+    var v=null; p.list.forEach(function(r){ if(r.ev==="micro_answer" && r.p.q_id===q) v=r.p.answer; });
+    return v;
+  }
+
+  /* ── tiles ── */
+  var ordered=count("place_order_click");
+  var totals=[]; pids.forEach(function(id){
+    var t=lastPayload(P[id],"place_order_click","bill_total"); if(t) totals.push(+t); });
+  var zeroHit=pids.filter(function(id){
+    return P[id].list.some(function(r){ return r.ev==="search_query" && String(r.p.results_count)==="0"; });
+  }).length;
+  var tiles=document.createElement("div"); tiles.className="tiles";
+  [["Participants",N,"excluding test runs"],
+   ["Carried a basket to checkout",ordered+" ("+(100*ordered/N).toFixed(0)+"%)","tapped Place Order"],
+   ["Median basket",totals.length?"₹"+median(totals).toFixed(0):"—",totals.length+" completed bills"],
+   ["Hit a dead search",zeroHit+" ("+(100*zeroHit/N).toFixed(0)+"%)","searched something we don't have"]
+  ].forEach(function(t){
+    var d=document.createElement("div"); d.className="tile";
+    d.innerHTML='<div class="k">'+esc(t[0])+'</div><div class="v">'+esc(String(t[1]))+
+      '</div><div class="d">'+esc(t[2])+'</div>';
+    tiles.appendChild(d);
+  });
+  out.appendChild(tiles);
+
+  /* ── funnel ── */
+  out.appendChild(el("h2","Where people go, and where they stop"));
+  var FUN=[["landing_page_view","Saw the app"],["first_meaningful_tap","Tapped something"],
+    ["dish_search_view","Reached the search"],["dish_selected","Chose a dish"],
+    ["menu_view","Opened a menu"],["item_added","Added to the cart"],
+    ["delivery_screen_view","Reached delivery"],["cart_view","Opened the cart"],
+    ["bill_option_chosen","Chose how to pay"],["place_order_click","Tapped Place Order"],
+    ["survey_view","Went on to the survey"]];
+  var seq=["var(--seq-250)","var(--seq-250)","var(--seq-350)","var(--seq-350)","var(--seq-450)",
+           "var(--seq-450)","var(--seq-450)","var(--seq-550)","var(--seq-550)","var(--seq-650)","var(--seq-650)"];
+  var fr=FUN.map(function(f,i){
+    var k=count(f[0]), w=wilson(k,N);
+    return { k:f[1], v:k, color:seq[i], label:k+" · "+w[0].toFixed(0)+"%",
+      tip:f[1]+": "+k+" of "+N+" ("+w[0].toFixed(0)+"%, 95% CI "+w[1].toFixed(0)+"–"+w[2].toFixed(0)+")",
+      pct:w[0] };
+  });
+  out.appendChild(card("Funnel","Each bar is the share of participants who reached that step. "+
+    "The biggest single drop is where to look first.", barsH(fr,{max:N,aria:"funnel"}), fr));
+
+  /* ── the three price curves ── */
+  out.appendChild(el("h2","What people will pay for"));
+  out.appendChild(el("p","Each price was assigned at random per participant, so take-up across "+
+    "the sample traces a demand curve rather than a single number.","note"));
+
+  curveCard("Paying to save 17 minutes",
+    "Standard is free at 42 min. Rapido Link saves 17 min for the price shown.",
+    "rl_price", function(p){ return lastPayload(p,"delivery_option_chosen","delivery_id")==="rapido_link"; });
+
+  curveCard("Money later vs ₹100 off now",
+    "₹100 off today is the fixed comparator in every arm. The wallet amount varies.",
+    "wallet_amt", function(p){ return lastPayload(p,"offer_applied","offer")==="wallet"; });
+
+  curveCard("Paying for a refund guarantee",
+    "Order Protection sits beside a plain ₹15 order fee and the ₹99 monthly plan.",
+    "protect_price", function(p){ return lastPayload(p,"bill_option_chosen","bill_id")==="protected"; });
+
+  function curveCard(title, cap, key, tookIt){
+    var by={};
+    pids.forEach(function(id){
+      var price=null;
+      P[id].list.forEach(function(r){ if(r.p[key]) price=+r.p[key]; });
+      if(!price) return;
+      by[price]=by[price]||[0,0];
+      by[price][1]++;
+      if(tookIt(P[id])) by[price][0]++;
+    });
+    var ks=Object.keys(by).map(Number).sort(function(a,b){return a-b;});
+    if(!ks.length){ out.appendChild(card(title,cap,null,null)); return; }
+    var pts=ks.map(function(x){ var k=by[x][0], n=by[x][1], w=wilson(k,n);
+      return { x:x, k:k, n:n, pt:w[0], lo:w[1], hi:w[2] }; });
+    var thin=Math.min.apply(null, pts.map(function(p){ return p.n; }));
+    var c=card(title, cap+(thin<8?' <span class="pill warn">thinnest cell n='+thin+
+      ' — directional only</span>':''), curve(pts,{xPrefix:"₹",aria:title}),
+      pts.map(function(p){ return { k:"₹"+p.x, v:p.k+"/"+p.n, pct:p.pt }; }));
+    out.appendChild(c);
+  }
+
+  /* ── what kind of food, what kind of place ── */
+  out.appendChild(el("h2","What kind of food, what kind of place"));
+  tally("Cuisine searched for","From the dish box.",
+    collect("dish_selected","category"));
+  tally("Local kitchen or chain?","Every route to a restaurant — the search box, the dish results, "+
+    "and the home feed. This is the case study's question, read off behaviour rather than asked.",
+    collectAny(["restaurant_search_selected","restaurant_card_click"],"rest_kind"));
+  tally("Restaurant category chosen","Across every route.",
+    collectAny(["restaurant_search_selected","restaurant_card_click"],"category"));
+  tally("Which box they reached for first","Place-first or dish-first thinking. This decides what "+
+    "the home screen should lead with.", collect("first_meaningful_tap","tap_kind"));
+
+  function collectAny(evs,key){
+    var c={}; kept.forEach(function(r){
+      if(evs.indexOf(r.ev)>=0 && r.p[key]) c[r.p[key]]=(c[r.p[key]]||0)+1; });
+    return c;
+  }
+  function collect(ev,key){
+    var c={}; kept.forEach(function(r){ if(r.ev===ev && r.p[key]) c[r.p[key]]=(c[r.p[key]]||0)+1; });
+    return c;
+  }
+  function tally(title,cap,c,colorFn){
+    var tot=0; for(var k in c) tot+=c[k];
+    if(!tot){ out.appendChild(card(title,cap,null,null)); return; }
+    var rows=Object.keys(c).sort(function(a,b){ return c[b]-c[a]; }).map(function(k){
+      var w=wilson(c[k],tot);
+      return { k:lblSafe(k), v:c[k], pct:w[0], color:colorFn?colorFn(k):null,
+        label:c[k]+" · "+w[0].toFixed(0)+"%",
+        tip:k+": "+c[k]+" of "+tot+" ("+w[0].toFixed(0)+"%)" };
+    });
+    out.appendChild(card(title,cap+' <span class="pill">n='+tot+'</span>',
+      barsH(rows,{aria:title}), rows));
+  }
+  function lblSafe(k){ return k.replace(/_/g," ").replace(/^./,function(m){return m.toUpperCase();}); }
+
+  /* ── dead searches: the operational output ── */
+  out.appendChild(el("h2","Searches that found nothing"));
+  out.appendChild(el("p","A dish nobody can find is a menu problem. A place nobody can find is an "+
+    "onboarding problem. Cross-check every name against the live catalogue before acting.","note"));
+  deadList("Dishes we don't have","dish");
+  deadList("Places we don't have","restaurant");
+  function deadList(title, box){
+    var c={};
+    kept.forEach(function(r){
+      if(r.ev==="search_query" && r.p.source_screen===box && String(r.p.results_count)==="0"){
+        var q=String(r.p.query||"").trim().toLowerCase(); if(q) c[q]=(c[q]||0)+1; }
+    });
+    var ks=Object.keys(c).sort(function(a,b){ return c[b]-c[a]; });
+    var node=document.createElement("div");
+    if(!ks.length) node.innerHTML='<p class="empty">Nothing recorded yet.</p>';
+    else node.innerHTML='<table><thead><tr><th>Query</th><th class="num">Times</th></tr></thead><tbody>'+
+      ks.slice(0,30).map(function(k){ return '<tr><td>'+esc(k)+'</td><td class="num">'+c[k]+'</td></tr>'; }).join("")+
+      '</tbody></table>';
+    out.appendChild(card(title,"",node,null));
+  }
+
+  /* ── every in-journey question ── */
+  out.appendChild(el("h2","Every question, asked in the moment"));
+  Object.keys(QTITLE).forEach(function(q){
+    var c={}, tot=0;
+    pids.forEach(function(id){ var a=answer(P[id],q);
+      if(a && a!=="skipped"){ c[a]=(c[a]||0)+1; tot++; } });
+    if(!tot) return;
+    var rows=Object.keys(c).sort(function(a,b){ return c[b]-c[a]; }).map(function(k){
+      var w=wilson(c[k],tot);
+      return { k:lbl(q,k), v:c[k], pct:w[0], label:c[k]+" · "+w[0].toFixed(0)+"%",
+        tip:lbl(q,k)+": "+c[k]+" of "+tot };
+    });
+    out.appendChild(card(QTITLE[q], '<span class="pill">n='+tot+'</span>',
+      barsH(rows,{aria:QTITLE[q]}), rows));
+  });
+
+  function el(tag,text,cls){ var e=document.createElement(tag);
+    e.textContent=text; if(cls) e.className=cls; return e; }
+}
+})();
+</script>
+</body>
+</html>
