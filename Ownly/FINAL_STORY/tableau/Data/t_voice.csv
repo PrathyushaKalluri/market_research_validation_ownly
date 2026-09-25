@@ -1,0 +1,10 @@
+Source,Theme,Items,Coded_items,Pct,CI_low,CI_high,Sample,Highlight,Sort
+App-store reviews,Doubt the price,0,29,0.0,0,11.7,Small - directional,Yes,0
+App-store reviews,Order went wrong,21,29,72.4,54.3,85.3,Small - directional,Yes,1
+App-store reviews,Support / refund failed,23,29,79.3,61.6,90.2,Small - directional,Yes,2
+People who ordered (social),Doubt the price,20,97,20.6,13.8,29.7,OK,No,3
+People who ordered (social),Order went wrong,48,97,49.5,39.7,59.3,OK,No,4
+People who ordered (social),Support / refund failed,36,97,37.1,28.2,47.0,OK,No,5
+General discussion (social),Doubt the price,99,225,44.0,37.7,50.5,OK,No,6
+General discussion (social),Order went wrong,50,225,22.2,17.3,28.1,OK,No,7
+General discussion (social),Support / refund failed,43,225,19.1,14.5,24.8,OK,No,8

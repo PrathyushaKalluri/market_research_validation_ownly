@@ -1,0 +1,4 @@
+Give_up,Accept,Base,Accept_pct,CI_low,CI_high,Sample,Highlight,Sort,Label
+Wait 15 min longer,37,40,92.5,80.1,97.4,OK,No,0,92.5%  (37 of 40)
+3-in-10 orders late,29,40,72.5,57.2,83.9,OK,No,1,72.5%  (29 of 40)
+Lose my usual restaurants,14,40,35.0,22.1,50.5,OK,Yes,2,35%  (14 of 40)

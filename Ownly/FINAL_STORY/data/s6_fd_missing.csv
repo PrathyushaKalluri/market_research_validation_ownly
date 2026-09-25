@@ -1,0 +1,5 @@
+Situation,Outcome,Answers,Base,Pct,CI_low,CI_high,Sample
+Wanted place not on Ownly,Order lost (usual app / no order),16,30,53.3,36.1,69.8,OK
+Wanted place not on Ownly,Stayed on Ownly,14,30,46.7,30.2,63.9,OK
+Wanted dish not on Ownly,Order lost (usual app / no order),13,30,43.3,27.4,60.8,OK
+Wanted dish not on Ownly,Stayed on Ownly,17,30,56.7,39.2,72.6,OK

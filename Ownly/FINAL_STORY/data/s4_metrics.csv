@@ -1,0 +1,6 @@
+Metric,Formula,Result,Source,Read_it_as,Sort
+Unit (volume) share,Ownly orders / all delivery orders,0% of 326 orders,MKT 24604 formula sheet,"In-sample only. Ownly has been live for weeks, so this is a floor, not a verdict",0
+Penetration share,Ownly triers / people who order food,2 of 36 (5.6%),MKT 24604 formula sheet,Small base - the interval runs to 18%,1
+Switch-threshold coverage,Pairs where Ownly's saving >= the person's switching figure,81.1% -> 56.1% -> 27.3%,Our own,Falls as rival memberships and coupons are applied,2
+Fee-load gap,Rival median non-food share - Ownly's,15.1% / 27.4% vs 4.8%,Our own,Structural: needs no subsidy. Small capture counts,3
+Offer-reversal,"Baskets Ownly wins before, loses after a rival coupon",2 of 4 baskets,Our own,4 baskets - count only,4

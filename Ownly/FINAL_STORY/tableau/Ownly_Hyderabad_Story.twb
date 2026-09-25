@@ -1,0 +1,2503 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<workbook original-version='18.1' source-build='2026.2.1 (20262.26.0708.1337)' source-platform='mac' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AccessibleZoneTabOrder />
+    <AnimationOnByDefault />
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SetMembershipControl />
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+  <datasource caption='Order share' inline='true' name='federated.order' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_order_share' name='textscan.order'>
+          <connection class='textscan' directory='Data' filename='t_order_share.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.order' name='t_order_share.csv' table='[t_order_share#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='App' ordinal='0' />
+            <column datatype='integer' name='Orders' ordinal='1' />
+            <column datatype='real' name='Share_pct' ordinal='2' />
+            <column datatype='string' name='Highlight' ordinal='3' />
+            <column datatype='integer' name='Sort' ordinal='4' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_order_share.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>App</remote-name><remote-type>129</remote-type><local-name>[App]</local-name>
+          <parent-name>[t_order_share.csv]</parent-name><remote-alias>App</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_order_share.csv_FFA4B2AB219D630C892E3FECAC923D88]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Orders</remote-name><remote-type>20</remote-type><local-name>[Orders]</local-name>
+          <parent-name>[t_order_share.csv]</parent-name><remote-alias>Orders</remote-alias><ordinal>1</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_order_share.csv_FFA4B2AB219D630C892E3FECAC923D88]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Share_pct</remote-name><remote-type>5</remote-type><local-name>[Share_pct]</local-name>
+          <parent-name>[t_order_share.csv]</parent-name><remote-alias>Share_pct</remote-alias><ordinal>2</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_order_share.csv_FFA4B2AB219D630C892E3FECAC923D88]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_order_share.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>3</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_order_share.csv_FFA4B2AB219D630C892E3FECAC923D88]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_order_share.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>4</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_order_share.csv_FFA4B2AB219D630C892E3FECAC923D88]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[App]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Orders]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Share_pct]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='City funnel' inline='true' name='federated.city' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_city' name='textscan.city'>
+          <connection class='textscan' directory='Data' filename='t_city.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.city' name='t_city.csv' table='[t_city#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Measure' ordinal='0' />
+            <column datatype='string' name='City' ordinal='1' />
+            <column datatype='integer' name='Yes' ordinal='2' />
+            <column datatype='integer' name='Base' ordinal='3' />
+            <column datatype='real' name='Pct' ordinal='4' />
+            <column datatype='real' name='CI_low' ordinal='5' />
+            <column datatype='real' name='CI_high' ordinal='6' />
+            <column datatype='string' name='Sample' ordinal='7' />
+            <column datatype='string' name='Highlight' ordinal='8' />
+            <column datatype='integer' name='Sort' ordinal='9' />
+            <column datatype='string' name='Label' ordinal='10' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_city.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Measure</remote-name><remote-type>129</remote-type><local-name>[Measure]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>Measure</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>City</remote-name><remote-type>129</remote-type><local-name>[City]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>City</remote-alias><ordinal>1</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Yes</remote-name><remote-type>20</remote-type><local-name>[Yes]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>Yes</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name><remote-type>20</remote-type><local-name>[Base]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>Base</remote-alias><ordinal>3</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pct</remote-name><remote-type>5</remote-type><local-name>[Pct]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>Pct</remote-alias><ordinal>4</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_low</remote-name><remote-type>5</remote-type><local-name>[CI_low]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>CI_low</remote-alias><ordinal>5</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_high</remote-name><remote-type>5</remote-type><local-name>[CI_high]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>CI_high</remote-alias><ordinal>6</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sample</remote-name><remote-type>129</remote-type><local-name>[Sample]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>Sample</remote-alias><ordinal>7</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>8</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>9</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_city.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>10</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_city.csv_2A5B395ECBB8FBCF3FBB41CF512A4FBD]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Measure]' role='dimension' type='nominal' />
+    <column datatype='string' name='[City]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Yes]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Base]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_low]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_high]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Sample]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:City:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Gachibowli&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;Bengaluru&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Barrier KPIs' inline='true' name='federated.barrier' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_barriers' name='textscan.barrier'>
+          <connection class='textscan' directory='Data' filename='t_barriers.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.barrier' name='t_barriers.csv' table='[t_barriers#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='KPI' ordinal='0' />
+            <column datatype='integer' name='Yes' ordinal='1' />
+            <column datatype='integer' name='Base' ordinal='2' />
+            <column datatype='real' name='Pct' ordinal='3' />
+            <column datatype='real' name='CI_low' ordinal='4' />
+            <column datatype='real' name='CI_high' ordinal='5' />
+            <column datatype='string' name='Sample' ordinal='6' />
+            <column datatype='string' name='Why_it_matters' ordinal='7' />
+            <column datatype='string' name='Highlight' ordinal='8' />
+            <column datatype='integer' name='Sort' ordinal='9' />
+            <column datatype='string' name='Label' ordinal='10' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_barriers.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>KPI</remote-name><remote-type>129</remote-type><local-name>[KPI]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>KPI</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Yes</remote-name><remote-type>20</remote-type><local-name>[Yes]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>Yes</remote-alias><ordinal>1</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name><remote-type>20</remote-type><local-name>[Base]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>Base</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pct</remote-name><remote-type>5</remote-type><local-name>[Pct]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>Pct</remote-alias><ordinal>3</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_low</remote-name><remote-type>5</remote-type><local-name>[CI_low]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>CI_low</remote-alias><ordinal>4</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_high</remote-name><remote-type>5</remote-type><local-name>[CI_high]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>CI_high</remote-alias><ordinal>5</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sample</remote-name><remote-type>129</remote-type><local-name>[Sample]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>Sample</remote-alias><ordinal>6</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Why_it_matters</remote-name><remote-type>129</remote-type><local-name>[Why_it_matters]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>Why_it_matters</remote-alias><ordinal>7</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>8</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>9</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_barriers.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>10</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_barriers.csv_6A0A4B91E66AA8F36349F220A64955F5]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[KPI]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Yes]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Base]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_low]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_high]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Sample]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Why_it_matters]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Switch-threshold coverage' inline='true' name='federated.cover' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_coverage' name='textscan.cover'>
+          <connection class='textscan' directory='Data' filename='t_coverage.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.cover' name='t_coverage.csv' table='[t_coverage#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='View' ordinal='0' />
+            <column datatype='integer' name='Pairs_clearing' ordinal='1' />
+            <column datatype='integer' name='Pairs' ordinal='2' />
+            <column datatype='real' name='Coverage_pct' ordinal='3' />
+            <column datatype='string' name='Highlight' ordinal='4' />
+            <column datatype='integer' name='Sort' ordinal='5' />
+            <column datatype='string' name='Label' ordinal='6' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_coverage.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>View</remote-name><remote-type>129</remote-type><local-name>[View]</local-name>
+          <parent-name>[t_coverage.csv]</parent-name><remote-alias>View</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_coverage.csv_D5A87BF055B891A23FDD59DC74C1CCCF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pairs_clearing</remote-name><remote-type>20</remote-type><local-name>[Pairs_clearing]</local-name>
+          <parent-name>[t_coverage.csv]</parent-name><remote-alias>Pairs_clearing</remote-alias><ordinal>1</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_coverage.csv_D5A87BF055B891A23FDD59DC74C1CCCF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pairs</remote-name><remote-type>20</remote-type><local-name>[Pairs]</local-name>
+          <parent-name>[t_coverage.csv]</parent-name><remote-alias>Pairs</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_coverage.csv_D5A87BF055B891A23FDD59DC74C1CCCF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Coverage_pct</remote-name><remote-type>5</remote-type><local-name>[Coverage_pct]</local-name>
+          <parent-name>[t_coverage.csv]</parent-name><remote-alias>Coverage_pct</remote-alias><ordinal>3</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_coverage.csv_D5A87BF055B891A23FDD59DC74C1CCCF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_coverage.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>4</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_coverage.csv_D5A87BF055B891A23FDD59DC74C1CCCF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_coverage.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>5</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_coverage.csv_D5A87BF055B891A23FDD59DC74C1CCCF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_coverage.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>6</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_coverage.csv_D5A87BF055B891A23FDD59DC74C1CCCF]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[View]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Pairs_clearing]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Pairs]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Coverage_pct]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Price audit' inline='true' name='federated.price' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_price' name='textscan.price'>
+          <connection class='textscan' directory='Data' filename='t_price.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.price' name='t_price.csv' table='[t_price#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='View' ordinal='0' />
+            <column datatype='integer' name='Ownly_cheaper' ordinal='1' />
+            <column datatype='integer' name='Baskets' ordinal='2' />
+            <column datatype='real' name='Median_saving_rs' ordinal='3' />
+            <column datatype='string' name='Highlight' ordinal='4' />
+            <column datatype='integer' name='Sort' ordinal='5' />
+            <column datatype='string' name='Label' ordinal='6' />
+            <column datatype='string' name='Direction' ordinal='7' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_price.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>View</remote-name><remote-type>129</remote-type><local-name>[View]</local-name>
+          <parent-name>[t_price.csv]</parent-name><remote-alias>View</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_price.csv_6BA82E9AA09A0F131049D115070B3C53]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Ownly_cheaper</remote-name><remote-type>20</remote-type><local-name>[Ownly_cheaper]</local-name>
+          <parent-name>[t_price.csv]</parent-name><remote-alias>Ownly_cheaper</remote-alias><ordinal>1</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_price.csv_6BA82E9AA09A0F131049D115070B3C53]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Baskets</remote-name><remote-type>20</remote-type><local-name>[Baskets]</local-name>
+          <parent-name>[t_price.csv]</parent-name><remote-alias>Baskets</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_price.csv_6BA82E9AA09A0F131049D115070B3C53]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Median_saving_rs</remote-name><remote-type>5</remote-type><local-name>[Median_saving_rs]</local-name>
+          <parent-name>[t_price.csv]</parent-name><remote-alias>Median_saving_rs</remote-alias><ordinal>3</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_price.csv_6BA82E9AA09A0F131049D115070B3C53]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_price.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>4</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_price.csv_6BA82E9AA09A0F131049D115070B3C53]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_price.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>5</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_price.csv_6BA82E9AA09A0F131049D115070B3C53]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_price.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>6</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_price.csv_6BA82E9AA09A0F131049D115070B3C53]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Direction</remote-name><remote-type>129</remote-type><local-name>[Direction]</local-name>
+          <parent-name>[t_price.csv]</parent-name><remote-alias>Direction</remote-alias><ordinal>7</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_price.csv_6BA82E9AA09A0F131049D115070B3C53]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[View]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Ownly_cheaper]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Baskets]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Median_saving_rs]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Direction]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Direction:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Ownly cheaper&quot;</bucket></map><map to='#e34948'><bucket>&quot;Ownly dearer&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Fee load' inline='true' name='federated.fee' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_fee' name='textscan.fee'>
+          <connection class='textscan' directory='Data' filename='t_fee.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.fee' name='t_fee.csv' table='[t_fee#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Platform' ordinal='0' />
+            <column datatype='real' name='Fee_share_pct' ordinal='1' />
+            <column datatype='integer' name='Captures' ordinal='2' />
+            <column datatype='string' name='Highlight' ordinal='3' />
+            <column datatype='integer' name='Sort' ordinal='4' />
+            <column datatype='string' name='Label' ordinal='5' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_fee.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Platform</remote-name><remote-type>129</remote-type><local-name>[Platform]</local-name>
+          <parent-name>[t_fee.csv]</parent-name><remote-alias>Platform</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_fee.csv_9BD35BA114E71C5C04094B6D174BC441]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Fee_share_pct</remote-name><remote-type>5</remote-type><local-name>[Fee_share_pct]</local-name>
+          <parent-name>[t_fee.csv]</parent-name><remote-alias>Fee_share_pct</remote-alias><ordinal>1</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_fee.csv_9BD35BA114E71C5C04094B6D174BC441]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Captures</remote-name><remote-type>20</remote-type><local-name>[Captures]</local-name>
+          <parent-name>[t_fee.csv]</parent-name><remote-alias>Captures</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_fee.csv_9BD35BA114E71C5C04094B6D174BC441]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_fee.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>3</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_fee.csv_9BD35BA114E71C5C04094B6D174BC441]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_fee.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>4</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_fee.csv_9BD35BA114E71C5C04094B6D174BC441]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_fee.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>5</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_fee.csv_9BD35BA114E71C5C04094B6D174BC441]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Platform]' role='dimension' type='nominal' />
+    <column datatype='real' name='[Fee_share_pct]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Captures]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Rs30 trade-offs' inline='true' name='federated.trade' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_tradeoff' name='textscan.trade'>
+          <connection class='textscan' directory='Data' filename='t_tradeoff.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.trade' name='t_tradeoff.csv' table='[t_tradeoff#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Give_up' ordinal='0' />
+            <column datatype='integer' name='Accept' ordinal='1' />
+            <column datatype='integer' name='Base' ordinal='2' />
+            <column datatype='real' name='Accept_pct' ordinal='3' />
+            <column datatype='real' name='CI_low' ordinal='4' />
+            <column datatype='real' name='CI_high' ordinal='5' />
+            <column datatype='string' name='Sample' ordinal='6' />
+            <column datatype='string' name='Highlight' ordinal='7' />
+            <column datatype='integer' name='Sort' ordinal='8' />
+            <column datatype='string' name='Label' ordinal='9' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_tradeoff.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Give_up</remote-name><remote-type>129</remote-type><local-name>[Give_up]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>Give_up</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Accept</remote-name><remote-type>20</remote-type><local-name>[Accept]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>Accept</remote-alias><ordinal>1</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name><remote-type>20</remote-type><local-name>[Base]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>Base</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Accept_pct</remote-name><remote-type>5</remote-type><local-name>[Accept_pct]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>Accept_pct</remote-alias><ordinal>3</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_low</remote-name><remote-type>5</remote-type><local-name>[CI_low]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>CI_low</remote-alias><ordinal>4</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_high</remote-name><remote-type>5</remote-type><local-name>[CI_high]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>CI_high</remote-alias><ordinal>5</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sample</remote-name><remote-type>129</remote-type><local-name>[Sample]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>Sample</remote-alias><ordinal>6</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>7</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>8</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_tradeoff.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>9</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_tradeoff.csv_F6B97749546ACF4367DA5E125845C0BC]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Give_up]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Accept]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Base]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Accept_pct]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_low]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_high]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Sample]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Fake door - missing' inline='true' name='federated.miss' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_missing' name='textscan.miss'>
+          <connection class='textscan' directory='Data' filename='t_missing.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.miss' name='t_missing.csv' table='[t_missing#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Situation' ordinal='0' />
+            <column datatype='string' name='Outcome' ordinal='1' />
+            <column datatype='integer' name='Answers' ordinal='2' />
+            <column datatype='integer' name='Base' ordinal='3' />
+            <column datatype='real' name='Pct' ordinal='4' />
+            <column datatype='real' name='CI_low' ordinal='5' />
+            <column datatype='real' name='CI_high' ordinal='6' />
+            <column datatype='string' name='Sample' ordinal='7' />
+            <column datatype='string' name='Highlight' ordinal='8' />
+            <column datatype='integer' name='Sort' ordinal='9' />
+            <column datatype='string' name='Label' ordinal='10' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_missing.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Situation</remote-name><remote-type>129</remote-type><local-name>[Situation]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Situation</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Outcome</remote-name><remote-type>129</remote-type><local-name>[Outcome]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Outcome</remote-alias><ordinal>1</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Answers</remote-name><remote-type>20</remote-type><local-name>[Answers]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Answers</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name><remote-type>20</remote-type><local-name>[Base]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Base</remote-alias><ordinal>3</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pct</remote-name><remote-type>5</remote-type><local-name>[Pct]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Pct</remote-alias><ordinal>4</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_low</remote-name><remote-type>5</remote-type><local-name>[CI_low]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>CI_low</remote-alias><ordinal>5</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_high</remote-name><remote-type>5</remote-type><local-name>[CI_high]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>CI_high</remote-alias><ordinal>6</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sample</remote-name><remote-type>129</remote-type><local-name>[Sample]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Sample</remote-alias><ordinal>7</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>8</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>9</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_missing.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>10</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_missing.csv_528525A40D9E81E41830C859C209E575]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Situation]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Outcome]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Answers]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Base]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_low]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_high]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Sample]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Reviews and social' inline='true' name='federated.voice' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_voice' name='textscan.voice'>
+          <connection class='textscan' directory='Data' filename='t_voice.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.voice' name='t_voice.csv' table='[t_voice#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Source' ordinal='0' />
+            <column datatype='string' name='Theme' ordinal='1' />
+            <column datatype='integer' name='Items' ordinal='2' />
+            <column datatype='integer' name='Coded_items' ordinal='3' />
+            <column datatype='real' name='Pct' ordinal='4' />
+            <column datatype='real' name='CI_low' ordinal='5' />
+            <column datatype='real' name='CI_high' ordinal='6' />
+            <column datatype='string' name='Sample' ordinal='7' />
+            <column datatype='string' name='Highlight' ordinal='8' />
+            <column datatype='integer' name='Sort' ordinal='9' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_voice.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Source</remote-name><remote-type>129</remote-type><local-name>[Source]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>Source</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Theme</remote-name><remote-type>129</remote-type><local-name>[Theme]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>Theme</remote-alias><ordinal>1</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Items</remote-name><remote-type>20</remote-type><local-name>[Items]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>Items</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Coded_items</remote-name><remote-type>20</remote-type><local-name>[Coded_items]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>Coded_items</remote-alias><ordinal>3</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pct</remote-name><remote-type>5</remote-type><local-name>[Pct]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>Pct</remote-alias><ordinal>4</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_low</remote-name><remote-type>5</remote-type><local-name>[CI_low]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>CI_low</remote-alias><ordinal>5</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI_high</remote-name><remote-type>5</remote-type><local-name>[CI_high]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>CI_high</remote-alias><ordinal>6</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sample</remote-name><remote-type>129</remote-type><local-name>[Sample]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>Sample</remote-alias><ordinal>7</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>8</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_voice.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>9</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_voice.csv_B8C2E1D089A20CA93F9E8ED7112394E6]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Source]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Theme]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Items]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Coded_items]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_low]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI_high]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Sample]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Source:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;App-store reviews&quot;</bucket></map><map to='#86b6ef'><bucket>&quot;People who ordered (social)&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;General discussion (social)&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Fake door - offer reasons' inline='true' name='federated.offer' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_offer_why' name='textscan.offer'>
+          <connection class='textscan' directory='Data' filename='t_offer_why.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.offer' name='t_offer_why.csv' table='[t_offer_why#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Reason' ordinal='0' />
+            <column datatype='integer' name='Answers' ordinal='1' />
+            <column datatype='integer' name='Base' ordinal='2' />
+            <column datatype='real' name='Pct' ordinal='3' />
+            <column datatype='string' name='Highlight' ordinal='4' />
+            <column datatype='integer' name='Sort' ordinal='5' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_offer_why.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Reason</remote-name><remote-type>129</remote-type><local-name>[Reason]</local-name>
+          <parent-name>[t_offer_why.csv]</parent-name><remote-alias>Reason</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_offer_why.csv_4538C0A65991F9BF3E3FA7A8984172AF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Answers</remote-name><remote-type>20</remote-type><local-name>[Answers]</local-name>
+          <parent-name>[t_offer_why.csv]</parent-name><remote-alias>Answers</remote-alias><ordinal>1</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_offer_why.csv_4538C0A65991F9BF3E3FA7A8984172AF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name><remote-type>20</remote-type><local-name>[Base]</local-name>
+          <parent-name>[t_offer_why.csv]</parent-name><remote-alias>Base</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_offer_why.csv_4538C0A65991F9BF3E3FA7A8984172AF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pct</remote-name><remote-type>5</remote-type><local-name>[Pct]</local-name>
+          <parent-name>[t_offer_why.csv]</parent-name><remote-alias>Pct</remote-alias><ordinal>3</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_offer_why.csv_4538C0A65991F9BF3E3FA7A8984172AF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_offer_why.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>4</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_offer_why.csv_4538C0A65991F9BF3E3FA7A8984172AF]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_offer_why.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>5</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_offer_why.csv_4538C0A65991F9BF3E3FA7A8984172AF]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Reason]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Answers]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Base]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Fake door - Rapido Link' inline='true' name='federated.speed' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_speed' name='textscan.speed'>
+          <connection class='textscan' directory='Data' filename='t_speed.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.speed' name='t_speed.csv' table='[t_speed#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Price' ordinal='0' />
+            <column datatype='integer' name='Price_rs' ordinal='1' />
+            <column datatype='integer' name='Took_Rapido_Link' ordinal='2' />
+            <column datatype='integer' name='Chose_delivery' ordinal='3' />
+            <column datatype='real' name='Pct' ordinal='4' />
+            <column datatype='string' name='Sample' ordinal='5' />
+            <column datatype='string' name='Highlight' ordinal='6' />
+            <column datatype='integer' name='Sort' ordinal='7' />
+            <column datatype='string' name='Label' ordinal='8' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_speed.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Price</remote-name><remote-type>129</remote-type><local-name>[Price]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Price</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Price_rs</remote-name><remote-type>20</remote-type><local-name>[Price_rs]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Price_rs</remote-alias><ordinal>1</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Took_Rapido_Link</remote-name><remote-type>20</remote-type><local-name>[Took_Rapido_Link]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Took_Rapido_Link</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Chose_delivery</remote-name><remote-type>20</remote-type><local-name>[Chose_delivery]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Chose_delivery</remote-alias><ordinal>3</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pct</remote-name><remote-type>5</remote-type><local-name>[Pct]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Pct</remote-alias><ordinal>4</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sample</remote-name><remote-type>129</remote-type><local-name>[Sample]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Sample</remote-alias><ordinal>5</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>6</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>7</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_speed.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>8</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_speed.csv_7E3816329C68F14A4A9C0920582C2870]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Price]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Price_rs]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Took_Rapido_Link]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Chose_delivery]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Sample]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Fake door - payment' inline='true' name='federated.pay' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_pay' name='textscan.pay'>
+          <connection class='textscan' directory='Data' filename='t_pay.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.pay' name='t_pay.csv' table='[t_pay#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Model' ordinal='0' />
+            <column datatype='integer' name='Chose' ordinal='1' />
+            <column datatype='integer' name='Base' ordinal='2' />
+            <column datatype='real' name='Pct' ordinal='3' />
+            <column datatype='integer' name='Then_placed' ordinal='4' />
+            <column datatype='string' name='Highlight' ordinal='5' />
+            <column datatype='integer' name='Sort' ordinal='6' />
+            <column datatype='string' name='Label' ordinal='7' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_pay.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Model</remote-name><remote-type>129</remote-type><local-name>[Model]</local-name>
+          <parent-name>[t_pay.csv]</parent-name><remote-alias>Model</remote-alias><ordinal>0</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_pay.csv_752AFDBC8BA169C4C064662D42E4A4D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Chose</remote-name><remote-type>20</remote-type><local-name>[Chose]</local-name>
+          <parent-name>[t_pay.csv]</parent-name><remote-alias>Chose</remote-alias><ordinal>1</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_pay.csv_752AFDBC8BA169C4C064662D42E4A4D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name><remote-type>20</remote-type><local-name>[Base]</local-name>
+          <parent-name>[t_pay.csv]</parent-name><remote-alias>Base</remote-alias><ordinal>2</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_pay.csv_752AFDBC8BA169C4C064662D42E4A4D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Pct</remote-name><remote-type>5</remote-type><local-name>[Pct]</local-name>
+          <parent-name>[t_pay.csv]</parent-name><remote-alias>Pct</remote-alias><ordinal>3</ordinal>
+          <local-type>real</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_pay.csv_752AFDBC8BA169C4C064662D42E4A4D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Then_placed</remote-name><remote-type>20</remote-type><local-name>[Then_placed]</local-name>
+          <parent-name>[t_pay.csv]</parent-name><remote-alias>Then_placed</remote-alias><ordinal>4</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_pay.csv_752AFDBC8BA169C4C064662D42E4A4D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Highlight</remote-name><remote-type>129</remote-type><local-name>[Highlight]</local-name>
+          <parent-name>[t_pay.csv]</parent-name><remote-alias>Highlight</remote-alias><ordinal>5</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_pay.csv_752AFDBC8BA169C4C064662D42E4A4D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort</remote-name><remote-type>20</remote-type><local-name>[Sort]</local-name>
+          <parent-name>[t_pay.csv]</parent-name><remote-alias>Sort</remote-alias><ordinal>6</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_pay.csv_752AFDBC8BA169C4C064662D42E4A4D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Label</remote-name><remote-type>129</remote-type><local-name>[Label]</local-name>
+          <parent-name>[t_pay.csv]</parent-name><remote-alias>Label</remote-alias><ordinal>7</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_pay.csv_752AFDBC8BA169C4C064662D42E4A4D2]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Model]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Chose]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Base]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Then_placed]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+    <style>
+      <style-rule element='mark'>
+        <encoding attr='color' field='[none:Highlight:nk]' type='palette'><map to='#2a78d6'><bucket>&quot;Yes&quot;</bucket></map><map to='#cfccc4'><bucket>&quot;No&quot;</bucket></map></encoding>
+      </style-rule>
+    </style>
+  </datasource>
+  <datasource caption='Evidence' inline='true' name='federated.evid' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='t_evidence' name='textscan.evid'>
+          <connection class='textscan' directory='Data' filename='t_evidence.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.evid' name='t_evidence.csv' table='[t_evidence#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='integer' name='Row' ordinal='0' />
+            <column datatype='string' name='ID' ordinal='1' />
+            <column datatype='string' name='Screen' ordinal='2' />
+            <column datatype='string' name='Claim' ordinal='3' />
+            <column datatype='string' name='Shown_as' ordinal='4' />
+            <column datatype='string' name='k_of_n' ordinal='5' />
+            <column datatype='string' name='CI' ordinal='6' />
+            <column datatype='string' name='Sample_check' ordinal='7' />
+            <column datatype='string' name='Method' ordinal='8' />
+            <column datatype='string' name='Source_file' ordinal='9' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name /><remote-type>0</remote-type><parent-name>[t_evidence.csv]</parent-name><remote-alias />
+          <aggregation>Count</aggregation><contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Row</remote-name><remote-type>20</remote-type><local-name>[Row]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>Row</remote-alias><ordinal>0</ordinal>
+          <local-type>integer</local-type><aggregation>Sum</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>ID</remote-name><remote-type>129</remote-type><local-name>[ID]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>ID</remote-alias><ordinal>1</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Screen</remote-name><remote-type>129</remote-type><local-name>[Screen]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>Screen</remote-alias><ordinal>2</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Claim</remote-name><remote-type>129</remote-type><local-name>[Claim]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>Claim</remote-alias><ordinal>3</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Shown_as</remote-name><remote-type>129</remote-type><local-name>[Shown_as]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>Shown_as</remote-alias><ordinal>4</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>k_of_n</remote-name><remote-type>129</remote-type><local-name>[k_of_n]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>k_of_n</remote-alias><ordinal>5</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI</remote-name><remote-type>129</remote-type><local-name>[CI]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>CI</remote-alias><ordinal>6</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sample_check</remote-name><remote-type>129</remote-type><local-name>[Sample_check]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>Sample_check</remote-alias><ordinal>7</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Method</remote-name><remote-type>129</remote-type><local-name>[Method]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>Method</remote-alias><ordinal>8</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Source_file</remote-name><remote-type>129</remote-type><local-name>[Source_file]</local-name>
+          <parent-name>[t_evidence.csv]</parent-name><remote-alias>Source_file</remote-alias><ordinal>9</ordinal>
+          <local-type>string</local-type><aggregation>Count</aggregation><contains-null>true</contains-null>
+          <object-id>[t_evidence.csv_DF597C78AC95E12709B8FD4BA9E384D2]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='integer' name='[Row]' role='measure' type='quantitative' />
+    <column datatype='string' name='[ID]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Screen]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Claim]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Shown_as]' role='dimension' type='nominal' />
+    <column datatype='string' name='[k_of_n]' role='dimension' type='nominal' />
+    <column datatype='string' name='[CI]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Sample_check]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Method]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Source_file]' role='dimension' type='nominal' />
+  </datasource>
+  </datasources>
+  <worksheets>
+  <worksheet name='Order share'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Share of last-4-week orders (%)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.order' name='federated.order' />
+        </datasources>
+        <datasource-dependencies datasource='federated.order'>
+        <column datatype='string' name='[App]' role='dimension' type='nominal' />
+        <column-instance column='[App]' derivation='None' name='[none:App:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Share_pct]' role='measure' type='quantitative' />
+        <column-instance column='[Share_pct]' derivation='Sum' name='[sum:Share_pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.order].[none:App:nk]' direction='ASC' using='[federated.order].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.order].[none:Highlight:nk]' />
+            <text column='[federated.order].[sum:Share_pct:qk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.order].[none:App:nk]</rows>
+      <cols>[federated.order].[sum:Share_pct:qk]</cols>
+    </table>
+    <simple-id uuid='{7C128AEC-B6F0-6F27-1F0F-476B4F7D2B3C}' />
+  </worksheet>
+  <worksheet name='City funnel'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Ownly funnel: Bengaluru (16 people) vs Gachibowli (40 people)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.city' name='federated.city' />
+        </datasources>
+        <datasource-dependencies datasource='federated.city'>
+        <column datatype='string' name='[Measure]' role='dimension' type='nominal' />
+        <column-instance column='[Measure]' derivation='None' name='[none:Measure:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[City]' role='dimension' type='nominal' />
+        <column-instance column='[City]' derivation='None' name='[none:City:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Pct]' derivation='Sum' name='[sum:Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.city].[none:Measure:nk]' direction='ASC' using='[federated.city].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.city].[none:City:nk]' />
+            <text column='[federated.city].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.city].[none:Measure:nk] / [federated.city].[none:City:nk]</rows>
+      <cols>[federated.city].[sum:Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{60B81AC2-2FB0-677B-58D4-455B833439C6}' />
+  </worksheet>
+  <worksheet name='Barrier KPIs'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Barrier KPIs (% of people)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.barrier' name='federated.barrier' />
+        </datasources>
+        <datasource-dependencies datasource='federated.barrier'>
+        <column datatype='string' name='[KPI]' role='dimension' type='nominal' />
+        <column-instance column='[KPI]' derivation='None' name='[none:KPI:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Pct]' derivation='Sum' name='[sum:Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.barrier].[none:KPI:nk]' direction='ASC' using='[federated.barrier].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.barrier].[none:Highlight:nk]' />
+            <text column='[federated.barrier].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.barrier].[none:KPI:nk]</rows>
+      <cols>[federated.barrier].[sum:Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{7344A632-27BA-77DB-3358-A191C2942632}' />
+  </worksheet>
+  <worksheet name='Coverage'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Switch-threshold coverage (% of person x basket pairs)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.cover' name='federated.cover' />
+        </datasources>
+        <datasource-dependencies datasource='federated.cover'>
+        <column datatype='string' name='[View]' role='dimension' type='nominal' />
+        <column-instance column='[View]' derivation='None' name='[none:View:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Coverage_pct]' role='measure' type='quantitative' />
+        <column-instance column='[Coverage_pct]' derivation='Sum' name='[sum:Coverage_pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.cover].[none:View:nk]' direction='ASC' using='[federated.cover].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.cover].[none:Highlight:nk]' />
+            <text column='[federated.cover].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.cover].[none:View:nk]</rows>
+      <cols>[federated.cover].[sum:Coverage_pct:qk]</cols>
+    </table>
+    <simple-id uuid='{F1E7DC39-C8E5-C9A0-A076-4C4B5C13C44D}' />
+  </worksheet>
+  <worksheet name='Price audit'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Median saving on Ownly per basket (Rs), 4 baskets</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.price' name='federated.price' />
+        </datasources>
+        <datasource-dependencies datasource='federated.price'>
+        <column datatype='string' name='[View]' role='dimension' type='nominal' />
+        <column-instance column='[View]' derivation='None' name='[none:View:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Median_saving_rs]' role='measure' type='quantitative' />
+        <column-instance column='[Median_saving_rs]' derivation='Sum' name='[sum:Median_saving_rs:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Direction]' role='dimension' type='nominal' />
+        <column-instance column='[Direction]' derivation='None' name='[none:Direction:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.price].[none:View:nk]' direction='ASC' using='[federated.price].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.price].[none:Direction:nk]' />
+            <text column='[federated.price].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.price].[none:View:nk]</rows>
+      <cols>[federated.price].[sum:Median_saving_rs:qk]</cols>
+    </table>
+    <simple-id uuid='{DBDE96BB-313C-4298-9713-33736EC43020}' />
+  </worksheet>
+  <worksheet name='Fee load'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Fees + tax as % of the bill</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.fee' name='federated.fee' />
+        </datasources>
+        <datasource-dependencies datasource='federated.fee'>
+        <column datatype='string' name='[Platform]' role='dimension' type='nominal' />
+        <column-instance column='[Platform]' derivation='None' name='[none:Platform:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Fee_share_pct]' role='measure' type='quantitative' />
+        <column-instance column='[Fee_share_pct]' derivation='Sum' name='[sum:Fee_share_pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.fee].[none:Platform:nk]' direction='ASC' using='[federated.fee].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.fee].[none:Highlight:nk]' />
+            <text column='[federated.fee].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.fee].[none:Platform:nk]</rows>
+      <cols>[federated.fee].[sum:Fee_share_pct:qk]</cols>
+    </table>
+    <simple-id uuid='{32EFD68F-6C30-2B96-3FE9-1DBACFC03C67}' />
+  </worksheet>
+  <worksheet name='Trade-offs'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Would take Rs30 off to give this up (%)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.trade' name='federated.trade' />
+        </datasources>
+        <datasource-dependencies datasource='federated.trade'>
+        <column datatype='string' name='[Give_up]' role='dimension' type='nominal' />
+        <column-instance column='[Give_up]' derivation='None' name='[none:Give_up:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Accept_pct]' role='measure' type='quantitative' />
+        <column-instance column='[Accept_pct]' derivation='Sum' name='[sum:Accept_pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.trade].[none:Give_up:nk]' direction='ASC' using='[federated.trade].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.trade].[none:Highlight:nk]' />
+            <text column='[federated.trade].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.trade].[none:Give_up:nk]</rows>
+      <cols>[federated.trade].[sum:Accept_pct:qk]</cols>
+    </table>
+    <simple-id uuid='{7F62A7AE-E128-1423-A6E8-4BCE0693DD9D}' />
+  </worksheet>
+  <worksheet name='Missing place'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Fake door: order lost when it wasn&#x27;t on Ownly (%)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.miss' name='federated.miss' />
+        </datasources>
+        <datasource-dependencies datasource='federated.miss'>
+        <column datatype='string' name='[Situation]' role='dimension' type='nominal' />
+        <column-instance column='[Situation]' derivation='None' name='[none:Situation:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Pct]' derivation='Sum' name='[sum:Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.miss].[none:Situation:nk]' direction='ASC' using='[federated.miss].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.miss].[none:Highlight:nk]' />
+            <text column='[federated.miss].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.miss].[none:Situation:nk]</rows>
+      <cols>[federated.miss].[sum:Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{B620479D-168F-7255-97D9-B97854CD6DC7}' />
+  </worksheet>
+  <worksheet name='Voice'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Share of posts mentioning each problem (%)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.voice' name='federated.voice' />
+        </datasources>
+        <datasource-dependencies datasource='federated.voice'>
+        <column datatype='string' name='[Theme]' role='dimension' type='nominal' />
+        <column-instance column='[Theme]' derivation='None' name='[none:Theme:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Source]' role='dimension' type='nominal' />
+        <column-instance column='[Source]' derivation='None' name='[none:Source:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Pct]' derivation='Sum' name='[sum:Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.voice].[none:Theme:nk]' direction='ASC' using='[federated.voice].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.voice].[none:Source:nk]' />
+            <text column='[federated.voice].[sum:Pct:qk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.voice].[none:Theme:nk] / [federated.voice].[none:Source:nk]</rows>
+      <cols>[federated.voice].[sum:Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{406BE804-C819-4569-3DB1-25FDD7E64D20}' />
+  </worksheet>
+  <worksheet name='Offer reasons'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Fake door: why they picked their offer (answers)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.offer' name='federated.offer' />
+        </datasources>
+        <datasource-dependencies datasource='federated.offer'>
+        <column datatype='string' name='[Reason]' role='dimension' type='nominal' />
+        <column-instance column='[Reason]' derivation='None' name='[none:Reason:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Answers]' role='measure' type='quantitative' />
+        <column-instance column='[Answers]' derivation='Sum' name='[sum:Answers:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.offer].[none:Reason:nk]' direction='ASC' using='[federated.offer].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.offer].[none:Highlight:nk]' />
+            <text column='[federated.offer].[sum:Answers:qk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.offer].[none:Reason:nk]</rows>
+      <cols>[federated.offer].[sum:Answers:qk]</cols>
+    </table>
+    <simple-id uuid='{65ACF77B-2953-5C1B-B97A-E268DFF858FB}' />
+  </worksheet>
+  <worksheet name='Rapido Link'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>Took Rapido Link at each random price (%)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.speed' name='federated.speed' />
+        </datasources>
+        <datasource-dependencies datasource='federated.speed'>
+        <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Pct]' derivation='Sum' name='[sum:Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Price]' role='dimension' type='nominal' />
+        <column-instance column='[Price]' derivation='None' name='[none:Price:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.speed].[none:Price:nk]' direction='ASC' using='[federated.speed].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.speed].[none:Highlight:nk]' />
+            <text column='[federated.speed].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.speed].[sum:Pct:qk]</rows>
+      <cols>[federated.speed].[none:Price:nk]</cols>
+    </table>
+    <simple-id uuid='{011DB378-92C0-402A-7FF5-64114C29D9F1}' />
+  </worksheet>
+  <worksheet name='Payment'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='12'>How they chose to pay (%)</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.pay' name='federated.pay' />
+        </datasources>
+        <datasource-dependencies datasource='federated.pay'>
+        <column datatype='string' name='[Model]' role='dimension' type='nominal' />
+        <column-instance column='[Model]' derivation='None' name='[none:Model:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Pct]' derivation='Sum' name='[sum:Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Highlight]' role='dimension' type='nominal' />
+        <column-instance column='[Highlight]' derivation='None' name='[none:Highlight:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Label]' role='dimension' type='nominal' />
+        <column-instance column='[Label]' derivation='None' name='[none:Label:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Sort]' role='measure' type='quantitative' />
+        <column-instance column='[Sort]' derivation='Sum' name='[sum:Sort:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.pay].[none:Model:nk]' direction='ASC' using='[federated.pay].[sum:Sort:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.pay].[none:Highlight:nk]' />
+            <text column='[federated.pay].[none:Label:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.pay].[none:Model:nk]</rows>
+      <cols>[federated.pay].[sum:Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{31E7E869-1C32-D868-D837-5A1211EF674F}' />
+  </worksheet>
+  <worksheet name='Evidence table'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run fontsize='11'>Every number, how it was calculated, and whether the sample is big enough</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.evid' name='federated.evid' />
+        </datasources>
+        <datasource-dependencies datasource='federated.evid'>
+        <column datatype='string' name='[ID]' role='dimension' type='nominal' />
+        <column-instance column='[ID]' derivation='None' name='[none:ID:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Claim]' role='dimension' type='nominal' />
+        <column-instance column='[Claim]' derivation='None' name='[none:Claim:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Shown_as]' role='dimension' type='nominal' />
+        <column-instance column='[Shown_as]' derivation='None' name='[none:Shown_as:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[k_of_n]' role='dimension' type='nominal' />
+        <column-instance column='[k_of_n]' derivation='None' name='[none:k_of_n:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[CI]' role='dimension' type='nominal' />
+        <column-instance column='[CI]' derivation='None' name='[none:CI:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Sample_check]' role='dimension' type='nominal' />
+        <column-instance column='[Sample_check]' derivation='None' name='[none:Sample_check:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Source_file]' role='dimension' type='nominal' />
+        <column-instance column='[Source_file]' derivation='None' name='[none:Source_file:nk]' pivot='key' type='nominal' />
+        <column datatype='integer' name='[Row]' role='measure' type='quantitative' />
+        <column-instance column='[Row]' derivation='Sum' name='[sum:Row:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <computed-sort column='[federated.evid].[none:ID:nk]' direction='ASC' using='[federated.evid].[sum:Row:qk]' />
+        <aggregation value='true' />
+      </view>
+      <style>
+        <style-rule element='worksheet'>
+          <format attr='font-family' value='Tableau Book' />
+        </style-rule>
+        <style-rule element='gridline'>
+          <format attr='line-visibility' value='off' />
+        </style-rule>
+      </style>
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Text' />
+          <encodings>
+            <text column='[federated.evid].[none:Source_file:nk]' />
+          </encodings>
+          <style>
+            <style-rule element='mark'>
+              <format attr='mark-labels-show' value='true' />
+              <format attr='size' value='0.6' />
+            </style-rule>
+          </style>
+        </pane>
+      </panes>
+      <rows>[federated.evid].[none:ID:nk] / [federated.evid].[none:Claim:nk] / [federated.evid].[none:Shown_as:nk] / [federated.evid].[none:k_of_n:nk] / [federated.evid].[none:CI:nk] / [federated.evid].[none:Sample_check:nk]</rows>
+      <cols></cols>
+    </table>
+    <simple-id uuid='{C9AD3034-A11A-590D-8FB8-7537807DDA7C}' />
+  </worksheet>
+  </worksheets>
+  <dashboards>
+  <dashboard enable-sort-zone-taborder='true' name='01 The problem'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>THE PROBLEM&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>Ownly won Bengaluru on the restaurant side. Hyderabad is a different fight.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' type-v2='text' w='50000' x='0' y='15000'>
+          <formatted-text><run bold='true' fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>WHY WE PICKED THIS PROBLEM&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Ownly charges restaurants no commission and customers no platform fee. In Bengaluru it reached 50,000+ (~10% share) daily orders within a year and is now copying that playbook into Hyderabad, where it is already live.&#10;&#10;</run><run bold='true' fontcolor='#1b1a18' fontname='Tableau Book' fontsize='14'>Problem statement: will Ownly&#x27;s Bengaluru value proposition transfer to Gachibowli, and what do 20-35 year-old students and professionals there need before they switch and stay?</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='12' type-v2='text' w='50000' x='50000' y='15000'>
+          <formatted-text><run bold='true' fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>BENGALURU vs HYDERABAD&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Restaurants:  Bengaluru - 1,000+ threatened to quit Swiggy/Zomato and came to Ownly.  Hyderabad - no revolt.&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Pitch:  zero commission, flat Rs30 delivery, no fees - copied as-is.&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Customers:  81.2% pay a rival membership in Bengaluru (16 people); 82.5% in Gachibowli (40 people).&#10;&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>Aug 2025 pilot  &gt;  Mar 2026 citywide, ~20,000 restaurants  &gt;  Jul 2026 restaurant revolt  &gt;  Aug 2026 50,000+ orders/day  &gt;  Sep 2026 live in Gachibowli</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='14000' id='13' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>Evidence: R1, R2, C-Ben-Pay a, C-Gac-Pay a (Evidence page).</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{0D9A4018-DF01-9C0D-2432-5E9033FABE61}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='02 Hyderabad users'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>HYDERABAD USERS&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>Gachibowli orders on Swiggy and Zomato, and most people pay both.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' name='Order share' w='50000' x='0' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='12' type-v2='text' w='50000' x='50000' y='15000'>
+          <formatted-text><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>82.5%&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>pay Swiggy One or Zomato Gold (33 of 40)&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>47.5%&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>pay for both (19 of 40)&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>57.5%&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>use two or more apps (23 of 40)&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>38.9%&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>said the extra charges were too much (14 of 36)&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>Rs30&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>median saving needed to switch (33 people)&#10;&#10;</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='14000' id='13' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>40 people in the Gachibowli catchment, 80% students, 77.5% aged 20-24. Ownly has been live for weeks, so 0% of orders is a starting point.  Evidence: B1-B8.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{9B59801D-F962-3186-2F19-C89E6E492057}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='03 Our KPIs'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>OUR KPIS&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>We tracked a funnel and the four things that block it. People have heard of Ownly, but hardly anyone orders.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' name='City funnel' w='50000' x='0' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='12' name='Barrier KPIs' w='50000' x='50000' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='14000' id='13' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>Why these KPIs: the funnel shows whether the playbook is working; the barriers show what would stop it here. Bengaluru is 16 people - direction only. Rapido users were less aware of Ownly than non-users (8 of 24 vs 9 of 16).  Evidence: K1-K9.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{12EBF425-6E4C-2064-3C2B-338F834E5CEC}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='04 Marketing metrics'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>MARKETING METRICS&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>Ownly&#x27;s saving is big enough for most people, until a rival membership or coupon is applied.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' name='Coverage' w='50000' x='0' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='12' type-v2='text' w='50000' x='50000' y='15000'>
+          <formatted-text><run bold='true' fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>FORMULA-SHEET METRICS&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='12'>Unit (volume) share: 0% of 326 orders - a floor, Ownly is weeks old&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='12'>Penetration share: 2 of 36 (5.6%)&#10;&#10;</run><run bold='true' fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>NOT COMPUTABLE, AND WHY&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='12'>Retention, CLV, CAC, YoY growth, revenue share - need Ownly&#x27;s own customer, spend and revenue data, or a prior period.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='14000' id='13' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>Coverage = person x basket pairs where Ownly&#x27;s real saving is at least what that person said they need to switch.  Evidence: MM1-0, MM1-1, MM1-2, MM2.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{EA9E3F29-DA5A-8C7C-E6CF-A91FA1D61AE3}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='05 Analysis - market'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>ANALYSIS - MARKET&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>Ownly is cheaper on the menu, but it is the same restaurants, slower. Every price-led challenger before it failed.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' name='Price audit' w='33333' x='0' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='12' name='Fee load' w='33333' x='33333' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='13' type-v2='text' w='33333' x='66666' y='15000'>
+          <formatted-text><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>8 of 9&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>Ownly restaurants in our audit are also on Swiggy or Zomato&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>+17 min&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>longer quoted wait (39 captures)&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>6 of 6&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>earlier price-led challengers failed or shrank; Foodpanda ~200,000 to ~5,000 orders a day&#10;&#10;</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='14000' id='14' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>&quot;There&#x27;s no new use case being unlocked here.&quot; - Zomato founder, Jul 2026.  Ownly&#x27;s saving comes from removing fees, not paying for discounts.  Evidence: A-*, R5, R7, R9.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{215B6611-4302-C5FD-8AEA-C198EEB70130}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='06 Analysis - customers'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>ANALYSIS - CUSTOMERS&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>People will trade speed and reliability for Rs30, but not their restaurants. In the fake door a missing place lost the order about half the time.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' name='Trade-offs' w='50000' x='0' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='12' name='Missing place' w='50000' x='50000' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='14000' id='13' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>McNemar exact p = 1.5e-06. When choosing a restaurant, 62.5% said trust/loyalty and 12.5% said price. What gets people to TRY is price (8 of 23) and a refund promise (6 of 23).  Evidence: T1-T5, F3, F4.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{FE7BEC65-E918-6FC2-A12A-B668810EE422}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='07 Analysis - trust'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>ANALYSIS - TRUST&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>The problem gets louder the closer people get to a real order. People don&#x27;t trust the price, or the order, to hold.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' name='Voice' w='50000' x='0' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='12' name='Offer reasons' w='50000' x='50000' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='14000' id='13' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>Share of posts mentioning a theme, not a failure rate. App reviews = 29 coded posts (small). 52.9% took cash now because they may not return or don&#x27;t trust later offers; only 35.3% took Ownly Money. Interviews: people leave after repeated bad orders.  Evidence: V-*, F10, F11.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{67A32EE9-3A82-E485-F6E0-877861D7FC1C}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='08 Analysis - fake door'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>ANALYSIS - FAKE DOOR&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>The fake door showed what people will pay for: speed through Rapido and a small fee. Not another membership.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' name='Rapido Link' w='33333' x='0' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='12' name='Payment' w='33333' x='33333' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='71000' id='13' type-v2='text' w='33333' x='66666' y='15000'>
+          <formatted-text><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>11 of 34&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>worry the captain will drop a passenger first&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>8 of 14&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>who came in from Rapido&#x27;s food tab placed an order&#10;&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='22'>4 of 16&#10;</run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='11'>who came from the after-ride ad did&#10;&#10;</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='14000' id='14' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>70 live fake-door sessions; no money changed hands. 45.5% paid for Rapido Link overall (20 of 44) while the survey said 92.5% would wait.  Evidence: F0-F9.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{5FD624B5-120A-476B-D0B6-F93A931ED79B}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='09 Propositions'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>PROPOSITIONS&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>Don&#x27;t buy the first order. Earn the second one.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' type-v2='text' w='100000' x='0' y='15000'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='12'>KEEP   </run><run bold='true' fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Zero commission; no platform, packaging or surge fees.  </run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='12'>Fees 4.8% of an Ownly bill vs 15.1%-27.4% on rivals.&#10;&#10;</run><run bold='true' fontcolor='#b07800' fontname='Tableau Book' fontsize='12'>ADAPT   </run><run bold='true' fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Stop saying &#x27;cheaper than Swiggy/Zomato&#x27; - show people their own bill.  </run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='12'>After a rival coupon the saving clears only 27.3% of cases.&#10;&#10;</run><run bold='true' fontcolor='#b07800' fontname='Tableau Book' fontsize='12'>ADAPT   </run><run bold='true' fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Go deep on local restaurants people refuse to give up.  </run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='12'>Only 35% would give them up; a missing place lost 53.3% of fake-door orders.&#10;&#10;</run><run bold='true' fontcolor='#138a5f' fontname='Tableau Book' fontsize='12'>ADD   </run><run bold='true' fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Rapido Link: paid fast delivery, no passenger on board.  </run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='12'>45.5% paid Rs15-49 for it. Replaces &#x27;don&#x27;t spend on speed&#x27;.&#10;&#10;</run><run bold='true' fontcolor='#138a5f' fontname='Tableau Book' fontsize='12'>ADD   </run><run bold='true' fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Same-day refund cover as a Rs9-39 option.  </run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='12'>Refund failure is in 79.3% of app reviews.&#10;&#10;</run><run bold='true' fontcolor='#8a877f' fontname='Tableau Book' fontsize='12'>DEPRIORITISE   </run><run bold='true' fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Big first-order discounts, and a third membership.  </run><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='12'>Only 25% would stay after the offer; 3 of 8 Ownly Plus choosers placed an order.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='14000' id='12' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>Watch two numbers monthly: second orders after the offer ends, and orders that go wrong. If second orders don&#x27;t come, stop the discounts rather than doubling them.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{0A600844-1F3F-914D-C376-9C58CEC52A2A}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='10 UI recommendations'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>UI RECOMMENDATIONS&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>Three screens that put the findings into the app.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' type-v2='text' w='33333' x='0' y='15000'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='11'>1. HOME LEADS WITH RESTAURANTS&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Search your usual place first; &#x27;Your regulars on Ownly&#x27;. If a place is missing, ask for it - a missing place becomes an onboarding list, not a lost order.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='12' type-v2='text' w='33333' x='33333' y='15000'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='11'>2. SELL SPEED AS A CHOICE&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Standard 42 min free, or Rapido Link 25 min for a fee - &#x27;No passenger on board. Tracking from pickup.&#x27; answers the top worry on the option itself.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='13' type-v2='text' w='33333' x='66666' y='15000'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='11'>3. SHOW THE BILL, NOT A COMPARISON&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='13'>Every line visible, fees read Rs0, no &#x27;cheaper than Swiggy&#x27; claim a coupon can disprove. Order Protection: late, cold or wrong - full refund the same day.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='14000' id='14' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>Phone mock-ups of these three screens are on page 10 of the HTML version (Ownly_Hyderabad_Story.html).</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{166988F0-C382-8B24-4386-FF82398B1442}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='11 Evidence'>
+    <style />
+    <size maxheight='640' maxwidth='1300' minheight='640' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='15000' id='10' type-v2='text' w='100000' x='0' y='0'>
+          <formatted-text><run bold='true' fontcolor='#2a78d6' fontname='Tableau Book' fontsize='10'>EVIDENCE&#10;</run><run fontcolor='#1b1a18' fontname='Tableau Book' fontsize='19'>Evidence: every number, how it was calculated, and whether the sample is big enough.</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+        <zone h='71000' id='11' name='Evidence table' w='100000' x='0' y='15000'><zone-style><format attr='margin' value='6' /></zone-style></zone>
+        <zone h='14000' id='12' type-v2='text' w='100000' x='0' y='86000'>
+          <formatted-text><run fontcolor='#5b5953' fontname='Tableau Book' fontsize='10'>OK = 30+; Small = 10-29 (direction); Too small = under 10 (count only). 95% Wilson intervals. &#x27;Not a sample&#x27; = cited media/filings. Fake door: 25 test rows and 1 duplicate removed; home-screen A/B dropped (arm fixed per phone: 58 vs 12).</run></formatted-text>
+          <zone-style><format attr='margin' value='8' /></zone-style>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{E46BCEA4-855B-550B-DF66-D71ACEB750A3}' />
+  </dashboard>
+  <dashboard name='Ownly in Hyderabad' type='storyboard'>
+    <layout-options>
+      <title>
+        <formatted-text>
+          <run>Ownly in Hyderabad: will the Bengaluru playbook transfer?</run>
+        </formatted-text>
+      </title>
+    </layout-options>
+    <style />
+    <size maxheight='790' maxwidth='1300' minheight='790' minwidth='1300' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='100000' id='1' param='vert' removable='false' type-v2='layout-flow' w='100000' x='0' y='0'>
+          <zone h='4453' id='3' type-v2='title' w='100000' x='0' y='0' />
+          <zone fixed-size='80' h='11000' id='4' is-fixed='true' paired-zone-id='5' removable='false' type-v2='flipboard-nav' w='100000' x='0' y='4453' />
+          <zone h='84547' id='5' paired-zone-id='4' removable='false' type-v2='flipboard' w='100000' x='0' y='15453'>
+            <flipboard active-id='1' nav-type='caption' show-nav-arrows='true'>
+              <story-points>
+                  <story-point caption='The problem' captured-sheet='01 The problem' id='1' />
+                  <story-point caption='Hyderabad users' captured-sheet='02 Hyderabad users' id='2' />
+                  <story-point caption='Our KPIs' captured-sheet='03 Our KPIs' id='3' />
+                  <story-point caption='Marketing metrics' captured-sheet='04 Marketing metrics' id='4' />
+                  <story-point caption='Market &amp; competitors' captured-sheet='05 Analysis - market' id='5' />
+                  <story-point caption='Customers' captured-sheet='06 Analysis - customers' id='6' />
+                  <story-point caption='Trust' captured-sheet='07 Analysis - trust' id='7' />
+                  <story-point caption='Fake door' captured-sheet='08 Analysis - fake door' id='8' />
+                  <story-point caption='Propositions' captured-sheet='09 Propositions' id='9' />
+                  <story-point caption='UI' captured-sheet='10 UI recommendations' id='10' />
+                  <story-point caption='Evidence' captured-sheet='11 Evidence' id='11' />
+              </story-points>
+            </flipboard>
+          </zone>
+        </zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{BEC670E5-A554-24D8-40DB-8636ECC28828}' />
+  </dashboard>
+  </dashboards>
+  <windows source-height='30'>
+    <window class='worksheet' hidden='true' name='Order share'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{3D02C62A-95E4-D8E2-662C-5A0B087DF53D}' />
+    </window>
+    <window class='worksheet' hidden='true' name='City funnel'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{BAD282C0-2780-FE81-77C1-FB53473C518F}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Barrier KPIs'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{9DCCBC19-56C5-678A-3C0D-C10197688816}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Coverage'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{F2BC07F0-C1C3-7638-89AB-C016BE086310}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Price audit'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{8A1393FB-DE92-7D79-FB75-8DDFC32ED496}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Fee load'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{05BAC1D7-BFC0-5151-D731-4CB154E7248D}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Trade-offs'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{6030074A-E984-CD40-86FA-46B2C481C7DB}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Missing place'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{C6F09A33-C534-E9D9-C05F-2592DBFAB9F1}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Voice'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{4908F444-5B94-F309-59B6-620DF187AA2A}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Offer reasons'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{EE1AFB02-8250-F910-12AF-8B2EE4BDC460}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Rapido Link'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{C41BE14F-9AA9-8D17-1063-4A8A4E0564AF}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Payment'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{228F03D1-6C57-AFF5-A49B-0A4DB9F96F4B}' />
+    </window>
+    <window class='worksheet' hidden='true' name='Evidence table'>
+      <cards>
+        <edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge>
+        <edge name='top'><strip size='2147483647'><card type='columns' /></strip><strip size='2147483647'><card type='rows' /></strip><strip size='31'><card type='title' /></strip></edge>
+      </cards>
+      <simple-id uuid='{DC7D7A63-0FDF-C6D7-BC8B-C50B587F6A7C}' />
+    </window>
+    <window class='dashboard' hidden='true' name='01 The problem'>
+      <viewpoints></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{F59B1F7F-2DE0-AB94-CBD0-FA1839812E4C}' />
+    </window>
+    <window class='dashboard' hidden='true' name='02 Hyderabad users'>
+      <viewpoints><viewpoint name='Order share'><zoom type='entire-view' /></viewpoint></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{E97978DC-0126-18C2-34A8-A83DA36CD285}' />
+    </window>
+    <window class='dashboard' hidden='true' name='03 Our KPIs'>
+      <viewpoints><viewpoint name='City funnel'><zoom type='entire-view' /></viewpoint><viewpoint name='Barrier KPIs'><zoom type='entire-view' /></viewpoint></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{ABF123DF-E11B-1E4F-CC47-6681DE161103}' />
+    </window>
+    <window class='dashboard' hidden='true' name='04 Marketing metrics'>
+      <viewpoints><viewpoint name='Coverage'><zoom type='entire-view' /></viewpoint></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{5CA5571C-7F05-3658-611C-7EC9583F04FE}' />
+    </window>
+    <window class='dashboard' hidden='true' name='05 Analysis - market'>
+      <viewpoints><viewpoint name='Price audit'><zoom type='entire-view' /></viewpoint><viewpoint name='Fee load'><zoom type='entire-view' /></viewpoint></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{7ABC8EF8-D391-0257-808E-4BD8C3A119D7}' />
+    </window>
+    <window class='dashboard' hidden='true' name='06 Analysis - customers'>
+      <viewpoints><viewpoint name='Trade-offs'><zoom type='entire-view' /></viewpoint><viewpoint name='Missing place'><zoom type='entire-view' /></viewpoint></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{15945569-86DD-1EF4-2731-28B886346229}' />
+    </window>
+    <window class='dashboard' hidden='true' name='07 Analysis - trust'>
+      <viewpoints><viewpoint name='Voice'><zoom type='entire-view' /></viewpoint><viewpoint name='Offer reasons'><zoom type='entire-view' /></viewpoint></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{D8B73DD3-7C8B-13D8-F8FC-F71D6E65BE5A}' />
+    </window>
+    <window class='dashboard' hidden='true' name='08 Analysis - fake door'>
+      <viewpoints><viewpoint name='Rapido Link'><zoom type='entire-view' /></viewpoint><viewpoint name='Payment'><zoom type='entire-view' /></viewpoint></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{3629DC53-CCC6-1C4E-90B5-F7CA4E2010C7}' />
+    </window>
+    <window class='dashboard' hidden='true' name='09 Propositions'>
+      <viewpoints></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{9E7DFC47-2445-8F31-E19A-C5E6DAB55E77}' />
+    </window>
+    <window class='dashboard' hidden='true' name='10 UI recommendations'>
+      <viewpoints></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{38DB6333-FF4B-41B3-ACEC-DC09E6E7D027}' />
+    </window>
+    <window class='dashboard' hidden='true' name='11 Evidence'>
+      <viewpoints><viewpoint name='Evidence table'><zoom type='entire-view' /></viewpoint></viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{E0108101-6717-7EBF-B837-F64B6A6AE09A}' />
+    </window>
+    <window class='dashboard' maximized='true' name='Ownly in Hyderabad'>
+      <viewpoints />
+      <active id='-1' />
+      <simple-id uuid='{23F2645C-D985-53F8-5F9A-EA1B8F7A5DDA}' />
+    </window>
+  </windows>
+</workbook>

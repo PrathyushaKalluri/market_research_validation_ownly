@@ -1,0 +1,11 @@
+Channel,Step,Sessions,Base,Pct,Sort
+Direct link,Opened Ownly,34,34,100.0,0
+Direct link,Picked a dish or place,25,34,73.5,1
+Direct link,Added food to cart,18,34,52.9,2
+Direct link,Chose how to pay,18,34,52.9,3
+Direct link,Pressed Place order,16,34,47.1,4
+Inside Rapido,Opened Ownly,36,36,100.0,0
+Inside Rapido,Picked a dish or place,33,36,91.7,1
+Inside Rapido,Added food to cart,26,36,72.2,2
+Inside Rapido,Chose how to pay,24,36,66.7,3
+Inside Rapido,Pressed Place order,13,36,36.1,4

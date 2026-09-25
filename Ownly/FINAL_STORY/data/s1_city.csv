@@ -1,0 +1,9 @@
+Measure,City,Yes,Base,Pct,CI_low,CI_high,Sample
+Heard of Ownly,Bengaluru,12,16,75.0,50.5,89.8,Small - directional
+Heard of Ownly,Gachibowli,17,40,42.5,28.5,57.8,OK
+Opened Ownly,Bengaluru,6,16,37.5,18.5,61.4,Small - directional
+Opened Ownly,Gachibowli,7,40,17.5,8.7,32.0,OK
+Ordered on Ownly,Bengaluru,4,16,25.0,10.2,49.5,Small - directional
+Ordered on Ownly,Gachibowli,2,40,5.0,1.4,16.5,OK
+Pay a rival membership,Bengaluru,13,16,81.2,57.0,93.4,Small - directional
+Pay a rival membership,Gachibowli,33,40,82.5,68.0,91.3,OK

@@ -1,0 +1,7 @@
+Measure,City,Yes,Base,Pct,CI_low,CI_high,Sample,Highlight,Sort,Label
+Heard of Ownly,Bengaluru,12,16,75.0,50.5,89.8,Small - directional,No,0,12 of 16
+Heard of Ownly,Gachibowli,17,40,42.5,28.5,57.8,OK,Yes,1,17 of 40
+Opened Ownly,Bengaluru,6,16,37.5,18.5,61.4,Small - directional,No,2,6 of 16
+Opened Ownly,Gachibowli,7,40,17.5,8.7,32.0,OK,Yes,3,7 of 40
+Ordered on Ownly,Bengaluru,4,16,25.0,10.2,49.5,Small - directional,No,4,4 of 16
+Ordered on Ownly,Gachibowli,2,40,5.0,1.4,16.5,OK,Yes,5,2 of 40

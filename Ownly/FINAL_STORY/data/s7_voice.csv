@@ -1,0 +1,16 @@
+Source,Theme,Items,Coded_items,Pct,CI_low,CI_high,Sample,Sort
+App-store reviews,Price is cheaper,3,29,10.3,3.6,26.4,Small - directional,0
+App-store reviews,Doubt the price,0,29,0.0,0,11.7,Small - directional,1
+App-store reviews,Order went wrong,21,29,72.4,54.3,85.3,Small - directional,2
+App-store reviews,Support / refund failed,23,29,79.3,61.6,90.2,Small - directional,3
+App-store reviews,Restaurants missing,0,29,0.0,0,11.7,Small - directional,4
+People who ordered (social),Price is cheaper,22,97,22.7,15.5,32.0,OK,0
+People who ordered (social),Doubt the price,20,97,20.6,13.8,29.7,OK,1
+People who ordered (social),Order went wrong,48,97,49.5,39.7,59.3,OK,2
+People who ordered (social),Support / refund failed,36,97,37.1,28.2,47.0,OK,3
+People who ordered (social),Restaurants missing,9,97,9.3,5.0,16.7,OK,4
+General discussion (social),Price is cheaper,41,225,18.2,13.7,23.8,OK,0
+General discussion (social),Doubt the price,99,225,44.0,37.7,50.5,OK,1
+General discussion (social),Order went wrong,50,225,22.2,17.3,28.1,OK,2
+General discussion (social),Support / refund failed,43,225,19.1,14.5,24.8,OK,3
+General discussion (social),Restaurants missing,32,225,14.2,10.3,19.4,OK,4

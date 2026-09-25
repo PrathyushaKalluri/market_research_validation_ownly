@@ -1,0 +1,4 @@
+Stage,People,Base,Pct,CI_low,CI_high,Sample,Sort
+Heard of Ownly,17,40,42.5,28.5,57.8,OK,0
+Opened Ownly,7,40,17.5,8.7,32.0,OK,1
+Ordered on Ownly,2,40,5.0,1.4,16.5,OK,2

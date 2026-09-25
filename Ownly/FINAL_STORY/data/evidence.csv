@@ -1,0 +1,103 @@
+ID,Screen,Claim,Shown_as,Numerator,Denominator,Value,CI_low,CI_high,Sample_check,Method,Source_file,Type
+B1,2 Hyderabad users,Hold Swiggy One and/or Zomato Gold,82.5%,33,40,82.5,68.0,91.3,OK,has_membership = True / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+B2,2 Hyderabad users,Hold BOTH memberships,47.5%,19,40,47.5,32.9,62.5,OK,memberships contains both / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+B3,2 Hyderabad users,Use two or more delivery apps,57.5%,23,40,57.5,42.2,71.5,OK,multihoming = True / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+B4-Swiggy,2 Hyderabad users,Share of last-4-week orders placed on Swiggy,54.6%,,40,54.6,,,OK,"sum(n_swiggy) / sum(all orders), catchment; 326 orders",final_dashboard/data/cleaned_survey.csv,Computed
+B4-Zomato,2 Hyderabad users,Share of last-4-week orders placed on Zomato,36.8%,,40,36.8,,,OK,"sum(n_zomato) / sum(all orders), catchment; 326 orders",final_dashboard/data/cleaned_survey.csv,Computed
+B4-Ownly,2 Hyderabad users,Share of last-4-week orders placed on Ownly,0%,,40,0.0,,,OK,"sum(n_ownly) / sum(all orders), catchment; 326 orders",final_dashboard/data/cleaned_survey.csv,Computed
+B4-Other,2 Hyderabad users,Share of last-4-week orders placed on Other,8.6%,,40,8.6,,,OK,"sum(n_other) / sum(all orders), catchment; 326 orders",final_dashboard/data/cleaned_survey.csv,Computed
+B5,2 Hyderabad users,Last bill felt unfair because of the extra charges,38.9%,14,36,38.9,24.8,55.1,OK,bill_fairness = 'extra charges on top were too much' / answered,final_dashboard/data/cleaned_survey.csv,Computed
+B6,2 Hyderabad users,Students in the sample,80%,32,40,80.0,65.2,89.5,OK,occupation starts 'Student' / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+B7,2 Hyderabad users,Aged 20-24,77.5%,31,40,77.5,62.5,87.7,OK,age_band = 20-24 / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+B8,2 Hyderabad users,Median saving per order needed to switch apps (Rs),30 Rs,,33,30.0,,,OK,median(switch_savings_rs) among those who named a figure,final_dashboard/data/cleaned_survey.csv,Computed
+B9,2 Hyderabad users,Said no saving would make them switch,4,,40,4,,,OK,switch_never = True (count),final_dashboard/data/cleaned_survey.csv,Computed
+K1,3 KPIs,Awareness: heard of Ownly,42.5%,17,40,42.5,28.5,57.8,OK,ownly_aware = True / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+K2,3 KPIs,Browse: opened Ownly,17.5%,7,40,17.5,8.7,32.0,OK,ownly_opened = True / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+K3,3 KPIs,Trial: ordered on Ownly,5%,2,40,5.0,1.4,16.5,OK,ownly_says_ordered = True / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+K4,3 KPIs,"Use Rapido (any frequency, last 4 weeks)",60%,24,40,60.0,44.6,73.7,OK,"rapido_freq not in (Never, blank) / catchment",final_dashboard/data/cleaned_survey.csv,Computed
+K5,3 KPIs,Noticed food inside the Rapido app,15.2%,5,33,15.2,6.7,30.9,OK,rapido_food_seen = Yes / (Yes + No + Not sure),final_dashboard/data/cleaned_survey.csv,Computed
+K6,3 KPIs,Expect a new app's low prices to rise,87.5%,35,40,87.5,73.9,94.5,OK,durability_doubt_n >= 4 (agree) / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+K7,3 KPIs,Would keep ordering after the Rs100 offer ends,25%,10,40,25.0,14.2,40.2,OK,repeat_no_promo_n >= 4 (likely) / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+K8,3 KPIs,Aware of Ownly - Rapido users,33.3%,8,24,33.3,18.0,53.3,Small - directional,ownly_aware among Rapido users,final_dashboard/data/cleaned_survey.csv,Computed
+K9,3 KPIs,Aware of Ownly - non-Rapido users,56.2%,9,16,56.2,33.2,76.9,Small - directional,ownly_aware among non-users,final_dashboard/data/cleaned_survey.csv,Computed
+C-Ben-Heard ,1 Problem,Bengaluru: Heard of Ownly,75%,12,16,75.0,50.5,89.8,Small - directional,Heard of Ownly / Bengaluru sample,final_dashboard/data/cleaned_survey.csv,Computed
+C-Gac-Heard ,1 Problem,Gachibowli: Heard of Ownly,42.5%,17,40,42.5,28.5,57.8,OK,Heard of Ownly / Gachibowli sample,final_dashboard/data/cleaned_survey.csv,Computed
+C-Ben-Opened,1 Problem,Bengaluru: Opened Ownly,37.5%,6,16,37.5,18.5,61.4,Small - directional,Opened Ownly / Bengaluru sample,final_dashboard/data/cleaned_survey.csv,Computed
+C-Gac-Opened,1 Problem,Gachibowli: Opened Ownly,17.5%,7,40,17.5,8.7,32.0,OK,Opened Ownly / Gachibowli sample,final_dashboard/data/cleaned_survey.csv,Computed
+C-Ben-Ordere,1 Problem,Bengaluru: Ordered on Ownly,25%,4,16,25.0,10.2,49.5,Small - directional,Ordered on Ownly / Bengaluru sample,final_dashboard/data/cleaned_survey.csv,Computed
+C-Gac-Ordere,1 Problem,Gachibowli: Ordered on Ownly,5%,2,40,5.0,1.4,16.5,OK,Ordered on Ownly / Gachibowli sample,final_dashboard/data/cleaned_survey.csv,Computed
+C-Ben-Pay a ,1 Problem,Bengaluru: Pay a rival membership,81.2%,13,16,81.2,57.0,93.4,Small - directional,Pay a rival membership / Bengaluru sample,final_dashboard/data/cleaned_survey.csv,Computed
+C-Gac-Pay a ,1 Problem,Gachibowli: Pay a rival membership,82.5%,33,40,82.5,68.0,91.3,OK,Pay a rival membership / Gachibowli sample,final_dashboard/data/cleaned_survey.csv,Computed
+C-BLR-thr,1 Problem,Bengaluru: median saving needed to switch (Rs),50 Rs,,13,50.0,,,Small - directional,"median(switch_savings_rs), Bengaluru",final_dashboard/data/cleaned_survey.csv,Computed
+T1,6 Customers,Take Rs30 off to wait 15 min longer,92.5%,37,40,92.5,80.1,97.4,OK,eta_chose_cheap / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+T2,6 Customers,Take Rs30 off to accept 3-in-10 late orders,72.5%,29,40,72.5,57.2,83.9,OK,rel_chose_cheap / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+T3,6 Customers,Take Rs30 off to give up their usual restaurants,35%,14,40,35.0,22.1,50.5,OK,rest_chose_cheap / catchment,final_dashboard/data/cleaned_survey.csv,Computed
+T4,6 Customers,Accepted the wait but refused to lose restaurants (24) vs the reverse (1); McNemar exact p,1.5e-06,,40,1.5e-06,,,OK,exact binomial on discordant pairs,final_dashboard/data/cleaned_survey.csv,Computed
+T5-Seeing it',6 Customers,What would most make you try Ownly: 'Seeing it's cheaper than Swiggy/Zomato for the same order',34.8%,8,23,34.8,18.8,55.1,Small - directional,ownly_trigger / answered,final_dashboard/data/cleaned_survey.csv,Computed
+T5-A promise ,6 Customers,What would most make you try Ownly: 'A promise of a quick refund if an order goes wrong',26.1%,6,23,26.1,12.5,46.5,Small - directional,ownly_trigger / answered,final_dashboard/data/cleaned_survey.csv,Computed
+T5-A friend t,6 Customers,What would most make you try Ownly: 'A friend telling me it works well',17.4%,4,23,17.4,7.0,37.1,Small - directional,ownly_trigger / answered,final_dashboard/data/cleaned_survey.csv,Computed
+A-win-0,5 Market,Ownly cheapest - Menu price + fees (4 of 4 baskets); median saving Rs,114.5 Rs (n=4),,4,114.5,,,Too small - shown with its n,median(saving_rs) over 4 matched baskets,final_dashboard/data/audit_pairs.csv,Computed
+A-win-1,5 Market,Ownly cheapest - With a rival membership (3 of 4 baskets); median saving Rs,77.59 Rs (n=4),,4,77.59,,,Too small - shown with its n,median(saving_rs) over 4 matched baskets,final_dashboard/data/audit_pairs.csv,Computed
+A-win-2,5 Market,Ownly cheapest - After a rival coupon (2 of 4 baskets); median saving Rs,-28.07 Rs (n=4),,4,-28.07,,,Too small - shown with its n,median(saving_rs) over 4 matched baskets,final_dashboard/data/audit_pairs.csv,Computed
+MM1-0,4 Metrics,Switch-threshold coverage - Menu price + fees,81.1%,107,132,81.1,73.5,86.8,OK,person x basket pairs where Ownly's saving >= that person's stated switching figure,final_dashboard/data/audit_pairs.csv,Computed
+MM1-1,4 Metrics,Switch-threshold coverage - With a rival membership,56.1%,74,132,56.1,47.5,64.2,OK,person x basket pairs where Ownly's saving >= that person's stated switching figure,final_dashboard/data/audit_pairs.csv,Computed
+MM1-2,4 Metrics,Switch-threshold coverage - After a rival coupon,27.3%,36,132,27.3,20.4,35.4,OK,person x basket pairs where Ownly's saving >= that person's stated switching figure,final_dashboard/data/audit_pairs.csv,Computed
+A-fee-ownly,5 Market,"Median non-food share of the bill (fees+tax) - Ownly, no-discount captures",4.8% (n=4),,4,4.8,,,Too small - shown with its n,median(non_food_total / final bill),final_dashboard/data/audit_clean.csv,Computed
+A-fee-zomato,5 Market,"Median non-food share of the bill (fees+tax) - Zomato, no-discount captures",15.1%,,13,15.1,,,Small - directional,median(non_food_total / final bill),final_dashboard/data/audit_clean.csv,Computed
+A-fee-swiggy,5 Market,"Median non-food share of the bill (fees+tax) - Swiggy, no-discount captures",27.4% (n=7),,7,27.4,,,Too small - shown with its n,median(non_food_total / final bill),final_dashboard/data/audit_clean.csv,Computed
+A-cov,5 Market,Audit restaurants that are on Ownly,90%,9,10,90.0,59.6,98.2,Small - directional,on_ownly / restaurant frame,final_dashboard/data/audit_coverage.csv,Computed
+A-ovl,5 Market,Ownly restaurants also on Swiggy or Zomato,8 of 9,8,9,88.9,56.5,98.0,Too small - count only,on both / on Ownly,final_dashboard/data/audit_coverage.csv,Computed
+A-eta,5 Market,Extra wait quoted on Ownly (median 39.5 min vs rivals 22.5 min),17 min,,39,17.0,,,OK,"median(Ownly quoted ETA midpoint) - median(Swiggy+Zomato quoted ETA midpoint), all captures with an ETA",final_dashboard/data/audit_clean.csv,Computed
+MM2,4 Metrics,Penetration share: tried Ownly / ordered food at all (last 4 weeks),5.6%,2,36,5.6,1.5,18.1,OK,"Brand penetration / market penetration = Ownly triers / category orderers, within the sample",final_dashboard/data/cleaned_survey.csv,Computed
+V-App-st-Doubt ,7 After the order,App-store reviews: mention 'Doubt the price',0%,0,29,0.0,0,11.7,Small - directional,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/app_stores/reviews_coded.csv,Computed
+V-App-st-Order ,7 After the order,App-store reviews: mention 'Order went wrong',72.4%,21,29,72.4,54.3,85.3,Small - directional,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/app_stores/reviews_coded.csv,Computed
+V-App-st-Suppor,7 After the order,App-store reviews: mention 'Support / refund failed',79.3%,23,29,79.3,61.6,90.2,Small - directional,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/app_stores/reviews_coded.csv,Computed
+V-People-Doubt ,7 After the order,People who ordered (social): mention 'Doubt the price',20.6%,20,97,20.6,13.8,29.7,OK,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/social/social_coded.csv,Computed
+V-People-Order ,7 After the order,People who ordered (social): mention 'Order went wrong',49.5%,48,97,49.5,39.7,59.3,OK,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/social/social_coded.csv,Computed
+V-People-Suppor,7 After the order,People who ordered (social): mention 'Support / refund failed',37.1%,36,97,37.1,28.2,47.0,OK,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/social/social_coded.csv,Computed
+V-Genera-Doubt ,7 After the order,General discussion (social): mention 'Doubt the price',44%,99,225,44.0,37.7,50.5,OK,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/social/social_coded.csv,Computed
+V-Genera-Order ,7 After the order,General discussion (social): mention 'Order went wrong',22.2%,50,225,22.2,17.3,28.1,OK,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/social/social_coded.csv,Computed
+V-Genera-Suppor,7 After the order,General discussion (social): mention 'Support / refund failed',19.1%,43,225,19.1,14.5,24.8,OK,items mentioning the theme / items with any coded theme (NOT an order failure rate),05_review_mining/social/social_coded.csv,Computed
+V-1star,7 After the order,App-store reviews that are 1-star,70.3%,26,37,70.3,54.2,82.5,OK,star_rating = 1 / all reviews,05_review_mining/app_stores/reviews_coded.csv,Computed
+V-yt-rider,7 After the order,YouTube comments (coded) about rider pay,27.6%,29,105,27.6,20.0,36.8,OK,RIDER_ECONOMICS / comments with a theme,final_dashboard/data/youtube_comments_coded.csv,Computed
+F0,6 Customers,Live fake-door sessions analysed,70,,70,70,,,OK,all rows minus 1 duplicate session id; 25 test / seeded rows (sess_natural_*),ownly_direct.xlsx,Computed
+F0-dupl,6 Customers,Excluded: duplicate session id,1,,0,1,,,,count,ownly_direct.xlsx,Computed
+F0-test,6 Customers,Excluded: test / seeded rows (sess_natural_*),25,,0,25,,,,count,ownly_direct.xlsx,Computed
+F1-Direct,6 Customers,Direct link: sessions that pressed Place order,47.1%,16,34,47.1,31.5,63.3,OK,placed_order = true / sessions,ownly_direct.xlsx,Computed
+F1-Inside,6 Customers,Inside Rapido: sessions that pressed Place order,36.1%,13,36,36.1,22.5,52.4,OK,placed_order = true / sessions,ownly_direct.xlsx,Computed
+F2-ride_complete_ad,6 Customers,Rapido entry 'Ad after the ride ends': placed order,25%,4,16,25.0,10.2,49.5,Small - directional,placed / sessions from that entry,ownly_rapido.xlsx,Computed
+F2-bottom_nav,6 Customers,Rapido entry 'Food tab in bottom bar': placed order,57.1%,8,14,57.1,32.6,78.6,Small - directional,placed / sessions from that entry,ownly_rapido.xlsx,Computed
+F2-top_banner,6 Customers,Rapido entry 'Banner at top': placed order,1 of 5,1,5,20.0,3.6,62.4,Too small - count only,placed / sessions from that entry,ownly_rapido.xlsx,Computed
+F2-in_app,6 Customers,Rapido entry 'Other in-app link': placed order,0 of 1,0,1,0.0,0,79.3,Too small - count only,placed / sessions from that entry,ownly_rapido.xlsx,Computed
+F3-Trust ,6 Customers,Why this restaurant: Trust / loyalty,62.5%,30,48,62.5,48.4,74.8,OK,grouped why_this_restaurant / answered,ownly_direct.xlsx,Computed
+F3-Closes,6 Customers,Why this restaurant: Closest / fastest,25%,12,48,25.0,14.9,38.8,OK,grouped why_this_restaurant / answered,ownly_direct.xlsx,Computed
+F3-Good p,6 Customers,Why this restaurant: Good price,12.5%,6,48,12.5,5.9,24.7,OK,grouped why_this_restaurant / answered,ownly_direct.xlsx,Computed
+F4-not_he,6 Customers,Wanted place not on Ownly: order lost to usual app or not placed,53.3%,16,30,53.3,36.1,69.8,OK,"answer in (Open the app I use most, Don't order) / answered",ownly_direct.xlsx,Computed
+F4-no_suc,6 Customers,Wanted dish not on Ownly: order lost to usual app or not placed,43.3%,13,30,43.3,27.4,60.8,OK,"answer in (Open the app I use most, Don't order) / answered",ownly_direct.xlsx,Computed
+F5,6 Customers,"Sessions that picked Paradise Biryani (listed first, with a badge)",24.6%,14,57,24.6,15.2,37.1,OK,restaurant_name / sessions with a pick,ownly_direct.xlsx,Computed
+F6,8 Propositions,Paid extra for Rapido Link (25 min vs 42 min),45.5%,20,44,45.5,31.7,59.9,OK,delivery_id = rapido_link / chose a delivery,ownly_direct.xlsx,Computed
+F6-15,8 Propositions,Rapido Link take-up at Rs15,2 of 8,2,8,25.0,7.1,59.1,Too small - count only,"rapido_link / chose delivery, at that randomised price",ownly_direct.xlsx,Computed
+F6-25,8 Propositions,Rapido Link take-up at Rs25,33.3%,4,12,33.3,13.8,60.9,Small - directional,"rapido_link / chose delivery, at that randomised price",ownly_direct.xlsx,Computed
+F6-35,8 Propositions,Rapido Link take-up at Rs35,53.8%,7,13,53.8,29.1,76.8,Small - directional,"rapido_link / chose delivery, at that randomised price",ownly_direct.xlsx,Computed
+F6-49,8 Propositions,Rapido Link take-up at Rs49,63.6%,7,11,63.6,35.4,84.8,Small - directional,"rapido_link / chose delivery, at that randomised price",ownly_direct.xlsx,Computed
+F7,8 Propositions,Top worry about Rapido bringing food: 'drop a passenger first',32.4%,11,34,32.4,19.1,49.2,OK,worry answer / answered,ownly_direct.xlsx,Computed
+F8-per_order,8 Propositions,Chose 'Pay Rs15 per order',61.9%,26,42,61.9,46.8,75.0,OK,bill_id / chose a payment model,ownly_direct.xlsx,Computed
+F8p-per_order,8 Propositions,"Of those choosing 'Pay Rs15 per order', pressed Place order",80.8%,21,26,80.8,62.1,91.5,Small - directional,placed / chose that model,ownly_direct.xlsx,Computed
+F8-protected,8 Propositions,Chose 'Order Protection (Rs15 + cover)',19%,8,42,19.0,10.0,33.3,OK,bill_id / chose a payment model,ownly_direct.xlsx,Computed
+F8p-protected,8 Propositions,"Of those choosing 'Order Protection (Rs15 + cover)', pressed Place order",5 of 8,5,8,62.5,30.6,86.3,Too small - count only,placed / chose that model,ownly_direct.xlsx,Computed
+F8-membership,8 Propositions,Chose 'Ownly Plus Rs99/month',19%,8,42,19.0,10.0,33.3,OK,bill_id / chose a payment model,ownly_direct.xlsx,Computed
+F8p-membership,8 Propositions,"Of those choosing 'Ownly Plus Rs99/month', pressed Place order",3 of 8,3,8,37.5,13.7,69.4,Too small - count only,placed / chose that model,ownly_direct.xlsx,Computed
+F9,8 Propositions,Top reason behind the payment choice: 'I want a refund if it goes wrong',32.3%,10,31,32.3,18.6,49.9,OK,why_this_way_to_pay / answered,ownly_direct.xlsx,Computed
+F10,7 After the order,Picked Ownly Money (Rs120-250 on the NEXT order) over Rs100 off now,35.3%,12,34,35.3,21.5,52.1,OK,offer_id = wallet / chose one of the three offers,ownly_direct.xlsx,Computed
+F11,7 After the order,Reason for the offer: 'may not order here again' or 'don't trust later offers',52.9%,18,34,52.9,36.7,68.5,OK,those two answers / answered,ownly_direct.xlsx,Computed
+F12,6 Customers,A/B arms not comparable: discount 58 vs restaurants 12 sessions,12,,70,12,,,OK,"arm is fixed per phone (localStorage), so shared phones kept one arm - comparison dropped",ownly_direct.xlsx,Computed
+F13,6 Customers,Median basket at Place order (Rs),374 Rs,,29,374,,,Small - directional,median(bill_total) where placed,ownly_direct.xlsx,Computed
+R1,1 Problem,"Ownly Bengaluru daily orders, Aug 2026","50,000+ (~10% share)",,,,,,Not a sample,Media report,"Storyboard18, 21 Aug 2026",Reported
+R2,1 Problem,"Bengaluru restaurants threatening to quit Swiggy/Zomato, Jul 2026","1,000+",,,,,,Not a sample,Media report,"Business Today, 29 Jul 2026",Reported
+R3,1 Problem,Restaurants on Ownly in Bengaluru at citywide launch,"~20,000",,,,,,Not a sample,Media report,"MediaNama, 5 Mar 2026",Reported
+R4,1 Problem,Ownly signs MoU with the National Restaurant Association (NRAI),Aug 2026,,,,,,Not a sample,Media report,"mediabrief / FM Live, Aug 2026",Reported
+R5,5 Market,Foodpanda India daily orders after discounts stopped,"~200,000 to ~5,000",,,,,,Not a sample,Media report,01_secondary_research/challenger_failures/A_ubereats_foodpanda.md,Reported
+R6,5 Market,"Uber Eats India operating loss per order, Q1 2019",$2.55 on a ~$2.5 order,,,,,,Not a sample,Company filing (SEC 8-K),"Uber Form 8-K Ex. 99.1, 21 Jan 2020",Reported
+R7,5 Market,Zomato founder: 'no new use case being unlocked here',Quote,,,,,,Not a sample,Company filing,"Eternal Q1FY27 shareholders' letter, 22 Jul 2026",Reported
+R8,5 Market,Ownly revenue per order vs Swiggy rider payout per order,Rs30 vs Rs56.01,,,,,,Not a sample,Media report / company deck,C_unit_economics_and_structure.md; Swiggy corporate deck FY24-25,Reported
+R9,5 Market,"Price-led challengers that failed or shrank (Uber Eats, Foodpanda, Amazon Food, Thrive, DotPe, ONDC buyer apps)",6 of 6,,,,,,Not a sample,Secondary synthesis,01_secondary_research/challenger_failures/D_synthesis_why_challengers_fail.md,Reported
