@@ -1,0 +1,25 @@
+Restaurant,Price View,View Order,Platform,Final Payable Rs,Quoted ETA Min
+Bawarchi,LIST+FEES,1,Ownly,205.8,38.5
+Bawarchi,LIST+FEES,1,Zomato,247.64,17.5
+Cream Stone,LIST+FEES,1,Ownly,187.95,30.0
+Cream Stone,LIST+FEES,1,Zomato,259.14,12.5
+Paradise Biryani,LIST+FEES,1,Ownly,313.95,46.5
+Paradise Biryani,LIST+FEES,1,Swiggy,471.76,22.5
+Shah Ghouse,LIST+FEES,1,Ownly,157.5,40.5
+Shah Ghouse,LIST+FEES,1,Swiggy,332.0,22.5
+Bawarchi,MEMBER,2,Ownly,205.8,38.5
+Bawarchi,MEMBER,2,Zomato,205.64,17.5
+Cream Stone,MEMBER,2,Ownly,187.95,30.0
+Cream Stone,MEMBER,2,Zomato,216.14,12.5
+Paradise Biryani,MEMBER,2,Ownly,313.95,46.5
+Paradise Biryani,MEMBER,2,Zomato,441.76,22.5
+Shah Ghouse,MEMBER,2,Ownly,157.5,40.5
+Shah Ghouse,MEMBER,2,Zomato,284.49,22.5
+Bawarchi,AFTER OFFER,3,Ownly,155.8,38.5
+Bawarchi,AFTER OFFER,3,Swiggy,45.0,17.5
+Cream Stone,AFTER OFFER,3,Ownly,137.95,30.0
+Cream Stone,AFTER OFFER,3,Swiggy,158.0,12.5
+Paradise Biryani,AFTER OFFER,3,Ownly,263.95,46.5
+Paradise Biryani,AFTER OFFER,3,Swiggy,187.76,22.5
+Shah Ghouse,AFTER OFFER,3,Ownly,107.5,40.5
+Shah Ghouse,AFTER OFFER,3,Swiggy,195.0,22.5

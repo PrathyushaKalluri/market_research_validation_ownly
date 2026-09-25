@@ -1,0 +1,29 @@
+Theme A,Theme B,Pair Label,Documents
+Non Delivery,Rider Conduct,Non Delivery + Rider Conduct,9
+Non Delivery,Support Unresponsive,Non Delivery + Support Unresponsive,7
+Late Delivery,Support Unresponsive,Late Delivery + Support Unresponsive,5
+Rider Economics,Support Refund,Rider Economics + Support Refund,5
+Rider Conduct,Support Unresponsive,Rider Conduct + Support Unresponsive,4
+Rider Conduct,Trust Loss Scam Framing,Rider Conduct + Trust Loss Scam Framing,4
+Price Savings Observed,User Bill Comparison,Price Savings Observed + User Bill Comparison,4
+Assortment Limited,Price Savings Observed,Assortment Limited + Price Savings Observed,4
+Non Delivery,Support Recovery Positive,Non Delivery + Support Recovery Positive,4
+Fee Model Description,Launch Claim Relay,Fee Model Description + Launch Claim Relay,3
+Future Fee Creep Expected,Sustainability Skepticism,Future Fee Creep Expected + Sustainability Skepticism,3
+Missing Wrong Items,Support Unresponsive,Missing Wrong Items + Support Unresponsive,3
+Competitor Context,Toing Vs Ownly,Competitor Context + Toing Vs Ownly,3
+Refund Issue,Trust Loss Scam Framing,Refund Issue + Trust Loss Scam Framing,3
+Full Switch To Ownly,Price Savings Observed,Full Switch To Ownly + Price Savings Observed,3
+Rider Economics,Word Of Mouth,Rider Economics + Word Of Mouth,3
+Rider Economics,Speed Eta,Rider Economics + Speed Eta,3
+Competitors,Ondc Precedent,Competitors + Ondc Precedent,3
+Launch Claim Relay,Rapido Ecosystem Advantage,Launch Claim Relay + Rapido Ecosystem Advantage,2
+Restaurant Economics Positive,Sustainability Skepticism,Restaurant Economics Positive + Sustainability Skepticism,2
+Rapido Ride Spillover Negative,Support Unresponsive,Rapido Ride Spillover Negative + Support Unresponsive,2
+Rapido Ecosystem Advantage,Restaurant Economics Positive,Rapido Ecosystem Advantage + Restaurant Economics Positive,2
+Food Quality,Late Delivery,Food Quality + Late Delivery,2
+Food Quality,Missing Wrong Items,Food Quality + Missing Wrong Items,2
+Food Quality,Support Unresponsive,Food Quality + Support Unresponsive,2
+Incumbent Better Experience,Support Unresponsive,Incumbent Better Experience + Support Unresponsive,2
+Late Delivery,Price Savings Observed,Late Delivery + Price Savings Observed,2
+Assortment Limited,Discovery Ux Basic,Assortment Limited + Discovery Ux Basic,2

@@ -1,0 +1,4 @@
+Dimension,Sort Order,Description,Accepted K,Base N,Accept Pct,CI Low,CI High,Paid Premium Pct,Is Constraint
+speed,1,wait 15 minutes longer,37,40,92.5,80.1,97.4,7.5,No
+reliability,2,accept 3-in-10 late instead of 1-in-10,29,40,72.5,57.2,83.9,27.5,No
+usual restaurants,3,give up most usual restaurants,14,40,35.0,22.1,50.5,65.0,Yes

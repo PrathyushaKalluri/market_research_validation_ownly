@@ -1,0 +1,9 @@
+Input,Path,What it is,What it feeds
+decision_rules.md,09_analysis/kpi_system/decision_rules.md,"Pre-registered threshold rules, v1.0 fixed 2026-09-16 before any data existed",Every verdict in 02/03/04 quotes this file verbatim in the 'Pre-registered rule' column
+metric_dictionary.md,09_analysis/kpi_system/metric_dictionary.md,"Pre-registered KPI definitions K00-K94: formula, source, evidence level, denominator, bias",Parsed by parse_kpi_system.py into Data/00_kpi_dictionary_prereg.csv; the 'Pre-registered formula' column is verbatim
+cleaned_survey.csv,final_dashboard/data/cleaned_survey.csv,87 quality-passed survey rows; 40 flagged in_catchment. Built from the raw Google Form export,"Source for all stated-preference and self-reported KPIs (K10, K01, K14, K23, K24, K25, K32, K15, K43, K60, K61, K62, K72)"
+audit_clean.csv,final_dashboard/data/audit_clean.csv,"79 price captures across Ownly / Swiggy / Zomato, Gachibowli DP1",Source for K22 fee load and K50 ETA gap
+audit_pairs.csv,final_dashboard/data/audit_pairs.csv,12 matched basket comparisons (4 baskets x 3 price views),Source for K20 median saving and K21 win rate; LIST+FEES view only
+audit_coverage.csv,final_dashboard/data/audit_coverage.csv,10-restaurant audit frame with per-platform listing flags,Source for K40 coverage and K42 overlap; lacks the local/chain flag K41 needs
+audit_slot_quality.csv,final_dashboard/data/audit_slot_quality.csv,Per-slot audit completeness,"Establishes that thu_lunch was never priced, which triggers decision_rules §3 rule 5"
+challenger_failures/,01_secondary_research/challenger_failures/,"Graded secondary research on Foodpanda, Uber Eats India, Amazon Food and others",Source of every historical comparison; each claim carries its own FACT / MEDIA REPORT / ANALYST grade

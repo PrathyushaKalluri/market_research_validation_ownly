@@ -1,0 +1,110 @@
+Saving Rs,Series,Pct Would Switch,Range Status
+10.0,Observed,9.1,In range
+20.0,Observed,24.2,In range
+30.0,Observed,51.5,In range
+50.0,Observed,72.7,In range
+75.0,Observed,84.8,In range
+100.0,Observed,100.0,In range
+0.0,Fitted logistic,9.1,In range
+2.0,Fitted logistic,10.2,In range
+4.0,Fitted logistic,11.5,In range
+6.0,Fitted logistic,12.9,In range
+8.0,Fitted logistic,14.5,In range
+10.0,Fitted logistic,16.2,In range
+12.0,Fitted logistic,18.1,In range
+14.0,Fitted logistic,20.2,In range
+16.0,Fitted logistic,22.4,In range
+18.0,Fitted logistic,24.8,In range
+20.0,Fitted logistic,27.3,In range
+22.0,Fitted logistic,30.1,In range
+24.0,Fitted logistic,32.9,In range
+26.0,Fitted logistic,35.9,In range
+28.0,Fitted logistic,39.1,In range
+30.0,Fitted logistic,42.3,In range
+32.0,Fitted logistic,45.5,In range
+34.0,Fitted logistic,48.9,In range
+36.0,Fitted logistic,52.2,In range
+38.0,Fitted logistic,55.5,In range
+40.0,Fitted logistic,58.7,In range
+42.0,Fitted logistic,61.9,In range
+44.0,Fitted logistic,65.0,In range
+46.0,Fitted logistic,68.0,In range
+48.0,Fitted logistic,70.8,In range
+50.0,Fitted logistic,73.5,In range
+52.0,Fitted logistic,76.0,In range
+54.0,Fitted logistic,78.3,In range
+56.0,Fitted logistic,80.5,In range
+58.0,Fitted logistic,82.5,In range
+60.0,Fitted logistic,84.3,In range
+62.0,Fitted logistic,86.0,In range
+64.0,Fitted logistic,87.5,In range
+66.0,Fitted logistic,88.9,In range
+68.0,Fitted logistic,90.2,In range
+70.0,Fitted logistic,91.3,In range
+72.0,Fitted logistic,92.3,In range
+74.0,Fitted logistic,93.2,In range
+76.0,Fitted logistic,94.0,In range
+78.0,Fitted logistic,94.7,In range
+80.0,Fitted logistic,95.3,In range
+82.0,Fitted logistic,95.9,In range
+84.0,Fitted logistic,96.4,In range
+86.0,Fitted logistic,96.8,In range
+88.0,Fitted logistic,97.2,In range
+90.0,Fitted logistic,97.5,In range
+92.0,Fitted logistic,97.8,In range
+94.0,Fitted logistic,98.1,In range
+96.0,Fitted logistic,98.3,In range
+98.0,Fitted logistic,98.5,In range
+100.0,Fitted logistic,98.7,In range
+102.0,Fitted logistic,98.9,Extrapolated
+104.0,Fitted logistic,99.0,Extrapolated
+106.0,Fitted logistic,99.1,Extrapolated
+108.0,Fitted logistic,99.2,Extrapolated
+110.0,Fitted logistic,99.3,Extrapolated
+112.0,Fitted logistic,99.4,Extrapolated
+114.0,Fitted logistic,99.5,Extrapolated
+116.0,Fitted logistic,99.6,Extrapolated
+118.0,Fitted logistic,99.6,Extrapolated
+120.0,Fitted logistic,99.7,Extrapolated
+122.0,Fitted logistic,99.7,Extrapolated
+124.0,Fitted logistic,99.7,Extrapolated
+126.0,Fitted logistic,99.8,Extrapolated
+128.0,Fitted logistic,99.8,Extrapolated
+130.0,Fitted logistic,99.8,Extrapolated
+132.0,Fitted logistic,99.8,Extrapolated
+134.0,Fitted logistic,99.9,Extrapolated
+136.0,Fitted logistic,99.9,Extrapolated
+138.0,Fitted logistic,99.9,Extrapolated
+140.0,Fitted logistic,99.9,Extrapolated
+142.0,Fitted logistic,99.9,Extrapolated
+144.0,Fitted logistic,99.9,Extrapolated
+146.0,Fitted logistic,99.9,Extrapolated
+148.0,Fitted logistic,99.9,Extrapolated
+150.0,Fitted logistic,100.0,Extrapolated
+152.0,Fitted logistic,100.0,Extrapolated
+154.0,Fitted logistic,100.0,Extrapolated
+156.0,Fitted logistic,100.0,Extrapolated
+158.0,Fitted logistic,100.0,Extrapolated
+160.0,Fitted logistic,100.0,Extrapolated
+162.0,Fitted logistic,100.0,Extrapolated
+164.0,Fitted logistic,100.0,Extrapolated
+166.0,Fitted logistic,100.0,Extrapolated
+168.0,Fitted logistic,100.0,Extrapolated
+170.0,Fitted logistic,100.0,Extrapolated
+172.0,Fitted logistic,100.0,Extrapolated
+174.0,Fitted logistic,100.0,Extrapolated
+176.0,Fitted logistic,100.0,Extrapolated
+178.0,Fitted logistic,100.0,Extrapolated
+180.0,Fitted logistic,100.0,Extrapolated
+182.0,Fitted logistic,100.0,Extrapolated
+184.0,Fitted logistic,100.0,Extrapolated
+186.0,Fitted logistic,100.0,Extrapolated
+188.0,Fitted logistic,100.0,Extrapolated
+190.0,Fitted logistic,100.0,Extrapolated
+192.0,Fitted logistic,100.0,Extrapolated
+194.0,Fitted logistic,100.0,Extrapolated
+196.0,Fitted logistic,100.0,Extrapolated
+198.0,Fitted logistic,100.0,Extrapolated
+200.0,Fitted logistic,100.0,Extrapolated
+114.5,Observed saving at checkout: LIST+FEES,99.5,Extrapolated
+77.59,Observed saving at checkout: MEMBER,94.6,In range

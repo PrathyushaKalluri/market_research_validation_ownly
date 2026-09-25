@@ -1,0 +1,17 @@
+City,Metric,Value,CI low,CI high,Numerator,Base
+Bengaluru,Heard of Ownly,75.0,50.5,89.8,12,16
+Gachibowli (Hyderabad),Heard of Ownly,42.5,28.5,57.8,17,40
+Bengaluru,Opened Ownly,37.5,18.5,61.4,6,16
+Gachibowli (Hyderabad),Opened Ownly,17.5,8.7,31.9,7,40
+Bengaluru,Ordered on Ownly,25.0,10.2,49.5,4,16
+Gachibowli (Hyderabad),Ordered on Ownly,5.0,1.4,16.5,2,40
+Bengaluru,Holds a paid membership,81.2,57.0,93.4,13,16
+Gachibowli (Hyderabad),Holds a paid membership,82.5,68.1,91.3,33,40
+Bengaluru,Uses 2+ delivery apps,43.8,23.1,66.8,7,16
+Gachibowli (Hyderabad),Uses 2+ delivery apps,57.5,42.2,71.5,23,40
+Bengaluru,Expects prices to rise,75.0,50.5,89.8,12,16
+Gachibowli (Hyderabad),Expects prices to rise,87.5,73.9,94.5,35,40
+Bengaluru,Would stay after the offer ends,43.8,23.1,66.8,7,16
+Gachibowli (Hyderabad),Would stay after the offer ends,25.0,14.2,40.2,10,40
+Bengaluru,Median saving needed to switch (Rs),50.0,,,13,16
+Gachibowli (Hyderabad),Median saving needed to switch (Rs),30.0,,,33,40

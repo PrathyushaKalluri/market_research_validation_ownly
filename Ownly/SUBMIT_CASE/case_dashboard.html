@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ownly Case Study — Dashboard</title>
+<style>
+:root{
+  --ground:#eef1f5; --paper:#fff; --paper2:#f7f9fb; --ink:#10151a; --ink2:#48535e;
+  --muted:#7b8590; --line:#e0e5ea; --line2:#c9d1d8;
+  --accent:#2a78d6; --soft:#e9f1fc;
+  --tab:#1f77b4; --tabbg:#e8f1f9; --py:#7a4bbd; --pybg:#f0eaf9;
+  --good:#0ca30c; --goodink:#006300; --warn:#fab219; --warnink:#8a5d00; --crit:#d03b3b;
+  --blr:#eb6834; --hyd:#2a78d6;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;padding:0 20px;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1280px;margin:0 auto;}
+
+#nav{position:sticky;top:0;z-index:40;margin:0 -20px;background:rgba(238,241,245,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+#nav .in{max-width:1280px;margin:0 auto;padding:0 20px;display:flex;gap:2px;overflow-x:auto;align-items:center;}
+#nav a{flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:13px;border-bottom:2px solid transparent;white-space:nowrap;}
+#nav a:hover{color:var(--ink);} #nav a.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:600;}
+#nav .sp{flex:1;}
+#nav .leg{display:flex;gap:8px;padding-right:4px;white-space:nowrap;}
+
+header.top{padding-block:38px 22px;}
+h1{font-size:clamp(25px,3.8vw,38px);line-height:1.1;letter-spacing:-.024em;margin:0 0 12px;font-weight:700;text-wrap:balance;}
+h2{font-size:clamp(20px,2.7vw,28px);line-height:1.18;letter-spacing:-.018em;margin:0 0 10px;font-weight:700;}
+h3{font-size:14.5px;margin:0 0 2px;font-weight:600;}
+p{margin:0 0 13px;color:var(--ink2);} .lede{font-size:16.5px;} .prose{max-width:790px;}
+b,strong{color:var(--ink);font-weight:600;}
+code{font-family:var(--mono);font-size:.85em;background:var(--paper2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+
+section.sec{padding-block:36px;border-top:1px solid var(--line);scroll-margin-top:52px;}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+
+.grid{display:grid;gap:15px;grid-template-columns:repeat(12,1fr);margin-top:20px;}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:15px 17px 17px;box-shadow:0 1px 2px rgba(16,21,26,.04);min-width:0;grid-column:span 12;}
+.card.c6{grid-column:span 6;} .card.c4{grid-column:span 4;} .card.c8{grid-column:span 8;}
+.card.c5{grid-column:span 5;} .card.c7{grid-column:span 7;}
+@media(max-width:1180px){.card.c4{grid-column:span 6;}.card.c5,.card.c7,.card.c8{grid-column:span 12;}}
+@media(max-width:820px){.card,.card.c6,.card.c4{grid-column:span 12;}}
+.card .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:3px;}
+.card .sub{font-size:11.5px;color:var(--muted);margin:0 0 12px;line-height:1.5;}
+.card .note{font-family:var(--mono);font-size:10.5px;color:var(--muted);line-height:1.6;margin-top:11px;padding-top:9px;border-top:1px solid var(--line);}
+.card .note b{color:var(--ink2);font-weight:500;}
+
+.badge{flex:none;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:4px;white-space:nowrap;}
+.b-tab{background:var(--tabbg);color:var(--tab);} .b-py{background:var(--pybg);color:var(--py);}
+
+svg.chart{display:block;width:100%;height:auto;overflow:visible;}
+svg.chart .ax{font-size:10.5px;fill:var(--muted);font-family:var(--sans);}
+svg.chart .axlab{font-size:11px;fill:var(--ink2);font-family:var(--sans);font-weight:600;}
+svg.chart .lbl{font-size:12px;fill:var(--ink);font-family:var(--sans);}
+svg.chart .val{font-size:12.5px;fill:var(--ink);font-family:var(--sans);font-weight:600;}
+svg.chart .inbar{font-size:10px;fill:#fff;font-family:var(--sans);font-weight:600;}
+svg.chart .cell{font-size:10px;fill:var(--ink);font-family:var(--mono);}
+svg.chart .tmlab{font-size:11.5px;fill:#fff;font-family:var(--sans);font-weight:600;}
+svg.chart .tmval{font-size:11px;fill:rgba(255,255,255,.82);font-family:var(--mono);}
+svg.chart .donutv{font-size:19px;fill:var(--ink);font-family:var(--sans);font-weight:700;}
+svg.chart [data-tip]{cursor:default;} svg.chart [data-tip]:hover{filter:brightness(1.12);}
+.legend{display:flex;flex-wrap:wrap;gap:6px 15px;margin:0 0 11px;font-size:11.5px;color:var(--ink2);}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.sw{width:10px;height:10px;border-radius:3px;flex:none;}
+
+.kstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:18px;}
+.kc{background:var(--paper);padding:13px 15px;}
+.kc .v{display:block;font-size:22px;font-weight:700;letter-spacing:-.025em;line-height:1.15;}
+.kc .k{display:block;font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.35;}
+.kc .s{display:block;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px;}
+
+.tw{overflow-x:auto;max-height:460px;overflow-y:auto;}
+table{border-collapse:collapse;width:100%;font-size:12.5px;}
+th,td{text-align:left;padding:7px 12px 7px 0;border-bottom:1px solid var(--line);vertical-align:top;}
+th{position:sticky;top:0;background:var(--paper);font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom-color:var(--line2);white-space:nowrap;z-index:1;}
+td{color:var(--ink2);} td b{color:var(--ink);}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;padding-right:0;}
+tbody tr:hover{background:var(--paper2);}
+
+.pill{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.p-ok{background:#e4f6e4;color:var(--goodink);} .p-warn{background:#fdf1d6;color:var(--warnink);}
+.p-bad{background:#fbe6e6;color:var(--crit);} .p-na{background:#eceff2;color:var(--muted);}
+.p-info{background:var(--soft);color:var(--accent);}
+.p-blr{background:#fdeae1;color:#a8431a;} .p-hyd{background:var(--soft);color:var(--accent);}
+
+.callout{background:var(--paper2);border-left:3px solid var(--accent);border-radius:0 7px 7px 0;padding:13px 16px;margin-top:14px;font-size:13px;color:var(--ink2);}
+.callout.bad{border-left-color:var(--crit);background:#fdf2f2;}
+.callout.warn{border-left-color:var(--warn);background:#fffaee;}
+.callout.key{border-left-color:var(--blr);background:#fdf6f3;}
+.callout b{color:var(--ink);} .callout p{margin:0;} .callout p+p{margin-top:8px;}
+
+.claim{border:1px solid var(--line);border-radius:8px;padding:13px 15px;margin-bottom:11px;background:var(--paper);border-left:3px solid var(--good);}
+.claim.partial{border-left-color:var(--warn);} .claim.no{border-left-color:var(--crit);}
+.claim .ch{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:6px;}
+.claim .ct{font-size:13.5px;font-weight:600;color:var(--ink);}
+.claim .ce{font-size:12.5px;color:var(--ink2);line-height:1.55;}
+.claim .cs{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;}
+
+.evt{display:grid;grid-template-columns:70px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);}
+.evt:last-child{border-bottom:0;}
+.evt .m{font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:2px;}
+.evt .e{font-size:12.5px;color:var(--ink2);}
+.evt .e b{color:var(--ink);}
+.evt.own{background:linear-gradient(90deg,var(--soft) 0%,transparent 60%);}
+.evt.rest{background:linear-gradient(90deg,#fdeae1 0%,transparent 60%);}
+
+.verb{border-bottom:1px solid var(--line);padding:10px 0;} .verb:last-child{border-bottom:0;}
+.verb .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px;font-family:var(--mono);font-size:10px;color:var(--muted);}
+.verb .txt{font-size:12.5px;color:var(--ink2);line-height:1.5;}
+
+.tooltip{position:fixed;z-index:9999;pointer-events:none;background:#1b2430;color:#fff;font-size:11.5px;font-family:var(--sans);line-height:1.45;padding:7px 10px;border-radius:6px;max-width:320px;box-shadow:0 6px 20px rgba(0,0,0,.28);white-space:pre-line;}
+[hidden]{display:none!important;}
+
+footer{border-top:1px solid var(--line);padding-block:26px 50px;font-family:var(--mono);font-size:11px;line-height:1.8;color:var(--muted);}
+footer b{color:var(--ink2);font-weight:500;}
+@media print{ #nav{display:none;} body{background:#fff;padding:0 10mm;}
+  .card,.claim{page-break-inside:avoid;box-shadow:none;} .tw{max-height:none;overflow:visible;} }
+</style>
+</head>
+<body>
+
+<nav id="nav"><div class="in">
+  <a href="#s1">1 · The case</a>
+  <a href="#s2">2 · KPIs</a>
+  <a href="#s3">3 · Marketing metrics</a>
+  <a href="#s4">4 · Analysis</a>
+  <a href="#s5">5 · Solutions</a>
+  <span class="sp"></span>
+  <span class="leg"><span class="badge b-tab">Tableau</span><span class="badge b-py">Python only</span></span>
+</div></nav>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Case study dashboard · Ownly, Bengaluru → Hyderabad · September 2026</div>
+    <h1>Ownly's Bengaluru win was a restaurant win. Hyderabad is a customer fight.</h1>
+    <p class="lede prose">Every claim in the case study, tested against the data and shown here.
+    Charts marked <span class="badge b-tab">Tableau</span> are built in the workbook; those marked
+    <span class="badge b-py">Python only</span> need computation Tableau cannot do — sentiment
+    scoring and topic modelling.</p>
+    <div class="kstrip" id="topstrip"></div>
+  </header>
+
+  <main id="main"></main>
+
+  <footer>
+    <p><b>Ownly · Bengaluru → Hyderabad case study dashboard.</b>
+    Survey n = 40 in the Gachibowli catchment and n = 16 in Bengaluru (124 responses received) ·
+    price audit 4 matched baskets across a 10-restaurant frame, one address, one priced slot ·
+    524 social posts, 275 YouTube comments, 37 app-store reviews · media and company claims for the
+    Bengaluru timeline · company filings for unit economics.</p>
+    <p>Rebuild: <code>python3 build_case_data.py</code> then <code>python3 build_case_js.py</code>.
+    Sentiment uses a negation-aware lexicon validated against app-store star ratings
+    (Spearman ρ = 0.648, n = 37, p &lt; 0.001). Where a figure could not be computed it is marked
+    NOT ESTIMABLE rather than estimated.</p>
+  </footer>
+</div>
+
+<script src="case_data.js"></script>
+<script src="lib.js"></script>
+<script src="case_app.js"></script>
+</body>
+</html>

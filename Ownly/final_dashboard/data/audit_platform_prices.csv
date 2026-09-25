@@ -1,0 +1,22 @@
+restaurant_display,basket_id,platform,slot,eta_mid,LIST+FEES,MEMBER,AFTER OFFER
+Bawarchi,B1,ownly,wed_dinner,38.5,205.8,205.8,155.8
+Bawarchi,B1,swiggy,wed_dinner,22.5,249.35,249.35,45.0
+Bawarchi,B1,zomato,wed_dinner,17.5,247.64,205.64,205.64
+Cream Stone,B2,ownly,wed_dinner,30.0,187.95,187.95,137.95
+Cream Stone,B2,swiggy,wed_dinner,12.5,277.8,277.8,158.0
+Cream Stone,B2,zomato,wed_dinner,17.5,259.14,216.14,216.14
+Karachi Bakery,B2,swiggy,wed_dinner,7.5,1260.0,1260.0,1098.0
+Karachi Bakery,B2,zomato,wed_dinner,12.5,,,
+Mehfil,B1,swiggy,wed_dinner,35.0,264.0,264.0,159.0
+Mehfil,B1,zomato,wed_dinner,12.5,238.19,196.19,196.19
+Paradise Biryani,B1,ownly,wed_dinner,46.5,313.95,313.95,263.95
+Paradise Biryani,B1,swiggy,wed_dinner,22.5,471.76,471.76,187.76
+Paradise Biryani,B1,zomato,wed_dinner,27.5,484.76,441.76,441.76
+Pizza Hut,B2,swiggy,wed_dinner,27.5,,,317.0
+Pizza Hut,B2,zomato,wed_dinner,32.5,,,
+Pizza Hut,B3,swiggy,wed_dinner,27.5,384.18,384.18,384.18
+Shah Ghouse,B1,ownly,wed_dinner,40.5,157.5,157.5,107.5
+Shah Ghouse,B1,swiggy,wed_dinner,22.5,332.0,332.0,195.0
+Shah Ghouse,B1,zomato,wed_dinner,22.5,332.49,284.49,284.49
+Wendy's Burgers,B2,swiggy,wed_dinner,17.5,,,198.0
+Wendy's Burgers,B2,zomato,wed_dinner,22.5,,,283.46

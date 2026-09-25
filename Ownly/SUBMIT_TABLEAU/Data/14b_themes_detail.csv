@@ -1,0 +1,120 @@
+Theme Code,Theme Label,Theme Family,Documents,Mean Sentiment,Engagement Total,Engagement Docs
+FUTURE_FEE_CREEP_EXPECTED,Future Fee Creep Expected,Price — doubt,37,-0.006,238,3
+RIDER_ECONOMICS,Rider Economics,Rider economics,29,-0.155,1167,29
+SUSTAINABILITY_SKEPTICISM,Sustainability Skepticism,Price — doubt,28,-0.047,259,6
+SUPPORT_UNRESPONSIVE,Support Unresponsive,Support & refunds,27,-0.44,14,6
+TOING_VS_OWNLY,Toing Vs Ownly,Competitive framing,24,0.084,5,1
+NON_DELIVERY,Non Delivery,Fulfilment failure,23,-0.296,1,1
+CITY_AVAILABILITY_QUESTION,City Availability Question,Assortment & coverage,22,0.015,0,0
+PRICE_SAVINGS_OBSERVED,Price Savings Observed,Price — advantage,20,0.338,8,1
+FEE_MODEL_DESCRIPTION,Fee Model Description,Price — advantage,16,0.035,1196,5
+COMPETITORS,Competitors,Competitive framing,16,-0.039,188,16
+LAUNCH_CLAIM_RELAY,Launch Claim Relay,Buzz & advocacy,13,0.186,2425,8
+RIDER_CONDUCT,Rider Conduct,Fulfilment failure,13,-0.28,1,1
+ZERO_COMMISSION,Zero Commission,Price — advantage,12,-0.051,198,12
+TRUST_LOSS_SCAM_FRAMING,Trust Loss Scam Framing,Trust & credibility,11,-0.271,0,0
+ONDC_PRECEDENT,Ondc Precedent,Regulation & policy,11,-0.234,265,11
+REGULATION,Regulation,Regulation & policy,11,0.025,672,11
+COMPETITOR_CONTEXT,Competitor Context,Competitive framing,10,-0.082,29,3
+SPEED_ETA,Speed Eta,Speed & ETA,10,-0.162,57,10
+SUPPORT_REFUND,Support Refund,Support & refunds,10,-0.132,110,10
+RAPIDO_ECOSYSTEM_ADVANTAGE,Rapido Ecosystem Advantage,Distribution & ecosystem,9,0.172,570,3
+LATE_DELIVERY,Late Delivery,Fulfilment failure,9,-0.395,9,2
+HISTORICAL_PRICE_CONVERGENCE,Historical Price Convergence,Price — doubt,9,0.069,0,0
+TRANSPARENT_DELIVERY_FEE_PREFERENCE,Transparent Delivery Fee Preference,Price — advantage,9,-0.174,0,0
+PRICE_DOUBT,Price Doubt,Price — doubt,9,-0.043,113,9
+ASTROTURF_SUSPICION,Astroturf Suspicion,Trust & credibility,8,-0.1,0,0
+REFUND_ISSUE,Refund Issue,Support & refunds,8,-0.235,0,0
+PRICE_ADVANTAGE,Price Advantage,Price — advantage,8,-0.017,59,8
+RESTAURANT_ECONOMICS_POSITIVE,Restaurant Economics Positive,Assortment & coverage,7,0.156,307,5
+MISSING_WRONG_ITEMS,Missing Wrong Items,Fulfilment failure,7,-0.175,19,2
+AGGREGATOR_MARKUP_WORKAROUND,Aggregator Markup Workaround,Price — advantage,7,0.205,0,0
+INCUMBENT_CHEAPER_AFTER_OFFERS,Incumbent Cheaper After Offers,Price — advantage,7,0.087,18,1
+INCUMBENT_DISTRUST,Incumbent Distrust,Trust & credibility,7,-0.39,1,1
+PLATFORM_RESTAURANT_CANCELLATION,Platform Restaurant Cancellation,Fulfilment failure,7,-0.466,0,0
+MENU_PRICE_INFLATION_ON_OWNLY,Menu Price Inflation On Ownly,Price — doubt,7,-0.018,0,0
+ASSORTMENT_LIMITED,Assortment Limited,Assortment & coverage,6,0.074,18,1
+USER_BILL_COMPARISON,User Bill Comparison,Price — advantage,6,0.175,0,0
+SUPPORT_RECOVERY_POSITIVE,Support Recovery Positive,Support & refunds,6,0.123,0,0
+WORD_OF_MOUTH,Word Of Mouth,Buzz & advocacy,6,0.124,787,6
+LOW_PLATFORM_LOYALTY,Low Platform Loyalty,Competitive framing,5,-0.02,2,1
+NO_HIDDEN_FEES_POSITIVE,No Hidden Fees Positive,Price — advantage,5,0.408,1,1
+SERVICE_AREA_LIMITED,Service Area Limited,Assortment & coverage,5,0.093,0,0
+RIDER_EARNINGS_CONCERN,Rider Earnings Concern,Rider economics,5,-0.183,0,0
+TRIAL_CURIOSITY,Trial Curiosity,Buzz & advocacy,5,0.133,0,0
+RELIABLE_EXPERIENCE_POSITIVE,Reliable Experience Positive,Other,5,0.18,0,0
+GENERAL_SUPPORT_FOR_OWNLY,General Support For Ownly,Support & refunds,5,0.105,0,0
+DISINTERMEDIATION,Disintermediation,Distribution & ecosystem,5,-0.174,107,5
+SLOGAN_THROWN_BACK,Slogan Thrown Back,Buzz & advocacy,4,-0.123,1,1
+SUPPORT_SLOW,Support Slow,Support & refunds,4,-0.288,18,1
+EARLY_LAUNCH_TRUST_RISK,Early Launch Trust Risk,Trust & credibility,4,-0.149,18,1
+WELCOME_THIRD_COMPETITOR,Welcome Third Competitor,Competitive framing,4,0.325,0,0
+APP_UX_SLOW_GLITCHY,App Ux Slow Glitchy,App & payments,4,-0.604,0,0
+NO_CASH_ON_DELIVERY,No Cash On Delivery,App & payments,4,-0.208,0,0
+MULTI_HOMING_PRICE_COMPARISON,Multi Homing Price Comparison,Price — advantage,4,0.37,0,0
+PRICE_PARITY_OBSERVED,Price Parity Observed,Price — advantage,4,0.033,0,0
+RIDER_MULTI_APP_OBSERVED,Rider Multi App Observed,Other,4,0.105,0,0
+INCUMBENT_SAME_PROBLEMS,Incumbent Same Problems,Competitive framing,4,-0.092,0,0
+RESTAURANT_SETS_PRICES,Restaurant Sets Prices,Price — advantage,4,-0.084,0,0
+SWITCH_DESPITE_TEMPORARY_PRICING,Switch Despite Temporary Pricing,Other,4,0.125,0,0
+FULL_SWITCH_TO_OWNLY,Full Switch To Ownly,Other,4,0.351,0,0
+PRICE_COMPARISON_DISPUTE,Price Comparison Dispute,Price — advantage,4,-0.167,0,0
+COST_OF_CONVENIENCE_ACCEPTED,Cost Of Convenience Accepted,Price — advantage,4,-0.109,0,0
+TRUST_QUALITY,Trust Quality,Trust & credibility,4,-0.524,12,4
+ASSORTMENT,Assortment,Assortment & coverage,4,0.03,141,4
+RAPIDO_RIDE_SPILLOVER_NEGATIVE,Rapido Ride Spillover Negative,Distribution & ecosystem,3,-0.444,4,3
+FOOD_QUALITY,Food Quality,Other,3,-0.389,1,1
+INCUMBENT_BETTER_RECOVERY,Incumbent Better Recovery,Competitive framing,3,-0.52,0,0
+LOW_AWARENESS,Low Awareness,Other,3,-0.075,0,0
+PORTION_SIZE_DIFFERS_OFFLINE,Portion Size Differs Offline,Other,3,-0.095,0,0
+LATE_NIGHT_RELIABILITY_RISK,Late Night Reliability Risk,Fulfilment failure,3,-0.784,0,0
+INCUMBENT_FEE_STACK_FRUSTRATION,Incumbent Fee Stack Frustration,Price — advantage,3,-0.411,0,0
+OWNLY_PRICIER_OBSERVED,Ownly Pricier Observed,Other,3,-0.222,0,0
+DELIVERY_PRICE_LEVEL_TOO_HIGH,Delivery Price Level Too High,Price — advantage,3,0.0,0,0
+MEAL_CARD_PAYMENT_GAP,Meal Card Payment Gap,App & payments,3,-0.133,0,0
+WTP_FOR_RELIABILITY,Wtp For Reliability,Other,3,-0.367,0,0
+LARGE_ORDER_TRUST_RISK,Large Order Trust Risk,Trust & credibility,3,0.071,0,0
+FREE_DELIVERY_PERCEPTION,Free Delivery Perception,Other,3,-0.079,0,0
+INCUMBENT_SUPPORT_BAD,Incumbent Support Bad,Support & refunds,3,-0.506,0,0
+RELIABILITY_OVER_PRICE,Reliability Over Price,Price — advantage,3,-0.014,0,0
+RELIABILITY,Reliability,Other,3,-0.667,9,3
+INCUMBENT_BETTER_EXPERIENCE,Incumbent Better Experience,Competitive framing,2,-0.736,1,1
+CLEAN_APP_NO_UPSELL,Clean App No Upsell,Other,2,0.093,8,1
+INCUMBENT_PRICE_OBSTACLE,Incumbent Price Obstacle,Price — advantage,2,-0.448,8,1
+ANALYST_VIEW,Analyst View,Other,2,-0.134,176,2
+DISCOVERY_UX_BASIC,Discovery Ux Basic,App & payments,2,-0.029,18,1
+DAILY_FOOD_BUDGET_ANCHOR,Daily Food Budget Anchor,Other,2,0.167,0,0
+MENU_MARKUP_EXPECTED_ON_OWNLY,Menu Markup Expected On Ownly,Price — advantage,2,0.0,0,0
+DELIVERY_PROBLEMS_RECURRING,Delivery Problems Recurring,Other,2,-0.5,0,0
+LISTING_MENU_ACCURACY,Listing Menu Accuracy,Assortment & coverage,2,-0.25,0,0
+RIDER_COORDINATION_FAILURE,Rider Coordination Failure,Other,2,-0.125,0,0
+RESTAURANT_CAPTURES_SAVINGS,Restaurant Captures Savings,Price — advantage,2,-0.555,0,0
+NO_DISCOUNTS_ON_OWNLY,No Discounts On Ownly,Price — advantage,2,-0.471,0,0
+LOW_AOV_ORDERING,Low Aov Ordering,Other,2,0.284,0,0
+SMALL_CART_CANCELLATION_SUSPECTED,Small Cart Cancellation Suspected,Fulfilment failure,2,-0.55,0,0
+SUPPORT_CLOSES_UNRESOLVED,Support Closes Unresolved,Support & refunds,2,-0.485,0,0
+PAYMENT_DEDUCTED_ORDER_FAILED,Payment Deducted Order Failed,App & payments,2,-0.403,0,0
+SUPPORT_WORKAROUND,Support Workaround,Support & refunds,2,0.0,0,0
+ETA_DISPLAY_MISLEADING,Eta Display Misleading,Speed & ETA,2,-0.794,0,0
+FORCED_RATING_UX,Forced Rating Ux,App & payments,2,-0.059,0,0
+CHURN_ADVOCACY,Churn Advocacy,Buzz & advocacy,2,-0.071,0,0
+LAUNCH_PROMOTION_OBSERVED,Launch Promotion Observed,Buzz & advocacy,2,0.492,0,0
+COMPETITOR_FEE_CREEP_OBSERVED,Competitor Fee Creep Observed,Price — doubt,2,0.198,0,0
+DISCOUNT_DRIVEN_ORDERING,Discount Driven Ordering,Price — advantage,2,0.471,0,0
+LAUNCH_DISCOUNT_TEMPORARY,Launch Discount Temporary,Price — advantage,2,0.0,0,0
+SUBSCRIPTION_ACCEPTABLE,Subscription Acceptable,Other,2,0.024,0,0
+OWNLY_FEES_OBSERVED,Ownly Fees Observed,Price — advantage,2,-0.236,0,0
+RAPIDO_BRAND_NEGATIVE_SPILLOVER,Rapido Brand Negative Spillover,Distribution & ecosystem,2,0.25,0,0
+RESTAURANT_MULTI_PLATFORM_LISTING,Restaurant Multi Platform Listing,Assortment & coverage,2,0.294,0,0
+SERVICE_RADIUS_LIMIT,Service Radius Limit,Other,2,-0.024,0,0
+RESTAURANT_PLATFORM_BLAME_LOOP,Restaurant Platform Blame Loop,Assortment & coverage,2,-0.369,0,0
+INCUMBENT_CHEAPER_CONDITIONAL,Incumbent Cheaper Conditional,Price — advantage,2,0.5,0,0
+MARKUP_TOLERANCE_STATED,Markup Tolerance Stated,Price — advantage,2,0.289,0,0
+MISLEADING_ADVERTISING_CONCERN,Misleading Advertising Concern,Other,2,0.059,0,0
+NO_OWNLY_SUBSCRIPTION,No Ownly Subscription,Other,2,0.0,0,0
+COMPETITOR_ALTERNATIVE_SUGGESTED,Competitor Alternative Suggested,Competitive framing,2,0.167,0,0
+PROPOSITION_RECALL_NO_HIDDEN_COSTS,Proposition Recall No Hidden Costs,Price — advantage,2,0.713,0,0
+INCUMBENT_FEE_DISTRUST,Incumbent Fee Distrust,Trust & credibility,2,-0.562,0,0
+TOLERATE_CHALLENGER_HICCUPS,Tolerate Challenger Hiccups,Other,2,-0.075,0,0
+LOCATION_DEPENDENT_RELIABILITY,Location Dependent Reliability,Other,2,-0.416,0,0
+CREATOR_CREDIBILITY,Creator Credibility,Other,2,0.0,19,2

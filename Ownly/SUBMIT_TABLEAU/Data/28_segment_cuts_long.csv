@@ -1,0 +1,37 @@
+Segment,Base N,Metric,Value
+Students,32,Trades speed for ₹30,90.6
+Students,32,Trades reliability for ₹30,71.9
+Students,32,Trades restaurants for ₹30,34.4
+Students,32,Median saving required (₹),30.0
+Students,32,Post-offer repeat intent (top-2 %),28.1
+Students,32,Price-durability doubt (top-2 %),90.6
+Working professionals,7,Trades speed for ₹30,100.0
+Working professionals,7,Trades reliability for ₹30,71.4
+Working professionals,7,Trades restaurants for ₹30,42.9
+Working professionals,7,Median saving required (₹),50.0
+Working professionals,7,Post-offer repeat intent (top-2 %),14.3
+Working professionals,7,Price-durability doubt (top-2 %),71.4
+Pays for a membership,33,Trades speed for ₹30,93.9
+Pays for a membership,33,Trades reliability for ₹30,66.7
+Pays for a membership,33,Trades restaurants for ₹30,36.4
+Pays for a membership,33,Median saving required (₹),40.0
+Pays for a membership,33,Post-offer repeat intent (top-2 %),21.2
+Pays for a membership,33,Price-durability doubt (top-2 %),90.9
+No paid membership,7,Trades speed for ₹30,85.7
+No paid membership,7,Trades reliability for ₹30,100.0
+No paid membership,7,Trades restaurants for ₹30,28.6
+No paid membership,7,Median saving required (₹),30.0
+No paid membership,7,Post-offer repeat intent (top-2 %),42.9
+No paid membership,7,Price-durability doubt (top-2 %),71.4
+Uses Rapido,24,Trades speed for ₹30,95.8
+Uses Rapido,24,Trades reliability for ₹30,70.8
+Uses Rapido,24,Trades restaurants for ₹30,29.2
+Uses Rapido,24,Median saving required (₹),50.0
+Uses Rapido,24,Post-offer repeat intent (top-2 %),25.0
+Uses Rapido,24,Price-durability doubt (top-2 %),83.3
+Knows Ownly,17,Trades speed for ₹30,88.2
+Knows Ownly,17,Trades reliability for ₹30,76.5
+Knows Ownly,17,Trades restaurants for ₹30,41.2
+Knows Ownly,17,Median saving required (₹),30.0
+Knows Ownly,17,Post-offer repeat intent (top-2 %),17.6
+Knows Ownly,17,Price-durability doubt (top-2 %),88.2

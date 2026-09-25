@@ -1,0 +1,5 @@
+x,y,question,n,rho,p_value,ci_lo,ci_hi,verdict
+durability_doubt_n,repeat_no_promo_n,Do price doubters plan to reorder less?,40,0.136,0.402,-0.161,0.427,no association detected — UNDERPOWERED at this n
+switch_savings_rs,total_orders_4wk,Do frequent orderers want a bigger saving?,30,-0.123,0.5169,-0.501,0.308,no association detected — UNDERPOWERED at this n
+prop_P_intent_n,repeat_no_promo_n,Does wanting to try mean wanting to stay?,40,0.147,0.3669,-0.231,0.482,no association detected — UNDERPOWERED at this n
+n_memberships,switch_savings_rs,Do more memberships mean a bigger saving needed?,33,0.109,0.5474,-0.283,0.467,no association detected — UNDERPOWERED at this n

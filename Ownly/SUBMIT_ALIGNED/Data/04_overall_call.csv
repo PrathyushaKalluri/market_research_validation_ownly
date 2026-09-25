@@ -1,0 +1,8 @@
+Rule,Observed,Evaluation
+Rule 1 — any guardrail breach blocks KEEP overall,G1 not breached; G3 not breached; G2 and G4 CANNOT EVALUATE,"No breach, but two of four guardrails are unevaluable, so a clean KEEP cannot be cleared on evidence."
+"Rule 2 — REPLICATE if >=4 of 6 rows are KEEP, no blocker, and K00 (HYD) CI overlaps K00 (BLR)",2 of 6 rows are KEEP; K00 is NOT COMPUTABLE,"Fails on two counts: fewer than 4 KEEP rows, and the K00 comparison cannot be made at all."
+Rule 3 — ADAPT if the proposition transfers but >=1 row is ADAPT or blocking,"H0: FAIL TO REJECT H₀ (proposition transfers as is); 3 rows are INSUFFICIENT EVIDENCE, 0 are ADAPT","The proposition does transfer, but no row is ADAPT — three are unevaluable. ADAPT would overstate what we know."
+Rule 4 — LOCALIZE if Q wins H0 and the supply/reliability rows are ADAPT,Q share 37.9% (CI 22.7-56.0); Q does not win,Does not apply.
+Rule 5 — INSUFFICIENT EVIDENCE if the audit is incomplete OR the survey has < 30 Hyderabad respondents,"Audit IS incomplete: thu_lunch has 30 rows with priced = 0 and usable_for_coverage = False, so only 1 of 2 planned slots was priced. Survey n = 40 >= 30.",TRIGGERS. This rule alone determines the overall call.
+OVERALL HYDERABAD CALL,INSUFFICIENT EVIDENCE,"Rule 5 triggers on audit incompleteness, and rules 2-4 independently fail. 2 of 6 elements are KEEP, 3 are INSUFFICIENT EVIDENCE. Two guardrails (G2, G4) cannot be evaluated because their source questions are absent from the live instrument. Per decision_rules §3.5 the dashboard says this rather than guessing."
+PROVISIONAL flag,YES,decision_rules §3: the call is labelled PROVISIONAL when >= 2 rows are LOW confidence. 4 of 6 rows are LOW.

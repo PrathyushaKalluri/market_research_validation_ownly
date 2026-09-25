@@ -1,0 +1,3071 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<workbook original-version='18.1' source-build='2026.2.1 (20262.26.0708.1337)' source-platform='mac' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AccessibleZoneTabOrder />
+    <AnimationOnByDefault />
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SetMembershipControl />
+    <SheetIdentifierTracking />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+  <datasource caption='Social timeline' inline='true' name='federated.timeline' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='03_social_timeline_by_audience' name='textscan.timeline'>
+          <connection class='textscan' directory='Data' filename='03_social_timeline_by_audience.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.timeline' name='03_social_timeline_by_audience.csv' table='[03_social_timeline_by_audience#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Month' ordinal='0' />
+            <column datatype='string' name='Audience' ordinal='1' />
+            <column datatype='integer' name='Documents' ordinal='2' />
+            <column datatype='real' name='Mean sentiment' ordinal='3' />
+            <column datatype='integer' name='Negative' ordinal='4' />
+            <column datatype='integer' name='Neutral' ordinal='5' />
+            <column datatype='integer' name='Positive' ordinal='6' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[03_social_timeline_by_audience.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Month</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Month]</local-name>
+          <parent-name>[03_social_timeline_by_audience.csv]</parent-name>
+          <remote-alias>Month</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[03_social_timeline_by_audience.csv_EA0BF67D0ED22ED530B1A74A0A323E28]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Audience</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Audience]</local-name>
+          <parent-name>[03_social_timeline_by_audience.csv]</parent-name>
+          <remote-alias>Audience</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[03_social_timeline_by_audience.csv_EA0BF67D0ED22ED530B1A74A0A323E28]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Documents</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Documents]</local-name>
+          <parent-name>[03_social_timeline_by_audience.csv]</parent-name>
+          <remote-alias>Documents</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[03_social_timeline_by_audience.csv_EA0BF67D0ED22ED530B1A74A0A323E28]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Mean sentiment</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Mean sentiment]</local-name>
+          <parent-name>[03_social_timeline_by_audience.csv]</parent-name>
+          <remote-alias>Mean sentiment</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[03_social_timeline_by_audience.csv_EA0BF67D0ED22ED530B1A74A0A323E28]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Negative</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Negative]</local-name>
+          <parent-name>[03_social_timeline_by_audience.csv]</parent-name>
+          <remote-alias>Negative</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[03_social_timeline_by_audience.csv_EA0BF67D0ED22ED530B1A74A0A323E28]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Neutral</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Neutral]</local-name>
+          <parent-name>[03_social_timeline_by_audience.csv]</parent-name>
+          <remote-alias>Neutral</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[03_social_timeline_by_audience.csv_EA0BF67D0ED22ED530B1A74A0A323E28]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Positive</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Positive]</local-name>
+          <parent-name>[03_social_timeline_by_audience.csv]</parent-name>
+          <remote-alias>Positive</remote-alias>
+          <ordinal>6</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[03_social_timeline_by_audience.csv_EA0BF67D0ED22ED530B1A74A0A323E28]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Month]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Audience]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Documents]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Mean sentiment]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Negative]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Neutral]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Positive]' role='measure' type='quantitative' />
+  </datasource>
+  <datasource caption='Bengaluru events' inline='true' name='federated.events' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='01_bengaluru_event_register' name='textscan.events'>
+          <connection class='textscan' directory='Data' filename='01_bengaluru_event_register.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.events' name='01_bengaluru_event_register.csv' table='[01_bengaluru_event_register#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Month' ordinal='0' />
+            <column datatype='string' name='Event' ordinal='1' />
+            <column datatype='string' name='Actor' ordinal='2' />
+            <column datatype='string' name='Detail' ordinal='3' />
+            <column datatype='string' name='Evidence grade' ordinal='4' />
+            <column datatype='string' name='Source' ordinal='5' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[01_bengaluru_event_register.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Month</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Month]</local-name>
+          <parent-name>[01_bengaluru_event_register.csv]</parent-name>
+          <remote-alias>Month</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[01_bengaluru_event_register.csv_FF65E2F7938CF14FDF009D1B3313FD73]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Event</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Event]</local-name>
+          <parent-name>[01_bengaluru_event_register.csv]</parent-name>
+          <remote-alias>Event</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[01_bengaluru_event_register.csv_FF65E2F7938CF14FDF009D1B3313FD73]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Actor</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Actor]</local-name>
+          <parent-name>[01_bengaluru_event_register.csv]</parent-name>
+          <remote-alias>Actor</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[01_bengaluru_event_register.csv_FF65E2F7938CF14FDF009D1B3313FD73]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Detail</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Detail]</local-name>
+          <parent-name>[01_bengaluru_event_register.csv]</parent-name>
+          <remote-alias>Detail</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[01_bengaluru_event_register.csv_FF65E2F7938CF14FDF009D1B3313FD73]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Evidence grade</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Evidence grade]</local-name>
+          <parent-name>[01_bengaluru_event_register.csv]</parent-name>
+          <remote-alias>Evidence grade</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[01_bengaluru_event_register.csv_FF65E2F7938CF14FDF009D1B3313FD73]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Source</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Source]</local-name>
+          <parent-name>[01_bengaluru_event_register.csv]</parent-name>
+          <remote-alias>Source</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[01_bengaluru_event_register.csv_FF65E2F7938CF14FDF009D1B3313FD73]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Month]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Event]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Actor]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Detail]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Evidence grade]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Source]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Boycott demands' inline='true' name='federated.demands' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='02_boycott_demands' name='textscan.demands'>
+          <connection class='textscan' directory='Data' filename='02_boycott_demands.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.demands' name='02_boycott_demands.csv' table='[02_boycott_demands#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Demand verbatim' ordinal='0' />
+            <column datatype='string' name='Grievance type' ordinal='1' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[02_boycott_demands.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Demand verbatim</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Demand verbatim]</local-name>
+          <parent-name>[02_boycott_demands.csv]</parent-name>
+          <remote-alias>Demand verbatim</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[02_boycott_demands.csv_05ECD68A2CAD88E0AB48615AE2BB8B13]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Grievance type</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Grievance type]</local-name>
+          <parent-name>[02_boycott_demands.csv]</parent-name>
+          <remote-alias>Grievance type</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[02_boycott_demands.csv_05ECD68A2CAD88E0AB48615AE2BB8B13]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Demand verbatim]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Grievance type]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='City comparison' inline='true' name='federated.city' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='09_city_comparison' name='textscan.city'>
+          <connection class='textscan' directory='Data' filename='09_city_comparison.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.city' name='09_city_comparison.csv' table='[09_city_comparison#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='City' ordinal='0' />
+            <column datatype='string' name='Metric' ordinal='1' />
+            <column datatype='real' name='Value' ordinal='2' />
+            <column datatype='real' name='CI low' ordinal='3' />
+            <column datatype='real' name='CI high' ordinal='4' />
+            <column datatype='integer' name='Numerator' ordinal='5' />
+            <column datatype='integer' name='Base' ordinal='6' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[09_city_comparison.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>City</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[City]</local-name>
+          <parent-name>[09_city_comparison.csv]</parent-name>
+          <remote-alias>City</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[09_city_comparison.csv_E6B4B9FE1F79F1F4187A790E7E811AB3]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Metric</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Metric]</local-name>
+          <parent-name>[09_city_comparison.csv]</parent-name>
+          <remote-alias>Metric</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[09_city_comparison.csv_E6B4B9FE1F79F1F4187A790E7E811AB3]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Value</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Value]</local-name>
+          <parent-name>[09_city_comparison.csv]</parent-name>
+          <remote-alias>Value</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[09_city_comparison.csv_E6B4B9FE1F79F1F4187A790E7E811AB3]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI low</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[CI low]</local-name>
+          <parent-name>[09_city_comparison.csv]</parent-name>
+          <remote-alias>CI low</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[09_city_comparison.csv_E6B4B9FE1F79F1F4187A790E7E811AB3]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI high</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[CI high]</local-name>
+          <parent-name>[09_city_comparison.csv]</parent-name>
+          <remote-alias>CI high</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[09_city_comparison.csv_E6B4B9FE1F79F1F4187A790E7E811AB3]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Numerator</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Numerator]</local-name>
+          <parent-name>[09_city_comparison.csv]</parent-name>
+          <remote-alias>Numerator</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[09_city_comparison.csv_E6B4B9FE1F79F1F4187A790E7E811AB3]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Base]</local-name>
+          <parent-name>[09_city_comparison.csv]</parent-name>
+          <remote-alias>Base</remote-alias>
+          <ordinal>6</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[09_city_comparison.csv_E6B4B9FE1F79F1F4187A790E7E811AB3]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[City]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Metric]' role='dimension' type='nominal' />
+    <column datatype='real' name='[Value]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI low]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI high]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Numerator]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Base]' role='measure' type='quantitative' />
+  </datasource>
+  <datasource caption='Rs30 trade-off' inline='true' name='federated.trade' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='10_tradeoff' name='textscan.trade'>
+          <connection class='textscan' directory='Data' filename='10_tradeoff.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.trade' name='10_tradeoff.csv' table='[10_tradeoff#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Give up' ordinal='0' />
+            <column datatype='integer' name='Sort order' ordinal='1' />
+            <column datatype='integer' name='Accepted' ordinal='2' />
+            <column datatype='integer' name='Base' ordinal='3' />
+            <column datatype='real' name='Accept Pct' ordinal='4' />
+            <column datatype='real' name='CI low' ordinal='5' />
+            <column datatype='real' name='CI high' ordinal='6' />
+            <column datatype='real' name='Refused Pct' ordinal='7' />
+            <column datatype='string' name='Is the constraint' ordinal='8' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Give up</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Give up]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>Give up</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sort order</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Sort order]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>Sort order</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Accepted</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Accepted]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>Accepted</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Base]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>Base</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Accept Pct</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Accept Pct]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>Accept Pct</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI low</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[CI low]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>CI low</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI high</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[CI high]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>CI high</remote-alias>
+          <ordinal>6</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Refused Pct</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Refused Pct]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>Refused Pct</remote-alias>
+          <ordinal>7</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Is the constraint</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Is the constraint]</local-name>
+          <parent-name>[10_tradeoff.csv]</parent-name>
+          <remote-alias>Is the constraint</remote-alias>
+          <ordinal>8</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[10_tradeoff.csv_766D9025F1E916344A1C909B83933202]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Give up]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Sort order]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Accepted]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Base]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Accept Pct]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI low]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI high]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Refused Pct]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Is the constraint]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Price audit' inline='true' name='federated.price' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='11_price_audit' name='textscan.price'>
+          <connection class='textscan' directory='Data' filename='11_price_audit.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.price' name='11_price_audit.csv' table='[11_price_audit#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Restaurant' ordinal='0' />
+            <column datatype='real' name='Ownly payable' ordinal='1' />
+            <column datatype='real' name='Cheapest rival payable' ordinal='2' />
+            <column datatype='string' name='Rival' ordinal='3' />
+            <column datatype='real' name='Saving Rs' ordinal='4' />
+            <column datatype='real' name='Saving Pct' ordinal='5' />
+            <column datatype='real' name='Ownly ETA' ordinal='6' />
+            <column datatype='real' name='Rival ETA' ordinal='7' />
+            <column datatype='real' name='ETA gap' ordinal='8' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Restaurant</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Restaurant]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>Restaurant</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Ownly payable</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Ownly payable]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>Ownly payable</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Cheapest rival payable</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Cheapest rival payable]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>Cheapest rival payable</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Rival</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Rival]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>Rival</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Saving Rs</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Saving Rs]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>Saving Rs</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Saving Pct</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Saving Pct]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>Saving Pct</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Ownly ETA</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Ownly ETA]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>Ownly ETA</remote-alias>
+          <ordinal>6</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Rival ETA</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Rival ETA]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>Rival ETA</remote-alias>
+          <ordinal>7</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>ETA gap</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[ETA gap]</local-name>
+          <parent-name>[11_price_audit.csv]</parent-name>
+          <remote-alias>ETA gap</remote-alias>
+          <ordinal>8</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[11_price_audit.csv_F808DDD42E9EE44A6FEA8C037EE62189]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Restaurant]' role='dimension' type='nominal' />
+    <column datatype='real' name='[Ownly payable]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Cheapest rival payable]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Rival]' role='dimension' type='nominal' />
+    <column datatype='real' name='[Saving Rs]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Saving Pct]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Ownly ETA]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Rival ETA]' role='measure' type='quantitative' />
+    <column datatype='real' name='[ETA gap]' role='measure' type='quantitative' />
+  </datasource>
+  <datasource caption='Price erosion' inline='true' name='federated.erosion' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='12_price_erosion' name='textscan.erosion'>
+          <connection class='textscan' directory='Data' filename='12_price_erosion.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.erosion' name='12_price_erosion.csv' table='[12_price_erosion#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Price view' ordinal='0' />
+            <column datatype='integer' name='Order' ordinal='1' />
+            <column datatype='real' name='Coverage Pct' ordinal='2' />
+            <column datatype='real' name='Median saving Rs' ordinal='3' />
+            <column datatype='string' name='Ownly dearer' ordinal='4' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[12_price_erosion.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Price view</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Price view]</local-name>
+          <parent-name>[12_price_erosion.csv]</parent-name>
+          <remote-alias>Price view</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[12_price_erosion.csv_9F5C68B6CE32614911C40305C45087A9]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Order</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Order]</local-name>
+          <parent-name>[12_price_erosion.csv]</parent-name>
+          <remote-alias>Order</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[12_price_erosion.csv_9F5C68B6CE32614911C40305C45087A9]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Coverage Pct</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Coverage Pct]</local-name>
+          <parent-name>[12_price_erosion.csv]</parent-name>
+          <remote-alias>Coverage Pct</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[12_price_erosion.csv_9F5C68B6CE32614911C40305C45087A9]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Median saving Rs</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Median saving Rs]</local-name>
+          <parent-name>[12_price_erosion.csv]</parent-name>
+          <remote-alias>Median saving Rs</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[12_price_erosion.csv_9F5C68B6CE32614911C40305C45087A9]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Ownly dearer</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Ownly dearer]</local-name>
+          <parent-name>[12_price_erosion.csv]</parent-name>
+          <remote-alias>Ownly dearer</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[12_price_erosion.csv_9F5C68B6CE32614911C40305C45087A9]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Price view]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Order]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Coverage Pct]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Median saving Rs]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Ownly dearer]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Fee load' inline='true' name='federated.fee' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='13_fee_load' name='textscan.fee'>
+          <connection class='textscan' directory='Data' filename='13_fee_load.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.fee' name='13_fee_load.csv' table='[13_fee_load#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Platform' ordinal='0' />
+            <column datatype='real' name='Median fee load Pct' ordinal='1' />
+            <column datatype='integer' name='Captures' ordinal='2' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[13_fee_load.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Platform</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Platform]</local-name>
+          <parent-name>[13_fee_load.csv]</parent-name>
+          <remote-alias>Platform</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[13_fee_load.csv_0D57A430BC62518BBAD1E3202B74380F]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Median fee load Pct</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Median fee load Pct]</local-name>
+          <parent-name>[13_fee_load.csv]</parent-name>
+          <remote-alias>Median fee load Pct</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[13_fee_load.csv_0D57A430BC62518BBAD1E3202B74380F]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Captures</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Captures]</local-name>
+          <parent-name>[13_fee_load.csv]</parent-name>
+          <remote-alias>Captures</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[13_fee_load.csv_0D57A430BC62518BBAD1E3202B74380F]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Platform]' role='dimension' type='nominal' />
+    <column datatype='real' name='[Median fee load Pct]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Captures]' role='measure' type='quantitative' />
+  </datasource>
+  <datasource caption='Review stars' inline='true' name='federated.stars' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='14_review_stars' name='textscan.stars'>
+          <connection class='textscan' directory='Data' filename='14_review_stars.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.stars' name='14_review_stars.csv' table='[14_review_stars#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='integer' name='Star rating' ordinal='0' />
+            <column datatype='integer' name='Reviews' ordinal='1' />
+            <column datatype='string' name='Low rating' ordinal='2' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[14_review_stars.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Star rating</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Star rating]</local-name>
+          <parent-name>[14_review_stars.csv]</parent-name>
+          <remote-alias>Star rating</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[14_review_stars.csv_0A2AD44D84BE333B5DE0ECEB6D1E079F]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Reviews</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Reviews]</local-name>
+          <parent-name>[14_review_stars.csv]</parent-name>
+          <remote-alias>Reviews</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[14_review_stars.csv_0A2AD44D84BE333B5DE0ECEB6D1E079F]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Low rating</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Low rating]</local-name>
+          <parent-name>[14_review_stars.csv]</parent-name>
+          <remote-alias>Low rating</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[14_review_stars.csv_0A2AD44D84BE333B5DE0ECEB6D1E079F]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='integer' name='[Star rating]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Reviews]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Low rating]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Themes by base' inline='true' name='federated.themes' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='15_theme_by_base' name='textscan.themes'>
+          <connection class='textscan' directory='Data' filename='15_theme_by_base.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.themes' name='15_theme_by_base.csv' table='[15_theme_by_base#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Base' ordinal='0' />
+            <column datatype='string' name='Theme' ordinal='1' />
+            <column datatype='integer' name='Items mentioning' ordinal='2' />
+            <column datatype='real' name='Share of coded items Pct' ordinal='3' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[15_theme_by_base.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Base]</local-name>
+          <parent-name>[15_theme_by_base.csv]</parent-name>
+          <remote-alias>Base</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[15_theme_by_base.csv_00CD63E505C1F0C596B26B099570FB25]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Theme</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Theme]</local-name>
+          <parent-name>[15_theme_by_base.csv]</parent-name>
+          <remote-alias>Theme</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[15_theme_by_base.csv_00CD63E505C1F0C596B26B099570FB25]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Items mentioning</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Items mentioning]</local-name>
+          <parent-name>[15_theme_by_base.csv]</parent-name>
+          <remote-alias>Items mentioning</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[15_theme_by_base.csv_00CD63E505C1F0C596B26B099570FB25]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Share of coded items Pct</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Share of coded items Pct]</local-name>
+          <parent-name>[15_theme_by_base.csv]</parent-name>
+          <remote-alias>Share of coded items Pct</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[15_theme_by_base.csv_00CD63E505C1F0C596B26B099570FB25]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Base]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Theme]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Items mentioning]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Share of coded items Pct]' role='measure' type='quantitative' />
+  </datasource>
+  <datasource caption='KPIs' inline='true' name='federated.kpi' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='16_kpis' name='textscan.kpi'>
+          <connection class='textscan' directory='Data' filename='16_kpis.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.kpi' name='16_kpis.csv' table='[16_kpis#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='KPI' ordinal='0' />
+            <column datatype='string' name='Question it answers' ordinal='1' />
+            <column datatype='real' name='Value' ordinal='2' />
+            <column datatype='string' name='Unit' ordinal='3' />
+            <column datatype='real' name='CI low' ordinal='4' />
+            <column datatype='real' name='CI high' ordinal='5' />
+            <column datatype='string' name='Base' ordinal='6' />
+            <column datatype='string' name='Source' ordinal='7' />
+            <column datatype='string' name='Why it matters' ordinal='8' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>KPI</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[KPI]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>KPI</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Question it answers</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Question it answers]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>Question it answers</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Value</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Value]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>Value</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Unit</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Unit]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>Unit</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI low</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[CI low]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>CI low</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CI high</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[CI high]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>CI high</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Base</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Base]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>Base</remote-alias>
+          <ordinal>6</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Source</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Source]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>Source</remote-alias>
+          <ordinal>7</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Why it matters</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Why it matters]</local-name>
+          <parent-name>[16_kpis.csv]</parent-name>
+          <remote-alias>Why it matters</remote-alias>
+          <ordinal>8</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[16_kpis.csv_A56F5870EEE059E4BAE47D0AB66B6EB4]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[KPI]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Question it answers]' role='dimension' type='nominal' />
+    <column datatype='real' name='[Value]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Unit]' role='dimension' type='nominal' />
+    <column datatype='real' name='[CI low]' role='measure' type='quantitative' />
+    <column datatype='real' name='[CI high]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Base]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Source]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Why it matters]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Marketing metrics' inline='true' name='federated.mm' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='17_marketing_metrics' name='textscan.mm'>
+          <connection class='textscan' directory='Data' filename='17_marketing_metrics.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.mm' name='17_marketing_metrics.csv' table='[17_marketing_metrics#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='ID' ordinal='0' />
+            <column datatype='string' name='Metric' ordinal='1' />
+            <column datatype='real' name='Value' ordinal='2' />
+            <column datatype='string' name='Unit' ordinal='3' />
+            <column datatype='string' name='Basis' ordinal='4' />
+            <column datatype='string' name='Our own definition' ordinal='5' />
+            <column datatype='string' name='Formula' ordinal='6' />
+            <column datatype='string' name='Interpretation' ordinal='7' />
+            <column datatype='string' name='Caveat' ordinal='8' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>ID</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[ID]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>ID</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Metric</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Metric]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>Metric</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Value</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Value]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>Value</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Unit</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Unit]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>Unit</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Basis</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Basis]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>Basis</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Our own definition</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Our own definition]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>Our own definition</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Formula</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Formula]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>Formula</remote-alias>
+          <ordinal>6</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Interpretation</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Interpretation]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>Interpretation</remote-alias>
+          <ordinal>7</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Caveat</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Caveat]</local-name>
+          <parent-name>[17_marketing_metrics.csv]</parent-name>
+          <remote-alias>Caveat</remote-alias>
+          <ordinal>8</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[17_marketing_metrics.csv_5BB753A94403724C5E3F5A140CBEB8F8]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[ID]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Metric]' role='dimension' type='nominal' />
+    <column datatype='real' name='[Value]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Unit]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Basis]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Our own definition]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Formula]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Interpretation]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Caveat]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Not estimable' inline='true' name='federated.ne' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='18_not_estimable' name='textscan.ne'>
+          <connection class='textscan' directory='Data' filename='18_not_estimable.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.ne' name='18_not_estimable.csv' table='[18_not_estimable#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Metric' ordinal='0' />
+            <column datatype='string' name='Sheet' ordinal='1' />
+            <column datatype='string' name='Why not computable' ordinal='2' />
+            <column datatype='string' name='Where it would come from' ordinal='3' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[18_not_estimable.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Metric</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Metric]</local-name>
+          <parent-name>[18_not_estimable.csv]</parent-name>
+          <remote-alias>Metric</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[18_not_estimable.csv_85952C562AB260F6BB2A3C62645122B4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Sheet</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Sheet]</local-name>
+          <parent-name>[18_not_estimable.csv]</parent-name>
+          <remote-alias>Sheet</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[18_not_estimable.csv_85952C562AB260F6BB2A3C62645122B4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Why not computable</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Why not computable]</local-name>
+          <parent-name>[18_not_estimable.csv]</parent-name>
+          <remote-alias>Why not computable</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[18_not_estimable.csv_85952C562AB260F6BB2A3C62645122B4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Where it would come from</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Where it would come from]</local-name>
+          <parent-name>[18_not_estimable.csv]</parent-name>
+          <remote-alias>Where it would come from</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[18_not_estimable.csv_85952C562AB260F6BB2A3C62645122B4]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Metric]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Sheet]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Why not computable]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Where it would come from]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Solutions' inline='true' name='federated.sol' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='19_solutions' name='textscan.sol'>
+          <connection class='textscan' directory='Data' filename='19_solutions.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.sol' name='19_solutions.csv' table='[19_solutions#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='integer' name='No' ordinal='0' />
+            <column datatype='string' name='Solution' ordinal='1' />
+            <column datatype='string' name='What to do' ordinal='2' />
+            <column datatype='string' name='Evidence' ordinal='3' />
+            <column datatype='string' name='Evidence source' ordinal='4' />
+            <column datatype='string' name='Decision it serves' ordinal='5' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[19_solutions.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>No</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[No]</local-name>
+          <parent-name>[19_solutions.csv]</parent-name>
+          <remote-alias>No</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[19_solutions.csv_1344583292C0679BA28B17BC6A72B871]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Solution</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Solution]</local-name>
+          <parent-name>[19_solutions.csv]</parent-name>
+          <remote-alias>Solution</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[19_solutions.csv_1344583292C0679BA28B17BC6A72B871]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>What to do</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[What to do]</local-name>
+          <parent-name>[19_solutions.csv]</parent-name>
+          <remote-alias>What to do</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[19_solutions.csv_1344583292C0679BA28B17BC6A72B871]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Evidence</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Evidence]</local-name>
+          <parent-name>[19_solutions.csv]</parent-name>
+          <remote-alias>Evidence</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[19_solutions.csv_1344583292C0679BA28B17BC6A72B871]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Evidence source</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Evidence source]</local-name>
+          <parent-name>[19_solutions.csv]</parent-name>
+          <remote-alias>Evidence source</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[19_solutions.csv_1344583292C0679BA28B17BC6A72B871]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Decision it serves</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Decision it serves]</local-name>
+          <parent-name>[19_solutions.csv]</parent-name>
+          <remote-alias>Decision it serves</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[19_solutions.csv_1344583292C0679BA28B17BC6A72B871]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='integer' name='[No]' role='measure' type='quantitative' />
+    <column datatype='string' name='[Solution]' role='dimension' type='nominal' />
+    <column datatype='string' name='[What to do]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Evidence]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Evidence source]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Decision it serves]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Keep Adapt Deprioritise' inline='true' name='federated.kad' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='20_keep_adapt_deprioritise' name='textscan.kad'>
+          <connection class='textscan' directory='Data' filename='20_keep_adapt_deprioritise.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.kad' name='20_keep_adapt_deprioritise.csv' table='[20_keep_adapt_deprioritise#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Call' ordinal='0' />
+            <column datatype='string' name='Playbook element' ordinal='1' />
+            <column datatype='string' name='Why' ordinal='2' />
+            <column datatype='string' name='Evidence' ordinal='3' />
+            <column datatype='string' name='Source' ordinal='4' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[20_keep_adapt_deprioritise.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Call</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Call]</local-name>
+          <parent-name>[20_keep_adapt_deprioritise.csv]</parent-name>
+          <remote-alias>Call</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[20_keep_adapt_deprioritise.csv_651BA8683B626BE5CDC6213859821DF4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Playbook element</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Playbook element]</local-name>
+          <parent-name>[20_keep_adapt_deprioritise.csv]</parent-name>
+          <remote-alias>Playbook element</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[20_keep_adapt_deprioritise.csv_651BA8683B626BE5CDC6213859821DF4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Why</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Why]</local-name>
+          <parent-name>[20_keep_adapt_deprioritise.csv]</parent-name>
+          <remote-alias>Why</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[20_keep_adapt_deprioritise.csv_651BA8683B626BE5CDC6213859821DF4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Evidence</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Evidence]</local-name>
+          <parent-name>[20_keep_adapt_deprioritise.csv]</parent-name>
+          <remote-alias>Evidence</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[20_keep_adapt_deprioritise.csv_651BA8683B626BE5CDC6213859821DF4]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Source</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Source]</local-name>
+          <parent-name>[20_keep_adapt_deprioritise.csv]</parent-name>
+          <remote-alias>Source</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[20_keep_adapt_deprioritise.csv_651BA8683B626BE5CDC6213859821DF4]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Call]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Playbook element]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Why]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Evidence]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Source]' role='dimension' type='nominal' />
+  </datasource>
+  <datasource caption='Sentiment by audience' inline='true' name='federated.sent' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='04_sentiment_by_audience' name='textscan.sent'>
+          <connection class='textscan' directory='Data' filename='04_sentiment_by_audience.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.sent' name='04_sentiment_by_audience.csv' table='[04_sentiment_by_audience#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Audience' ordinal='0' />
+            <column datatype='integer' name='Documents' ordinal='1' />
+            <column datatype='real' name='Mean sentiment' ordinal='2' />
+            <column datatype='integer' name='Negative' ordinal='3' />
+            <column datatype='integer' name='Neutral' ordinal='4' />
+            <column datatype='integer' name='Positive' ordinal='5' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[04_sentiment_by_audience.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Audience</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Audience]</local-name>
+          <parent-name>[04_sentiment_by_audience.csv]</parent-name>
+          <remote-alias>Audience</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[04_sentiment_by_audience.csv_F45DEDEA79DB377E5F2B413421AD0D34]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Documents</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Documents]</local-name>
+          <parent-name>[04_sentiment_by_audience.csv]</parent-name>
+          <remote-alias>Documents</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[04_sentiment_by_audience.csv_F45DEDEA79DB377E5F2B413421AD0D34]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Mean sentiment</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Mean sentiment]</local-name>
+          <parent-name>[04_sentiment_by_audience.csv]</parent-name>
+          <remote-alias>Mean sentiment</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[04_sentiment_by_audience.csv_F45DEDEA79DB377E5F2B413421AD0D34]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Negative</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Negative]</local-name>
+          <parent-name>[04_sentiment_by_audience.csv]</parent-name>
+          <remote-alias>Negative</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[04_sentiment_by_audience.csv_F45DEDEA79DB377E5F2B413421AD0D34]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Neutral</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Neutral]</local-name>
+          <parent-name>[04_sentiment_by_audience.csv]</parent-name>
+          <remote-alias>Neutral</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[04_sentiment_by_audience.csv_F45DEDEA79DB377E5F2B413421AD0D34]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Positive</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Positive]</local-name>
+          <parent-name>[04_sentiment_by_audience.csv]</parent-name>
+          <remote-alias>Positive</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[04_sentiment_by_audience.csv_F45DEDEA79DB377E5F2B413421AD0D34]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Audience]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Documents]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Mean sentiment]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Negative]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Neutral]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Positive]' role='measure' type='quantitative' />
+  </datasource>
+  <datasource caption='YouTube phase' inline='true' name='federated.phase' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='05_youtube_phase' name='textscan.phase'>
+          <connection class='textscan' directory='Data' filename='05_youtube_phase.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.phase' name='05_youtube_phase.csv' table='[05_youtube_phase#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Phase' ordinal='0' />
+            <column datatype='integer' name='Comments' ordinal='1' />
+            <column datatype='real' name='Mean sentiment' ordinal='2' />
+            <column datatype='integer' name='Negative' ordinal='3' />
+            <column datatype='integer' name='Positive' ordinal='4' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[05_youtube_phase.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Phase</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Phase]</local-name>
+          <parent-name>[05_youtube_phase.csv]</parent-name>
+          <remote-alias>Phase</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[05_youtube_phase.csv_8B3ABEF6D033654063459BC24DB571C7]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Comments</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Comments]</local-name>
+          <parent-name>[05_youtube_phase.csv]</parent-name>
+          <remote-alias>Comments</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[05_youtube_phase.csv_8B3ABEF6D033654063459BC24DB571C7]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Mean sentiment</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Mean sentiment]</local-name>
+          <parent-name>[05_youtube_phase.csv]</parent-name>
+          <remote-alias>Mean sentiment</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[05_youtube_phase.csv_8B3ABEF6D033654063459BC24DB571C7]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Negative</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Negative]</local-name>
+          <parent-name>[05_youtube_phase.csv]</parent-name>
+          <remote-alias>Negative</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[05_youtube_phase.csv_8B3ABEF6D033654063459BC24DB571C7]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Positive</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Positive]</local-name>
+          <parent-name>[05_youtube_phase.csv]</parent-name>
+          <remote-alias>Positive</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[05_youtube_phase.csv_8B3ABEF6D033654063459BC24DB571C7]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Phase]' role='dimension' type='nominal' />
+    <column datatype='integer' name='[Comments]' role='measure' type='quantitative' />
+    <column datatype='real' name='[Mean sentiment]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Negative]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Positive]' role='measure' type='quantitative' />
+  </datasource>
+  <datasource caption='Topic terms' inline='true' name='federated.terms' version='18.1'>
+    <connection class='federated'>
+      <named-connections>
+        <named-connection caption='07_topic_terms' name='textscan.terms'>
+          <connection class='textscan' directory='Data' filename='07_topic_terms.csv' password='' server='' />
+        </named-connection>
+      </named-connections>
+      <relation connection='textscan.terms' name='07_topic_terms.csv' table='[07_topic_terms#csv]' type='table'>
+        <columns character-set='UTF-8' header='yes' locale='en_IN' separator=','>
+            <column datatype='string' name='Split' ordinal='0' />
+            <column datatype='string' name='Group' ordinal='1' />
+            <column datatype='string' name='Term' ordinal='2' />
+            <column datatype='real' name='TF IDF' ordinal='3' />
+            <column datatype='integer' name='Document frequency' ordinal='4' />
+            <column datatype='integer' name='Rank' ordinal='5' />
+        </columns>
+      </relation>
+      <metadata-records>
+        <metadata-record class='capability'>
+          <remote-name />
+          <remote-type>0</remote-type>
+          <parent-name>[07_topic_terms.csv]</parent-name>
+          <remote-alias />
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <attributes>
+            <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+            <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+            <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+            <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+            <attribute datatype='string' name='locale'>&quot;en_IN&quot;</attribute>
+            <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+          </attributes>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Split</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Split]</local-name>
+          <parent-name>[07_topic_terms.csv]</parent-name>
+          <remote-alias>Split</remote-alias>
+          <ordinal>0</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[07_topic_terms.csv_64A3497E79A0A165E798187834DB20A6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Group</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Group]</local-name>
+          <parent-name>[07_topic_terms.csv]</parent-name>
+          <remote-alias>Group</remote-alias>
+          <ordinal>1</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[07_topic_terms.csv_64A3497E79A0A165E798187834DB20A6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Term</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Term]</local-name>
+          <parent-name>[07_topic_terms.csv]</parent-name>
+          <remote-alias>Term</remote-alias>
+          <ordinal>2</ordinal>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[07_topic_terms.csv_64A3497E79A0A165E798187834DB20A6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>TF IDF</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[TF IDF]</local-name>
+          <parent-name>[07_topic_terms.csv]</parent-name>
+          <remote-alias>TF IDF</remote-alias>
+          <ordinal>3</ordinal>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[07_topic_terms.csv_64A3497E79A0A165E798187834DB20A6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Document frequency</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Document frequency]</local-name>
+          <parent-name>[07_topic_terms.csv]</parent-name>
+          <remote-alias>Document frequency</remote-alias>
+          <ordinal>4</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[07_topic_terms.csv_64A3497E79A0A165E798187834DB20A6]</object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Rank</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Rank]</local-name>
+          <parent-name>[07_topic_terms.csv]</parent-name>
+          <remote-alias>Rank</remote-alias>
+          <ordinal>5</ordinal>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <contains-null>true</contains-null>
+          <object-id>[07_topic_terms.csv_64A3497E79A0A165E798187834DB20A6]</object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+    <column datatype='string' name='[Split]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Group]' role='dimension' type='nominal' />
+    <column datatype='string' name='[Term]' role='dimension' type='nominal' />
+    <column datatype='real' name='[TF IDF]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Document frequency]' role='measure' type='quantitative' />
+    <column datatype='integer' name='[Rank]' role='measure' type='quantitative' />
+  </datasource>
+  </datasources>
+  <worksheets>
+  <worksheet name='1.1 Conversation by month'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.timeline' name='federated.timeline' />
+        </datasources>
+        <datasource-dependencies datasource='federated.timeline'>
+        <column datatype='integer' name='[Documents]' role='measure' type='quantitative' />
+        <column-instance column='[Documents]' derivation='Sum' name='[sum:Documents:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Month]' role='dimension' type='nominal' />
+        <column-instance column='[Month]' derivation='None' name='[none:Month:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Audience]' role='dimension' type='nominal' />
+        <column-instance column='[Audience]' derivation='None' name='[none:Audience:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Line' />
+          <encodings>
+            <color column='[federated.timeline].[none:Audience:nk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.timeline].[sum:Documents:qk]</rows>
+      <cols>[federated.timeline].[none:Month:nk]</cols>
+    </table>
+    <simple-id uuid='{D1AA7B36-34FE-D3F9-B0A4-0FBE8758B270}' />
+  </worksheet>
+  <worksheet name='1.2 Bengaluru event register'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.events' name='federated.events' />
+        </datasources>
+        <datasource-dependencies datasource='federated.events'>
+        <column datatype='string' name='[Month]' role='dimension' type='nominal' />
+        <column-instance column='[Month]' derivation='None' name='[none:Month:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Event]' role='dimension' type='nominal' />
+        <column-instance column='[Event]' derivation='None' name='[none:Event:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Detail]' role='dimension' type='nominal' />
+        <column-instance column='[Detail]' derivation='None' name='[none:Detail:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Actor]' role='dimension' type='nominal' />
+        <column-instance column='[Actor]' derivation='None' name='[none:Actor:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Text' />
+          <encodings>
+            <color column='[federated.events].[none:Actor:nk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.events].[none:Month:nk] / [federated.events].[none:Event:nk] / [federated.events].[none:Detail:nk]</rows>
+      <cols></cols>
+    </table>
+    <simple-id uuid='{0FC19AFD-BABC-659A-F2DA-3D088838317E}' />
+  </worksheet>
+  <worksheet name='1.3 Boycott demands'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.demands' name='federated.demands' />
+        </datasources>
+        <datasource-dependencies datasource='federated.demands'>
+        <column datatype='string' name='[Grievance type]' role='dimension' type='nominal' />
+        <column-instance column='[Grievance type]' derivation='None' name='[none:Grievance type:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Demand verbatim]' role='dimension' type='nominal' />
+        <column-instance column='[Demand verbatim]' derivation='None' name='[none:Demand verbatim:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Text' />
+        </pane>
+      </panes>
+      <rows>[federated.demands].[none:Grievance type:nk] / [federated.demands].[none:Demand verbatim:nk]</rows>
+      <cols></cols>
+    </table>
+    <simple-id uuid='{5DBC969B-D0E3-5047-092A-658EA2372B2C}' />
+  </worksheet>
+  <worksheet name='1.4 Bengaluru vs Hyderabad'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.city' name='federated.city' />
+        </datasources>
+        <datasource-dependencies datasource='federated.city'>
+        <column datatype='string' name='[Metric]' role='dimension' type='nominal' />
+        <column-instance column='[Metric]' derivation='None' name='[none:Metric:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Value]' role='measure' type='quantitative' />
+        <column-instance column='[Value]' derivation='Sum' name='[sum:Value:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[City]' role='dimension' type='nominal' />
+        <column-instance column='[City]' derivation='None' name='[none:City:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.city].[none:City:nk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.city].[none:Metric:nk]</rows>
+      <cols>[federated.city].[sum:Value:qk]</cols>
+    </table>
+    <simple-id uuid='{E9E7F922-F69D-27C0-75C4-D98EF6D869F9}' />
+  </worksheet>
+  <worksheet name='2.1 KPI overview'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.kpi' name='federated.kpi' />
+        </datasources>
+        <datasource-dependencies datasource='federated.kpi'>
+        <column datatype='string' name='[KPI]' role='dimension' type='nominal' />
+        <column-instance column='[KPI]' derivation='None' name='[none:KPI:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Value]' role='measure' type='quantitative' />
+        <column-instance column='[Value]' derivation='Sum' name='[sum:Value:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Source]' role='dimension' type='nominal' />
+        <column-instance column='[Source]' derivation='None' name='[none:Source:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.kpi].[none:Source:nk]' />
+            <text column='[federated.kpi].[sum:Value:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.kpi].[none:KPI:nk]</rows>
+      <cols>[federated.kpi].[sum:Value:qk]</cols>
+    </table>
+    <simple-id uuid='{CBABD2CE-A91F-C8CE-0DC5-BC09DB826630}' />
+  </worksheet>
+  <worksheet name='2.2 KPI detail'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.kpi' name='federated.kpi' />
+        </datasources>
+        <datasource-dependencies datasource='federated.kpi'>
+        <column datatype='string' name='[KPI]' role='dimension' type='nominal' />
+        <column-instance column='[KPI]' derivation='None' name='[none:KPI:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Question it answers]' role='dimension' type='nominal' />
+        <column-instance column='[Question it answers]' derivation='None' name='[none:Question it answers:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Why it matters]' role='dimension' type='nominal' />
+        <column-instance column='[Why it matters]' derivation='None' name='[none:Why it matters:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Value]' role='measure' type='quantitative' />
+        <column-instance column='[Value]' derivation='Sum' name='[sum:Value:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Text' />
+          <encodings>
+            <text column='[federated.kpi].[sum:Value:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.kpi].[none:KPI:nk] / [federated.kpi].[none:Question it answers:nk] / [federated.kpi].[none:Why it matters:nk]</rows>
+      <cols></cols>
+    </table>
+    <simple-id uuid='{68637DA1-AECD-4EFD-152D-AD43A05DF312}' />
+  </worksheet>
+  <worksheet name='3.1 Marketing metrics'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.mm' name='federated.mm' />
+        </datasources>
+        <datasource-dependencies datasource='federated.mm'>
+        <column datatype='string' name='[Metric]' role='dimension' type='nominal' />
+        <column-instance column='[Metric]' derivation='None' name='[none:Metric:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Value]' role='measure' type='quantitative' />
+        <column-instance column='[Value]' derivation='Sum' name='[sum:Value:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Our own definition]' role='dimension' type='nominal' />
+        <column-instance column='[Our own definition]' derivation='None' name='[none:Our own definition:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.mm].[none:Our own definition:nk]' />
+            <text column='[federated.mm].[sum:Value:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.mm].[none:Metric:nk]</rows>
+      <cols>[federated.mm].[sum:Value:qk]</cols>
+    </table>
+    <simple-id uuid='{E3860363-9395-88D3-6564-B2316250565B}' />
+  </worksheet>
+  <worksheet name='3.2 Not estimable'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.ne' name='federated.ne' />
+        </datasources>
+        <datasource-dependencies datasource='federated.ne'>
+        <column datatype='string' name='[Metric]' role='dimension' type='nominal' />
+        <column-instance column='[Metric]' derivation='None' name='[none:Metric:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Why not computable]' role='dimension' type='nominal' />
+        <column-instance column='[Why not computable]' derivation='None' name='[none:Why not computable:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Text' />
+        </pane>
+      </panes>
+      <rows>[federated.ne].[none:Metric:nk] / [federated.ne].[none:Why not computable:nk]</rows>
+      <cols></cols>
+    </table>
+    <simple-id uuid='{E60E2A1D-68FB-D712-61E6-CFCADE2E858C}' />
+  </worksheet>
+  <worksheet name='4.1 The Rs30 trade-off'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.trade' name='federated.trade' />
+        </datasources>
+        <datasource-dependencies datasource='federated.trade'>
+        <column datatype='string' name='[Give up]' role='dimension' type='nominal' />
+        <column-instance column='[Give up]' derivation='None' name='[none:Give up:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Accept Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Accept Pct]' derivation='Sum' name='[sum:Accept Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Is the constraint]' role='dimension' type='nominal' />
+        <column-instance column='[Is the constraint]' derivation='None' name='[none:Is the constraint:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.trade].[none:Is the constraint:nk]' />
+            <text column='[federated.trade].[sum:Accept Pct:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.trade].[none:Give up:nk]</rows>
+      <cols>[federated.trade].[sum:Accept Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{C0D9A9F0-532D-E71A-7EB7-C74D14615168}' />
+  </worksheet>
+  <worksheet name='4.2 Price by restaurant'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.price' name='federated.price' />
+        </datasources>
+        <datasource-dependencies datasource='federated.price'>
+        <column datatype='string' name='[Restaurant]' role='dimension' type='nominal' />
+        <column-instance column='[Restaurant]' derivation='None' name='[none:Restaurant:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Ownly payable]' role='measure' type='quantitative' />
+        <column-instance column='[Ownly payable]' derivation='Sum' name='[sum:Ownly payable:qk]' pivot='key' type='quantitative' />
+        <column datatype='real' name='[Saving Rs]' role='measure' type='quantitative' />
+        <column-instance column='[Saving Rs]' derivation='Sum' name='[sum:Saving Rs:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <text column='[federated.price].[sum:Saving Rs:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.price].[none:Restaurant:nk]</rows>
+      <cols>[federated.price].[sum:Ownly payable:qk]</cols>
+    </table>
+    <simple-id uuid='{0FB62D7A-02FA-D3FB-2864-EAFE6F9ADBC0}' />
+  </worksheet>
+  <worksheet name='4.3 Price erosion'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.erosion' name='federated.erosion' />
+        </datasources>
+        <datasource-dependencies datasource='federated.erosion'>
+        <column datatype='string' name='[Price view]' role='dimension' type='nominal' />
+        <column-instance column='[Price view]' derivation='None' name='[none:Price view:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Coverage Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Coverage Pct]' derivation='Sum' name='[sum:Coverage Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Ownly dearer]' role='dimension' type='nominal' />
+        <column-instance column='[Ownly dearer]' derivation='None' name='[none:Ownly dearer:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Median saving Rs]' role='measure' type='quantitative' />
+        <column-instance column='[Median saving Rs]' derivation='Sum' name='[sum:Median saving Rs:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.erosion].[none:Ownly dearer:nk]' />
+            <text column='[federated.erosion].[sum:Median saving Rs:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.erosion].[none:Price view:nk]</rows>
+      <cols>[federated.erosion].[sum:Coverage Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{E1F2876C-87DB-BFCD-072C-79C15588E4D3}' />
+  </worksheet>
+  <worksheet name='4.4 Fee load'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.fee' name='federated.fee' />
+        </datasources>
+        <datasource-dependencies datasource='federated.fee'>
+        <column datatype='string' name='[Platform]' role='dimension' type='nominal' />
+        <column-instance column='[Platform]' derivation='None' name='[none:Platform:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Median fee load Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Median fee load Pct]' derivation='Sum' name='[sum:Median fee load Pct:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <text column='[federated.fee].[sum:Median fee load Pct:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.fee].[none:Platform:nk]</rows>
+      <cols>[federated.fee].[sum:Median fee load Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{56A2D6D1-133F-AE12-C94C-872F0F57650D}' />
+  </worksheet>
+  <worksheet name='4.5 Review ratings'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.stars' name='federated.stars' />
+        </datasources>
+        <datasource-dependencies datasource='federated.stars'>
+        <column datatype='integer' name='[Star rating]' role='measure' type='quantitative' />
+        <column-instance column='[Star rating]' derivation='Sum' name='[sum:Star rating:qk]' pivot='key' type='quantitative' />
+        <column datatype='integer' name='[Reviews]' role='measure' type='quantitative' />
+        <column-instance column='[Reviews]' derivation='Sum' name='[sum:Reviews:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Low rating]' role='dimension' type='nominal' />
+        <column-instance column='[Low rating]' derivation='None' name='[none:Low rating:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.stars].[none:Low rating:nk]' />
+            <text column='[federated.stars].[sum:Reviews:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.stars].[sum:Star rating:qk]</rows>
+      <cols>[federated.stars].[sum:Reviews:qk]</cols>
+    </table>
+    <simple-id uuid='{C75BA6C2-DD52-BFBB-8C73-04F2C64C94AB}' />
+  </worksheet>
+  <worksheet name='4.6 Themes by who is speaking'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.themes' name='federated.themes' />
+        </datasources>
+        <datasource-dependencies datasource='federated.themes'>
+        <column datatype='string' name='[Theme]' role='dimension' type='nominal' />
+        <column-instance column='[Theme]' derivation='None' name='[none:Theme:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Share of coded items Pct]' role='measure' type='quantitative' />
+        <column-instance column='[Share of coded items Pct]' derivation='Sum' name='[sum:Share of coded items Pct:qk]' pivot='key' type='quantitative' />
+        <column datatype='string' name='[Base]' role='dimension' type='nominal' />
+        <column-instance column='[Base]' derivation='None' name='[none:Base:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <color column='[federated.themes].[none:Base:nk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.themes].[none:Theme:nk]</rows>
+      <cols>[federated.themes].[sum:Share of coded items Pct:qk]</cols>
+    </table>
+    <simple-id uuid='{23B531AC-A72B-AC8C-D3C7-C2D856129D9D}' />
+  </worksheet>
+  <worksheet name='4.7 Sentiment by audience'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.sent' name='federated.sent' />
+        </datasources>
+        <datasource-dependencies datasource='federated.sent'>
+        <column datatype='string' name='[Audience]' role='dimension' type='nominal' />
+        <column-instance column='[Audience]' derivation='None' name='[none:Audience:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Mean sentiment]' role='measure' type='quantitative' />
+        <column-instance column='[Mean sentiment]' derivation='Sum' name='[sum:Mean sentiment:qk]' pivot='key' type='quantitative' />
+        <column datatype='integer' name='[Documents]' role='measure' type='quantitative' />
+        <column-instance column='[Documents]' derivation='Sum' name='[sum:Documents:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <text column='[federated.sent].[sum:Documents:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.sent].[none:Audience:nk]</rows>
+      <cols>[federated.sent].[sum:Mean sentiment:qk]</cols>
+    </table>
+    <simple-id uuid='{F0BE7EFA-E813-5889-6CC2-B5F3916B8B81}' />
+  </worksheet>
+  <worksheet name='4.8 YouTube pre vs post launch'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.phase' name='federated.phase' />
+        </datasources>
+        <datasource-dependencies datasource='federated.phase'>
+        <column datatype='string' name='[Phase]' role='dimension' type='nominal' />
+        <column-instance column='[Phase]' derivation='None' name='[none:Phase:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[Mean sentiment]' role='measure' type='quantitative' />
+        <column-instance column='[Mean sentiment]' derivation='Sum' name='[sum:Mean sentiment:qk]' pivot='key' type='quantitative' />
+        <column datatype='integer' name='[Comments]' role='measure' type='quantitative' />
+        <column-instance column='[Comments]' derivation='Sum' name='[sum:Comments:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+          <encodings>
+            <text column='[federated.phase].[sum:Comments:qk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.phase].[none:Phase:nk]</rows>
+      <cols>[federated.phase].[sum:Mean sentiment:qk]</cols>
+    </table>
+    <simple-id uuid='{7C109CF4-1B14-DA02-DF9A-80663D8464DD}' />
+  </worksheet>
+  <worksheet name='4.9 Topic terms'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.terms' name='federated.terms' />
+        </datasources>
+        <datasource-dependencies datasource='federated.terms'>
+        <column datatype='string' name='[Group]' role='dimension' type='nominal' />
+        <column-instance column='[Group]' derivation='None' name='[none:Group:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Term]' role='dimension' type='nominal' />
+        <column-instance column='[Term]' derivation='None' name='[none:Term:nk]' pivot='key' type='nominal' />
+        <column datatype='real' name='[TF IDF]' role='measure' type='quantitative' />
+        <column-instance column='[TF IDF]' derivation='Sum' name='[sum:TF IDF:qk]' pivot='key' type='quantitative' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Bar' />
+        </pane>
+      </panes>
+      <rows>[federated.terms].[none:Group:nk] / [federated.terms].[none:Term:nk]</rows>
+      <cols>[federated.terms].[sum:TF IDF:qk]</cols>
+    </table>
+    <simple-id uuid='{C40074BA-901F-7DD5-2DC7-5ADE27054600}' />
+  </worksheet>
+  <worksheet name='5.1 Keep Adapt Deprioritise'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.kad' name='federated.kad' />
+        </datasources>
+        <datasource-dependencies datasource='federated.kad'>
+        <column datatype='string' name='[Call]' role='dimension' type='nominal' />
+        <column-instance column='[Call]' derivation='None' name='[none:Call:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Playbook element]' role='dimension' type='nominal' />
+        <column-instance column='[Playbook element]' derivation='None' name='[none:Playbook element:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Why]' role='dimension' type='nominal' />
+        <column-instance column='[Why]' derivation='None' name='[none:Why:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Text' />
+          <encodings>
+            <color column='[federated.kad].[none:Call:nk]' />
+          </encodings>
+        </pane>
+      </panes>
+      <rows>[federated.kad].[none:Call:nk] / [federated.kad].[none:Playbook element:nk] / [federated.kad].[none:Why:nk]</rows>
+      <cols></cols>
+    </table>
+    <simple-id uuid='{6467ACD7-A41D-8A19-B389-E2C24E2D8B37}' />
+  </worksheet>
+  <worksheet name='5.2 Solutions'>
+    <table>
+      <view>
+        <datasources>
+          <datasource caption='federated.sol' name='federated.sol' />
+        </datasources>
+        <datasource-dependencies datasource='federated.sol'>
+        <column datatype='string' name='[Solution]' role='dimension' type='nominal' />
+        <column-instance column='[Solution]' derivation='None' name='[none:Solution:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[What to do]' role='dimension' type='nominal' />
+        <column-instance column='[What to do]' derivation='None' name='[none:What to do:nk]' pivot='key' type='nominal' />
+        <column datatype='string' name='[Evidence]' role='dimension' type='nominal' />
+        <column-instance column='[Evidence]' derivation='None' name='[none:Evidence:nk]' pivot='key' type='nominal' />
+        </datasource-dependencies>
+        <aggregation value='true' />
+      </view>
+      <style />
+      <panes>
+        <pane selection-relaxation-option='selection-relaxation-allow'>
+          <view><breakdown value='auto' /></view>
+          <mark class='Text' />
+        </pane>
+      </panes>
+      <rows>[federated.sol].[none:Solution:nk] / [federated.sol].[none:What to do:nk] / [federated.sol].[none:Evidence:nk]</rows>
+      <cols></cols>
+    </table>
+    <simple-id uuid='{6D9B4719-B6E8-FACF-924D-C328AD52C108}' />
+  </worksheet>
+  </worksheets>
+  <dashboards>
+  <dashboard enable-sort-zone-taborder='true' name='1 The case'>
+    <style />
+    <size maxheight='1000' maxwidth='1500' minheight='1000' minwidth='1500' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='50000' id='10' name='1.1 Conversation by month' w='50000' x='0' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='50000' id='11' name='1.4 Bengaluru vs Hyderabad' w='50000' x='50000' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='50000' id='12' name='1.2 Bengaluru event register' w='50000' x='0' y='50000'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='50000' id='13' name='1.3 Boycott demands' w='50000' x='50000' y='50000'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{0528AE41-3020-C892-1FF0-E7B56D84A50C}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='2 KPIs'>
+    <style />
+    <size maxheight='950' maxwidth='1500' minheight='950' minwidth='1500' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='100000' id='10' name='2.1 KPI overview' w='50000' x='0' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='100000' id='11' name='2.2 KPI detail' w='50000' x='50000' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{7A4BD529-EDBA-5C2C-0C1D-EFF4536F7EFF}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='3 Marketing metrics'>
+    <style />
+    <size maxheight='950' maxwidth='1500' minheight='950' minwidth='1500' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='100000' id='10' name='3.1 Marketing metrics' w='50000' x='0' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='100000' id='11' name='3.2 Not estimable' w='50000' x='50000' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{84655A1A-EB46-E429-5CC4-A8329ECCC6CF}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='4 Analysis'>
+    <style />
+    <size maxheight='1100' maxwidth='1700' minheight='1100' minwidth='1700' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='33333' id='10' name='4.1 The Rs30 trade-off' w='33333' x='0' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='33333' id='11' name='4.3 Price erosion' w='33333' x='33333' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='33333' id='12' name='4.2 Price by restaurant' w='33333' x='66666' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='33333' id='13' name='4.4 Fee load' w='33333' x='0' y='33333'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='33333' id='14' name='4.6 Themes by who is speaking' w='33333' x='33333' y='33333'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='33333' id='15' name='4.5 Review ratings' w='33333' x='66666' y='33333'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='33333' id='16' name='4.7 Sentiment by audience' w='33333' x='0' y='66666'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='33333' id='17' name='4.9 Topic terms' w='33333' x='33333' y='66666'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{FB0FB006-E56A-7960-3750-C1D6649B2D0E}' />
+  </dashboard>
+  <dashboard enable-sort-zone-taborder='true' name='5 Solutions'>
+    <style />
+    <size maxheight='1000' maxwidth='1500' minheight='1000' minwidth='1500' sizing-mode='fixed' />
+    <zones>
+      <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
+        <zone h='50000' id='10' name='5.1 Keep Adapt Deprioritise' w='100000' x='0' y='0'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+        <zone h='50000' id='11' name='5.2 Solutions' w='100000' x='0' y='50000'><layout-cache minheight='180' minwidth='160' type-h='scalable' type-w='scalable' /><zone-style><format attr='border-color' value='#e0e5ea' /><format attr='border-style' value='solid' /><format attr='border-width' value='1' /><format attr='margin' value='4' /></zone-style></zone>
+      </zone>
+    </zones>
+    <simple-id uuid='{686A9BCC-6D81-23D4-C234-23BF2375EEC0}' />
+  </dashboard>
+  </dashboards>
+  <windows source-height='30'>
+    <window class='worksheet' name='1.1 Conversation by month'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{EBAF11D3-1689-647E-DA24-808CC893EC85}' />
+    </window>
+    <window class='worksheet' name='1.2 Bengaluru event register'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{C9092E0D-9174-D021-7316-7ED4B7C4A03B}' />
+    </window>
+    <window class='worksheet' name='1.3 Boycott demands'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{59AB2C51-B958-9F3E-CFA7-1D5CAEEFE482}' />
+    </window>
+    <window class='worksheet' name='1.4 Bengaluru vs Hyderabad'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{10B6F646-FE07-A102-98F6-FAA2F2B22BB0}' />
+    </window>
+    <window class='worksheet' name='2.1 KPI overview'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{C2F693FA-3839-FE8F-ED5F-60CEA56BCA00}' />
+    </window>
+    <window class='worksheet' name='2.2 KPI detail'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{B8500E0E-C697-7F28-1333-F6F2A410713D}' />
+    </window>
+    <window class='worksheet' name='3.1 Marketing metrics'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{4C862184-4470-D0D1-D70B-F7B7E46CFBB3}' />
+    </window>
+    <window class='worksheet' name='3.2 Not estimable'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{DA164282-E8A4-79FC-ABCC-9A7B61C0E121}' />
+    </window>
+    <window class='worksheet' name='4.1 The Rs30 trade-off'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{2FFACAB7-EEB1-F964-B3FA-95A9C7FECAAA}' />
+    </window>
+    <window class='worksheet' name='4.2 Price by restaurant'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{91EB879E-48F8-C874-8302-1AEB14EC1C44}' />
+    </window>
+    <window class='worksheet' name='4.3 Price erosion'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{96BE882B-4DA1-2D69-5303-FB71BEBB8DED}' />
+    </window>
+    <window class='worksheet' name='4.4 Fee load'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{157DE7B0-E23A-414B-DFA3-33569CEE2ED1}' />
+    </window>
+    <window class='worksheet' name='4.5 Review ratings'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{26CF91F1-D558-A754-B46F-6D9EFD90BA37}' />
+    </window>
+    <window class='worksheet' name='4.6 Themes by who is speaking'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{FC0F433B-8A35-72AE-1995-D1B3AB0FF765}' />
+    </window>
+    <window class='worksheet' name='4.7 Sentiment by audience'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{17A7A98C-0FC4-A20C-D2EB-E9A25D2BB34D}' />
+    </window>
+    <window class='worksheet' name='4.8 YouTube pre vs post launch'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{0DD2FAB5-95EE-D3EC-090B-06D2E1DAB3FD}' />
+    </window>
+    <window class='worksheet' name='4.9 Topic terms'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{ACD66FDA-C4A9-4166-64F8-6AD3CC1C8CE5}' />
+    </window>
+    <window class='worksheet' name='5.1 Keep Adapt Deprioritise'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{17705A13-A383-4D23-4B8C-2942A4DD3C18}' />
+    </window>
+    <window class='worksheet' name='5.2 Solutions'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'><card type='columns' /></strip>
+          <strip size='2147483647'><card type='rows' /></strip>
+          <strip size='31'><card type='title' /></strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{A362C24E-AD96-8E84-5F12-CC4F034D2131}' />
+    </window>
+    <window class='dashboard' name='1 The case'>
+      <viewpoints>
+        <viewpoint name='1.1 Conversation by month'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='1.4 Bengaluru vs Hyderabad'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='1.2 Bengaluru event register'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='1.3 Boycott demands'><zoom type='entire-view' /></viewpoint>
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{086DEAC1-3123-7519-AFE8-985A6EFA55F2}' />
+    </window>
+    <window class='dashboard' name='2 KPIs'>
+      <viewpoints>
+        <viewpoint name='2.1 KPI overview'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='2.2 KPI detail'><zoom type='entire-view' /></viewpoint>
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{9CC56897-CC3F-9F78-E174-4F2F49501C41}' />
+    </window>
+    <window class='dashboard' name='3 Marketing metrics'>
+      <viewpoints>
+        <viewpoint name='3.1 Marketing metrics'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='3.2 Not estimable'><zoom type='entire-view' /></viewpoint>
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{5CA58924-41F6-5501-91C0-9BC6714F8473}' />
+    </window>
+    <window class='dashboard' name='4 Analysis'>
+      <viewpoints>
+        <viewpoint name='4.1 The Rs30 trade-off'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='4.3 Price erosion'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='4.2 Price by restaurant'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='4.4 Fee load'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='4.6 Themes by who is speaking'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='4.5 Review ratings'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='4.7 Sentiment by audience'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='4.9 Topic terms'><zoom type='entire-view' /></viewpoint>
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{A775E887-E791-AAF2-8707-C7B14D0F5511}' />
+    </window>
+    <window class='dashboard' name='5 Solutions'>
+      <viewpoints>
+        <viewpoint name='5.1 Keep Adapt Deprioritise'><zoom type='entire-view' /></viewpoint>
+        <viewpoint name='5.2 Solutions'><zoom type='entire-view' /></viewpoint>
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{9736F30D-932E-1F0B-32B5-66B98BB71D1D}' />
+    </window>
+  </windows>
+</workbook>

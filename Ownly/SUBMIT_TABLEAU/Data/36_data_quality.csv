@@ -1,0 +1,11 @@
+Anomaly,What We Found,How It Was Handled,Source
+Ownly recent-order count contradicts other answers,"1 catchment respondent(s) said they had ordered on Ownly AND that their first order was in the last 4 weeks, while entering 0 orders for that window.","Reported as UNAVAILABLE, not as zero. Excluded from volume-share numerator.",SURVEY
+thu_lunch audit pass carries no information,"All 30 rows record restaurant_listed='y' with no restaurant_open, no timestamp, no prices.",Excluded from coverage (rule R4). Retained and flagged in audit_clean.csv.,AUDIT
+Audit workbook is case-inconsistent,"'Zomato'/'zomato', 'Y'/'y', 'Auto offer'/'auto offer' would fork platforms, listing states and price views if left as captured.",Lower-cased before grouping (rule R1).,AUDIT
+Duplicate restaurant name,"'Aanimuthyualu unlimited' vs 'Aanimuthyalu unlimited' — same restaurant, would double-count the coverage denominator.",Merged (rule R2).,AUDIT
+Incumbent list prices captured twice,"Every Zomato 'none' capture exists twice — once with delivery fee, once without (Gold). Not duplicates: member and non-member prices of the same basket.","Split into three price views; MAX = non-member, MIN = member.",AUDIT
+Two audit rows do not reconcile,Line items do not sum to final_payable (>₹1).,"Flagged, left as captured, immaterial to matched pairs.",AUDIT
+"Age scope conflict: target says 18–35, instrument collected 20–35","The form routes out 'Under 20', so 18–19-year-olds answered nothing. A later '18–24' band also appears, overlapping two earlier bands.",Reported as '20–35 as collected'. 18–35 is not recoverable.,SURVEY
+Survey column order changed between exports,"The live sheet's column ORDER differs from the earlier CSV export, so positional mapping silently read the wrong questions.",Pipeline now maps by question text + city branch.,SURVEY
+Brand present but nearest outlet absent,"Bawarchi is on Ownly, but not the Gachibowli outlet (first-hand check, 2026-09-19).",Price capture retained. Generated H-OUTLET — see analysis.,AUDIT x USER CHECK
+One implausible bill value,A respondent reported a ₹0 order total.,"Field voided, respondent retained, no imputation.",SURVEY

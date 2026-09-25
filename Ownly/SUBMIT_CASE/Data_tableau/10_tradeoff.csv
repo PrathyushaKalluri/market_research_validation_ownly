@@ -1,0 +1,4 @@
+Give up,Sort order,Accepted,Base,Accept Pct,CI low,CI high,Refused Pct,Is the constraint
+Wait 15 minutes longer,1,37,40,92.5,80.1,97.4,7.5,No
+Accept a late order 3 times in 10,2,29,40,72.5,57.2,83.9,27.5,No
+Give up their usual restaurants,3,14,40,35.0,22.1,50.5,65.0,Yes

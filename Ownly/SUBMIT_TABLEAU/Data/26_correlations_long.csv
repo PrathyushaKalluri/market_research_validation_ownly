@@ -1,0 +1,37 @@
+Variable A,Variable B,Spearman Rho,P Value,N,Significant
+Saving required (₹),Saving required (₹),1.0,0.0,40,No
+Saving required (₹),Orders / 4wk,-0.123,0.5169,30,No
+Saving required (₹),Memberships held,0.109,0.5474,33,No
+Saving required (₹),Last bill (₹),0.37,0.0479,29,Yes
+Saving required (₹),Post-offer repeat intent,0.183,0.3086,33,No
+Saving required (₹),Price-durability doubt,0.215,0.2287,33,No
+Saving required (₹),Proposition P intent,0.091,0.6149,33,No
+Saving required (₹),Proposition Q intent,-0.069,0.7011,33,No
+Orders / 4wk,Orders / 4wk,1.0,0.0,40,No
+Orders / 4wk,Memberships held,0.044,0.8004,36,No
+Orders / 4wk,Last bill (₹),-0.018,0.918,35,No
+Orders / 4wk,Post-offer repeat intent,0.33,0.0494,36,Yes
+Orders / 4wk,Price-durability doubt,0.05,0.7702,36,No
+Orders / 4wk,Proposition P intent,0.15,0.381,36,No
+Orders / 4wk,Proposition Q intent,0.147,0.3934,36,No
+Memberships held,Memberships held,1.0,0.0,40,No
+Memberships held,Last bill (₹),-0.177,0.3094,35,No
+Memberships held,Post-offer repeat intent,0.021,0.8974,40,No
+Memberships held,Price-durability doubt,0.114,0.483,40,No
+Memberships held,Proposition P intent,0.228,0.1563,40,No
+Memberships held,Proposition Q intent,0.289,0.0701,40,No
+Last bill (₹),Last bill (₹),1.0,0.0,40,No
+Last bill (₹),Post-offer repeat intent,-0.18,0.3002,35,No
+Last bill (₹),Price-durability doubt,-0.2,0.2505,35,No
+Last bill (₹),Proposition P intent,0.152,0.3842,35,No
+Last bill (₹),Proposition Q intent,-0.171,0.3247,35,No
+Post-offer repeat intent,Post-offer repeat intent,1.0,0.0,40,No
+Post-offer repeat intent,Price-durability doubt,0.136,0.402,40,No
+Post-offer repeat intent,Proposition P intent,0.147,0.3669,40,No
+Post-offer repeat intent,Proposition Q intent,0.366,0.02,40,Yes
+Price-durability doubt,Price-durability doubt,1.0,0.0,40,No
+Price-durability doubt,Proposition P intent,0.259,0.1065,40,No
+Price-durability doubt,Proposition Q intent,0.054,0.7426,40,No
+Proposition P intent,Proposition P intent,1.0,0.0,40,No
+Proposition P intent,Proposition Q intent,0.237,0.1407,40,No
+Proposition Q intent,Proposition Q intent,1.0,0.0,40,No

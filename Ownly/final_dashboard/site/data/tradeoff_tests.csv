@@ -1,0 +1,4 @@
+comparison,n,b,c,p_value,test,interpretation
+assortment vs speed,40,24,1,1.5e-06,McNemar exact (paired),assortment vs speed: discordance 24 vs 1
+assortment vs reliability,40,19,4,0.0026,McNemar exact (paired),assortment vs reliability: discordance 19 vs 4
+reliability vs speed,40,9,1,0.021,McNemar exact (paired),reliability vs speed: discordance 9 vs 1

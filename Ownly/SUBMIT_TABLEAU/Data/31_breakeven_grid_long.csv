@@ -1,0 +1,58 @@
+Revenue Per Order Rs,Rider Cost Scenario,Contribution Per Order Rs,Is Profitable
+0,Rider Rs 45,-45.0,No
+0,Rider Rs 56.01 (industry FACT),-56.01,No
+0,Rider Rs 65,-65.0,No
+5,Rider Rs 45,-40.0,No
+5,Rider Rs 56.01 (industry FACT),-51.01,No
+5,Rider Rs 65,-60.0,No
+10,Rider Rs 45,-35.0,No
+10,Rider Rs 56.01 (industry FACT),-46.01,No
+10,Rider Rs 65,-55.0,No
+15,Rider Rs 45,-30.0,No
+15,Rider Rs 56.01 (industry FACT),-41.01,No
+15,Rider Rs 65,-50.0,No
+20,Rider Rs 45,-25.0,No
+20,Rider Rs 56.01 (industry FACT),-36.01,No
+20,Rider Rs 65,-45.0,No
+25,Rider Rs 45,-20.0,No
+25,Rider Rs 56.01 (industry FACT),-31.01,No
+25,Rider Rs 65,-40.0,No
+30,Rider Rs 45,-15.0,No
+30,Rider Rs 56.01 (industry FACT),-26.01,No
+30,Rider Rs 65,-35.0,No
+35,Rider Rs 45,-10.0,No
+35,Rider Rs 56.01 (industry FACT),-21.01,No
+35,Rider Rs 65,-30.0,No
+40,Rider Rs 45,-5.0,No
+40,Rider Rs 56.01 (industry FACT),-16.01,No
+40,Rider Rs 65,-25.0,No
+45,Rider Rs 45,0.0,Yes
+45,Rider Rs 56.01 (industry FACT),-11.01,No
+45,Rider Rs 65,-20.0,No
+50,Rider Rs 45,5.0,Yes
+50,Rider Rs 56.01 (industry FACT),-6.01,No
+50,Rider Rs 65,-15.0,No
+55,Rider Rs 45,10.0,Yes
+55,Rider Rs 56.01 (industry FACT),-1.01,No
+55,Rider Rs 65,-10.0,No
+60,Rider Rs 45,15.0,Yes
+60,Rider Rs 56.01 (industry FACT),3.99,Yes
+60,Rider Rs 65,-5.0,No
+65,Rider Rs 45,20.0,Yes
+65,Rider Rs 56.01 (industry FACT),8.99,Yes
+65,Rider Rs 65,0.0,Yes
+70,Rider Rs 45,25.0,Yes
+70,Rider Rs 56.01 (industry FACT),13.99,Yes
+70,Rider Rs 65,5.0,Yes
+75,Rider Rs 45,30.0,Yes
+75,Rider Rs 56.01 (industry FACT),18.99,Yes
+75,Rider Rs 65,10.0,Yes
+80,Rider Rs 45,35.0,Yes
+80,Rider Rs 56.01 (industry FACT),23.99,Yes
+80,Rider Rs 65,15.0,Yes
+85,Rider Rs 45,40.0,Yes
+85,Rider Rs 56.01 (industry FACT),28.99,Yes
+85,Rider Rs 65,20.0,Yes
+90,Rider Rs 45,45.0,Yes
+90,Rider Rs 56.01 (industry FACT),33.99,Yes
+90,Rider Rs 65,25.0,Yes

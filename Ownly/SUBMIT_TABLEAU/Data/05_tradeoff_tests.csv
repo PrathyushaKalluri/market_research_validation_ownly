@@ -1,0 +1,4 @@
+Comparison,Test,Base N,Discordant A Only,Discordant B Only,P Value,Significant at 0.05,Neg Log10 P
+assortment vs speed,McNemar exact (paired),40,24,1,1.5e-06,Yes,5.82
+assortment vs reliability,McNemar exact (paired),40,19,4,0.0026,Yes,2.59
+reliability vs speed,McNemar exact (paired),40,9,1,0.021,Yes,1.68

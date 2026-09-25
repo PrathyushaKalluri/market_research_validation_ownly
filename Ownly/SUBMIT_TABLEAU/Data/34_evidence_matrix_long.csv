@@ -1,0 +1,106 @@
+Dimension,Evidence Source,Strength,Strength Score,Assessment
+Price advantage exists,Survey,Present,1,SUPPORTS
+Price advantage exists,Interviews,Present,1,SUPPORTS
+Price advantage exists,Price Audit,Present,1,SUPPORTS
+Price advantage exists,App Reviews,Present,1,MIXED
+Price advantage exists,Social,Present,1,MIXED
+Price advantage exists,Secondary Research,Present,1,MIXED
+Price advantage exists,Challenger History,Present,1,SUPPORTS
+Price advantage survives offers,Survey,Present,1,NO EVIDENCE
+Price advantage survives offers,Interviews,Contradicted,0,CONTRADICTS
+Price advantage survives offers,Price Audit,Contradicted,0,CONTRADICTS
+Price advantage survives offers,App Reviews,Present,1,NO EVIDENCE
+Price advantage survives offers,Social,Contradicted,0,CONTRADICTS
+Price advantage survives offers,Secondary Research,Present,1,MIXED
+Price advantage survives offers,Challenger History,Contradicted,0,CONTRADICTS
+Assortment is the binding constraint,Survey,Present,1,SUPPORTS
+Assortment is the binding constraint,Interviews,Present,1,NO EVIDENCE
+Assortment is the binding constraint,Price Audit,Present,1,SUPPORTS
+Assortment is the binding constraint,App Reviews,Present,1,MIXED
+Assortment is the binding constraint,Social,Present,1,MIXED
+Assortment is the binding constraint,Secondary Research,Present,1,SUPPORTS
+Assortment is the binding constraint,Challenger History,Present,1,SUPPORTS
+Speed deficit blocks adoption,Survey,Contradicted,0,CONTRADICTS
+Speed deficit blocks adoption,Interviews,Contradicted,0,CONTRADICTS
+Speed deficit blocks adoption,Price Audit,Present,1,SUPPORTS
+Speed deficit blocks adoption,App Reviews,Present,1,MIXED
+Speed deficit blocks adoption,Social,Present,1,MIXED
+Speed deficit blocks adoption,Secondary Research,Present,1,NO EVIDENCE
+Speed deficit blocks adoption,Challenger History,Present,1,SUPPORTS
+Reliability blocks TRIAL,Survey,Contradicted,0,CONTRADICTS
+Reliability blocks TRIAL,Interviews,Contradicted,0,CONTRADICTS
+Reliability blocks TRIAL,Price Audit,Present,1,NO EVIDENCE
+Reliability blocks TRIAL,App Reviews,Present,1,MIXED
+Reliability blocks TRIAL,Social,Present,1,MIXED
+Reliability blocks TRIAL,Secondary Research,Present,1,NO EVIDENCE
+Reliability blocks TRIAL,Challenger History,Present,1,MIXED
+Bad orders drive CHURN,Survey,Present,1,NO EVIDENCE
+Bad orders drive CHURN,Interviews,Present,1,SUPPORTS
+Bad orders drive CHURN,Price Audit,Present,1,NO EVIDENCE
+Bad orders drive CHURN,App Reviews,Present,1,SUPPORTS
+Bad orders drive CHURN,Social,Present,1,SUPPORTS
+Bad orders drive CHURN,Secondary Research,Present,1,NO EVIDENCE
+Bad orders drive CHURN,Challenger History,Present,1,SUPPORTS
+Support/refund is a risk,Survey,Present,1,NO EVIDENCE
+Support/refund is a risk,Interviews,Present,1,NO EVIDENCE
+Support/refund is a risk,Price Audit,Present,1,NO EVIDENCE
+Support/refund is a risk,App Reviews,Present,1,SUPPORTS
+Support/refund is a risk,Social,Present,1,SUPPORTS
+Support/refund is a risk,Secondary Research,Present,1,NO EVIDENCE
+Support/refund is a risk,Challenger History,Present,1,SUPPORTS
+Rapido creates real discovery,Survey,Contradicted,0,CONTRADICTS
+Rapido creates real discovery,Interviews,Contradicted,0,CONTRADICTS
+Rapido creates real discovery,Price Audit,Present,1,NO EVIDENCE
+Rapido creates real discovery,App Reviews,Present,1,NO EVIDENCE
+Rapido creates real discovery,Social,Present,1,MIXED
+Rapido creates real discovery,Secondary Research,Present,1,MIXED
+Rapido creates real discovery,Challenger History,Contradicted,0,CONTRADICTS
+Membership lock-in is material,Survey,Present,1,SUPPORTS
+Membership lock-in is material,Interviews,Present,1,SUPPORTS
+Membership lock-in is material,Price Audit,Present,1,SUPPORTS
+Membership lock-in is material,App Reviews,Present,1,NO EVIDENCE
+Membership lock-in is material,Social,Present,1,SUPPORTS
+Membership lock-in is material,Secondary Research,Present,1,SUPPORTS
+Membership lock-in is material,Challenger History,Present,1,SUPPORTS
+Price durability is doubted,Survey,Present,1,SUPPORTS
+Price durability is doubted,Interviews,Present,1,SUPPORTS
+Price durability is doubted,Price Audit,Present,1,NO EVIDENCE
+Price durability is doubted,App Reviews,Present,1,NO EVIDENCE
+Price durability is doubted,Social,Present,1,SUPPORTS
+Price durability is doubted,Secondary Research,Present,1,SUPPORTS
+Price durability is doubted,Challenger History,Present,1,SUPPORTS
+Hygiene / food-quality trust,Survey,Present,1,NO EVIDENCE
+Hygiene / food-quality trust,Interviews,Present,1,SUPPORTS
+Hygiene / food-quality trust,Price Audit,Present,1,NO EVIDENCE
+Hygiene / food-quality trust,App Reviews,Present,1,SUPPORTS
+Hygiene / food-quality trust,Social,Present,1,MIXED
+Hygiene / food-quality trust,Secondary Research,Present,1,NO EVIDENCE
+Hygiene / food-quality trust,Challenger History,Present,1,NO EVIDENCE
+Very low price signals low quality,Survey,Present,1,NO EVIDENCE
+Very low price signals low quality,Interviews,Present,1,SUPPORTS
+Very low price signals low quality,Price Audit,Present,1,NO EVIDENCE
+Very low price signals low quality,App Reviews,Present,1,NO EVIDENCE
+Very low price signals low quality,Social,Present,1,MIXED
+Very low price signals low quality,Secondary Research,Present,1,NO EVIDENCE
+Very low price signals low quality,Challenger History,Present,1,NO EVIDENCE
+Late-night availability gap,Survey,Present,1,NO EVIDENCE
+Late-night availability gap,Interviews,Present,1,NO EVIDENCE
+Late-night availability gap,Price Audit,Present,1,MIXED
+Late-night availability gap,App Reviews,Present,1,NO EVIDENCE
+Late-night availability gap,Social,Present,1,SUPPORTS
+Late-night availability gap,Secondary Research,Present,1,NO EVIDENCE
+Late-night availability gap,Challenger History,Present,1,NO EVIDENCE
+Rider supply is sustainable,Survey,Present,1,NO EVIDENCE
+Rider supply is sustainable,Interviews,Present,1,NO EVIDENCE
+Rider supply is sustainable,Price Audit,Present,1,NO EVIDENCE
+Rider supply is sustainable,App Reviews,Present,1,NO EVIDENCE
+Rider supply is sustainable,Social,Contradicted,0,CONTRADICTS
+Rider supply is sustainable,Secondary Research,Present,1,NO EVIDENCE
+Rider supply is sustainable,Challenger History,Contradicted,0,CONTRADICTS
+Sustainable unit economics,Survey,Present,1,NO EVIDENCE
+Sustainable unit economics,Interviews,Present,1,NO EVIDENCE
+Sustainable unit economics,Price Audit,Present,1,NO EVIDENCE
+Sustainable unit economics,App Reviews,Present,1,NO EVIDENCE
+Sustainable unit economics,Social,Contradicted,0,CONTRADICTS
+Sustainable unit economics,Secondary Research,Contradicted,0,CONTRADICTS
+Sustainable unit economics,Challenger History,Contradicted,0,CONTRADICTS

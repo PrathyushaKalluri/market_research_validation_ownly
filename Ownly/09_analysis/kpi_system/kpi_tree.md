@@ -10,7 +10,6 @@ If v7 is fielded instead, see `data_gap_map.md` §4.
 > **Standard:** no vanity metrics, no false precision, no invented Ownly metrics. Every KPI names the decision it enables.
 > **Status on 2026-09-16:** no primary data has been collected yet (survey 0, fake door not deployed, audit fields empty,
 > interviews 0). Every primary-data KPI below is **designed and calculable once data arrives**. None has a value yet.
-
 ---
 
 ## 1. Ownly's real strategic metric logic

@@ -1,0 +1,15 @@
+KPI,Question it answers,Value,Unit,CI low,CI high,Base,Source,Why it matters
+Awareness,Do people know Ownly exists?,42.5,%,28.5,57.8,17 of 40,Survey,Top of the funnel. Weeks-old brand in Hyderabad.
+Browse rate,Did they open it?,17.5,%,8.7,31.9,7 of 40,Survey,Stronger than awareness: it is an action.
+Trial rate,Did they order?,5.0,%,1.4,16.5,2 of 40,Survey,2 people. Directional only.
+Membership lock-in,Do they already pay a rival?,82.5,%,68.1,91.3,33 of 40,Survey,The single biggest barrier: a membership cancels the list-price saving.
+Multi-homing,Do they use more than one app?,57.5,%,42.2,71.5,23 of 40,Survey,Good news: becoming a second app is a lower bar than replacing the first.
+Rapido usage,Can Rapido reach them?,60.0,%,44.6,73.7,24 of 40,Survey,Reach exists.
+Rapido food discovery,Did they notice food inside Rapido?,15.2,%,6.7,30.9,5 of 33,Survey,Reach is not discovery. This is the gap.
+Price-durability doubt,Do they believe prices will last?,87.5,%,73.9,94.5,35 of 40,Survey,A price promise only works if believed.
+Post-offer repeat intent,Would they stay after the offer?,25.0,%,14.2,40.2,10 of 40,Survey,"Closest proxy for retention. Stated, not observed."
+Restaurant coverage,Is the audit frame on Ownly?,90.0,%,59.6,98.2,9 of 10,Audit,Breadth is fine; depth is unmeasured.
+Catalogue overlap,Are they the same restaurants?,88.9,%,56.5,98.0,8 of 9,Audit,"The 'no new use case' risk, measured."
+Quoted ETA gap,How much slower?,17.0,min,,,39 captures,Audit,Flat across all four restaurants.
+Median saving,"How much cheaper, in rupees?",114.5,Rs,,,4 baskets,Audit,Before any rival coupon.
+Switching bar,How much do they need to save?,30.0,Rs,,,33 named a figure,Survey,The bar the saving has to clear.

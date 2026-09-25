@@ -1,0 +1,13 @@
+restaurant_display,basket_id,slot,view,ownly_payable,cheapest_incumbent,incumbent_payable,saving_rs,saving_pct,ownly_wins,ownly_eta_mid,incumbent_eta_mid
+Bawarchi,B1,wed_dinner,LIST+FEES,205.8,zomato,247.64,41.839999999999975,16.89549345824583,True,38.5,17.5
+Cream Stone,B2,wed_dinner,LIST+FEES,187.95,zomato,259.14,71.19,27.47163695299838,True,30.0,12.5
+Paradise Biryani,B1,wed_dinner,LIST+FEES,313.95,swiggy,471.76,157.81,33.45133118534848,True,46.5,22.5
+Shah Ghouse,B1,wed_dinner,LIST+FEES,157.5,swiggy,332.0,174.5,52.56024096385542,True,40.5,22.5
+Bawarchi,B1,wed_dinner,MEMBER,205.8,zomato,205.64,-0.160000000000025,-0.07780587434352511,False,38.5,17.5
+Cream Stone,B2,wed_dinner,MEMBER,187.95,zomato,216.14,28.189999999999998,13.04247247154622,True,30.0,12.5
+Paradise Biryani,B1,wed_dinner,MEMBER,313.95,zomato,441.76,127.81,28.931999275624776,True,46.5,22.5
+Shah Ghouse,B1,wed_dinner,MEMBER,157.5,zomato,284.49,126.99000000000001,44.63777285669092,True,40.5,22.5
+Bawarchi,B1,wed_dinner,AFTER OFFER,155.8,swiggy,45.0,-110.80000000000001,-246.22222222222226,False,38.5,17.5
+Cream Stone,B2,wed_dinner,AFTER OFFER,137.95,swiggy,158.0,20.05000000000001,12.689873417721525,True,30.0,12.5
+Paradise Biryani,B1,wed_dinner,AFTER OFFER,263.95,swiggy,187.76,-76.19,-40.57839795483596,False,46.5,22.5
+Shah Ghouse,B1,wed_dinner,AFTER OFFER,107.5,swiggy,195.0,87.5,44.871794871794876,True,40.5,22.5

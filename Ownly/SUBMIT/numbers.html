@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every Number, Explained</title>
+<style>
+:root{
+  --ground:#f1f4f7; --paper:#ffffff; --paper2:#f8fafb; --ink:#10151a; --ink2:#48535e; --muted:#7b8590;
+  --line:#e3e8ec; --line2:#c9d1d8; --accent:#2a78d6; --soft:#e9f1fc;
+  --good:#0ca30c; --goodink:#006300; --warn:#fab219; --warnink:#8a5d00; --crit:#d03b3b;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;}
+body{margin:0;padding:0 20px;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:960px;margin:0 auto;}
+header{padding-block:44px 22px;}
+h1{font-size:clamp(26px,4.2vw,38px);line-height:1.12;letter-spacing:-.022em;margin:0 0 12px;font-weight:700;}
+h2{font-size:21px;margin:0 0 10px;font-weight:700;letter-spacing:-.014em;}
+p{margin:0 0 14px;color:var(--ink2);}
+.lede{font-size:17px;}
+b,strong{color:var(--ink);font-weight:600;}
+code{font-family:var(--mono);font-size:.88em;background:var(--paper2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+
+/* search */
+#tools{position:sticky;top:0;z-index:30;margin:0 -20px 0;padding:12px 20px;background:rgba(241,244,247,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+#tools .in{max-width:960px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+#q{flex:1;min-width:200px;font:inherit;font-size:14px;padding:9px 13px;border:1px solid var(--line2);border-radius:7px;background:var(--paper);color:var(--ink);}
+#q:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);}
+#count{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap;}
+
+section{padding-block:34px;border-top:1px solid var(--line);}
+.entry{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:19px 21px;margin-bottom:12px;}
+.entry.hide{display:none;}
+.eh{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:4px;}
+.en{font-size:16px;font-weight:600;color:var(--ink);}
+.ev{font-family:var(--mono);font-size:21px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.ev.na{color:var(--muted);font-size:14px;font-weight:600;}
+.eid{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
+.rows{display:grid;gap:7px;}
+.row{display:grid;grid-template-columns:118px 1fr;gap:12px;font-size:13.5px;align-items:baseline;}
+.row .lb{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:2px;}
+.row .vl{color:var(--ink2);min-width:0;word-wrap:break-word;}
+.row .vl code{font-size:12px;}
+.row.lim .vl{color:var(--warnink);}
+@media(max-width:560px){ .row{grid-template-columns:1fr;gap:1px;} .row .lb{padding-top:6px;} }
+
+.note{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:16px 19px;}
+.note p{margin-bottom:0;font-size:14px;}
+.note p + p{margin-top:9px;}
+footer{border-top:1px solid var(--line);padding-block:24px 46px;font-family:var(--mono);font-size:11px;line-height:1.8;color:var(--muted);}
+@media print{ #tools{display:none;} body{background:#fff;} .entry{page-break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<div id="tools"><div class="in">
+  <input id="q" type="search" placeholder="Search a number, a name, or a source file — e.g. 92.5, membership, McNemar, audit_pairs" autocomplete="off">
+  <span id="count"></span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Backup document · open this if a number is challenged</div>
+  <h1>Every number, and exactly how it was calculated.</h1>
+  <p class="lede">Each entry gives the figure, the formula in words, what was on the top and bottom of
+  the fraction, which file it comes from, and what it cannot be used to claim.</p>
+  <div class="note">
+    <p><b>The one rule that governs this whole study:</b> if a figure could not be computed from
+    evidence actually held, it is marked <b>NOT COMPUTABLE</b> with a reason. Nothing is estimated,
+    imputed or filled in to look complete.</p>
+    <p><b>All confidence intervals are Wilson score intervals at 95%.</b> They are reported on every
+    proportion because at n = 40 a point estimate alone would overstate what the sample supports.</p>
+  </div>
+</header>
+
+<!-- ───────── THE HEADLINE THREE ───────── -->
+<section>
+  <h2>The ₹30 trade-off — the study's central result</h2>
+  <p>Design: each respondent chose between <b>₹260</b> and <b>₹230</b> three times. The ₹30 saving
+  never changed; only the thing sacrificed changed. Same people, all three times — which is why the
+  significance test is a paired one.</p>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Will trade speed for ₹30</span><span class="ev">92.5%</span></div>
+    <div class="eid">K20 · data/tradeoff_summary.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">chose the ₹230 option (arrives in 45 min) ÷ respondents answering</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">37 ÷ 40</span></div>
+      <div class="row"><span class="lb">95% CI</span><span class="vl">80.1% – 97.4%</span></div>
+      <div class="row"><span class="lb">Evidence</span><span class="vl">Survey — stated preference, paired design</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">That 92.5% actually would wait. It is a constructed choice at a single price point, not observed behaviour.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Will trade reliability for ₹30</span><span class="ev">72.5%</span></div>
+    <div class="eid">K21 · data/tradeoff_summary.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">chose ₹230 (late 3 times in 10) over ₹260 (late 1 in 10) ÷ respondents answering</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">29 ÷ 40</span></div>
+      <div class="row"><span class="lb">95% CI</span><span class="vl">57.2% – 83.9%</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">That users tolerate unreliability generally. Interviews show they accept it when choosing and leave after it repeats.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Will trade usual restaurants for ₹30</span><span class="ev">35.0%</span></div>
+    <div class="eid">K22 · data/tradeoff_summary.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">chose ₹230 (most usual restaurants unavailable) ÷ respondents answering</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">14 ÷ 40 — so <b>65% paid the ₹30 premium to keep their restaurants</b> (MM7)</span></div>
+      <div class="row"><span class="lb">95% CI</span><span class="vl">22.1% – 50.5%</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">A specific restaurant-count threshold. The item says "most of your usual restaurants", not a number.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">McNemar exact — restaurants vs speed</span><span class="ev">p = 1.5×10⁻⁶</span></div>
+    <div class="eid">data/tradeoff_tests.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">What it does</span><span class="vl">Ignores everyone who answered both scenarios the same way. Looks only at the people who <b>switched</b>, and asks whether switching went one way more than chance allows.</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">24 accepted the delay but refused to lose restaurants; <b>1</b> did the reverse. Two-sided exact binomial on 25 discordant pairs.</span></div>
+      <div class="row"><span class="lb">Plain words</span><span class="vl">A 24-to-1 split happens by chance about once in 670,000 times.</span></div>
+      <div class="row"><span class="lb">Why this test</span><span class="vl">The same 40 people answered both. An unpaired test (chi-square, two-proportion z) would ignore that pairing and be wrong here.</span></div>
+      <div class="row lim"><span class="lb">Note</span><span class="vl">The related reliability-vs-speed test (p = 0.021, 9 vs 1) is the weakest of the three and would not survive a strict multiple-comparison correction.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── PRICE ───────── -->
+<section>
+  <h2>Price and the audit</h2>
+  <p>Method: identical baskets built on Ownly, Swiggy and Zomato at the same Gachibowli address
+  (DP1), Wednesday dinner slot, 16 September 2026, within the same capture window. Screenshots
+  retained for every capture.</p>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Price win rate — list price + fees</span><span class="ev">100.0%</span></div>
+    <div class="eid">K1a · data/audit_pairs.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">baskets where Ownly's final payable is lowest ÷ all matched baskets</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">4 ÷ 4 — Bawarchi, Cream Stone, Paradise Biryani, Shah Ghouse</span></div>
+      <div class="row"><span class="lb">Same, with membership</span><span class="vl"><b>75.0%</b> (3 of 4) — K1b</span></div>
+      <div class="row"><span class="lb">Same, after coupon</span><span class="vl"><b>50.0%</b> (2 of 4) — K1c</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">A market-wide price advantage. n = 4, one address, one slot. The Ownly account was new (carrying an intro offer); the incumbent accounts were subscribed.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Median basket saving</span><span class="ev">₹114.50</span></div>
+    <div class="eid">K2 · data/audit_pairs.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">median( cheapest incumbent final payable − Ownly final payable ), list + fees view</span></div>
+      <div class="row"><span class="lb">The four</span><span class="vl">₹41.84 · ₹71.19 · ₹157.81 · ₹174.50 → median ₹114.50 (30.5%)</span></div>
+      <div class="row"><span class="lb">Worked example</span><span class="vl">Cream Stone, basket B2. Ownly: menu ₹179.00 + GST ₹8.95 + ₹0 fees = <b>₹187.95</b>. Zomato: menu ₹189.00 + delivery ₹43.00 + platform ₹14.99 + GST ₹12.15 = <b>₹259.14</b>. Difference <b>₹71.19</b>, of which only <b>₹10</b> is the food price.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">That this holds at other dayparts or addresses, or after any coupon.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Fee load — non-food share of bill</span><span class="ev">5.2%</span></div>
+    <div class="eid">K3 · data/audit_clean.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">(packaging + platform + delivery + small-cart + surge + GST) ÷ final payable, median across priced captures</span></div>
+      <div class="row"><span class="lb">Comparison</span><span class="vl">Incumbent median <b>23.4%</b>. On zero-discount captures only: Ownly <b>4.8%</b>, Zomato <b>15.1%</b>, Swiggy <b>27.4%</b>.</span></div>
+      <div class="row"><span class="lb">Why it matters</span><span class="vl">This is the structural half of the advantage. A discount is funded and can stop; not charging a fee needs no funding.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">Anything about Ownly's own margins. This is the customer's bill, not the company's P&amp;L.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Switch-Threshold Coverage</span><span class="ev">81.1%</span></div>
+    <div class="eid">MM1 · our own definition · data/switch_threshold_coverage.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">person × basket pairs where the observed Ownly saving ≥ that person's own stated required recurring saving ÷ all such pairs</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">107 ÷ 132 pairs = 33 respondents who named a rupee figure × 4 audited baskets</span></div>
+      <div class="row"><span class="lb">The three views</span><span class="vl">List + fees <b>81.1%</b> (median +₹114.50) → with membership <b>56.1%</b> (+₹77.59) → after coupon <b>27.3%</b> (<b>−₹28.07</b>, Ownly dearer)</span></div>
+      <div class="row"><span class="lb">Held out</span><span class="vl">4 respondents said no amount would move them; 3 said they didn't know. Excluded from the median rather than coded as zero or infinity.</span></div>
+      <div class="row"><span class="lb">Why we built it</span><span class="vl">The standard formula sheet has no metric for "is the saving big enough <i>for these particular people</i>". Comparing an observed price against a stated threshold answers the decision question directly.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">It is not a conversion rate. It is a cross-product of a stated threshold and an observed price, on n = 4 baskets.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Required recurring saving to switch</span><span class="ev">₹30</span></div>
+    <div class="eid">K13 · data/cleaned_survey.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">median of the rupee figure respondents named when asked what recurring saving would make them change their main app</span></div>
+      <div class="row"><span class="lb">Base</span><span class="vl">n = 33 named a figure. Students ₹30, working professionals ₹50.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">That ₹30 triggers switching. It is a stated threshold, not an observed one.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Quoted ETA gap vs incumbents</span><span class="ev">+17 min</span></div>
+    <div class="eid">K7 · data/audit_clean.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">median(Ownly quoted ETA) − median(incumbent quoted ETA), across 39 captures showing an ETA</span></div>
+      <div class="row"><span class="lb">Pattern</span><span class="vl">The gap is flat across all four restaurants (+17.5 to +24.0 min). A rider or batching problem produces erratic outliers; a uniform penalty across unrelated brands is the signature of fulfilling from a more distant outlet.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">Actual delivery time, or the mechanism. No test orders were placed and outlet distances were not recorded, so the supply-density explanation is a <b>hypothesis</b>, not a finding.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── MARKET ───────── -->
+<section>
+  <h2>Market conditions and the funnel</h2>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Incumbent membership lock-in</span><span class="ev">82.5%</span></div>
+    <div class="eid">K11 · data/cleaned_survey.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">holds a paid membership ÷ respondents answering</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">33 ÷ 40 · 95% CI 68.0% – 91.3%</span></div>
+      <div class="row"><span class="lb">Why it is the biggest barrier</span><span class="vl">A membership converts Ownly's structural list-price saving into no saving at all. Members never see the view Ownly wins on.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">That 82.5% of Hyderabad holds one. This sample skews student. Membership <i>held</i>, not necessarily actively used.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Cross-platform assortment overlap</span><span class="ev">88.9%</span></div>
+    <div class="eid">K5 · data/audit_coverage.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">restaurants on Ownly AND ≥1 incumbent ÷ restaurants listed on Ownly</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">8 ÷ 9. One Ownly-only restaurant observed; Pizza Hut missing from Ownly. Audit-frame coverage (K4) 9 of 10 = 90%.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">Gachibowli market coverage. The frame was built from Ownly's showcase page plus incumbent chains, so it <b>selects for restaurants present everywhere</b> and cannot detect exclusives. Ownly lists 221 restaurants at this address; we sampled 10.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Ownly funnel — awareness → browse → trial</span><span class="ev">42.5 → 17.5 → 5.0%</span></div>
+    <div class="eid">K14 / K15 / K16 · data/cleaned_survey.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Numbers</span><span class="vl">17 ÷ 40 (CI 28.5–57.8) · 7 ÷ 40 (CI 8.7–32.0) · 2 ÷ 40 (CI 1.4–16.5)</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">The 5.0% is <b>2 people</b>. Its interval spans 1.4% to 16.5% — nearly no information. The 4-week window also mostly predates Ownly's Hyderabad rollout, so a low value measures the question window as much as rejection.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Rapido food discovery rate</span><span class="ev">15.2%</span></div>
+    <div class="eid">K9 / MM8 · data/cleaned_survey.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">noticed food inside the Rapido app ÷ those answering the question ("Not sure" counted as not noticed)</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">5 ÷ 33 · 95% CI 6.7% – 30.9% · discovery <b>gap</b> = 84.8% (MM8)</span></div>
+      <div class="row"><span class="lb">Two bases — important</span><span class="vl"><b>24 of 40 (60%)</b> used Rapido in the last four weeks, from the frequency question. The 15.2% uses the 33 who answered the in-app question. <b>These denominators differ and are not combined anywhere in this study.</b></span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">Exposure. This is self-reported noticing, subject to recall.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Price-durability doubt</span><span class="ev">87.5%</span></div>
+    <div class="eid">K19 · data/cleaned_survey.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">agree + strongly agree that a new app's low prices rise once it becomes popular ÷ respondents</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">35 ÷ 40 · 95% CI 73.9% – 94.5%</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">That doubt predicts non-trial. We tested it: Spearman ρ = 0.136, p = 0.402 — no association detected, and underpowered at this n.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Post-promotion repeat intent</span><span class="ev">25.0%</span></div>
+    <div class="eid">K18 / MM9 · data/cleaned_survey.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">top-2 box on "once the ₹100 first-order offer ended, would you keep using it" ÷ respondents</span></div>
+      <div class="row"><span class="lb">Numbers</span><span class="vl">10 ÷ 40 · 95% CI 14.2% – 40.2%. Trial-to-repeat gap (MM9) = <b>52.5 pp</b>.</span></div>
+      <div class="row"><span class="lb">Why it stands in</span><span class="vl">It is the closest available proxy for the north star (D30 retention), which needs company data. Foodpanda fell from ~200k to ~5k daily orders when discounts stopped — this asks that question directly.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">Retention. This is stated intent, and people overstate future good behaviour. Labelled <b>PROXY ONLY</b> everywhere it appears.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── TEXT ───────── -->
+<section>
+  <h2>Coded public text</h2>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Fulfilment failure — first-hand Ownly users vs general discussion</span><span class="ev">49.5% vs 18.9%</span></div>
+    <div class="eid">data/review_theme_summary.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Formula</span><span class="vl">items mentioning the theme ÷ items coded as relevant, per base</span></div>
+      <div class="row"><span class="lb">Bases</span><span class="vl">First-hand accounts: 97 coded of 123 retrieved. General discussion: 264 coded of 420 retrieved. App-store reviews: 29 coded of 37 — fulfilment failure <b>72.4%</b>, support/refunds <b>79.3%</b>.</span></div>
+      <div class="row"><span class="lb">How to read it</span><span class="vl">The <b>difference between the two columns</b> carries the information, not the level of either.</span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl"><b>This is NOT an order failure rate.</b> Public posts are self-selected and people post about bad orders far more readily than good ones, so both shares overstate failure.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">YouTube — rider economics is the largest theme</span><span class="ev">27.6%</span></div>
+    <div class="eid">data/youtube_theme_summary.csv</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Numbers</span><span class="vl">29 of 105 coded comments, carrying 1,167 likes. 275 comments retrieved from two Rapido/Ownly explainer videos.</span></div>
+      <div class="row"><span class="lb">Why it matters</span><span class="vl">It is a supply-side version of the thin-economics risk — riders arguing they earn more from bike taxi than from food delivery — and <b>neither our survey nor our audit can see it.</b></span></div>
+      <div class="row lim"><span class="lb">Cannot claim</span><span class="vl">Population incidence. Self-selected viewers of Rapido-favourable videos, national rather than Gachibowli. Only 3 of 275 claim first-hand Ownly use.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── NOT COMPUTABLE ───────── -->
+<section>
+  <h2>What could not be computed, and why</h2>
+  <p>Nine KPIs and ten standard marketing metrics are marked NOT ESTIMABLE. Every one requires
+  Ownly's or Rapido's internal data.</p>
+
+  <div class="entry">
+    <div class="eh"><span class="en">D30 Retained Order Rate — the north star</span><span class="ev na">NOT COMPUTABLE</span></div>
+    <div class="eid">NS · needs company data</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Would be</span><span class="vl">D30 repeat rate (%) × average 30-day order frequency among retained users</span></div>
+      <div class="row"><span class="lb">Needs</span><span class="vl">Per-user transaction history: first-order date and subsequent order dates, per user.</span></div>
+      <div class="row"><span class="lb">Why no substitute</span><span class="vl">No survey question can stand in. Stated intent is not behaviour. K18 (25.0%) is reported as the closest proxy and labelled as such.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Contribution margin per order — the guardrail</span><span class="ev na">NOT COMPUTABLE</span></div>
+    <div class="eid">K23 · needs company data</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Why it matters</span><span class="vl">Uber Eats India lost about $2.55 per order against a $2.45 average order value — it lost more per order than the order was worth. Any repeat rate is meaningless without this.</span></div>
+      <div class="row"><span class="lb">What we did observe</span><span class="vl">Ownly charged ₹0 delivery, ₹0 platform and ₹0 packaging while taking 0% commission, so observed revenue per order in Gachibowli was <b>₹0</b> — an observation about the customer's bill, not a claim about Ownly's accounts.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">CAC · CLV · Retention rate · Market share · BDI/CDI · EBITDA · CAGR</span><span class="ev na">NOT ESTIMABLE</span></div>
+    <div class="eid">data/not_estimable.csv · formula sheets 1 &amp; 2</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Common reason</span><span class="vl">All require internal transaction, spend or cost data, or a credible market-size figure. No such figure exists publicly for Gachibowli food delivery, and a 40-person convenience sample cannot stand in for a market.</span></div>
+      <div class="row"><span class="lb">Where they would come from</span><span class="vl">Ownly / Rapido internal data, or a commissioned market study.</span></div>
+      <div class="row"><span class="lb">The finding</span><span class="vl">That the metrics determining whether Ownly survives are precisely the ones no external researcher can see <b>is itself a material result</b> about the evaluability of this business model.</span></div>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="eh"><span class="en">Preferred-restaurant coverage</span><span class="ev na">INSTRUMENT GAP</span></div>
+    <div class="eid">K6 · our own survey's limitation</div>
+    <div class="rows">
+      <div class="row"><span class="lb">Would be</span><span class="vl">respondents' own most-ordered restaurants available on Ownly ÷ their top restaurants</span></div>
+      <div class="row"><span class="lb">Why not computed</span><span class="vl">The live instrument never asks respondents to name their usual restaurants. This is our own design gap, not a data-access problem.</span></div>
+      <div class="row"><span class="lb">The fix</span><span class="vl">One extra question: "name the 3 places you order from most", then check each on Ownly. Given that 65% will not trade their usual restaurants, this is the version of coverage that would actually predict behaviour.</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Sources are files inside <b>final_dashboard/data/</b>, produced by <b>final_dashboard/scripts/</b>
+  from the raw survey export and audit captures. Pre-analysis plan frozen at
+  <b>09_analysis/PAP_frozen_2026-09-21.md</b>. Judgement calls logged in <b>_ops/decisions.md</b>.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var q = document.getElementById("q");
+  var count = document.getElementById("count");
+  var entries = Array.prototype.slice.call(document.querySelectorAll(".entry"));
+  entries.forEach(function(e){ e.dataset.hay = e.textContent.toLowerCase(); });
+
+  function run(){
+    var t = q.value.trim().toLowerCase();
+    var n = 0;
+    entries.forEach(function(e){
+      var hit = !t || e.dataset.hay.indexOf(t) !== -1;
+      e.classList.toggle("hide", !hit);
+      if (hit) n++;
+    });
+    document.querySelectorAll("section").forEach(function(s){
+      var any = s.querySelectorAll(".entry:not(.hide)").length > 0;
+      s.style.display = (!t || any) ? "" : "none";
+    });
+    count.textContent = t ? (n + " of " + entries.length + " shown") : (entries.length + " entries");
+  }
+  q.addEventListener("input", run);
+  run();
+})();
+</script>
+</body>
+</html>

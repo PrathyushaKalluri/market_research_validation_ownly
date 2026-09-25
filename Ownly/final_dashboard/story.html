@@ -1,0 +1,1346 @@
+<title>The ₹30 Question</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+
+<style>
+:root {
+  --ground:       #f2f4f6;
+  --paper:        #ffffff;
+  --paper-2:      #f8fafb;
+  --ink:          #0f1419;
+  --ink-2:        #4a545f;
+  --muted:        #767f8a;
+  --line:         #e2e6ea;
+  --line-strong:  #c6ced6;
+  --accent:       #2a78d6;
+  --accent-soft:  #e9f1fc;
+  --s1:           #2a78d6;
+  --s2:           #eb6834;
+  --s3:           #1baf7a;
+  --seq-1:        #1c5cab;
+  --seq-2:        #3987e5;
+  --seq-3:        #86b6ef;
+  --good:         #0ca30c;
+  --warn:         #fab219;
+  --crit:         #d03b3b;
+  --good-ink:     #006300;
+  --grid:         #e6eaee;
+  --axis:         #c6ced6;
+  --shadow:       0 1px 2px rgba(15,20,25,.04), 0 12px 28px -22px rgba(15,20,25,.5);
+
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body:    "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #0d1013;
+    --paper:       #171a1e;
+    --paper-2:     #1d2126;
+    --ink:         #eef1f4;
+    --ink-2:       #b4bcc4;
+    --muted:       #8b939c;
+    --line:        #2a2f35;
+    --line-strong: #3b424a;
+    --accent:      #3987e5;
+    --accent-soft: #14243a;
+    --s1:          #3987e5;
+    --s2:          #d95926;
+    --s3:          #199e70;
+    --seq-1:       #86b6ef;
+    --seq-2:       #3987e5;
+    --seq-3:       #1c5cab;
+    --good:        #0ca30c;
+    --warn:        #fab219;
+    --crit:        #d03b3b;
+    --good-ink:    #0ca30c;
+    --grid:        #262b31;
+    --axis:        #3b424a;
+    --shadow:      0 1px 2px rgba(0,0,0,.4), 0 14px 30px -20px rgba(0,0,0,.8);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:      #0d1013;
+  --paper:       #171a1e;
+  --paper-2:     #1d2126;
+  --ink:         #eef1f4;
+  --ink-2:       #b4bcc4;
+  --muted:       #8b939c;
+  --line:        #2a2f35;
+  --line-strong: #3b424a;
+  --accent:      #3987e5;
+  --accent-soft: #14243a;
+  --s1:          #3987e5;
+  --s2:          #d95926;
+  --s3:          #199e70;
+  --seq-1:       #86b6ef;
+  --seq-2:       #3987e5;
+  --seq-3:       #1c5cab;
+  --good:        #0ca30c;
+  --warn:        #fab219;
+  --crit:        #d03b3b;
+  --good-ink:    #0ca30c;
+  --grid:        #262b31;
+  --axis:        #3b424a;
+  --shadow:      0 1px 2px rgba(0,0,0,.4), 0 14px 30px -20px rgba(0,0,0,.8);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- progress rail ---------- */
+#rail {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  margin: 0 -20px 0;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+#rail-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 9px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#rail-beat { color: var(--ink-2); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#rail-track { flex: 1; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; min-width: 40px; }
+#rail-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; }
+#rail-pct { font-variant-numeric: tabular-nums; }
+
+/* ---------- layout ---------- */
+.wrap  { max-width: 980px; margin: 0 auto; }
+.col   { max-width: 660px; }
+main   { display: block; }
+
+.beat {
+  padding-block: 54px;
+  border-top: 1px solid var(--line);
+}
+.beat:first-of-type { border-top: 0; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.eyebrow b {
+  color: var(--accent);
+  font-weight: 600;
+}
+.eyebrow .rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  min-width: 20px;
+  transform: translateY(-3px);
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(2.1rem, 6.2vw, 3.6rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  margin: 0 0 22px;
+}
+h2 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.55rem, 4.2vw, 2.2rem);
+  line-height: 1.16;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+  margin: 0 0 16px;
+}
+h3 {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -.005em;
+  margin: 0 0 10px;
+}
+p { margin: 0 0 16px; color: var(--ink-2); }
+.col p:last-child { margin-bottom: 0; }
+.lede { font-size: 1.08rem; color: var(--ink-2); }
+strong { color: var(--ink); font-weight: 600; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- hero ---------- */
+.hero { padding-block: 52px 46px; }
+.hero .kicker {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.answer {
+  border-left: 3px solid var(--accent);
+  padding: 2px 0 2px 20px;
+  margin: 26px 0 30px;
+  max-width: 660px;
+}
+.answer p { font-size: 1.12rem; color: var(--ink); margin: 0; }
+.answer p + p { margin-top: 12px; color: var(--ink-2); font-size: 1rem; }
+
+.scope {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin-top: 28px;
+}
+.chip {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: .04em;
+  color: var(--ink-2);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.chip b { color: var(--ink); font-weight: 600; }
+
+/* ---------- figure shell ---------- */
+figure {
+  margin: 28px 0 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+figure > figcaption {
+  font-family: var(--body);
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+figure .sub {
+  font-size: .85rem;
+  color: var(--muted);
+  margin: 0 0 18px;
+  line-height: 1.5;
+}
+figure svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0 0 16px;
+  font-size: .82rem;
+  color: var(--ink-2);
+}
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.swatch { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+
+/* ---------- source note ---------- */
+.source {
+  margin-top: 18px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.65;
+  color: var(--muted);
+  letter-spacing: .01em;
+}
+.source b { color: var(--ink-2); font-weight: 500; }
+
+/* ---------- stat row ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 28px 0 0;
+}
+.stat { background: var(--paper); padding: 18px 18px 16px; }
+.stat .v {
+  font-family: var(--body);
+  font-size: 1.95rem;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.05;
+  color: var(--ink);
+  display: block;
+}
+.stat .k {
+  font-size: .8rem;
+  color: var(--ink-2);
+  margin-top: 7px;
+  line-height: 1.4;
+  display: block;
+}
+.stat .ci {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 5px;
+  display: block;
+}
+
+/* ---------- receipt ---------- */
+.receipts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 4px;
+}
+.receipt {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.85;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 16px 14px;
+}
+.receipt .head {
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding-bottom: 9px;
+  margin-bottom: 9px;
+  border-bottom: 1px dashed var(--line-strong);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.receipt .head .tag { color: var(--muted); font-weight: 400; }
+.receipt .row { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-2); }
+.receipt .row span:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.receipt .row.fee span { color: var(--s2); }
+.receipt .row.fee.zero span { color: var(--good-ink); }
+.receipt .total {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px dashed var(--line-strong);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14px;
+}
+.receipt .total span:last-child { font-variant-numeric: tabular-nums; }
+.receipt .eta { color: var(--muted); font-size: 11px; margin-top: 7px; letter-spacing: .03em; }
+.delta {
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-radius: 7px;
+  padding: 11px 14px;
+  line-height: 1.6;
+}
+
+/* ---------- table ---------- */
+.tablewrap { overflow-x: auto; margin-top: 4px; -webkit-overflow-scrolling: touch; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 620px;
+  font-size: .855rem;
+}
+th, td {
+  text-align: left;
+  padding: 10px 14px 10px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+th {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  border-bottom-color: var(--line-strong);
+  white-space: nowrap;
+}
+td { color: var(--ink-2); }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: .8rem; padding-right: 0; }
+tbody tr:last-child td { border-bottom: 0; }
+td b { color: var(--ink); }
+
+.verdict-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  display: inline-block;
+}
+.t-keep { background: color-mix(in srgb, var(--good) 15%, transparent); color: var(--good-ink); }
+.t-null { background: color-mix(in srgb, var(--muted) 18%, transparent); color: var(--ink-2); }
+.t-hit  { background: color-mix(in srgb, var(--crit) 15%, transparent); color: var(--crit); }
+
+/* ---------- verdict columns ---------- */
+.calls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+.call {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 20px 20px;
+  box-shadow: var(--shadow);
+  border-top: 3px solid var(--bar);
+}
+.call.keep { --bar: var(--good); }
+.call.adapt { --bar: var(--warn); }
+.call.drop { --bar: var(--crit); }
+.call .label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 16px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+}
+.call .label svg { width: 15px; height: 15px; flex: none; }
+.call ul { margin: 0; padding-left: 0; list-style: none; }
+.call li {
+  font-size: .89rem;
+  color: var(--ink-2);
+  line-height: 1.55;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
+}
+.call li:first-child { border-top: 0; padding-top: 2px; }
+.call li b { color: var(--ink); display: block; margin-bottom: 2px; }
+
+/* ---------- quote ---------- */
+blockquote {
+  margin: 26px 0 0;
+  padding: 0 0 0 20px;
+  border-left: 2px solid var(--line-strong);
+  font-family: var(--display);
+  font-size: 1.16rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink);
+}
+blockquote cite {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- sample ladder ---------- */
+.ladder { margin-top: 4px; }
+.rung { padding: 11px 0; border-bottom: 1px solid var(--line); }
+.rung:last-child { border-bottom: 0; }
+.rung .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 7px;
+}
+.rung .name { font-size: .89rem; color: var(--ink); font-weight: 500; }
+.rung .cnt { font-family: var(--mono); font-size: .85rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.rung .cnt em { font-style: normal; color: var(--muted); font-size: 11px; margin-left: 6px; }
+.rung .track { height: 9px; background: var(--grid); border-radius: 3px; overflow: hidden; }
+.rung .fill { height: 100%; border-radius: 3px; }
+
+/* ---------- callout ---------- */
+.callout {
+  margin-top: 28px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+.callout h3 { margin-bottom: 8px; }
+.callout p { margin-bottom: 0; font-size: .92rem; }
+.callout p + p { margin-top: 10px; }
+
+/* ---------- arms ---------- */
+.arms { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 4px; }
+.arm { background: var(--paper-2); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px 18px; }
+.arm .aid {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.arm.a .aid { color: var(--s1); }
+.arm.b .aid { color: var(--s2); }
+.arm .copy { font-family: var(--display); font-size: 1.14rem; line-height: 1.32; color: var(--ink); margin-bottom: 9px; }
+.arm .note { font-size: .82rem; color: var(--muted); margin: 0; line-height: 1.5; }
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 4px;
+  margin-top: 18px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.flow code {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+.flow .arr { color: var(--muted); padding: 0 1px; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding-block: 32px 48px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--muted);
+  letter-spacing: .01em;
+}
+footer b { color: var(--ink-2); font-weight: 500; }
+
+@media (max-width: 560px) {
+  .beat { padding-block: 42px; }
+  figure { padding: 18px 16px; }
+  .stat { padding: 15px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+
+<div id="rail">
+  <div id="rail-inner">
+    <span id="rail-beat">Ownly · Gachibowli</span>
+    <span id="rail-track"><span id="rail-fill"></span></span>
+    <span id="rail-pct" class="num">0%</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<header class="hero">
+  <p class="kicker">Market research &amp; validation · Gachibowli, Hyderabad · September 2026</p>
+  <h1>Ownly is ₹114 cheaper. We went to find out whether that is enough.</h1>
+  <div class="answer">
+    <p>It is not — but not for the reason anyone expected.</p>
+    <p>People in Gachibowli will happily wait <strong>15 minutes longer</strong> to save ₹30. They will
+    accept a <strong>late order 3 times in 10</strong> to save ₹30. What they will not give up, at any
+    price we tested, is <strong>the restaurants they already order from</strong>.</p>
+  </div>
+  <div class="scope">
+    <span class="chip"><b>40</b> survey respondents in the catchment</span>
+    <span class="chip"><b>4</b> matched price baskets</span>
+    <span class="chip"><b>10</b> restaurants audited</span>
+    <span class="chip"><b>420</b> social posts coded</span>
+    <span class="chip"><b>275</b> YouTube comments</span>
+    <span class="chip"><b>1</b> experiment, designed &amp; powered</span>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════ 01 · THE QUESTION ═══════════════════════ -->
+<section class="beat" data-beat="The question">
+  <div class="col">
+    <p class="eyebrow"><b>01</b> The question <span class="rule"></span></p>
+    <h2>A cheap first order is easy to buy. A habit is not.</h2>
+    <p class="lede">Ownly is a new food-delivery app, backed by the bike-taxi company Rapido. Its pitch is
+    simple: it charges restaurants no commission, so your bill is lower. It launched in Bengaluru and is
+    now live in Hyderabad.</p>
+    <p>Every food-delivery challenger India has seen — Foodpanda, Uber Eats, Amazon Food — bought its
+    first orders with discounts and then disappeared when the discounts stopped. Foodpanda went from
+    roughly 200,000 daily orders to about 5,000 when it turned the money off.</p>
+    <p>So the question is not "will people try it". Discounts guarantee trial. The question we set out
+    to answer is:</p>
+    <blockquote>
+      How large and durable must Ownly's price advantage be to break Swiggy and Zomato's hold in
+      Gachibowli — and what else has to be true for a cheap first order to become a repeat habit?
+    </blockquote>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 02 · WHO WE ASKED ═══════════════════════ -->
+<section class="beat" data-beat="Who we asked">
+  <div class="col">
+    <p class="eyebrow"><b>02</b> Who we asked <span class="rule"></span></p>
+    <h2>124 people answered. 40 of them were the people this study is about.</h2>
+    <p>We did not treat every response as equal. The study is about one catchment — Gachibowli and the
+    neighbourhoods that order into it — and one age band. Everyone else is kept in the dataset and
+    reported separately, never silently dropped.</p>
+  </div>
+
+  <figure>
+    <figcaption>From every response down to the study population</figcaption>
+    <p class="sub">Each row is a filter applied in order. The full 124 rows remain in the dataset with
+    exclusion flags attached.</p>
+    <div class="ladder">
+      <div class="rung">
+        <div class="top"><span class="name">All responses received</span><span class="cnt">124</span></div>
+        <div class="track"><div class="fill" style="width:100%;background:var(--seq-1)"></div></div>
+      </div>
+      <div class="rung">
+        <div class="top"><span class="name">Answered the Hyderabad branch</span><span class="cnt">78 <em>−46</em></span></div>
+        <div class="track"><div class="fill" style="width:62.9%;background:var(--seq-2)"></div></div>
+      </div>
+      <div class="rung">
+        <div class="top"><span class="name">Passed the age screen (20–35)</span><span class="cnt">52 <em>−26</em></span></div>
+        <div class="track"><div class="fill" style="width:41.9%;background:var(--seq-2)"></div></div>
+      </div>
+      <div class="rung">
+        <div class="top"><span class="name">Inside the Gachibowli catchment</span><span class="cnt">40 <em>−12</em></span></div>
+        <div class="track"><div class="fill" style="width:32.3%;background:var(--seq-3)"></div></div>
+      </div>
+      <div class="rung">
+        <div class="top"><span class="name">Gachibowli proper</span><span class="cnt">34</span></div>
+        <div class="track"><div class="fill" style="width:27.4%;background:var(--seq-3)"></div></div>
+      </div>
+    </div>
+    <p class="source"><b>Source</b> · <code>data/research_funnel.csv</code>, built by <code>scripts/01_clean_survey.py</code>.
+    <b>Read this as</b> — every percentage later in this page has n = 40 unless it says otherwise. That is a
+    small sample: we report a 95% confidence interval on every single figure rather than quoting a number alone.</p>
+  </figure>
+
+  <div class="stats">
+    <div class="stat"><span class="v num">82.5%</span><span class="k">hold a paid Swiggy One or Zomato Gold membership</span><span class="ci">95% CI 68.0 – 91.3</span></div>
+    <div class="stat"><span class="v num">57.5%</span><span class="k">use more than one delivery app already</span><span class="ci">95% CI 42.2 – 71.5</span></div>
+    <div class="stat"><span class="v num">80%</span><span class="k">are students; the rest work</span><span class="ci">32 of 40</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 03 · THE ₹30 EQUATION ═══════════════════════ -->
+<section class="beat" data-beat="The ₹30 equation">
+  <div class="col">
+    <p class="eyebrow"><b>03</b> The finding that decides everything <span class="rule"></span></p>
+    <h2>We held ₹30 constant and changed only what you give up for it.</h2>
+    <p class="lede">This is the core experiment inside the survey, and it is worth understanding properly
+    because everything else follows from it.</p>
+    <p>Each respondent saw three separate choices. Every time, the same two prices: <strong>₹260</strong>
+    or <strong>₹230</strong>. The saving never changed. Only the <em>cost</em> of the saving changed —
+    wait longer, risk a late order, or lose your usual restaurants.</p>
+    <p>Because it is the same ₹30 and the same person each time, any difference between the three has
+    to come from the thing being given up. That is what makes this a clean test rather than a
+    survey question.</p>
+  </div>
+
+  <figure>
+    <figcaption>What Gachibowli will trade for ₹30</figcaption>
+    <p class="sub">Share choosing the ₹230 option. Whiskers are 95% Wilson confidence intervals. The
+    dashed line is a coin flip — anything below it means most people refused the saving.</p>
+    <svg viewBox="0 0 720 306" role="img" aria-label="Bar chart. Wait 15 minutes longer: 92.5 percent accept. Accept 3-in-10 late instead of 1-in-10: 72.5 percent accept. Give up most usual restaurants: only 35.0 percent accept.">
+      <!-- 50% reference -->
+      <line x1="324" y1="24" x2="324" y2="286" stroke="var(--axis)" stroke-width="1" stroke-dasharray="4 4"/>
+      <text x="324" y="16" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)" letter-spacing="0.06em">50% · COIN FLIP</text>
+
+      <!-- Row 1 : speed 92.5 [80.1, 97.4] -->
+      <text x="8" y="50" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">Wait 15 minutes longer</text>
+      <rect x="8" y="60" width="584.6" height="26" rx="4" fill="var(--s1)"/>
+      <line x1="514.2" y1="73" x2="623.6" y2="73" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="514.2" y1="67" x2="514.2" y2="79" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="623.6" y1="67" x2="623.6" y2="79" stroke="var(--ink-2)" stroke-width="2"/>
+      <line x1="592.6" y1="73" x2="623.6" y2="73" stroke="var(--ink-2)" stroke-width="2"/>
+      <text x="634" y="78" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--ink)">92.5%</text>
+      <text x="8" y="105" font-family="Archivo, sans-serif" font-size="12.5" fill="var(--muted)">37 of 40 took the cheaper, slower order</text>
+
+      <!-- Row 2 : reliability 72.5 [57.2, 83.9] -->
+      <text x="8" y="146" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">Accept a late order 3 times in 10, not 1</text>
+      <rect x="8" y="156" width="458.2" height="26" rx="4" fill="var(--s1)"/>
+      <line x1="369.5" y1="169" x2="466.2" y2="169" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="369.5" y1="163" x2="369.5" y2="175" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="466.2" y1="169" x2="538.2" y2="169" stroke="var(--ink-2)" stroke-width="2"/>
+      <line x1="538.2" y1="163" x2="538.2" y2="175" stroke="var(--ink-2)" stroke-width="2"/>
+      <text x="549" y="174" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--ink)">72.5%</text>
+      <text x="8" y="201" font-family="Archivo, sans-serif" font-size="12.5" fill="var(--muted)">29 of 40 took the cheaper, less reliable order</text>
+
+      <!-- Row 3 : assortment 35.0 [22.1, 50.5] -->
+      <text x="8" y="242" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">Give up most of your usual restaurants</text>
+      <rect x="8" y="252" width="221.2" height="26" rx="4" fill="var(--s2)"/>
+      <line x1="147.7" y1="265" x2="229.2" y2="265" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="147.7" y1="259" x2="147.7" y2="271" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="229.2" y1="265" x2="327.2" y2="265" stroke="var(--ink-2)" stroke-width="2"/>
+      <line x1="327.2" y1="259" x2="327.2" y2="271" stroke="var(--ink-2)" stroke-width="2"/>
+      <text x="338" y="270" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--s2)">35.0%</text>
+      <text x="8" y="297" font-family="Archivo, sans-serif" font-size="12.5" fill="var(--s2)" font-weight="500">Only 14 of 40. This is the constraint.</text>
+    </svg>
+    <p class="source"><b>Source</b> · <code>data/tradeoff_summary.csv</code> · n = 40, paired design, same respondents across all three.
+    <b>Intervals</b> — Wilson score, 95%.</p>
+  </figure>
+
+  <div class="col" style="margin-top:28px">
+    <h3>Is that gap real, or just a small sample being noisy?</h3>
+    <p>This is exactly where a research project should stop asserting and start testing. Because the
+    same person answered all three questions, the right test is <strong>McNemar's exact test</strong>,
+    which looks only at the people who <em>switched</em> their answer between two scenarios and asks
+    whether the switching went one way more than chance allows.</p>
+  </div>
+
+  <figure>
+    <figcaption>McNemar exact test — do people treat these trade-offs differently?</figcaption>
+    <p class="sub">"Discordant pairs" are the respondents who accepted one trade-off but refused the
+    other. If the two scenarios were equivalent, those would split roughly evenly.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Comparison</th>
+            <th class="n">Took A, not B</th>
+            <th class="n">Took B, not A</th>
+            <th class="n">p-value</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Restaurants</b> vs speed</td>
+            <td class="n">24</td><td class="n">1</td>
+            <td class="n">0.0000015</td>
+            <td><span class="verdict-tag t-hit">Different — decisively</span></td>
+          </tr>
+          <tr>
+            <td><b>Restaurants</b> vs reliability</td>
+            <td class="n">19</td><td class="n">4</td>
+            <td class="n">0.0026</td>
+            <td><span class="verdict-tag t-hit">Different</span></td>
+          </tr>
+          <tr>
+            <td>Reliability vs speed</td>
+            <td class="n">9</td><td class="n">1</td>
+            <td class="n">0.021</td>
+            <td><span class="verdict-tag t-hit">Different</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="source"><b>Source</b> · <code>data/tradeoff_tests.csv</code> · McNemar exact (binomial on discordant pairs), two-sided, n = 40.
+    <b>In plain words</b> — 24 people accepted a 15-minute delay but refused to lose their restaurants. Exactly
+    <b>one</b> person did the reverse. A split that lopsided happens by chance about <b>once in 670,000 times</b>.
+    <b>Honesty note</b> — the reliability-vs-speed row (p = 0.021) is the weakest of the three and would not
+    survive a strict multiple-comparison correction; the two restaurant rows survive comfortably.</p>
+  </figure>
+
+  <div class="callout">
+    <h3>This falsified our own prediction, and we are keeping the record of it</h3>
+    <p>Before collecting any data we wrote down five predictions. Prediction P3 said Ownly's ~17-minute
+    delivery-time deficit would be a barrier to adoption. <strong>It is not.</strong> 92.5% of people
+    took the slower order. We were wrong, we had written the prediction down beforehand, and the data
+    overturned it. That is the pre-registration working as intended.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 04 · THE RECEIPT ═══════════════════════ -->
+<section class="beat" data-beat="The price advantage">
+  <div class="col">
+    <p class="eyebrow"><b>04</b> Is the price advantage even real? <span class="rule"></span></p>
+    <h2>We ordered the same food to the same address on every app and wrote down the bill.</h2>
+    <p class="lede">No estimates, no press releases. On the evening of <strong>16 September 2026</strong>
+    we built four identical baskets at one Gachibowli address and captured the final payable amount on
+    Ownly, Swiggy and Zomato within the same time slot.</p>
+    <p>Ownly was cheapest in <strong>4 out of 4</strong>. Here is one of them, line by line.</p>
+  </div>
+
+  <figure>
+    <figcaption>Cream Stone · same basket, same address, same 20 minutes</figcaption>
+    <p class="sub">Captured 16 Sep 2026, Wednesday dinner slot, delivery point DP1, Gachibowli.
+    Before any coupon on either side.</p>
+    <div class="receipts">
+      <div class="receipt">
+        <div class="head"><span>Ownly</span><span class="tag">new account</span></div>
+        <div class="row"><span>Menu subtotal</span><span>₹179.00</span></div>
+        <div class="row fee zero"><span>Delivery fee</span><span>₹0.00</span></div>
+        <div class="row fee zero"><span>Platform fee</span><span>₹0.00</span></div>
+        <div class="row fee zero"><span>Packaging</span><span>₹0.00</span></div>
+        <div class="row fee"><span>GST</span><span>₹8.95</span></div>
+        <div class="total"><span>You pay</span><span>₹187.95</span></div>
+        <div class="eta">Quoted ETA · 30 min · non-food 4.8% of bill</div>
+      </div>
+      <div class="receipt">
+        <div class="head"><span>Zomato</span><span class="tag">cheapest incumbent</span></div>
+        <div class="row"><span>Menu subtotal</span><span>₹189.00</span></div>
+        <div class="row fee"><span>Delivery fee</span><span>₹43.00</span></div>
+        <div class="row fee"><span>Platform fee</span><span>₹14.99</span></div>
+        <div class="row fee zero"><span>Packaging</span><span>₹0.00</span></div>
+        <div class="row fee"><span>GST</span><span>₹12.15</span></div>
+        <div class="total"><span>You pay</span><span>₹259.14</span></div>
+        <div class="eta">Quoted ETA · 15–20 min · non-food 27.1% of bill</div>
+      </div>
+    </div>
+    <div class="delta">
+      Same dessert, same address, same 20 minutes. Ownly's menu price is <strong>₹10 lower</strong> —
+      the other <strong>₹61</strong> of the gap is fees. Total saving <strong>₹71.19</strong>, or
+      <strong>27.5%</strong> of the bill, for about <strong>12 minutes</strong> more waiting.
+    </div>
+    <p class="source"><b>Source</b> · <code>data/audit_clean.csv</code> (capture 19:45, DP1, wed_dinner) and
+    <code>data/audit_pairs.csv</code>. Basket B2, "Nutella brownie blast milk", exact item match on both platforms.
+    Both rows are the list-price view: no coupon applied on either side. Screenshots
+    <code>DP1_wed_dinner_ownly_R3.png</code> / <code>…_zomato_R3.png</code>.
+    <b>Across all four baskets</b> (Bawarchi, Cream Stone, Paradise Biryani, Shah Ghouse) the median saving is
+    <b>₹114.50 (30.5%)</b>. <b>Limitation</b> — one address, one dinner slot, n = 4. Directional, not representative.
+    The Zomato account was subscribed; the Ownly account was new.</p>
+  </figure>
+
+  <div class="stats">
+    <div class="stat"><span class="v num">5.2%</span><span class="k">of an Ownly bill is fees rather than food</span><span class="ci">median across priced captures</span></div>
+    <div class="stat"><span class="v num">23.4%</span><span class="k">of an incumbent bill is fees rather than food</span><span class="ci">median across priced captures</span></div>
+    <div class="stat"><span class="v num">+17 min</span><span class="k">Ownly's median delivery-time penalty</span><span class="ci">flat across all 4 restaurants</span></div>
+  </div>
+
+  <div class="col" style="margin-top:28px">
+    <p>The fee gap matters more than the headline saving. A discount is rented — it stops when the money
+    stops. Ownly's advantage comes from <em>not charging fees at all</em>, which is structural. On that
+    one dimension it genuinely is different from every challenger that came before it.</p>
+    <p>The flat +17-minute penalty on <em>all four</em> restaurants is its own clue. A rider or batching
+    problem produces erratic outliers; a uniform penalty across unrelated brands is the signature of
+    fulfilling from a more distant outlet. We could not confirm the mechanism — the audit did not record
+    outlet addresses — so we report it as a hypothesis, not a finding.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 05 · THE EROSION ═══════════════════════ -->
+<section class="beat" data-beat="Where the advantage goes">
+  <div class="col">
+    <p class="eyebrow"><b>05</b> Where the advantage goes <span class="rule"></span></p>
+    <h2>Most people in this market never see the price Ownly wins on.</h2>
+    <p class="lede">We asked everyone a separate question: <em>how much would you have to save, every
+    single time, before you changed your main app?</em> The median answer was <strong>₹30</strong>.</p>
+    <p>Ownly's observed saving is ₹114. That looks like an easy win — a 3.8× margin over what people say
+    they need. But the ₹114 is a list-price comparison, and <strong>82.5% of this sample holds a paid
+    membership</strong> that changes what they actually see at checkout. So we recomputed the same
+    comparison three times, at three checkouts.</p>
+  </div>
+
+  <figure>
+    <figcaption>How much of the market Ownly's saving actually clears, at three different checkouts</figcaption>
+    <p class="sub">Each bar: the share of person × restaurant pairs where Ownly's observed saving meets
+    or beats what that person said they need to switch. Same audit, same respondents, three views.</p>
+    <svg viewBox="0 0 720 330" role="img" aria-label="Bar chart. List price plus fees: 81.1 percent coverage, median saving 114 rupees 50. With an incumbent membership: 56.1 percent, median saving 77 rupees 59. After an incumbent coupon: 27.3 percent, median saving minus 28 rupees 07.">
+      <!-- Row 1 : 81.1 -->
+      <text x="8" y="40" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">List price + fees</text>
+      <text x="8" y="58" font-family="Archivo, sans-serif" font-size="12" fill="var(--muted)">What Ownly controls and advertises</text>
+      <rect x="8" y="68" width="512.6" height="28" rx="4" fill="var(--seq-1)"/>
+      <text x="531" y="87" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--ink)">81.1%</text>
+      <text x="8" y="115" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">median saving  +₹114.50</text>
+
+      <!-- Row 2 : 56.1 -->
+      <text x="8" y="155" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">With a Swiggy One / Zomato Gold membership</text>
+      <text x="8" y="173" font-family="Archivo, sans-serif" font-size="12" fill="var(--muted)">What 82.5% of this sample actually sees</text>
+      <rect x="8" y="183" width="354.6" height="28" rx="4" fill="var(--seq-2)"/>
+      <text x="373" y="202" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--ink)">56.1%</text>
+      <text x="8" y="230" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-2)">median saving  +₹77.59</text>
+
+      <!-- Row 3 : 27.3 -->
+      <text x="8" y="270" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">After an incumbent coupon lands</text>
+      <text x="8" y="288" font-family="Archivo, sans-serif" font-size="12" fill="var(--muted)">One push notification away, any day of the week</text>
+      <rect x="8" y="298" width="172.6" height="28" rx="4" fill="var(--seq-3)"/>
+      <text x="191" y="317" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--ink)">27.3%</text>
+      <text x="270" y="317" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--s2)">median saving  −₹28.07 · Ownly is now dearer</text>
+    </svg>
+    <p class="source"><b>Source</b> · <code>data/switch_threshold_coverage.csv</code> · 132 person × restaurant pairs
+    (33 respondents who named a rupee figure × 4 audited baskets). 4 respondents said no amount would move them and
+    3 did not know — these are held out, not coded as zero. <b>This metric is our own construction</b>, defined in
+    <code>data/metric_dictionary.csv</code> as Switch-Threshold Coverage.</p>
+  </figure>
+
+  <div class="col" style="margin-top:28px">
+    <p>Read the bottom row again. <strong>After a routine incumbent coupon, Ownly is not cheaper —
+    it is ₹28 more expensive.</strong> Ownly won 4 of 4 baskets on list price, 3 of 4 against a
+    membership, and only 2 of 4 once a coupon was applied.</p>
+    <p>That is the whole strategic problem in one line. Ownly is marketing a comparison that its
+    competitors can falsify, for free, whenever they choose to.</p>
+    <blockquote>
+      She chose the ₹150 app over the ₹272 one. Same item, same restaurant. The difference was
+      entirely charges added at checkout.
+      <cite>Interview I-01.5 · converges with the audit</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 06 · BELIEF ═══════════════════════ -->
+<section class="beat" data-beat="Does anyone believe it">
+  <div class="col">
+    <p class="eyebrow"><b>06</b> Does anyone believe it will last? <span class="rule"></span></p>
+    <h2>A price promise only works if people think it will survive.</h2>
+    <p class="lede">This market has watched every cheap app get expensive. It has priced that in.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="v num">87.5%</span><span class="k">agree a new app's low prices rise once it becomes popular</span><span class="ci">95% CI 73.9 – 94.5 · n = 40</span></div>
+    <div class="stat"><span class="v num">25.0%</span><span class="k">would keep using it after a ₹100 first-order offer ends</span><span class="ci">95% CI 14.2 – 40.2 · n = 40</span></div>
+    <div class="stat"><span class="v num">15.4%</span><span class="k">of theme mentions among the general public are about price <em>advantage</em></span><span class="ci">420 social posts coded</span></div>
+  </div>
+
+  <div class="col" style="margin-top:28px">
+    <h3>And the people who have actually used it are talking about something else entirely</h3>
+    <p>We coded two separate bodies of public text: general discussion about Ownly, and posts from
+    people describing <strong>their own order</strong>. The two do not say the same thing — and the
+    difference is the retention risk.</p>
+  </div>
+
+  <figure>
+    <figcaption>What people talk about — general discussion vs first-hand users</figcaption>
+    <p class="sub">Share of coded items mentioning each theme. This is what the conversation is about,
+    not a failure rate: it cannot tell you how often orders actually go wrong.</p>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--s1)"></i> General discussion · 264 coded items</span>
+      <span><i class="swatch" style="background:var(--s2)"></i> First-hand Ownly users · 97 coded items</span>
+    </div>
+    <svg viewBox="0 0 720 340" role="img" aria-label="Grouped bar chart. Delivery or order failure: 18.9 percent in general discussion versus 49.5 percent among first-hand users. Support and refunds: 16.3 versus 37.1. Doubt the price will last: 37.5 versus 20.6. Price is genuinely better: 15.5 versus 22.7.">
+      <!-- scale: 0-50% over x 8 -> 600  (11.84 px per pct) -->
+      <!-- Group 1: FULFILMENT -->
+      <text x="8" y="26" font-family="Archivo, sans-serif" font-size="13.5" font-weight="600" fill="var(--ink)">The order went wrong — late, missing, cold</text>
+      <rect x="8" y="34" width="223.8" height="18" rx="4" fill="var(--s1)"/>
+      <text x="241" y="48" font-family="Archivo, sans-serif" font-size="13" fill="var(--ink-2)">18.9%</text>
+      <rect x="8" y="54" width="586.1" height="18" rx="4" fill="var(--s2)"/>
+      <text x="603" y="68" font-family="Archivo, sans-serif" font-size="13" font-weight="600" fill="var(--s2)">49.5%</text>
+
+      <!-- Group 2: SUPPORT -->
+      <text x="8" y="106" font-family="Archivo, sans-serif" font-size="13.5" font-weight="600" fill="var(--ink)">Support and refunds</text>
+      <rect x="8" y="114" width="193.0" height="18" rx="4" fill="var(--s1)"/>
+      <text x="210" y="128" font-family="Archivo, sans-serif" font-size="13" fill="var(--ink-2)">16.3%</text>
+      <rect x="8" y="134" width="439.3" height="18" rx="4" fill="var(--s2)"/>
+      <text x="456" y="148" font-family="Archivo, sans-serif" font-size="13" font-weight="600" fill="var(--s2)">37.1%</text>
+
+      <!-- Group 3: PRICE DOUBT -->
+      <text x="8" y="186" font-family="Archivo, sans-serif" font-size="13.5" font-weight="600" fill="var(--ink)">The low prices will not last</text>
+      <rect x="8" y="194" width="444.0" height="18" rx="4" fill="var(--s1)"/>
+      <text x="461" y="208" font-family="Archivo, sans-serif" font-size="13" fill="var(--ink-2)">37.5%</text>
+      <rect x="8" y="214" width="243.9" height="18" rx="4" fill="var(--s2)"/>
+      <text x="261" y="228" font-family="Archivo, sans-serif" font-size="13" fill="var(--ink-2)">20.6%</text>
+
+      <!-- Group 4: PRICE ADVANTAGE -->
+      <text x="8" y="266" font-family="Archivo, sans-serif" font-size="13.5" font-weight="600" fill="var(--ink)">The price really is better</text>
+      <rect x="8" y="274" width="183.5" height="18" rx="4" fill="var(--s1)"/>
+      <text x="201" y="288" font-family="Archivo, sans-serif" font-size="13" fill="var(--ink-2)">15.5%</text>
+      <rect x="8" y="294" width="268.7" height="18" rx="4" fill="var(--s2)"/>
+      <text x="286" y="308" font-family="Archivo, sans-serif" font-size="13" fill="var(--ink-2)">22.7%</text>
+
+      <!-- axis -->
+      <line x1="8" y1="324" x2="600" y2="324" stroke="var(--axis)" stroke-width="1"/>
+      <text x="8" y="338" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">0%</text>
+      <text x="304" y="338" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">25%</text>
+      <text x="600" y="338" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">50%</text>
+    </svg>
+    <p class="source"><b>Source</b> · <code>data/review_theme_summary.csv</code> · 420 social items retrieved, 264 coded as relevant;
+    123 first-hand accounts retrieved, 97 coded. <b>Limitation</b> — self-selected public posts. People who have a bad
+    order post about it far more readily than people who have a normal one, so these shares over-state failure. The
+    comparison between the two columns is what carries information, not either column alone.</p>
+  </figure>
+
+  <div class="col" style="margin-top:28px">
+    <p>Put beside the ₹30 result, this resolves an apparent contradiction. In a single forced choice,
+    72.5% will accept a less reliable order to save money — reliability is <em>cheap at the point of
+    choosing</em>. But among people who have actually ordered, failure is the dominant thing they talk
+    about. Interviews supplied the mechanism: people leave an app after <strong>repeated</strong> bad
+    orders, not after one.</p>
+    <p>So unreliability does not block trial. It blocks the habit — which is precisely what this study
+    was asked to predict.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 07 · DISCOVERY ═══════════════════════ -->
+<section class="beat" data-beat="Awareness to trial">
+  <div class="col">
+    <p class="eyebrow"><b>07</b> Nobody is finding it <span class="rule"></span></p>
+    <h2>Rapido gives Ownly access to millions of phones. Access is not discovery.</h2>
+    <p class="lede">Ownly's single biggest claimed asset is that it lives inside Rapido, an app people
+    already have. We tested whether that converts.</p>
+  </div>
+
+  <figure>
+    <figcaption>The Ownly funnel in this catchment</figcaption>
+    <p class="sub">Share of all 40 catchment respondents. Whiskers are 95% Wilson intervals — note how
+    wide they get as the numbers shrink.</p>
+    <svg viewBox="0 0 720 258" role="img" aria-label="Funnel. Heard of Ownly 42.5 percent. Opened or browsed it 17.5 percent. Ordered from it 5.0 percent.">
+      <!-- scale 0-100 over x 8 -> 640 (6.32 px per pct) -->
+      <!-- 1 : 42.5 [28.5, 57.8] -->
+      <text x="8" y="40" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">Heard of Ownly</text>
+      <rect x="8" y="50" width="268.6" height="26" rx="4" fill="var(--seq-1)"/>
+      <line x1="188.1" y1="63" x2="276.6" y2="63" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="188.1" y1="57" x2="188.1" y2="69" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="276.6" y1="63" x2="373.3" y2="63" stroke="var(--ink-2)" stroke-width="2"/>
+      <line x1="373.3" y1="57" x2="373.3" y2="69" stroke="var(--ink-2)" stroke-width="2"/>
+      <text x="384" y="69" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--ink)">42.5%</text>
+      <text x="452" y="69" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">17 of 40</text>
+
+      <!-- 2 : 17.5 [8.7, 32.0] -->
+      <text x="8" y="120" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">Opened it and looked</text>
+      <rect x="8" y="130" width="110.6" height="26" rx="4" fill="var(--seq-2)"/>
+      <line x1="63.0" y1="143" x2="118.6" y2="143" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="63.0" y1="137" x2="63.0" y2="149" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="118.6" y1="143" x2="210.2" y2="143" stroke="var(--ink-2)" stroke-width="2"/>
+      <line x1="210.2" y1="137" x2="210.2" y2="149" stroke="var(--ink-2)" stroke-width="2"/>
+      <text x="221" y="149" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--ink)">17.5%</text>
+      <text x="289" y="149" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">7 of 40 · −59% from awareness</text>
+
+      <!-- 3 : 5.0 [1.4, 16.5] -->
+      <text x="8" y="200" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="var(--ink)">Actually ordered</text>
+      <rect x="8" y="210" width="31.6" height="26" rx="4" fill="var(--seq-3)"/>
+      <line x1="16.8" y1="223" x2="39.6" y2="223" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="16.8" y1="217" x2="16.8" y2="229" stroke="var(--paper)" stroke-width="2" opacity="0.85"/>
+      <line x1="39.6" y1="223" x2="112.3" y2="223" stroke="var(--ink-2)" stroke-width="2"/>
+      <line x1="112.3" y1="217" x2="112.3" y2="229" stroke="var(--ink-2)" stroke-width="2"/>
+      <text x="123" y="229" font-family="Archivo, sans-serif" font-size="17" font-weight="600" fill="var(--ink)">5.0%</text>
+      <text x="180" y="229" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--muted)">2 of 40 · interval runs 1.4% to 16.5%</text>
+    </svg>
+    <p class="source"><b>Source</b> · <code>data/kpi_table.csv</code> K14 / K15 / K16 · n = 40, self-reported.
+    <b>Read the bottom row carefully</b> — 2 people out of 40 is a genuinely uninformative base. We report it as
+    directional only. The 4-week window also predates most of Ownly's Hyderabad rollout, so a low number here
+    measures the question window as much as it measures rejection.</p>
+  </figure>
+
+  <div class="callout">
+    <h3>The discovery gap, in one number</h3>
+    <p><strong>24 of 40</strong> respondents (60%) used Rapido in the last four weeks. But of the
+    <strong>33</strong> who answered the question about what they had seen inside the app, only
+    <strong>5 said they had noticed food there</strong> — <strong>15.2%</strong>
+    <span class="num">(95% CI 6.7 – 30.9)</span>.</p>
+    <p>Roughly <strong>85% of the distribution advantage is not being converted into discovery.</strong>
+    And the interviews pointed the lever somewhere else entirely: people said they try a new app because
+    a friend, an Instagram reel or a YouTube review told them to — not because it appeared in a menu.</p>
+    <p class="source" style="border-top:0;padding-top:0;margin-top:14px"><b>Note on the two bases</b> —
+    the 60% comes from the Rapido-frequency question (24 of 40); the 15.2% from the in-app question, which
+    33 people answered. They are different denominators and we have not merged them.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 08 · THE TESTS ═══════════════════════ -->
+<section class="beat" data-beat="Hypothesis tests">
+  <div class="col">
+    <p class="eyebrow"><b>08</b> What we formally tested <span class="rule"></span></p>
+    <h2>Every claim above, stated as a hypothesis and put at risk.</h2>
+    <p class="lede">We wrote a pre-analysis plan before collecting data: which tests, which variables,
+    which thresholds. This is the complete scorecard, including the tests that produced nothing.</p>
+  </div>
+
+  <figure>
+    <figcaption>Hypothesis register</figcaption>
+    <p class="sub">"Fail to reject" means the data did not give us enough evidence to claim a
+    difference. It is not the same as proving there is none — especially at n = 40.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>What we tested</th><th>Method</th><th class="n">n</th><th class="n">p</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Do people treat losing restaurants differently from waiting longer?</b><br>The central trade-off claim.</td>
+            <td>McNemar exact, paired</td><td class="n">40</td><td class="n">1.5×10⁻⁶</td>
+            <td><span class="verdict-tag t-hit">Reject H₀ — yes, decisively</span></td>
+          </tr>
+          <tr>
+            <td><b>Do people prefer the Bengaluru pitch or a Hyderabad-localised one?</b><br>Forced choice between two bundled propositions.</td>
+            <td>Exact binomial vs 50%</td><td class="n">29</td><td class="n">0.265</td>
+            <td><span class="verdict-tag t-null">Fail to reject — no difference detected</span></td>
+          </tr>
+          <tr>
+            <td>Same question, asked as paired trial intent</td>
+            <td>McNemar exact, paired</td><td class="n">40</td><td class="n">1.00</td>
+            <td><span class="verdict-tag t-null">Fail to reject</span></td>
+          </tr>
+          <tr>
+            <td>Do people who doubt the price will last plan to reorder less?</td>
+            <td>Spearman ρ = 0.136</td><td class="n">40</td><td class="n">0.402</td>
+            <td><span class="verdict-tag t-null">Underpowered — no signal</span></td>
+          </tr>
+          <tr>
+            <td>Do people holding more memberships demand a bigger saving?</td>
+            <td>Spearman ρ = 0.109</td><td class="n">33</td><td class="n">0.547</td>
+            <td><span class="verdict-tag t-null">Underpowered — no signal</span></td>
+          </tr>
+          <tr>
+            <td>Do working professionals trade differently from students?</td>
+            <td>Fisher exact</td><td class="n">40</td><td class="n">0.637</td>
+            <td><span class="verdict-tag t-null">Underpowered — n = 7 professionals</span></td>
+          </tr>
+          <tr>
+            <td><b>H₀ — does a Bengaluru-style pitch convert differently from a localised one, in actual behaviour?</b></td>
+            <td>Randomised fake-door test</td><td class="n">0</td><td class="n">—</td>
+            <td><span class="verdict-tag t-keep">Not tested · see beat 10</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="source"><b>Source</b> · <code>data/hypothesis_results.csv</code>, <code>data/associations.csv</code>,
+    <code>09_analysis/M_pre_analysis_plan.md</code>. Holm correction applied within families.
+    <b>What the nulls mean</b> — five of seven rows found nothing. At n = 40 we can only detect large effects, so
+    "no difference" here mostly means "this sample cannot see one". We report them because hiding null results is how
+    research goes wrong, and because they tell you exactly which questions need a bigger sample.</p>
+  </figure>
+
+  <div class="col" style="margin-top:28px">
+    <p>One row deserves emphasis. <strong>11 of 40 respondents (28%) could not choose</strong> between
+    the two propositions at all. When more than a quarter of your audience cannot tell two positioning
+    strategies apart, that is itself the finding — and it is the reason the next beat exists.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 09 · THE CALL ═══════════════════════ -->
+<section class="beat" data-beat="The recommendation">
+  <div class="col">
+    <p class="eyebrow"><b>09</b> The recommendation <span class="rule"></span></p>
+    <h2>Ownly has escaped the trap that killed its predecessors, and walked into a different one.</h2>
+    <p class="lede">Foodpanda and Uber Eats India died because their prices were rented — funded by
+    investors, withdrawn when the money ran out. Ownly's saving is structural: it comes from charging
+    5.2% in fees instead of 23.4%. On that mechanism, it is genuinely different.</p>
+    <p>But it has inherited two other failure mechanisms. It offers <strong>the same restaurants</strong>
+    as everyone else — 88.9% overlap — which is the "no new use case" pattern. And it is attacking the
+    side of the market that was never scarce: restaurants already list on every app.</p>
+  </div>
+
+  <div class="calls">
+    <div class="call keep">
+      <div class="label">
+        <svg viewBox="0 0 20 20" fill="none" stroke="var(--good)" stroke-width="2.2" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Keep
+      </div>
+      <ul>
+        <li><b>Zero platform, packaging and surge fees</b>The only advantage that survives without subsidy, and the only one no competitor can copy without giving up revenue.</li>
+        <li><b>Transparent everyday pricing</b>The observed saving clears the stated switching bar of every respondent who named one.</li>
+      </ul>
+    </div>
+    <div class="call adapt">
+      <div class="label">
+        <svg viewBox="0 0 20 20" fill="none" stroke="var(--warn)" stroke-width="2.2" aria-hidden="true"><path d="M10 4v8M10 15.5v.5" stroke-linecap="round"/><circle cx="10" cy="10" r="7.5"/></svg>
+        Adapt
+      </div>
+      <ul>
+        <li><b>Stop saying "cheaper than Swiggy and Zomato"</b>For 82.5% of this market that claim is false at their own checkout, and any coupon falsifies it publicly. Anchor on the everyday bill instead.</li>
+        <li><b>Trade restaurant breadth for named local depth</b>Breadth reproduces the incumbent catalogue. Depth is the only thing the ₹30 test says people will not give up.</li>
+        <li><b>Make Rapido a discovery channel, not just a doorway</b>85% of the distribution advantage is currently unconverted.</li>
+      </ul>
+    </div>
+    <div class="call drop">
+      <div class="label">
+        <svg viewBox="0 0 20 20" fill="none" stroke="var(--crit)" stroke-width="2.2" aria-hidden="true"><path d="M5 10h10" stroke-linecap="round"/><circle cx="10" cy="10" r="7.5"/></svg>
+        Deprioritise
+      </div>
+      <ul>
+        <li><b>Chasing delivery-time parity</b>92.5% accept 15 minutes slower for ₹30. Our own pre-registered prediction that speed would block adoption was falsified by our own data.</li>
+        <li><b>Deeper first-order discounts</b>They buy exactly the trial the historical record says does not stick — and only 25% say they would stay once the offer ends.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>If you remember one sentence</h3>
+    <p>Ownly's price advantage is real and durable, but it is being aimed at the one thing this market
+    will not trade — and it is invisible to the 82.5% who already pay for a membership. <strong>Fix the
+    restaurant list before spending another rupee on the discount.</strong></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 10 · THE EXPERIMENT ═══════════════════════ -->
+<section class="beat" data-beat="What we would test next">
+  <div class="col">
+    <p class="eyebrow"><b>10</b> The honest gap <span class="rule"></span></p>
+    <h2>Everything above is what people say. We built the test for what people do.</h2>
+    <p class="lede">Every number in this study is stated preference, observed prices, or public text.
+    None of it is someone actually choosing. Our central hypothesis — H₀ — asks about
+    <em>behaviour</em>, and a survey cannot answer it.</p>
+    <p>So we built a <strong>fake door</strong>: a real landing page, two versions, visitors split by
+    coin flip, every tap recorded. It is built, the collector is live, and it is <strong>not
+    fielded</strong>. We are reporting it as a designed experiment rather than pretending we have its
+    results.</p>
+  </div>
+
+  <figure>
+    <figcaption>The experiment · one variable, changed on purpose</figcaption>
+    <p class="sub">Both versions show the same restaurants, the same real ₹259 → ₹188 bill from our
+    Gachibowli audit, and the same flow. The only difference is <em>why</em> the dinner is cheaper.</p>
+    <div class="arms">
+      <div class="arm a">
+        <div class="aid">Arm A · everyday low price</div>
+        <p class="copy">"Dinner costs less here every day, because we don't add fees."</p>
+        <p class="note">Tests whether a structural, durable price story is enough to earn a tap.</p>
+      </div>
+      <div class="arm b">
+        <div class="aid">Arm B · discount-led</div>
+        <p class="copy">"₹100 off your first dinner order."</p>
+        <p class="note">Tests the incumbent playbook — the one the historical record says buys trial that does not stick.</p>
+      </div>
+    </div>
+    <div class="flow">
+      <code>page_view</code><span class="arr">→</span>
+      <code>cta_click</code><span class="arr">→</span>
+      <code>disclosure_view</code><span class="arr">→</span>
+      <code>intent_answer</code><span class="arr">→</span>
+      <code>exit</code>
+    </div>
+    <p class="source"><b>Primary metric</b> — click-through on the hero call to action, Arm A vs Arm B, two-proportion test.
+    <b>Secondary</b> — the split between "yes, even without an offer" and "only with a first-order offer": the
+    rented-demand question, asked behaviourally. <b>Each event carries</b> an anonymous visitor ID, the arm, milliseconds
+    since load, campaign tag, device type, and QA/bot flags. <b>Stored</b> in a Google Sheet via an Apps Script collector,
+    <b>verified end-to-end on 21 Sep 2026</b> — a test event posts, validates and appends correctly.
+    <b>Built at</b> <code>07_fake_door/prototype/index.html</code>; runbook and verification record at
+    <code>07_fake_door/FAKE_DOOR_v3_RUNBOOK.md</code>. The one remaining step is hosting the page and
+    sending traffic to it.</p>
+  </figure>
+
+  <div class="col" style="margin-top:28px">
+    <h3>How much traffic it would actually need</h3>
+    <p>This is the part most student experiments skip. Before running anything, you should know the
+    smallest difference your sample could detect — otherwise a null result is meaningless.</p>
+  </div>
+
+  <figure>
+    <figcaption>Minimum detectable effect, 80% power, α = 0.05, two-sided</figcaption>
+    <p class="sub">Assuming a 35% baseline click-through on Arm A.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Visitors per arm</th><th class="n">Total visitors</th><th>Smallest A-vs-B gap detectable</th></tr></thead>
+        <tbody>
+          <tr><td>50</td><td class="n">100</td><td><b>28 percentage points</b> — only a huge effect would show</td></tr>
+          <tr><td>100</td><td class="n">200</td><td><b>20 points</b></td></tr>
+          <tr><td>250</td><td class="n">500</td><td><b>12 points</b> — a realistic positioning effect</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="source"><b>Method</b> · two-proportion normal approximation, pooled variance under H₀.
+    <b>What this means</b> — with the traffic a student project can realistically get, this experiment is
+    <b>directional, not definitive</b>. We would state that before running it, not after seeing the result.</p>
+  </figure>
+
+  <div class="callout">
+    <h3>On ethics, and on not impersonating anyone</h3>
+    <p>A fake door advertises something that cannot yet be bought, so it carries real obligations. Ours
+    uses <strong>no company's name, logo or interface</strong> — not Ownly's, not Rapido's, not Swiggy's.
+    Imitating a real brand would be passing off, and it would also have ruined the data: we would be
+    measuring brand recognition instead of the proposition.</p>
+    <p>The page takes no name, phone number, email or payment. It says "we're not taking orders yet"
+    rather than faking a checkout, it discloses exactly what it records, and it carries the line
+    <em>"Not affiliated with any existing food-delivery app or restaurant."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ LIMITS ═══════════════════════ -->
+<section class="beat" data-beat="What we would not claim">
+  <div class="col">
+    <p class="eyebrow">Coda · What we would not claim <span class="rule"></span></p>
+    <h2>The honest limits.</h2>
+    <p>A study is only as good as the things it refuses to overstate.</p>
+  </div>
+  <figure>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>What someone might read into this</th><th>What is actually true</th></tr></thead>
+        <tbody>
+          <tr><td><b>"Ownly is 30% cheaper."</b></td><td>In 4 matched baskets, at one address, in one dinner slot. It is directional evidence, not a market-wide price index.</td></tr>
+          <tr><td><b>"82.5% of Hyderabad holds a membership."</b></td><td>82.5% of <em>our 40 catchment respondents</em> do, and they skew student. The 95% interval runs from 68% to 91%.</td></tr>
+          <tr><td><b>"Only 5% have tried it."</b></td><td>2 people out of 40, in a 4-week window that mostly predates Ownly's Hyderabad rollout. The interval runs 1.4% to 16.5%. This number carries almost no information.</td></tr>
+          <tr><td><b>"Half of Ownly orders fail."</b></td><td>Never claimed. 49.5% is the share of <em>coded social posts by first-hand users</em> that mention a failure. People post about bad orders far more than good ones.</td></tr>
+          <tr><td><b>"The Bengaluru pitch doesn't work."</b></td><td>We could not detect a difference (p = 0.265, n = 29). That is a failure to find evidence, not evidence of no difference. It is exactly what the fake door exists to settle.</td></tr>
+          <tr><td><b>"Ownly's delivery is slow because of its riders."</b></td><td>A hypothesis. The +17 min gap is flat across all four restaurants, which points at supply density — but the audit did not record outlet distances, so the mechanism is inferred, not shown.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </figure>
+</section>
+
+</main>
+
+<footer>
+  <p><b>Ownly · Gachibowli market-fit study</b> — compiled 21 September 2026.
+  Survey n = 124 received, 40 in catchment · price audit 4 matched baskets across 10 restaurants, Gachibowli DP1,
+  16 Sep 2026 · 420 social items and 275 YouTube comments coded · interviews documented in
+  <code>04_interviews/interview_findings_coded.md</code> · fake-door experiment designed, powered and not yet fielded.</p>
+  <p>Every figure on this page is computed by the scripts in <code>final_dashboard/scripts/</code> from the CSVs in
+  <code>final_dashboard/data/</code>. Nothing here is hand-typed from memory. Where a number could not be computed from
+  the evidence we hold, it is marked not computable rather than estimated.</p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var fill = document.getElementById("rail-fill");
+  var pct  = document.getElementById("rail-pct");
+  var name = document.getElementById("rail-beat");
+  var beats = Array.prototype.slice.call(document.querySelectorAll("[data-beat]"));
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
+    fill.style.width = p.toFixed(1) + "%";
+    pct.textContent = Math.round(p) + "%";
+
+    var current = null;
+    for (var i = 0; i < beats.length; i++) {
+      if (beats[i].getBoundingClientRect().top < window.innerHeight * 0.4) current = beats[i];
+    }
+    name.textContent = current ? current.getAttribute("data-beat") : "Ownly · Gachibowli";
+  }
+
+  window.addEventListener("scroll", function () {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
+  update();
+})();
+</script>

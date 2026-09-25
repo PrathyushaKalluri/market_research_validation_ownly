@@ -196,3 +196,39 @@ Indian consumer app. Cite these three as method precedents, not as market eviden
 | 3 | Build the Facebook Page + ad (§4.2), schedule Sat 19 Sep 00:00 → Mon 21 Sep 00:00 IST, submit Fri 18 Sep | Ad status "Active"/"Scheduled" |
 | 4 | Optional: post the plain link with its own `utm_source` in groups during the same window | Logged in `experiment_tracker.csv` |
 | 5 | Mon 21 Sep: export the sheet, run the §5 command | `09_analysis/fakedoor/fakedoor_report.md` |
+
+---
+
+## 9. Collector verification — 2026-09-21
+
+End-to-end test of the live Apps Script collector, run before the project presentation.
+
+| Check | Result |
+|---|---|
+| `GET /exec` liveness | **PASS** — returns `collector alive: hyd_vp_fakedoor_v1` |
+| `POST /exec` with a valid event | **PASS** — returns `ok`, row appended to the `events` sheet |
+| Schema validation | **PASS** — rejects bad `experiment_id`, `variant_id`, `event_name`, and non-UUID ids |
+| Payload whitelist | **PASS** — unlisted keys discarded before storage |
+| QA rows excluded from analysis | **PASS** — `analyze_fakedoor.py:207` drops any visitor with `is_qa` truthy |
+
+**Note for whoever opens the sheet next:** this verification wrote roughly **4–5 rows** with
+`is_qa = true`, `utm_campaign = collector_verify` (and one `collector_verify_2026-09-21`). They are
+excluded from every analysis by the QA filter and can be left in place as evidence the collector
+works, or deleted. They are not real visitors.
+
+**Testing note for anyone re-running this with curl:** Apps Script answers a `POST` with a **302** to a
+one-shot `script.googleusercontent.com/macros/echo` URL. `curl -L` converts the follow-up to a GET and
+prints a Google Drive error page even though the POST already succeeded — that error is an artefact of
+the test, not a collector failure. Capture the `Location` header and GET it separately to see the real
+`ok`. The browser `fetch(..., {mode:"no-cors"})` and `navigator.sendBeacon` calls the page actually
+uses are unaffected.
+
+**Still required before any real traffic** (needs an account we do not have here):
+1. Host `prototype/index.html` — GitHub Pages or Netlify Drop, **neutral site name**, no "Ownly" or
+   "Rapido" in the URL (§3).
+2. Run the `?qa=1` QA checklist on the hosted URL (§4).
+3. Confirm the stopping rule in §5 before the first visitor arrives, not after.
+
+**Power, for the record:** at a 35% baseline click-through, 80% power and α = 0.05 two-sided, the
+smallest A-vs-B gap detectable is **≈28pp at 50 visitors/arm, ≈20pp at 100/arm, ≈12pp at 250/arm.**
+State this before running, not after seeing the result.

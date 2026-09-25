@@ -1,0 +1,10 @@
+Platform,Component,Component Group,Pct Of Bill
+Ownly,Food,Food,95.2
+Ownly,GST,Fees & tax,4.8
+Swiggy,Food,Food,72.6
+Swiggy,Delivery,Fees & tax,14.2
+Swiggy,GST,Fees & tax,11.6
+Zomato,Food,Food,84.9
+Zomato,Delivery,Fees & tax,3.3
+Zomato,Platform,Fees & tax,5.3
+Zomato,GST,Fees & tax,4.7

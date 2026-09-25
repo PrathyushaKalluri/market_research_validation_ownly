@@ -1,0 +1,13 @@
+Restaurant,Price View,View Order,Ownly Payable,Cheapest Rival Payable,Cheapest Rival,Saving Rs,Saving Pct,Ownly Wins,Ownly ETA Min,Rival ETA Min,ETA Gap Min
+Bawarchi,LIST+FEES,1,205.8,247.64,zomato,41.84,16.8955,Yes,38.5,17.5,21.0
+Cream Stone,LIST+FEES,1,187.95,259.14,zomato,71.19,27.4716,Yes,30.0,12.5,17.5
+Paradise Biryani,LIST+FEES,1,313.95,471.76,swiggy,157.81,33.4513,Yes,46.5,22.5,24.0
+Shah Ghouse,LIST+FEES,1,157.5,332.0,swiggy,174.5,52.5602,Yes,40.5,22.5,18.0
+Bawarchi,MEMBER,2,205.8,205.64,zomato,-0.16,-0.0778,No,38.5,17.5,21.0
+Cream Stone,MEMBER,2,187.95,216.14,zomato,28.19,13.0425,Yes,30.0,12.5,17.5
+Paradise Biryani,MEMBER,2,313.95,441.76,zomato,127.81,28.932,Yes,46.5,22.5,24.0
+Shah Ghouse,MEMBER,2,157.5,284.49,zomato,126.99,44.6378,Yes,40.5,22.5,18.0
+Bawarchi,AFTER OFFER,3,155.8,45.0,swiggy,-110.8,-246.2222,No,38.5,17.5,21.0
+Cream Stone,AFTER OFFER,3,137.95,158.0,swiggy,20.05,12.6899,Yes,30.0,12.5,17.5
+Paradise Biryani,AFTER OFFER,3,263.95,187.76,swiggy,-76.19,-40.5784,No,46.5,22.5,24.0
+Shah Ghouse,AFTER OFFER,3,107.5,195.0,swiggy,87.5,44.8718,Yes,40.5,22.5,18.0

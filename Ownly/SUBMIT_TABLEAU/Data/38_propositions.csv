@@ -1,0 +1,8 @@
+Bengaluru Tactic,Call,Call Order,Evidence,Key Metric,Key Value
+"Charge no platform, packaging or surge fee",KEEP,1,"Fee load 5.2% vs incumbent median 23.4%. Structural, needs no subsidy.",K3 Fee load,5.2%
+Transparent everyday pricing - total you see is total you pay,KEEP,1,Cheapest in 4 of 4 baskets; median saving Rs 114.50 against a stated Rs 30 bar.,K1a Price win rate,100%
+Headline claim: cheaper than Swiggy and Zomato,ADAPT,2,82.5% hold a membership; after one coupon Ownly is Rs 28 dearer. Claim is falsifiable.,K11 Membership lock-in,82.5%
+Stock the same big chains,ADAPT,2,"88.9% catalogue overlap, +17 min slower. Only 35% will give up their restaurants.",K5 Assortment overlap,88.9%
+Rely on Rapido placement for growth,ADAPT,2,Only 5 of 33 answering had noticed food inside Rapido - an 84.8% discovery gap.,K9 Rapido discovery,15.2%
+Rs 100 off the first order,DEPRIORITISE,3,25% post-offer repeat intent; 87.5% expect prices to rise. Rented demand.,K18 Post-promo repeat,25.0%
+Spend to match delivery speed,DEPRIORITISE,3,92.5% accept 15 min slower. Pre-registered prediction P3 was falsified.,K20 Trades speed,92.5%

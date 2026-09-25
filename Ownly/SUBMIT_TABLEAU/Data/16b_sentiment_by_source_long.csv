@@ -1,0 +1,10 @@
+Source,Sentiment Label,Documents,Pct Of Source
+Social,Negative,126,24.0458
+Social,Neutral,287,54.771
+Social,Positive,111,21.1832
+YouTube,Negative,64,23.2727
+YouTube,Neutral,156,56.7273
+YouTube,Positive,55,20.0
+App store,Negative,25,67.5676
+App store,Neutral,5,13.5135
+App store,Positive,7,18.9189

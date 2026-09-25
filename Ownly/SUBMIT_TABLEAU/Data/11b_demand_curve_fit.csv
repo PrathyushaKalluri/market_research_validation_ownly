@@ -1,0 +1,9 @@
+Parameter,Value,Note
+b0 (intercept),-2.3074,logit(p) = b0 + b1 * saving
+b1 (slope),0.06652,per rupee of recurring saving
+R squared,0.9641,fit against 6 observed staircase points
+SSE,0.02254,sum of squared error
+Base n,33,respondents who named a rupee figure
+Excluded - no amount,4,said no saving would move them
+Excluded - don't know,3,could not name a figure
+Max observed saving,100.0,anything above this is extrapolation

@@ -343,10 +343,10 @@ footer.fine{margin:22px 16px 0;padding-top:14px;border-top:1px solid var(--line)
 .bnav button.on{color:var(--brand);}
 
 /* ══ micro-question sheet ══ */
-#scrim{position:fixed;inset:0;background:rgba(18,18,16,.54);z-index:95;opacity:0;
+#scrim{position:fixed;inset:0;background:rgba(18,18,16,.54);z-index:200;opacity:0;
   pointer-events:none;transition:opacity .18s;}
 #scrim.on{opacity:1;pointer-events:auto;}
-#sheet{position:fixed;left:0;right:0;bottom:0;z-index:96;background:#fff;
+#sheet{position:fixed;left:0;right:0;bottom:0;z-index:201;background:#fff;
   border-radius:22px 22px 0 0;max-width:440px;margin:0 auto;transform:translateY(103%);
   transition:transform .24s cubic-bezier(.2,.85,.25,1);max-height:90vh;overflow-y:auto;
   padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 30px rgba(0,0,0,.18);
@@ -381,10 +381,17 @@ footer.fine{margin:22px 16px 0;padding-top:14px;border-top:1px solid var(--line)
   min-height:52px;text-align:center;}
 @media (prefers-reduced-motion:reduce){ #sheet,#scrim{transition:none;} }
 
+/* The facilitator panel must never cover the participant's screen. It sat at
+   z-index 99 above the question sheet at 96, and once the send log made it
+   tall it hid the questions completely — with ?qa=1 the journey simply could
+   not be completed. The diagnostic was breaking the thing it was there to
+   diagnose. It now sits below the sheet AND hides while one is open. */
 #qa{position:fixed;inset:auto 0 0 0;z-index:99;background:#1b1b19;color:#eae8e2;font-family:var(--mono);
   font-size:11px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));display:none;
   gap:7px;align-items:center;flex-wrap:wrap;}
 #qa.on{display:flex;}
+#qa.hushed{display:none;}
+#qa pre{order:99;}
 #qa button{font:inherit;background:#2e302b;color:#eae8e2;border:1px solid #474941;border-radius:6px;
   padding:5px 9px;cursor:pointer;min-height:32px;}
 </style>
@@ -661,6 +668,8 @@ footer.fine{margin:22px 16px 0;padding-top:14px;border-top:1px solid var(--line)
 
 <div id="qa">
   <b>QA</b><span id="qa-info"></span>
+  <pre id="qa-log" style="width:100%;margin:6px 0 0;font:inherit;font-size:10px;
+    line-height:1.5;white-space:pre-wrap;opacity:.85;max-height:52px;overflow:auto"></pre>
   <button type="button" id="qa-json">JSON</button>
   <button type="button" id="qa-csv">CSV</button>
   <button type="button" id="qa-clear">Clear</button>
@@ -673,7 +682,7 @@ footer.fine{margin:22px 16px 0;padding-top:14px;border-top:1px solid var(--line)
 
 var CONFIG = {
   EXPERIMENT_ID: "hyd_gach_fakedoor_2026_09",
-  PAGE_VERSION: "2026-09-23.v5",
+  PAGE_VERSION: "2026-09-24.v10-qafix",
   ENDPOINT: "https://script.google.com/macros/s/AKfycbyhXRxqOwAmLbCud25b3_f_AbOaSLZ_xGJHNesi2DduBqiYCGf0qn6GCR6jiX966AW3Ug/exec",
   /* Paste your Google Form link here. Leave empty and the survey step is
      hidden entirely — no dead button, no broken QR. See STORAGE_SETUP.md. */
@@ -1533,42 +1542,134 @@ function track(name,payload){
    (pagehide) where there is no time for anything better. Everywhere
    else uses fetch and confirms.
    ══════════════════════════════════════════════════════════════ */
-var OUTKEY="fd_outbox", SENT=0, FAILED=0;
+var OUTKEY="fd_outbox", SENT=0, FAILED=0, LASTERR="";
 function outbox(){ try{ return JSON.parse(ls(OUTKEY)||"[]"); }catch(e){ return []; } }
-function saveOutbox(a){ try{ ls(OUTKEY, JSON.stringify(a.slice(-500))); }catch(e){} }
-function queue(ev){ if(!STORAGE_OK) return; var o=outbox(); o.push(ev); saveOutbox(o); }
-function drop(id){ if(!STORAGE_OK) return;
-  saveOutbox(outbox().filter(function(e){ return e.event_id!==id; })); }
-function post(ev){
-  return fetch(CONFIG.ENDPOINT,{ method:"POST", mode:"no-cors", keepalive:true,
-    headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(ev) });
+function saveOutbox(a){ try{ ls(OUTKEY, JSON.stringify(a.slice(-800))); }catch(e){} }
+function queue(ev){
+  if(!STORAGE_OK){ MEMQ.push(ev); return; }
+  var o=outbox(); o.push(ev); saveOutbox(o);
 }
+var MEMQ=[];                       /* fallback when storage is blocked */
+function pending(){ return STORAGE_OK ? outbox() : MEMQ; }
+function dropIds(ids){
+  var set={}; ids.forEach(function(i){ set[i]=1; });
+  if(STORAGE_OK) saveOutbox(outbox().filter(function(e){ return !set[e.event_id]; }));
+  else MEMQ=MEMQ.filter(function(e){ return !set[e.event_id]; });
+}
+
+/* ONE request carries up to 40 events. The previous build sent one request
+   per event and flushed 25 in parallel, which put 25 executions behind a
+   10-second server lock — measured, a third of them died with a lock timeout.
+   Batching collapses ~40 requests per participant into two or three. */
+var BATCH=25, flushing=false, flushTimer=null;
+
+/* A send log the facilitator can actually read on a phone. Without this the
+   only way to find out why a session stalled is to guess, which is how this
+   went wrong twice. Visible with ?qa=1. */
+var SENDLOG=[];
+function logSend(n, what, ms){
+  SENDLOG.push(new Date().toTimeString().slice(0,8)+"  "+n+" ev  "+what+"  "+ms+"ms");
+  if(SENDLOG.length>12) SENDLOG.shift();
+  var el=document.getElementById("qa-log");
+  if(el) el.textContent=SENDLOG.join("\n");
+}
+
 function send(ev){
   queue(ev);
-  try{
-    post(ev).then(function(){ SENT++; drop(ev.event_id); updateQA(); })
-            .catch(function(){ FAILED++; updateQA(); });
-  }catch(e){ FAILED++; }
+  /* the first event and anything decisive goes now; the rest rides the timer */
+  if(URGENT[ev.event_name]) flush();
+  else scheduleFlush();
 }
-var flushing=false;
+var URGENT={ experiment_view:1, place_order_click:1, prototype_exit:1,
+             followup_consent_given:1, survey_view:1 };
+function scheduleFlush(){
+  if(flushTimer) return;
+  flushTimer=setTimeout(function(){ flushTimer=null; flush(); }, 3500);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SENDING, VIA THE ONE TRANSPORT BUILT FOR THIS.
+
+   Two earlier attempts failed on a real phone while passing every
+   test here, because Node's fetch and a browser's fetch disagree
+   exactly where it mattered — cross-origin redirects and no-cors.
+   Testing harder was not going to fix that. Using a transport with
+   no ambiguity does.
+
+   navigator.sendBeacon is what analytics uses and what it exists for:
+     · cross-origin by design, no CORS decision to get wrong
+     · a text/plain Blob is a simple request, so never preflighted
+     · returns true/false SYNCHRONOUSLY — no promise to hang, no
+       timeout to tune, no way to deadlock the queue
+     · the browser delivers it even if the page is closing
+
+   true means the browser has taken ownership and will send it, so the
+   rows leave the queue. false means it refused (usually a body over
+   its 64KB limit) — the rows stay and go again in a smaller batch.
+
+   fetch remains only as a fallback for browsers without sendBeacon.
+   A repeat send is free: the collector discards duplicates by event_id.
+   ══════════════════════════════════════════════════════════════ */
 function flush(){
-  if(flushing || !CONFIG.ENDPOINT || !STORAGE_OK) return;
-  var o=outbox(); if(!o.length) return;
+  if(flushing || !CONFIG.ENDPOINT) return;
+  var q=pending(); if(!q.length) return;
   flushing=true;
-  var pending=o.slice(0,25), done=0;
-  pending.forEach(function(ev){
+
+  var batch=q.slice(0, BATCH);
+  var ids=batch.map(function(e){ return e.event_id; });
+  var body=JSON.stringify(batch);
+  var t0=Date.now();
+
+  function done(okNow, how){
+    if(okNow){ SENT+=batch.length; dropIds(ids); FAILED=0; LASTERR=""; }
+    else { FAILED++; LASTERR=how; }
+    logSend(batch.length, okNow?"sent ("+how+")":"HELD ("+how+")", Date.now()-t0);
+    flushing=false; updateQA();
+    if(okNow){ if(pending().length) scheduleFlush(); }
+    else setTimeout(flush, Math.min(4000*FAILED, 20000));
+  }
+
+  if(navigator.sendBeacon){
+    var queued=false;
     try{
-      post(ev).then(function(){ SENT++; drop(ev.event_id); })
-              .catch(function(){})
-              .then(function(){ if(++done===pending.length){ flushing=false; updateQA(); } });
-    }catch(e){ if(++done===pending.length){ flushing=false; } }
-  });
+      queued=navigator.sendBeacon(CONFIG.ENDPOINT,
+        new Blob([body],{type:"text/plain;charset=utf-8"}));
+    }catch(e){ queued=false; }
+    if(queued){
+      /* Belt and braces. Apps Script answers every POST with a cross-origin
+         302, and some browsers drop a beacon's body when they follow one —
+         the request leaves, sendBeacon still reports true, and nothing is
+         stored. A second send over fetch costs nothing, because the collector
+         discards repeats by event_id, and it covers that case. Remove this
+         once debug_log shows beacons arriving on their own. */
+      try{
+        if(typeof fetch==="function")
+          fetch(CONFIG.ENDPOINT,{ method:"POST", mode:"no-cors",
+            headers:{"Content-Type":"text/plain;charset=utf-8"}, body:body })
+            .catch(function(){});
+      }catch(e2){}
+      done(true,"beacon+fetch"); return;
+    }
+    /* refused — almost always too large. Halve it and try again next tick. */
+    if(BATCH>5){ BATCH=Math.max(5, Math.floor(BATCH/2)); }
+    done(false,"beacon refused");
+    return;
+  }
+
+  if(typeof fetch!=="function"){ done(false,"no transport"); return; }
+  try{
+    fetch(CONFIG.ENDPOINT,{ method:"POST", mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"}, body:body })
+      .then(function(){ done(true,"fetch"); })
+      .catch(function(){ done(false,"fetch failed"); });
+  }catch(e){ done(false,"fetch threw"); }
 }
+
 window.addEventListener("online", flush);
 window.addEventListener("focus", flush);
 document.addEventListener("visibilitychange", function(){
   if(document.visibilityState==="visible") flush(); });
-setInterval(flush, 15000);
+setInterval(flush, 10000);
 
 var firstTapDone=false, entryMode="";
 function firstTap(kind, detail){
@@ -1596,6 +1697,7 @@ function pump(){ if(!qQueue.length) return drain(); qBusy=true; renderSheet(qQue
 function closeSheet(){
   $("sheet").classList.remove("on"); $("scrim").classList.remove("on");
   $("sheet").setAttribute("aria-hidden","true");
+  if(isQA) $("qa").classList.remove("hushed");
 }
 function renderSheet(spec){
   var id=(typeof spec==="string")?spec:spec.id;
@@ -1621,6 +1723,7 @@ function renderSheet(spec){
   }
   $("sheet").setAttribute("aria-hidden","false");
   $("scrim").classList.add("on"); $("sheet").classList.add("on");
+  if(isQA) $("qa").classList.add("hushed");
   $("sheet").scrollTop=0; qShownAt=Date.now();
   track("micro_shown",{ q_id:id, subject:sub, screen:furthest });
   setTimeout(function(){ var b=$("qbody").querySelector("button");
@@ -1700,6 +1803,19 @@ setInterval(function(){ phi=(phi+1)%PH.length; var el=$("searchph"); if(el) el.t
 
 track("experiment_view",{ entry_screen:"home", storage_ok:STORAGE_OK });
 track("landing_page_view",{ variant_key:variant, source:source, n_offers:A.offers.length });
+
+/* A page opened straight off the disk has an opaque origin, and browsers
+   refuse sendBeacon from it to an https endpoint. The page looks perfectly
+   healthy and nothing is stored — which is indistinguishable from every other
+   failure unless it says so out loud. */
+if(location.protocol==="file:" && CONFIG.ENDPOINT){
+  var fw=document.createElement("div"); fw.setAttribute("role","alert");
+  fw.style.cssText="position:sticky;top:0;z-index:86;background:#7c1f1f;color:#fff;font-size:12px;"+
+    "font-weight:800;text-align:center;padding:8px 12px;line-height:1.4";
+  fw.textContent="FACILITATOR: opened as a local file — the browser will block "+
+    "saving. Use the hosted https link instead.";
+  document.body.insertBefore(fw, document.body.firstChild);
+}
 
 if(!STORAGE_OK){
   var w=document.createElement("div"); w.setAttribute("role","alert");
@@ -2411,12 +2527,15 @@ function bye(){ if(exited) return; exited=true;
     tap_kind:entryMode }); }
 window.addEventListener("pagehide", function(){
   bye();
-  /* Last chance: hand whatever is left to the browser to deliver after we die. */
+  /* One beacon carrying everything still queued. The browser delivers it after
+     the page is gone, so a participant who closes the tab mid-session still
+     lands their last few taps. */
   if(CONFIG.ENDPOINT && navigator.sendBeacon){
-    outbox().slice(0,20).forEach(function(ev){
+    var q=pending();
+    if(q.length){
       try{ navigator.sendBeacon(CONFIG.ENDPOINT,
-        new Blob([JSON.stringify(ev)],{type:"text/plain;charset=utf-8"})); }catch(e){}
-    });
+        new Blob([JSON.stringify(q.slice(0,120))],{type:"text/plain;charset=utf-8"})); }catch(e){}
+    }
   }
 });
 document.addEventListener("visibilitychange", function(){
@@ -2425,8 +2544,10 @@ document.addEventListener("visibilitychange", function(){
 /* ══════════════════════ QA ══════════════════════ */
 function updateQA(){
   if(!isQA) return;
-  var pend=STORAGE_OK?outbox().length:0;
-  $("qa-info").textContent=" sent="+SENT+" queued="+pend+(FAILED?" fail="+FAILED:"")+
+  var pend=pending().length;
+  $("qa-info").textContent=" "+CONFIG.PAGE_VERSION+" @"+location.protocol+
+    " sent="+SENT+" queued="+pend+
+    (FAILED?" retries="+FAILED:"")+(LASTERR?" ["+LASTERR+"]":"")+
     " · arm="+variant+" · ev="+readLog().length+
     " · entry="+(entryMode||"-")+" · cart="+cartCount()+
     " · rl=\u20b9"+rlPrice+" w=\u20b9"+walletAmt+" p=\u20b9"+protectPrice+" · "+billId+"/"+delId+"/"+(offerId||"-")+

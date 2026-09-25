@@ -1,0 +1,99 @@
+Scope,Theme,Term,TFIDF Score,Document Frequency,Rank
+Overall,All documents,available,23.7709,24,1
+Overall,All documents,good,20.8987,46,2
+Overall,All documents,toing,19.4707,28,3
+Overall,All documents,like,17.5926,69,4
+Overall,All documents,yes,16.833,15,5
+Overall,All documents,use,14.3925,35,6
+Overall,All documents,restaurant,14.356,74,7
+Overall,All documents,thank,13.4618,8,8
+Overall,All documents,platform,12.5823,48,9
+Overall,All documents,city,12.3354,14,10
+Overall,All documents,fee,12.2279,34,11
+Overall,All documents,true,12.0944,12,12
+Overall,All documents,noticed,11.6348,7,13
+Overall,All documents,ordering,11.4041,29,14
+Overall,All documents,time,11.3047,56,15
+Overall,All documents,customer,11.2564,83,16
+Overall,All documents,first,11.2096,32,17
+Overall,All documents,yeah,11.0778,15,18
+Overall,All documents,happened,11.0399,18,19
+Overall,All documents,cheaper,10.7738,20,20
+By theme,Future Fee Creep Expected,start,1.5445,8,1
+By theme,Future Fee Creep Expected,new,1.2192,5,2
+By theme,Future Fee Creep Expected,market,1.0835,5,3
+By theme,Future Fee Creep Expected,time,1.0758,4,4
+By theme,Future Fee Creep Expected,fees,0.9979,6,5
+By theme,Future Fee Creep Expected,money,0.9767,6,6
+By theme,Future Fee Creep Expected,like,0.9461,6,7
+By theme,Future Fee Creep Expected,future,0.883,2,8
+By theme,Future Fee Creep Expected,charging,0.8496,3,9
+By theme,Future Fee Creep Expected,eventually,0.8418,2,10
+By theme,Rider Economics,riders,1.3126,10,1
+By theme,Rider Economics,exploit,1.0849,2,2
+By theme,Rider Economics,rider,1.0486,6,3
+By theme,Rider Economics,know,1.0064,3,4
+By theme,Rider Economics,bike,0.8029,7,5
+By theme,Rider Economics,restaurant,0.6896,5,6
+By theme,Rider Economics,customer,0.6337,10,7
+By theme,Rider Economics,taxi,0.5646,4,8
+By theme,Rider Economics,drivers,0.5157,4,9
+By theme,Rider Economics,customers,0.4872,6,10
+By theme,Sustainability Skepticism,wonder,1.8242,4,1
+By theme,Sustainability Skepticism,sustainable,1.1455,5,2
+By theme,Sustainability Skepticism,money,1.1356,7,3
+By theme,Sustainability Skepticism,investors,1.0917,3,4
+By theme,Sustainability Skepticism,model,1.0288,5,5
+By theme,Sustainability Skepticism,burning,0.9965,5,6
+By theme,Sustainability Skepticism,fees,0.8991,6,7
+By theme,Sustainability Skepticism,time,0.7665,3,8
+By theme,Sustainability Skepticism,economics,0.7278,3,9
+By theme,Sustainability Skepticism,platform,0.7094,4,10
+By theme,Support Unresponsive,support,1.0613,13,1
+By theme,Support Unresponsive,customer,1.0454,17,2
+By theme,Support Unresponsive,sucks,0.921,2,3
+By theme,Support Unresponsive,something,0.8469,2,4
+By theme,Support Unresponsive,service,0.6312,6,5
+By theme,Support Unresponsive,agent,0.6187,7,6
+By theme,Support Unresponsive,horrible,0.6128,3,7
+By theme,Support Unresponsive,ordered,0.5606,9,8
+By theme,Support Unresponsive,account,0.5383,2,9
+By theme,Support Unresponsive,chat,0.5046,3,10
+By theme,Toing Vs Ownly,toing,2.4288,20,1
+By theme,Toing Vs Ownly,similar,1.3621,3,2
+By theme,Toing Vs Ownly,prices,0.951,5,3
+By theme,Toing Vs Ownly,try,0.9155,2,4
+By theme,Toing Vs Ownly,well,0.7551,3,5
+By theme,Toing Vs Ownly,check,0.7158,3,6
+By theme,Toing Vs Ownly,out,0.6147,3,7
+By theme,Toing Vs Ownly,cheaper,0.5281,3,8
+By theme,Toing Vs Ownly,real,0.5081,2,9
+By theme,Toing Vs Ownly,price,0.4958,3,10
+By theme,Non Delivery,happened,2.217,11,1
+By theme,Non Delivery,refund,1.1979,5,2
+By theme,Non Delivery,today,0.9194,3,3
+By theme,Non Delivery,support,0.7959,6,4
+By theme,Non Delivery,agent,0.69,9,5
+By theme,Non Delivery,number,0.6294,3,6
+By theme,Non Delivery,thing,0.6285,6,7
+By theme,Non Delivery,customer,0.5725,7,8
+By theme,Non Delivery,guy,0.5561,3,9
+By theme,Non Delivery,anyone,0.515,2,10
+By theme,City Availability Question,available,4.4651,14,1
+By theme,City Availability Question,city,3.2093,5,2
+By theme,City Availability Question,bengaluru,2.9512,4,3
+By theme,City Availability Question,delhi,2.108,4,4
+By theme,City Availability Question,mumbai,2.0946,3,5
+By theme,City Availability Question,isn't,1.7669,2,6
+By theme,City Availability Question,bangalore,1.4135,2,7
+By theme,City Availability Question,yet,1.4135,2,8
+By theme,Price Savings Observed,noticed,1.0956,3,1
+By theme,Price Savings Observed,price,0.9904,4,2
+By theme,Price Savings Observed,cheaper,0.8063,2,3
+By theme,Price Savings Observed,like,0.7573,2,4
+By theme,Price Savings Observed,cheap,0.6003,4,5
+By theme,Price Savings Observed,still,0.5299,3,6
+By theme,Price Savings Observed,low,0.4962,2,7
+By theme,Price Savings Observed,charges,0.4945,4,8
+By theme,Price Savings Observed,pricing,0.4856,4,9
+By theme,Price Savings Observed,difference,0.4799,4,10

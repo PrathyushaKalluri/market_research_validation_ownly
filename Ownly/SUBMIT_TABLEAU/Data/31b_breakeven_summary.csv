@@ -1,0 +1,6 @@
+Item,Value,Note
+Revenue per order (reported),30,"MEDIA, contested across three outlets"
+Rider payout per order,56.01,"Swiggy FY24 disclosed, FACT"
+Contribution per order,-26.01,revenue minus rider payout
+Break-even revenue per order,56.01,revenue needed to reach zero
+Uplift needed pct,86.7,increase required on reported revenue

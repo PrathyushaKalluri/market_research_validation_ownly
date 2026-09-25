@@ -31,6 +31,30 @@ var EXPERIMENTS = ['hyd_gach_fakedoor_2026_09', 'hyd_gach_discovery_2026_09'];
 var EVENTS_SHEET    = 'events';
 var CONTACTS_SHEET  = 'contacts';
 var RESPONSES_SHEET = 'responses';
+var DEBUG_SHEET     = 'debug_log';
+
+/* ═══════════════════════════════════════════════════════════════
+   EVERY REQUEST IS LOGGED, INCLUDING THE ONES THAT FAIL.
+
+   sendBeacon tells the page "the browser accepted this" — never "the
+   server stored it". So when rows go missing there is no way, from
+   the phone, to tell a request that never arrived from one that
+   arrived and was thrown away. That ambiguity is why this problem
+   survived three fixes.
+
+   debug_log records EVERY call to doPost before anything can go
+   wrong with it: when, how big, how many events, and the outcome —
+   including exceptions and lock failures. If the tab is empty, the
+   requests are not reaching Google. If it fills with errors, they are
+   arriving and being lost here. One glance separates the two.
+   ═══════════════════════════════════════════════════════════════ */
+function debugLog_(bytes, count, outcome, detail) {
+  try {
+    var sh = sheet_(DEBUG_SHEET, ['at','bytes','events','outcome','detail']);
+    sh.appendRow([new Date().toISOString(), bytes, count, outcome,
+                  String(detail || '').slice(0, 300)]);
+  } catch (e) { /* logging must never be the thing that breaks it */ }
+}
 
 /* ═══════════════════════════════════════════════════════════════
    TWO VIEWS OF THE SAME DATA.
@@ -203,52 +227,142 @@ function json_(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   doPost — accepts ONE event or a BATCH of them.
+
+   WHY BATCHING MATTERS. The first version took one POST per event.
+   Each execution held a lock for ~2.5s (a full column scan plus two
+   Sheet writes), so a phone flushing 25 queued events in parallel put
+   25 executions in a queue behind a 10-second lock. Measured: 4 of 12
+   concurrent posts died with "Lock timeout", and the client could not
+   see the failure because it used mode:'no-cors'. Those rows were
+   dropped from the outbox as if delivered. That is how a study loses
+   two thirds of its data and looks fine doing it.
+
+   Now: the client sends an array, the whole array is handled inside a
+   SINGLE lock, events are written in one bulk setValues, and the
+   responses row for each participant is read and written once for the
+   whole batch instead of once per event.
+   ═══════════════════════════════════════════════════════════════ */
 function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
     var raw = (e && e.postData && e.postData.contents) ? e.postData.contents : '';
-    if (!raw || raw.length > 8000) return respond_('rejected: empty or too large');
-
-    var ev = JSON.parse(raw);
-
-    if (EXPERIMENTS.indexOf(ev.experiment_id) === -1) return respond_('rejected: experiment_id');
-    if (EVENT_NAMES.indexOf(ev.event_name) === -1)     return respond_('rejected: event_name');
-    if (!validId_(ev.anon_visitor_id) || !validId_(ev.anon_session_id)) return respond_('rejected: ids');
-
-    var p = ev.payload || {};
-    var payload = {};
-    PAYLOAD_KEYS.forEach(function (k) {
-      if (!Object.prototype.hasOwnProperty.call(p, k)) return;
-      var v = p[k];
-      /* restaurant_name carries the whole pipe-joined request list on submit,
-         so it needs more room than a single free-text field. */
-      payload[k] = (typeof v === 'string') ? scrub_(v, k === 'restaurant_name' ? 500 : 80) : v;
-    });
-
-    lock.waitLock(10000);
-
-    /* Contact details never touch the events tab. */
-    if (ev.event_name === 'followup_consent_given') {
-      var csh = sheet_(CONTACTS_SHEET, ['received_at','anon_visitor_id','contact_channel','note']);
-      csh.appendRow([new Date().toISOString(), ev.anon_visitor_id,
-                     payload.contact_channel || '',
-                     'contact itself is NOT sent to this endpoint — collect it offline per the consent flow']);
+    if (!raw) { debugLog_(0, 0, 'REJECTED', 'empty body'); return respond_('rejected: empty'); }
+    if (raw.length > 400000) {
+      debugLog_(raw.length, 0, 'REJECTED', 'too large'); return respond_('rejected: too large');
     }
 
-    upsertResponse_(ev, payload);
+    var parsed;
+    try { parsed = JSON.parse(raw); }
+    catch (pe) {
+      debugLog_(raw.length, 0, 'REJECTED', 'bad json: ' + pe);
+      return respond_('rejected: bad json');
+    }
+    var incoming = Object.prototype.toString.call(parsed) === '[object Array]' ? parsed : [parsed];
+    if (!incoming.length) return respond_('ok 0');
+    if (incoming.length > 200) return respond_('rejected: batch too large');
 
-    var sh = sheet_(EVENTS_SHEET, COLUMNS);
-    var row = COLUMNS.map(function (c) {
-      if (c === 'received_at')  return new Date().toISOString();
-      if (c === 'payload_json') return JSON.stringify(payload);
-      var v = ev[c];
-      if (v === undefined || v === null) return '';
-      return (typeof v === 'string') ? v.slice(0, 120) : v;
+    /* validate and clean before taking the lock — no need to hold it for this */
+    var good = [], rejected = 0;
+    for (var i = 0; i < incoming.length; i++) {
+      var ev = incoming[i];
+      if (!ev || EXPERIMENTS.indexOf(ev.experiment_id) === -1) { rejected++; continue; }
+      if (EVENT_NAMES.indexOf(ev.event_name) === -1)            { rejected++; continue; }
+      if (!validId_(ev.anon_visitor_id) || !validId_(ev.anon_session_id)) { rejected++; continue; }
+
+      var p = ev.payload || {}, payload = {};
+      PAYLOAD_KEYS.forEach(function (k) {
+        if (!Object.prototype.hasOwnProperty.call(p, k)) return;
+        var v = p[k];
+        payload[k] = (typeof v === 'string')
+          ? scrub_(v, k === 'restaurant_name' ? 500 : 80) : v;
+      });
+      good.push({ ev: ev, payload: payload });
+    }
+    if (!good.length) {
+      debugLog_(raw.length, incoming.length, 'REJECTED',
+        'all ' + rejected + ' failed validation');
+      return respond_('rejected: ' + rejected + ' of ' + incoming.length);
+    }
+
+    /* 60s, not 10s: a slow batch behind another slow batch must wait, not vanish */
+    if (!lock.tryLock(60000)) {
+      debugLog_(raw.length, incoming.length, 'LOCK BUSY', 'could not acquire in 60s');
+      return respond_('busy');
+    }
+
+    var stamp = new Date().toISOString();
+
+    /* contacts, if any */
+    good.forEach(function (g) {
+      if (g.ev.event_name === 'followup_consent_given') {
+        var csh = sheet_(CONTACTS_SHEET, ['received_at','anon_visitor_id','contact_channel','note']);
+        csh.appendRow([stamp, g.ev.anon_visitor_id, g.payload.contact_channel || '',
+          'contact itself is NOT sent to this endpoint']);
+      }
     });
-    sh.appendRow(row);
 
-    return respond_('ok');
+    /* ── IDEMPOTENCY ──
+       Every event carries a unique event_id. A client that retries — because
+       it could not read the reply, or lost signal mid-request — must not
+       create a second row. Without this, one stuck client rewrites the same
+       batch every few seconds and the sheet fills with copies.
+
+       Dedupe against what is already stored, and within the batch itself. */
+    var sh = sheet_(EVENTS_SHEET, COLUMNS);
+    var idIdx = COLUMNS.indexOf('event_id');
+    var seen = {};
+    var lastRow = sh.getLastRow();
+    if (lastRow > 1 && idIdx >= 0) {
+      /* Duplicates only ever arrive seconds after the original, so the last
+         1500 rows is a generous window and keeps the scan fast as the sheet
+         grows. A wider scan was costing whole seconds per request. */
+      var from = Math.max(2, lastRow - 1500);
+      var known = sh.getRange(from, idIdx + 1, lastRow - from + 1, 1).getValues();
+      for (var s1 = 0; s1 < known.length; s1++) seen[known[s1][0]] = 1;
+    }
+    var fresh = [], dupes = 0;
+    for (var s2 = 0; s2 < good.length; s2++) {
+      var id = good[s2].ev.event_id;
+      if (!id || seen[id]) { dupes++; continue; }
+      seen[id] = 1;
+      fresh.push(good[s2]);
+    }
+    if (!fresh.length) {
+      debugLog_(raw.length, incoming.length, 'all duplicate', dupes + ' repeats');
+      return respond_('ok 0 duplicate ' + dupes);
+    }
+    good = fresh;
+
+    var rows = good.map(function (g) {
+      return COLUMNS.map(function (c) {
+        if (c === 'received_at')  return stamp;
+        if (c === 'payload_json') return JSON.stringify(g.payload);
+        var v = g.ev[c];
+        if (v === undefined || v === null) return '';
+        return (typeof v === 'string') ? v.slice(0, 120) : v;
+      });
+    });
+    sh.getRange(sh.getLastRow() + 1, 1, rows.length, COLUMNS.length).setValues(rows);
+
+    /* responses — one read + one write per participant, not per event */
+    var byVisitor = {};
+    good.forEach(function (g) {
+      (byVisitor[g.ev.anon_visitor_id] = byVisitor[g.ev.anon_visitor_id] || []).push(g);
+    });
+    Object.keys(byVisitor).forEach(function (vid) {
+      upsertResponse_(vid, byVisitor[vid]);
+    });
+
+    debugLog_(raw.length, incoming.length, 'OK',
+      'stored ' + good.length + (dupes ? ', dup ' + dupes : '') +
+      (rejected ? ', rejected ' + rejected : ''));
+    return respond_('ok ' + good.length +
+      (dupes ? ' duplicate ' + dupes : '') +
+      (rejected ? ' rejected ' + rejected : ''));
   } catch (err) {
+    debugLog_(-1, -1, 'EXCEPTION', err + ' | ' + (err && err.stack ? err.stack : ''));
     return respond_('error: ' + err);
   } finally {
     try { lock.releaseLock(); } catch (e2) {}
@@ -265,7 +379,7 @@ function doPost(e) {
    A linear scan of the id column is fine at study scale (tens of
    participants); it is not a design for tens of thousands.
    ═══════════════════════════════════════════════════════════════ */
-function upsertResponse_(ev, payload) {
+function upsertResponse_(vid, batch) {
   var sh = sheet_(RESPONSES_SHEET, RESP_COLS);
   var idCol = RESP_COLS.indexOf('anon_visitor_id') + 1;
   var last = sh.getLastRow();
@@ -274,20 +388,19 @@ function upsertResponse_(ev, payload) {
   if (last > 1) {
     var ids = sh.getRange(2, idCol, last - 1, 1).getValues();
     for (var i = 0; i < ids.length; i++) {
-      if (ids[i][0] === ev.anon_visitor_id) { rowIdx = i + 2; break; }
+      if (ids[i][0] === vid) { rowIdx = i + 2; break; }
     }
   }
 
-  var row;
+  var first = batch[0].ev, row;
   if (rowIdx) {
     row = sh.getRange(rowIdx, 1, 1, RESP_COLS.length).getValues()[0];
   } else {
     row = RESP_COLS.map(function () { return ''; });
-    row[RESP_COLS.indexOf('participant_code')] =
-      String(ev.anon_visitor_id).slice(0, 8).toUpperCase();
-    row[RESP_COLS.indexOf('anon_visitor_id')] = ev.anon_visitor_id;
-    row[RESP_COLS.indexOf('first_seen')]      = ev.ts_iso || new Date().toISOString();
-    row[RESP_COLS.indexOf('n_events')]        = 0;
+    row[RESP_COLS.indexOf('participant_code')] = String(vid).slice(0, 8).toUpperCase();
+    row[RESP_COLS.indexOf('anon_visitor_id')]  = vid;
+    row[RESP_COLS.indexOf('first_seen')]       = first.ts_iso || new Date().toISOString();
+    row[RESP_COLS.indexOf('n_events')]         = 0;
   }
 
   function put(col, val, mode) {
@@ -303,38 +416,43 @@ function upsertResponse_(ev, payload) {
     }
   }
 
-  put('last_seen', ev.ts_iso || new Date().toISOString(), 'set');
-  put('arm', ev.variant_id, 'set');
-  put('source', ev.source, 'set');
-  put('is_qa', ev.is_qa === true || ev.is_qa === 'true' ? 'TRUE' : 'FALSE', 'set');
-  row[RESP_COLS.indexOf('n_events')] = (parseInt(row[RESP_COLS.indexOf('n_events')], 10) || 0) + 1;
+  /* fold the whole batch into the row in memory, then write once */
+  batch.forEach(function (g) {
+    var ev = g.ev, payload = g.payload;
 
-  if (payload.screen)        put('furthest_screen', payload.screen, 'set');
-  if (payload.furthest_step) put('furthest_screen', payload.furthest_step, 'set');
+    put('last_seen', ev.ts_iso || new Date().toISOString(), 'set');
+    put('arm', ev.variant_id, 'set');
+    put('source', ev.source, 'set');
+    put('is_qa', (ev.is_qa === true || ev.is_qa === 'true') ? 'TRUE' : 'FALSE', 'set');
+    row[RESP_COLS.indexOf('n_events')] =
+      (parseInt(row[RESP_COLS.indexOf('n_events')], 10) || 0) + 1;
 
-  /* the two search streams stay apart */
-  if (ev.event_name === 'search_query' && payload.query) {
-    put(payload.source_screen === 'restaurant' ? 'restaurant_queries' : 'dish_queries',
-        payload.query + (String(payload.results_count) === '0' ? ' (0 results)' : ''), 'add');
-  }
+    if (payload.screen)        put('furthest_screen', payload.screen, 'set');
+    if (payload.furthest_step) put('furthest_screen', payload.furthest_step, 'set');
 
-  var rules = RESP_MAP[ev.event_name];
-  if (rules) {
-    rules.forEach(function (r) {
-      if (r[1].indexOf('__') === 0) return;      /* internal markers */
-      put(r[1], payload[r[0]], r[2]);
-    });
-  }
-  if (ev.event_name === 'offer_removed') put('offer_chosen', '', 'set');
+    /* the two search streams stay apart */
+    if (ev.event_name === 'search_query' && payload.query) {
+      put(payload.source_screen === 'restaurant' ? 'restaurant_queries' : 'dish_queries',
+          payload.query + (String(payload.results_count) === '0' ? ' (0 results)' : ''), 'add');
+    }
 
-  /* one answer per question, in its own column */
-  if (ev.event_name === 'micro_answer' && payload.q_id) {
-    put('q_' + payload.q_id, payload.answer, 'set');
-  }
+    var rules = RESP_MAP[ev.event_name];
+    if (rules) {
+      rules.forEach(function (r) {
+        if (r[1].indexOf('__') === 0) return;
+        put(r[1], payload[r[0]], r[2]);
+      });
+    }
+    if (ev.event_name === 'offer_removed') put('offer_chosen', '', 'set');
 
-  if (ev.event_name === 'cart_view')        put('reached_cart', 'YES', 'set');
-  if (ev.event_name === 'place_order_click') put('placed_order', 'YES', 'set');
-  if (ev.event_name === 'survey_view')       put('went_to_survey', 'YES', 'set');
+    if (ev.event_name === 'micro_answer' && payload.q_id) {
+      put('q_' + payload.q_id, payload.answer, 'set');
+    }
+
+    if (ev.event_name === 'cart_view')         put('reached_cart',   'YES', 'set');
+    if (ev.event_name === 'place_order_click') put('placed_order',   'YES', 'set');
+    if (ev.event_name === 'survey_view')       put('went_to_survey', 'YES', 'set');
+  });
 
   if (rowIdx) sh.getRange(rowIdx, 1, 1, RESP_COLS.length).setValues([row]);
   else        sh.appendRow(row);
@@ -347,5 +465,7 @@ function setupSheets() {
   sheet_(EVENTS_SHEET, COLUMNS);
   sheet_(RESPONSES_SHEET, RESP_COLS);
   sheet_(CONTACTS_SHEET, ['received_at','anon_visitor_id','contact_channel','note']);
-  Logger.log('Tabs ready: %s, %s, %s', EVENTS_SHEET, RESPONSES_SHEET, CONTACTS_SHEET);
+  sheet_(DEBUG_SHEET, ['at','bytes','events','outcome','detail']);
+  Logger.log('Tabs ready: %s, %s, %s, %s',
+    EVENTS_SHEET, RESPONSES_SHEET, CONTACTS_SHEET, DEBUG_SHEET);
 }

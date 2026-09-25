@@ -1,0 +1,7 @@
+dimension,segment,k,n,chose_cheaper_pct,ci_lo,ci_hi,fisher_p
+speed,Student,28,32,87.5,71.9,95.0,0.637
+speed,Working prof,9,11,81.8,52.3,94.9,0.637
+reliability,Student,22,32,68.8,51.4,82.0,1.0
+reliability,Working prof,7,11,63.6,35.4,84.8,1.0
+usual restaurants,Student,10,32,31.2,18.0,48.6,0.473
+usual restaurants,Working prof,5,11,45.5,21.3,72.0,0.473

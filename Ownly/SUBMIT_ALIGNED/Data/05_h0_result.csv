@@ -1,0 +1,6 @@
+Item,Value,Pre-registered rule,Evaluation
+Primary test,K14 survey forced choice,decision_rules §1: the fake door (K13) if >=80 eligible visitors and >=30 per arm. Otherwise the survey forced choice (K14).,"K13 was never fielded (0 events), so K14 is primary."
+K14 Service Q share,37.9% (11 of 29),CI wholly outside 40-60% => Reject H0,95% CI 22.7-56.0 overlaps the 40-60 band => FAIL TO REJECT H₀
+H0 verdict,FAIL TO REJECT H₀,,"No evidence the two differ. This is NOT ""the two are equal"". Treat the Bengaluru proposition as transferable as is, pending retention checks."
+'Can't choose' share,27.5% (11 of 40),"""Can't choose"" > 35% => report as a finding: the framings don't read as different","27.5% is BELOW the 35% threshold, so this pre-registered rule does NOT trigger. The number is reported for information only."
+Scope limit,,decision_rules §1 'What a rejection does NOT mean',"Measures stated choice, not first orders; says nothing about retention; does not generalise beyond the sampled 20-35s."

@@ -1,0 +1,59 @@
+Month,Audience,Documents,Mean sentiment,Negative,Neutral,Positive
+1 year ,YouTube audience,176,-0.042,48,91,37
+11 mont,YouTube audience,20,-0.056,4,12,4
+2025-04,Other,2,0.167,0,1,1
+2025-06,Professional / LinkedIn,11,-0.001,3,5,3
+2025-06,Other,1,0.0,0,1,0
+2025-08,Professional / LinkedIn,3,0.266,0,1,2
+2025-08,Other,3,0.104,0,2,1
+2025-09,Incumbent app community,10,-0.007,1,8,1
+2025-09,Professional / LinkedIn,2,-0.134,1,1,0
+2025-09,Other,5,0.087,0,4,1
+2025-10,Professional / LinkedIn,1,-0.168,1,0,0
+2025-10,Other,2,0.235,0,1,1
+2025-11,Incumbent app community,1,0.0,0,1,0
+2025-11,Professional / LinkedIn,2,0.167,0,1,1
+2025-11,Other,2,0.0,0,2,0
+2025-12,Incumbent app community,2,-0.471,1,1,0
+2025-12,App-store reviewer,1,0.0,0,1,0
+2026-01,Bengaluru local,7,0.311,1,1,5
+2026-01,Incumbent app community,1,-0.167,1,0,0
+2026-01,Other,3,0.333,0,0,3
+2026-02,Bengaluru local,1,-0.236,1,0,0
+2026-02,Incumbent app community,4,-0.286,3,1,0
+2026-02,Professional / LinkedIn,1,-0.5,1,0,0
+2026-02,Other,2,0.417,0,0,2
+2026-03,Bengaluru local,11,-0.332,6,5,0
+2026-03,Incumbent app community,7,-0.327,3,4,0
+2026-03,Professional / LinkedIn,10,0.011,2,5,3
+2026-03,Other,3,0.122,0,2,1
+2026-03,App-store reviewer,2,-0.948,2,0,0
+2026-04,Bengaluru local,12,0.075,1,8,3
+2026-04,Incumbent app community,4,-0.433,3,1,0
+2026-04,Professional / LinkedIn,1,0.0,0,1,0
+2026-04,Other,3,-0.016,0,3,0
+2026-04,App-store reviewer,1,0.0,0,1,0
+2026-05,Bengaluru local,14,-0.27,7,6,1
+2026-05,Incumbent app community,3,-0.444,3,0,0
+2026-05,Professional / LinkedIn,2,-0.24,1,1,0
+2026-05,App-store reviewer,1,-0.136,1,0,0
+2026-06,Bengaluru local,9,-0.095,1,8,0
+2026-06,Incumbent app community,2,0.118,0,1,1
+2026-06,Professional / LinkedIn,4,-0.416,2,1,1
+2026-06,Other,1,-0.267,1,0,0
+2026-06,App-store reviewer,7,-0.428,5,0,2
+2026-07,Bengaluru local,6,0.091,2,2,2
+2026-07,Professional / LinkedIn,3,-0.111,1,1,1
+2026-07,Other,2,0.294,0,1,1
+2026-07,App-store reviewer,9,-0.487,6,3,0
+2026-08,Bengaluru local,81,0.044,15,42,24
+2026-08,Incumbent app community,232,0.012,43,148,41
+2026-08,Professional / LinkedIn,4,-0.541,3,1,0
+2026-08,Other,2,-0.633,2,0,0
+2026-08,App-store reviewer,12,-0.411,9,0,3
+2026-09,Bengaluru local,36,-0.127,15,13,8
+2026-09,Other,6,0.176,1,2,3
+2026-09,App-store reviewer,4,-0.303,2,0,2
+3 month,YouTube audience,1,0.504,0,0,1
+5 month,YouTube audience,76,0.011,11,53,12
+9 month,YouTube audience,2,-0.073,1,0,1

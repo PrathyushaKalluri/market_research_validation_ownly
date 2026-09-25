@@ -148,3 +148,72 @@ Work Block 1 in `task_board.md`. Report back per `_ops/report_back_template.md`.
 4. P3: complete the audit and restaurant frame.
 
 Counts unchanged: all **0**.
+
+---
+
+## Update · 2026-09-18 — Challenger-failure research (why Uber Eats / Foodpanda / ONDC et al. failed)
+
+**Done (Claude):** new folder `01_secondary_research/challenger_failures/`
+- `A_ubereats_foodpanda.md` — 580 lines, 63 sources. Uber Eats India **operating loss per order
+  $2.55/$2.05/$1.65 vs AOV $2.45–2.78** (SEC 8-K Ex. 99.1, FACT-grade, rarely cited). Foodpanda FY19
+  RoC: revenue ₹82 Cr, loss ₹756 Cr, discounts 1.67× revenue; orders **200k/day → 5k/day (−97.5%)**.
+- `B_other_challengers.md` — 692 lines, 92 sources. Amazon Food, the 2015-16 shakeout, Dunzo, ONDC,
+  magicpin, Thrive, DotPe, Toing, Zepto Café. **No challenger in the Indian record has demonstrated
+  post-subsidy retention.**
+- `C_unit_economics_and_structure.md` — 980 lines, 75 sources, **5 primary filings extracted in full**
+  (Swiggy + Eternal Q1FY27/Q4FY26). Incumbents name Ownly and Toing on the record.
+- `D_synthesis_why_challengers_fail.md` — five failure mechanisms, Ownly scored against each using
+  **our own audit data**, plus 5 falsifiable predictions (P1–P5) mapped to our instruments.
+
+**The finding that matters:** our Gachibowli audit independently confirms Goyal's public diagnosis of
+Ownly — *"same restaurants, similar or longer delivery times"*: **89% cross-platform overlap (K42) and
+~17 min slower ETA**, measured by us. Ownly escapes the historical failure pattern on **M1 only**
+(its price gap is structural, not discount-funded: non-food share 4.8% vs 15.1%/27.4%).
+
+**Corrections forced on existing files** (see D §5): Amazon Food shut **Dec 2022** not Dec 2023;
+Uber Eats deal was **$206M for 9.99%**, not $350M; the **"25–35% commission" range is untraceable to
+any primary source** (Swiggy's disclosed blended take rate ~14.8%); Eternal is sunsetting GOV
+disclosure, so Swiggy GOV and Eternal NOV are no longer comparable.
+
+**Does NOT change:** H₀, the decision framework, or any KEEP/ADAPT/DROP call. No survey data yet.
+Counts unchanged: all **0**.
+
+**New audit priority raised by this work:** every Ownly price we hold is a **showcase chain**, but
+Ownly's claimed target and its only defensible differentiation are **local sub-₹150 eateries**
+(local coverage 100% vs chain 80%, K41). `thu_lunch` must capture Murgan Tiffins and Mehfil.
+
+**Addendum, same day —** a fifth dossier landed: `E_restaurant_economics_and_cac.md` (641 lines,
+restaurant-side economics, CCI/DG record, #Logout, CAC). It **corrected file D**: the "~14.8% blended
+take rate" cited in D's first draft could not be traced to a primary filing and has been **withdrawn**.
+Replaced with Swiggy's disclosed **Adj.Revenue ÷ GOV = 24.0% (FY22) → 25.6% (FY26)**, with an explicit
+warning that HSIE (25.6%), HSBC-Swiggy (21.9%) and HSBC-Zomato (24.4%) use different denominators and
+are not comparable. Also added FACT-grade per-order structure from Swiggy's DRHP: **cost of delivery
+~14.3% of GOV vs only ~3.1% recovered from users**, contribution margin 6.40%, and the finding that
+**Eternal has sunset GOV disclosure**, permanently removing the only public proxy for restaurant-funded
+discounting. And: **NRAI's own president says "It's never 30%"** — the 25–35% commission range must not
+be stated as fact. **Ownly's own model is contested across three outlets** (8–15% commission vs zero +
+subscription vs zero + ₹30 fee); our audit observed ₹0 to the customer.
+
+**Update · 2026-09-18 (later) — P1–P5 pre-registered.** `09_analysis/M_pre_analysis_plan.md` amended:
+new **§6.7** (P1–P5 with variables, tests, effect sizes, decision rules, falsification conditions),
+**§7** gains two cuts (offer-dependency band; durability-doubt band), **§8** gains a second Holm family,
+**§11** restructured into *Amendments (pre-data)* vs *Deviations (post-data)* with amendment **A1**.
+Reasoning in `decisions.md` **D16**. Verified pre-data: response tracker header-only, counts still **0**.
+
+**Two blockers surfaced, both needing a human:**
+1. **SRI is not computable** — PAP §4 uses `bt_trial_intent`, absent from the live v3 form. **SRI feeds
+   D2 of the scorecard.** Three options in PAP §11; not patched silently.
+2. **The PAP has never been frozen** (no `PAP_frozen_*.md`). Freeze it now — the pre-registration claim
+   for P1–P5 depends on a dated artefact.
+
+**Update · 2026-09-18 (later still) — SRI is worse than reported; three options drafted.**
+`09_analysis/SRI_options_decision_memo.md` written. **Correction to the earlier entry: TWO of SRI's
+three components are missing, not one** — `bt_trial_intent` *and* `dec_habit_lock` are both absent from
+the live v3 form (no `bt_` or `dec_` variable exists in v3). SRI reduces to a **single binary item**.
+The binding constraint on any rebuild is **double-counting inside D2**: (b), (c) and (d) already consume
+`beh_switch_savings_required`, `beh_platforms_used_4wk` and `beh_subscriptions`, so the only
+non-redundant switching items left are `prop_P_intent` / `prop_Q_intent` (Q20/Q21).
+Options: **1 Drop** (pre-registered default, re-normalise D2 to 53.8/23.1/23.1) · **2 Substitute PTI =
+r(max(prop_P_intent, prop_Q_intent))**, renamed, single item, D2 weights unchanged — **recommended** ·
+**3 Rebuild 2-item composite** (double-counts multi-homing to ~32.5% of D2). PAP §11 corrected.
+**Awaiting a human pick → D17 → then freeze.** Counts still **0**.

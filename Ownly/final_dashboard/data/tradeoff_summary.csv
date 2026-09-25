@@ -1,0 +1,4 @@
+dimension,description,chose_cheaper_k,n,chose_cheaper_pct,ci_lo,ci_hi,paid_premium_pct
+speed,wait 15 minutes longer,37,40,92.5,80.1,97.4,7.5
+reliability,accept 3-in-10 late instead of 1-in-10,29,40,72.5,57.2,83.9,27.5
+usual restaurants,give up most usual restaurants,14,40,35.0,22.1,50.5,65.0

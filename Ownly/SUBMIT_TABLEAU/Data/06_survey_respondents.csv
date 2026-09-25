@@ -1,0 +1,41 @@
+Respondent ID,Occupation Segment,Holds Membership,Memberships Held,Multi Homing,Uses Rapido,Rapido Food Seen,Aware Of Ownly,Opened Ownly,Ordered On Ownly,Trades Speed,Trades Reliability,Trades Restaurants,Saving Required Rs,No Amount Would Switch,Does Not Know,Orders 4wk,Swiggy Orders,Zomato Orders,Ownly Orders,Other Orders,Last Bill Rs,Amount Per Person,Repeat Intent Score,Durability Doubt Score,Proposition P Intent,Proposition Q Intent,Bill Fairness,Gachibowli Proper
+R003,Student,Yes,1,No,No,,Yes,Yes,No,Yes,No,No,75.0,No,No,8.0,0.0,8.0,0.0,0.0,500.0,,3.0,4.0,5.0,4.0,"No, the extra charges on top were too much",Yes
+R004,Student,Yes,1,No,No,,Yes,Yes,Yes,Yes,Yes,No,50.0,No,No,8.0,0.0,8.0,0.0,0.0,1300.0,,2.0,4.0,5.0,4.0,"No, the food itself was overpriced",Yes
+R006,Working professional,Yes,1,Yes,No,,No,No,No,Yes,Yes,Yes,10.0,No,No,3.0,2.0,1.0,0.0,0.0,700.0,,2.0,4.0,5.0,5.0,"No, the extra charges on top were too much",Yes
+R007,Working professional,Yes,1,Yes,Yes,No,No,No,No,Yes,Yes,Yes,50.0,No,No,4.0,0.0,1.0,0.0,3.0,700.0,,3.0,3.0,4.0,2.0,"No, the food itself was overpriced",Yes
+R010,Working professional,No,0,No,No,No,No,No,No,Yes,Yes,No,100.0,No,No,,0.0,0.0,0.0,0.0,,,3.0,5.0,3.0,3.0,,No
+R017,Student,Yes,1,Yes,No,No,Yes,Yes,No,Yes,Yes,Yes,,Yes,No,12.0,10.0,2.0,0.0,0.0,1867.0,,3.0,4.0,4.0,3.0,"Yes, it felt fair",No
+R023,Working professional,Yes,1,Yes,Yes,Not sure,No,No,No,Yes,No,No,75.0,No,No,5.0,2.0,3.0,0.0,0.0,1500.0,,4.0,4.0,5.0,5.0,"Yes, it felt fair",Yes
+R024,Student,Yes,1,Yes,Yes,No,No,No,No,Yes,Yes,No,20.0,No,No,15.0,3.0,12.0,0.0,0.0,220.0,,3.0,5.0,4.0,5.0,"Yes, it felt fair",Yes
+R035,Student,Yes,1,No,Yes,Not sure,No,No,No,Yes,Yes,No,30.0,No,No,5.0,0.0,5.0,0.0,0.0,535.0,,4.0,4.0,4.0,5.0,"Yes, it felt fair",Yes
+R037,Student,Yes,1,Yes,No,Yes,Yes,Yes,No,Yes,No,Yes,10.0,No,No,19.0,17.0,2.0,0.0,0.0,153.0,,3.0,4.0,4.0,4.0,"Yes, it felt fair",Yes
+R039,Student,Yes,1,No,Yes,No,No,No,No,Yes,Yes,No,100.0,No,No,10.0,10.0,0.0,0.0,0.0,1000.0,,3.0,4.0,4.0,4.0,"No, the extra charges on top were too much",Yes
+R042,Student,Yes,1,No,Yes,No,No,No,No,Yes,Yes,No,75.0,No,No,2.0,2.0,0.0,0.0,0.0,356.0,,2.0,5.0,4.0,4.0,I didn't really look at the breakdown,Yes
+R045,Working professional,No,0,Yes,Yes,No,No,No,No,Yes,Yes,No,,Yes,No,5.0,4.0,0.0,0.0,1.0,1000.0,,1.0,4.0,2.0,4.0,"No, the extra charges on top were too much",Yes
+R046,Student,No,0,No,Yes,No,No,No,No,Yes,Yes,Yes,50.0,No,No,,0.0,0.0,0.0,0.0,,,4.0,4.0,5.0,4.0,,Yes
+R048,Student,Yes,1,Yes,Yes,Not sure,Yes,Yes,Yes,Yes,Yes,No,30.0,No,No,9.0,6.0,2.0,0.0,1.0,543.0,,3.0,5.0,4.0,4.0,"Yes, it felt fair",Yes
+R050,Student,Yes,1,Yes,Yes,No,Yes,No,No,Yes,Yes,No,30.0,No,No,20.0,18.0,1.0,0.0,1.0,306.0,,3.0,5.0,5.0,3.0,I didn't really look at the breakdown,Yes
+R052,Student,Yes,1,No,Yes,No,No,No,No,Yes,Yes,No,50.0,No,No,5.0,5.0,0.0,0.0,0.0,600.0,,2.0,4.0,4.0,5.0,"No, the extra charges on top were too much",Yes
+R054,Student,Yes,1,Yes,No,No,No,No,No,Yes,Yes,Yes,30.0,No,No,15.0,10.0,5.0,0.0,0.0,169.0,,5.0,4.0,4.0,5.0,"Yes, it felt fair",Yes
+R056,Student,Yes,1,No,Yes,No,No,No,No,Yes,Yes,No,,No,Yes,5.0,0.0,5.0,0.0,0.0,322.0,,3.0,3.0,3.0,4.0,"Yes, it felt fair",Yes
+R057,Student,Yes,1,No,Yes,Not sure,No,No,No,Yes,No,No,20.0,No,No,1.0,1.0,0.0,0.0,0.0,318.0,,2.0,4.0,1.0,1.0,"No, the extra charges on top were too much",Yes
+R060,Other,Yes,1,Yes,No,No,Yes,No,No,Yes,Yes,No,100.0,No,No,11.0,6.0,5.0,0.0,0.0,800.0,,3.0,5.0,5.0,4.0,"No, the extra charges on top were too much",No
+R063,Student,Yes,1,No,Yes,No,No,No,No,Yes,Yes,No,100.0,No,No,4.0,4.0,0.0,0.0,0.0,800.0,,3.0,5.0,4.0,1.0,"No, the extra charges on top were too much",Yes
+R065,Student,Yes,1,Yes,Yes,No,No,No,No,Yes,No,No,100.0,No,No,11.0,9.0,0.0,0.0,2.0,176.0,,4.0,4.0,3.0,4.0,"Yes, it felt fair",Yes
+R066,Student,No,0,No,Yes,No,Yes,No,No,Yes,Yes,Yes,30.0,No,No,,0.0,0.0,0.0,0.0,,,4.0,2.0,4.0,4.0,,Yes
+R078,Student,No,0,No,No,I don't use the Rapido app,Yes,No,No,No,Yes,No,,Yes,No,,0.0,0.0,0.0,0.0,,,5.0,5.0,4.0,4.0,,No
+R080,Student,Yes,1,Yes,No,No,No,No,No,Yes,Yes,Yes,50.0,No,No,3.0,2.0,1.0,0.0,0.0,200.0,,2.0,4.0,4.0,4.0,"No, the extra charges on top were too much",Yes
+R081,Student,No,0,No,No,Yes,No,No,No,Yes,Yes,No,10.0,No,No,20.0,0.0,20.0,0.0,0.0,2500.0,,1.0,1.0,1.0,1.0,"No, the food itself was overpriced",Yes
+R082,Student,Yes,1,Yes,Yes,Yes,Yes,No,No,Yes,Yes,No,30.0,No,No,7.0,4.0,3.0,0.0,0.0,1200.0,,4.0,4.0,5.0,4.0,"No, the extra charges on top were too much",Yes
+R083,Student,Yes,1,Yes,Yes,Yes,Yes,No,No,Yes,Yes,No,30.0,No,No,7.0,3.0,3.0,0.0,1.0,299.0,,3.0,5.0,4.0,4.0,"No, the extra charges on top were too much",No
+R084,Student,Yes,1,Yes,Yes,Not sure,Yes,No,No,No,No,Yes,75.0,No,No,6.0,0.0,5.0,0.0,1.0,3000.0,,2.0,4.0,4.0,2.0,"No, the food itself was overpriced",Yes
+R086,Student,Yes,1,Yes,No,Yes,Yes,No,No,Yes,Yes,Yes,20.0,No,No,18.0,11.0,3.0,0.0,4.0,206.0,,3.0,4.0,5.0,4.0,"No, the extra charges on top were too much",Yes
+R088,Student,Yes,1,Yes,No,I don't use the Rapido app,Yes,Yes,No,Yes,Yes,Yes,20.0,No,No,6.0,2.0,3.0,0.0,1.0,175.0,,3.0,5.0,4.0,4.0,"No, the food itself was overpriced",Yes
+R089,Student,Yes,1,Yes,Yes,No,No,No,No,Yes,No,No,50.0,No,No,13.0,5.0,2.0,0.0,6.0,404.0,,3.0,5.0,5.0,5.0,"No, the extra charges on top were too much",Yes
+R095,Student,No,0,No,No,I don't use the Rapido app,Yes,No,No,Yes,Yes,No,20.0,No,No,3.0,3.0,0.0,0.0,0.0,289.0,,2.0,4.0,4.0,3.0,I didn't really look at the breakdown,Yes
+R096,Student,Yes,1,Yes,Yes,No,No,No,No,Yes,No,Yes,50.0,No,No,10.0,3.0,7.0,0.0,0.0,,,2.0,4.0,4.0,4.0,"No, the extra charges on top were too much",Yes
+R099,Student,Yes,1,Yes,No,No,No,No,No,Yes,No,No,,No,Yes,3.0,0.0,1.0,0.0,2.0,330.0,,4.0,4.0,3.0,5.0,"Yes, it felt fair",Yes
+R104,Student,Yes,1,No,No,I don't use the Rapido app,No,No,No,No,No,No,,Yes,No,21.0,21.0,0.0,0.0,0.0,450.0,,5.0,4.0,1.0,5.0,"Yes, it felt fair",Yes
+R121,Student,Yes,1,No,Yes,No,No,No,No,Yes,Yes,Yes,30.0,No,No,1.0,0.0,1.0,0.0,0.0,240.0,,2.0,4.0,4.0,4.0,"Yes, it felt fair",Yes
+R123,Working professional,Yes,1,Yes,Yes,No,Yes,No,No,Yes,No,Yes,30.0,No,No,10.0,0.0,5.0,0.0,5.0,400.0,,2.0,2.0,3.0,4.0,"No, the food itself was overpriced",Yes
+R124,Working professional,Yes,1,Yes,Yes,No,Yes,Yes,No,Yes,Yes,No,,No,Yes,21.0,15.0,6.0,0.0,0.0,568.0,,3.0,4.0,5.0,5.0,"No, the food itself was overpriced",No

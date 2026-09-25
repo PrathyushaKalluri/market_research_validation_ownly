@@ -1,0 +1,5 @@
+Guardrail,Breach condition,Observed,State,Note
+G1,K20 saving CI includes 0,"K20 = 30.5%, 95% CI 16.9 to 52.56",NOT BREACHED,"CI lower bound is above 0, so the saving is not consistent with zero. Bootstrap on n=4 matched sets, so the interval is wide."
+G2,K51 >= 40%,K51 NOT COMPUTABLE,CANNOT EVALUATE,"Question A3 is absent from the live instrument. This guardrail is unevaluable, which under decision_rules 3.1 means a KEEP-overall cannot be cleared on evidence."
+G3,K40 < 60%,K40 = 90.0%,NOT BREACHED,"90% of the 10-restaurant audit frame is listed on Ownly. Note the frame was built from Ownly's own showcase page plus incumbent chains, so it selects for restaurants present everywhere."
+G4,K71 >= 20pp,K71 NOT COMPUTABLE,CANNOT EVALUATE,Needs question A2 crossed with trier repeat behaviour. A2 absent; trier base is 2.

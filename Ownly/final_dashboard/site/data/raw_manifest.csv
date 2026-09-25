@@ -1,0 +1,2 @@
+source,sheet_id,downloaded,sha256_of_xlsx,raw_rows,raw_cols,canonical_questions,first_response,last_response,supersedes
+Google Sheet (live) — Form Responses 1,1YWjzxcGNsEWhM_OT1PHFhGa9Eb2b0EegY63qz5q-7G8,2026-09-19T02:19:07,aa6b2a8e565b37d0f870ca8df82c334a5cc7c588f2d3a7fe37688ac49be084ee,124,99,44,2026-09-16 20:55:34.711000,2026-09-19 02:05:20.945000,"Ownly Survey.csv.zip (113 rows) — column ORDER differs, do not reuse"

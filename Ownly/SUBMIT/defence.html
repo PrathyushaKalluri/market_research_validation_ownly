@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q&amp;A Preparation</title>
+<style>
+:root{
+  --ground:#f1f4f7; --paper:#ffffff; --paper2:#f8fafb; --ink:#10151a; --ink2:#48535e; --muted:#7b8590;
+  --line:#e3e8ec; --line2:#c9d1d8; --accent:#2a78d6; --soft:#e9f1fc;
+  --good:#0ca30c; --goodink:#006300; --warn:#fab219; --warnink:#8a5d00; --crit:#d03b3b;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;}
+body{margin:0;padding:0 20px;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:800px;margin:0 auto;}
+header{padding-block:44px 10px;}
+h1{font-size:clamp(26px,4.4vw,38px);line-height:1.12;letter-spacing:-.022em;margin:0 0 12px;font-weight:700;text-wrap:balance;}
+h2{font-size:20px;margin:0 0 6px;font-weight:700;letter-spacing:-.014em;}
+p{margin:0 0 14px;color:var(--ink2);}
+.lede{font-size:17px;}
+b,strong{color:var(--ink);font-weight:600;}
+code{font-family:var(--mono);font-size:.88em;background:var(--paper2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+
+section{padding-block:32px;border-top:1px solid var(--line);}
+.sechead{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
+
+.qa{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:14px;}
+.qa .q{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+.qa .qn{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);flex:none;padding-top:3px;width:22px;}
+.qa .qt{font-size:17px;font-weight:600;color:var(--ink);line-height:1.35;}
+.qa .lbl{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--good);margin-bottom:5px;}
+.qa .say{font-size:15.5px;color:var(--ink);background:var(--paper2);border-left:3px solid var(--good);border-radius:0 6px 6px 0;padding:12px 16px;margin-bottom:12px;}
+.qa .say p{margin-bottom:0;color:var(--ink);}
+.qa .say p + p{margin-top:9px;}
+.qa .why{font-size:14px;color:var(--ink2);margin:0;}
+.qa .why .h{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;}
+.qa .dont{margin-top:12px;font-size:14px;color:var(--crit);}
+.qa .dont .h{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px;}
+
+.rules{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:19px 22px;margin-top:22px;}
+.rules ol{margin:0;padding-left:20px;}
+.rules li{margin-bottom:10px;color:var(--ink2);}
+.rules li:last-child{margin-bottom:0;}
+.rules li b{color:var(--ink);}
+
+footer{border-top:1px solid var(--line);padding-block:24px 46px;font-family:var(--mono);font-size:11px;line-height:1.8;color:var(--muted);}
+@media print{ body{background:#fff;} .qa{page-break-inside:avoid;} }
+@media(max-width:560px){ .qa{padding:16px 15px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Read once, the night before</div>
+  <h1>The twelve questions you will be asked, and the honest answer to each.</h1>
+  <p class="lede">Every one of these has a real answer from your own data. None of them requires you
+  to defend something indefensible — because you already wrote the limitations down yourself.</p>
+
+  <div class="rules">
+    <ol>
+      <li><b>Volunteer the limitation before they find it.</b> "n = 40, so I'm reporting confidence
+      intervals throughout" lands far better than being caught.</li>
+      <li><b>"I don't know" is a complete answer</b> when followed by "and here's what would tell us."
+      That is what your "test next" list is for.</li>
+      <li><b>Never defend a number you cannot source.</b> Open <code>numbers.html</code> instead.</li>
+      <li><b>Your strongest card is the falsified prediction.</b> If the conversation stalls, play it.</li>
+    </ol>
+  </div>
+</header>
+
+<!-- ───── ON THE SAMPLE ───── -->
+<section>
+  <div class="sechead">On the sample</div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">01</span><span class="qt">Isn't n = 40 far too small to conclude anything?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>It's small, which is why I report a 95% confidence interval on every single proportion
+      rather than quoting a point estimate. And the central finding doesn't depend on sample size in
+      the way a percentage would — it's a <b>paired</b> design, so I'm comparing each person against
+      themselves.</p>
+      <p>On that comparison, 24 people accepted a delay but refused to lose their restaurants, and
+      exactly one did the reverse. A 24-to-1 split is significant at p = 0.0000015 even at n = 40.
+      What n = 40 <i>does</i> limit is the subgroup analysis — and I've marked all of those
+      underpowered rather than reporting them as findings.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>You concede the real limit, then show the
+    design was chosen to survive it.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">02</span><span class="qt">Your sample is 80% students. Doesn't that bias everything?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>Yes, and I'd flag it as the single biggest threat to generalising. 32 of 40 are students and
+      only 7 work full-time.</p>
+      <p>I did test whether it changes the answer. Non-students took the cheaper, slower option 100%
+      of the time against students' 90.6% — same direction, and Fisher's exact gives p = 1.00, so no
+      detectable difference. The switching <i>threshold</i> does differ: students ₹30, professionals
+      ₹50. But with n = 7 professionals I report that as directional, not as a segment finding.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>You don't just admit the skew, you show you
+    checked whether it mattered.</p>
+    <p class="dont"><span class="h">Don't</span>Don't claim the sample represents Gachibowli. It's a
+    convenience sample and you should say so.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">03</span><span class="qt">Why did you throw away 84 of your 124 responses?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>I didn't throw any away — all 124 are still in the dataset carrying exclusion flags. I
+      filtered to the study population in three documented steps: Hyderabad branch (78), age screen
+      20–35 (52), inside the Gachibowli catchment (40).</p>
+      <p>The study is about one catchment. Including Bengaluru respondents would have given a bigger
+      n of the wrong people, which is worse than a smaller n of the right ones.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ON THE METHOD ───── -->
+<section>
+  <div class="sechead">On the method</div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">04</span><span class="qt">This is all stated preference. People say one thing and do another.</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>That's correct, and it's the single biggest limitation of the study. Nothing here is observed
+      behaviour — it's what people say, what the apps charged, and what people wrote publicly.</p>
+      <p>Two things mitigate it. First, the trade-off design holds money constant and varies only the
+      sacrifice, so it measures a <i>relative</i> preference, which is more robust than an absolute
+      intention. Second, the price audit is genuinely observed — I built the same basket on three apps
+      and recorded what the screen said.</p>
+      <p>For the part that stated preference genuinely can't answer, I built a fake-door experiment.
+      It's on slide 14. It's designed, built, the collector is verified working, and it needs about a
+      week of traffic I didn't have.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>This is the question you most want to be
+    asked, because your answer is "I know, and here is the instrument that fixes it."</p>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">05</span><span class="qt">Four price baskets? That's nothing.</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>Agreed — it's directional, not a price index, and I label it that way everywhere. One
+      address, one Wednesday dinner slot, four baskets.</p>
+      <p>What makes it still useful is that it's a <b>matched</b> design: identical items, same
+      address, same twenty-minute window, screenshots retained. So it's a clean read on the structure
+      of the bill even though it's a thin read on the market. The structural point holds regardless of
+      n — only ₹10 of the ₹71 gap was food price; the rest was fees Ownly doesn't charge.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">06</span><span class="qt">Why McNemar's test rather than a chi-square or a t-test?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>Because the same 40 people answered all three trade-off questions. That's paired data, and a
+      chi-square or two-proportion test assumes independent groups — using one here would ignore the
+      pairing and give the wrong answer.</p>
+      <p>McNemar looks only at the discordant pairs, the people who switched their answer between two
+      scenarios, and asks whether the switching went one way more than chance allows. I used the exact
+      version rather than the chi-square approximation because the discordant counts are small.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>Naming <i>why</i> the alternative would be
+    wrong shows you chose the test rather than found it.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">07</span><span class="qt">Did you decide these tests before or after you saw the data?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>Before. There's a pre-analysis plan specifying the tests, variables and decision rules, and
+      it's frozen with a provenance block.</p>
+      <p>I'd be precise about what that proves, though. The core sections are git-committed on
+      14 September, before the survey went live on the 16th — that's independently verifiable. A later
+      section adding five predictions was written on the 18th and wasn't committed until afterwards,
+      so its pre-data status rests on my own project log rather than on proof. I've marked those
+      predictions "pre-specified but not independently verifiable", and no conclusion rests on them
+      alone.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>Most students would claim full
+    pre-registration. Distinguishing what you can prove from what you merely assert is exactly the
+    habit being assessed.</p>
+  </div>
+</section>
+
+<!-- ───── ON THE FINDINGS ───── -->
+<section>
+  <div class="sechead">On the findings</div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">08</span><span class="qt">Five of your nine tests found nothing. Isn't that a failed study?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>No — it's a study that reports its null results instead of hiding them. Three tests reject
+      the null decisively, five fail to reject, and one couldn't be run.</p>
+      <p>And "fail to reject" doesn't mean "no effect". At n = 40 I can only detect large effects, so
+      it mostly means this sample can't see one. That's why those rows are labelled
+      <b>underpowered</b> rather than <b>no relationship</b> — and it's exactly how I know which
+      questions need a bigger sample next.</p>
+    </div>
+    <p class="dont"><span class="h">Don't</span>Never say a null result "proves there's no
+    difference." Absence of evidence is not evidence of absence — and being precise about this is
+    probably worth marks on its own.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">09</span><span class="qt">You predicted delivery speed would matter and it didn't. Doesn't that undermine you?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>The opposite, and this is the result I'd most want to highlight. I wrote prediction P3 down
+      <i>before</i> collecting data: that Ownly's roughly 17-minute delivery deficit would block
+      adoption. The data falsified it — 92.5% will wait 15 minutes longer to save ₹30.</p>
+      <p>A study that only confirms what it expected hasn't really tested anything. Committing to a
+      prediction in advance and then reporting that your own data killed it is the whole point of
+      pre-registration.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>This is your single strongest card. If the
+    Q&amp;A goes quiet, play it.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">10</span><span class="qt">You say half of Ownly's orders fail. Where does that come from?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>I don't say that, and it would be wrong to. The 49.5% is the share of <i>coded social posts
+      by people describing their own order</i> that mention a failure — it's a measure of what the
+      conversation is about, not a failure rate.</p>
+      <p>People post about bad orders far more readily than good ones, so that number overstates
+      failure. What's informative is the <b>comparison</b>: 49.5% among first-hand users against 18.9%
+      in general discussion. The gap is the signal; neither level is.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>Correcting a misreading of your own data,
+    calmly, demonstrates you understand what it can and cannot support.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">11</span><span class="qt">Where are CAC, CLV, retention and market share? Those are basic marketing metrics.</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>They're in the report, listed as <b>NOT ESTIMABLE</b>, each with a stated reason. Ten of
+      them.</p>
+      <p>Every one needs Ownly's internal transaction or cost data — customers at the start and end of
+      a period, marketing spend, variable cost per order. There's no public source, and a 40-person
+      convenience sample can't stand in for a market. I could have produced plausible-looking numbers,
+      but they'd have been fiction.</p>
+      <p>I'd argue that's itself a finding: the metrics that determine whether this business survives
+      are precisely the ones no external researcher can see.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>The instinct is to feel caught out. Don't —
+    refusing to fabricate is the stronger position, and saying so plainly flips the question.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="qn">12</span><span class="qt">So what should Ownly actually do on Monday morning?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>Fix the restaurant list before spending another rupee on discounting.</p>
+      <p>Specifically: keep the zero-fee structure, because it's the one advantage that survives
+      without subsidy. Stop leading with "cheaper than Swiggy and Zomato", because for the 82.5% who
+      hold a membership that claim is false at their own checkout and any coupon falsifies it. Swap
+      broad chain coverage for named local depth, because 88.9% of the catalogue is already available
+      elsewhere and restaurants are the one thing people won't trade. And stop spending on delivery
+      speed, because 92.5% will wait.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>Every clause carries a number. That's the
+    difference between an opinion and a recommendation.</p>
+  </div>
+</section>
+
+<!-- ───── HARDEST ───── -->
+<section>
+  <div class="sechead">The hardest one</div>
+  <div class="qa">
+    <div class="q"><span class="qn">★</span><span class="qt">You never actually tested your main hypothesis, did you?</span></div>
+    <div class="lbl">Say</div>
+    <div class="say">
+      <p>No, not behaviourally — and I'd rather say that plainly than dress up a survey result as
+      conversion.</p>
+      <p>H₀ asks whether a Bengaluru-style proposition converts differently from a Hyderabad-localised
+      one. I tested the stated-preference analogue: among the 29 who expressed a preference, 62.1%
+      chose the Bengaluru pitch, p = 0.265 — I can't distinguish that from chance. And 11 of 40
+      couldn't choose between the two at all, which is itself informative about how distinct the two
+      strategies really are.</p>
+      <p>Answering it properly needs behaviour, so I built the instrument: a two-arm fake-door landing
+      test, randomised, with event logging. It's built, the collector is verified, and it needs about
+      a week of traffic. At 200 visitors it would detect a 20-point difference; at 500, twelve points.
+      That's the next thing I'd run, and I know what it would and wouldn't be able to tell me.</p>
+    </div>
+    <p class="why"><span class="h">Why this works</span>You can't win this by pretending. You win it
+    by showing you know exactly what's missing, why it's missing, and what it would take — which is a
+    more advanced answer than a result would have been.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Backing detail for every figure quoted here is in <b>numbers.html</b>. Full argument in
+  <b>writeup.html</b>. Pre-analysis plan at <b>09_analysis/PAP_frozen_2026-09-21.md</b>; judgement
+  calls at <b>_ops/decisions.md</b>.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -350,3 +350,101 @@ each file was and what replaced it, because the path from v3 to v6 is part of th
 **D15 amendment (2026-09-17, user instruction):** the research disclosure panel is removed. After the tap the page
 shows a Buffer-style "Coming soon — we're not taking orders in Gachibowli yet"; the "Research study" tag, the
 university footer and "if this existed" wording are gone. Page version `2026-09-17.v3b`; analyse v3b only.
+
+---
+
+## D16 — Challenger-pattern predictions P1–P5 are pre-registered as a SECONDARY family (2026-09-18)
+
+**Decision:** fold the five predictions from
+`01_secondary_research/challenger_failures/D_synthesis_why_challengers_fail.md` §6 into the PAP as a new
+**§6.7**, with exact variables, tests, effect sizes, decision rules and falsification conditions.
+
+**Why now, and why this is still legitimate pre-registration.** The predictions were generated from a
+pattern in *other companies'* histories (Uber Eats India, Foodpanda, Amazon Food, ONDC, Thrive, DotPe).
+If they were written down after our own results arrived, they would be a story fitted to the data.
+`13_survey_v3_live/survey_response_tracker.csv` was **header-only (zero rows)** on 2026-09-18 and
+`progress.md` records counts "all 0" through 2026-09-17, so registration precedes the data. Logged as
+**amendment A1** (pre-data), explicitly distinguished from a **deviation** (post-data) in PAP §11.
+
+**Three judgement calls, with reasons:**
+
+1. **Separate Holm family, not added to the ★16.** Merging 5 tests into the confirmatory family would
+   raise the multiplicity burden on the 16 hypotheses the study exists to test. Cost: study-wide error
+   is not controlled *across* the two families. That cost is stated in PAP §8 rather than hidden, and is
+   the reason P1–P5 may support a recommendation but never drive one.
+2. **P2's direction is pre-registered *with* its plausible reversal.** High coupon-dependence could mean
+   "the coupon already erases Ownly's gap" (our prediction) **or** simply "more price-motivated" (the
+   opposite). Both readings are written down now so a reversal counts as falsification instead of being
+   reinterpreted afterwards.
+3. **P3 gets a one-directional inference.** Q16 tests a **15-minute** gap; the audit observed **~17 min**
+   (Ownly 39.5 vs Swiggy 22.5 / Zomato 17.5). Failing at 15 implies failing at 17; the converse does not
+   hold. Stated in §6.7 so the asymmetry is not read backwards.
+
+**What this does NOT change:** H₀, the ★ confirmatory set, the five scorecard dimensions, or any
+KEEP/ADAPT/DROP call. No survey data exists.
+
+**Blocking item surfaced while doing this (needs a human decision):** PAP §4's **SRI** formula uses
+`bt_trial_intent`, which **does not exist** in the live v3 instrument — a mismatch between the 14 Sep PAP
+and the 16 Sep form. **SRI is therefore not computable as written, and SRI feeds D2 of the decision
+scorecard.** Options in PAP §11; deliberately not patched silently.
+
+**Also outstanding:** the PAP has **never been frozen** — no `PAP_frozen_*.md` exists. The
+pre-registration claim for P1–P5 rests on a dated frozen artefact, so freeze it now.
+
+---
+
+## D17 · SRI — take Option 1 (Drop), the pre-registered default
+
+**Date:** 2026-09-21 · **Status:** DECIDED · **Classification:** Deviation (post-data), not an amendment
+
+**Decision.** Drop SRI. Re-normalise D2 to **53.8 / 23.1 / 23.1** across components (b), (c), (d), exactly
+as `M_pre_analysis_plan.md` §11 already specifies as the default. Report **PTI** —
+`r(max(prop_P_intent, prop_Q_intent))` — as a **labelled exploratory supplement** that informs no
+KEEP/ADAPT/DROP call and enters no scorecard dimension.
+
+**This overturns the recommendation in `09_analysis/SRI_options_decision_memo.md`,** which recommended
+Option 2 (substitute PTI into D2 at the designed weights). The reason is the memo's own mandatory
+precondition, not a disagreement with its reasoning:
+
+> *"If you pick Option 2, one sequencing rule is mandatory: finalise Service Q's copy against the pilot
+> interviews first, then freeze the PAP. PTI is defined on Q20/Q21, so freezing before Q's wording is
+> settled would make the pre-registration hollow."*
+
+Service Q's copy is fielded and its responses are collected. That precondition can no longer be met in
+either order. Choosing Option 2 now would mean **selecting a scorecard component after seeing the data
+it scores** — the precise failure mode pre-registration exists to prevent. Option 1 requires no
+post-hoc judgement because the PAP had already named it as the fallback.
+
+**What this costs, stated plainly.** D2 now rests largely on the ₹-threshold question
+(`beh_switch_savings_required`). The memo is right that this discards the only other usable switching
+signal the instrument collected. We accept a thinner D2 in exchange for a D2 that was not chosen
+against the data. PTI still gets reported — it just does not get to move a recommendation.
+
+**Why not Option 3.** Unchanged from the memo: it double-counts multi-homing to roughly 32.5% of D2.
+
+**Reversible?** Yes, and the reversal must be explicit. If a reader prefers Option 2, D2 recomputes
+from PTI, which is reported alongside. Nothing is hidden by this choice.
+
+---
+
+## D18 · Freeze the PAP as a tiered retrospective snapshot
+
+**Date:** 2026-09-21 · **Status:** DONE
+
+**Artefact:** `09_analysis/PAP_frozen_2026-09-21.md`
+**SHA-256:** `5ada2f3a83bd5337fcef4758e0ca8fb05d786dca0322030fd32020e06f63938f`
+
+The PAP had never been frozen. Freezing it today and dating it today would present a post-data
+document as a pre-registration. Instead the freeze carries a provenance block that separates what can
+be proved from what is merely asserted:
+
+- **Tier A** — §1–§6.6, §7–§10: committed at `83ff55f`, **2026-09-14 23:42:19 +0530**, before the
+  instrument went live (2026-09-16). Git-dated, independently verifiable.
+- **Tier B** — §6.7 (P1–P5), the §7 cuts, the §8 second Holm family, the §11 restructure: written
+  2026-09-18, uncommitted until now. Pre-data status rests on `_ops/progress.md` self-attestation only;
+  the raw survey export is untracked, so nothing corroborates the ordering. **P1–P5 are reported as
+  pre-specified but not independently verifiable, and carry no confirmatory claim alone.**
+- **Tier C** — D17 above: post-data, logged as a deviation.
+
+**Lesson recorded for the next study:** freeze before fielding, and commit the frozen file, so the
+provenance question never has to be argued.

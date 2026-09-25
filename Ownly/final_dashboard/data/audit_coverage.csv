@@ -1,0 +1,11 @@
+restaurant_display,ownly,swiggy,zomato,on_incumbent,on_ownly,status
+Aanimuthyalu Unlimited,True,False,False,False,True,Ownly only
+Bawarchi,True,True,True,True,True,On Ownly and incumbents
+Cream Stone,True,True,True,True,True,On Ownly and incumbents
+Karachi Bakery,True,True,True,True,True,On Ownly and incumbents
+Mehfil,True,True,True,True,True,On Ownly and incumbents
+Murgan Tiffins,True,True,True,True,True,On Ownly and incumbents
+Paradise Biryani,True,True,True,True,True,On Ownly and incumbents
+Pizza Hut,False,True,True,True,False,Missing from Ownly
+Shah Ghouse,True,True,True,True,True,On Ownly and incumbents
+Wendy's Burgers,True,True,True,True,True,On Ownly and incumbents

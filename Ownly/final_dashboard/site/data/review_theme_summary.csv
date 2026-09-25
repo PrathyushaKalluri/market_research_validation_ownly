@@ -1,0 +1,25 @@
+base,theme_family,items_mentioning,base_n_with_any_theme,base_n_total,share_of_coded_items_pct,measure_definition
+"Public discussion (social, relevant)",PRICE_ADVANTAGE,41,264,420,15.5,share of coded items mentioning this theme family - NOT an order failure rate
+"Public discussion (social, relevant)",PRICE_DOUBT,99,264,420,37.5,share of coded items mentioning this theme family - NOT an order failure rate
+"Public discussion (social, relevant)",FULFILMENT_FAIL,50,264,420,18.9,share of coded items mentioning this theme family - NOT an order failure rate
+"Public discussion (social, relevant)",SUPPORT_REFUND,43,264,420,16.3,share of coded items mentioning this theme family - NOT an order failure rate
+"Public discussion (social, relevant)",ASSORTMENT,32,264,420,12.1,share of coded items mentioning this theme family - NOT an order failure rate
+"Public discussion (social, relevant)",TRUST_QUALITY,3,264,420,1.1,share of coded items mentioning this theme family - NOT an order failure rate
+"Public discussion (social, relevant)",COMPETITION,29,264,420,11.0,share of coded items mentioning this theme family - NOT an order failure rate
+"Public discussion (social, relevant)",DISTRIBUTION,20,264,420,7.6,share of coded items mentioning this theme family - NOT an order failure rate
+First-hand Ownly accounts (social),PRICE_ADVANTAGE,22,97,123,22.7,share of coded items mentioning this theme family - NOT an order failure rate
+First-hand Ownly accounts (social),PRICE_DOUBT,20,97,123,20.6,share of coded items mentioning this theme family - NOT an order failure rate
+First-hand Ownly accounts (social),FULFILMENT_FAIL,48,97,123,49.5,share of coded items mentioning this theme family - NOT an order failure rate
+First-hand Ownly accounts (social),SUPPORT_REFUND,36,97,123,37.1,share of coded items mentioning this theme family - NOT an order failure rate
+First-hand Ownly accounts (social),ASSORTMENT,9,97,123,9.3,share of coded items mentioning this theme family - NOT an order failure rate
+First-hand Ownly accounts (social),TRUST_QUALITY,3,97,123,3.1,share of coded items mentioning this theme family - NOT an order failure rate
+First-hand Ownly accounts (social),COMPETITION,2,97,123,2.1,share of coded items mentioning this theme family - NOT an order failure rate
+First-hand Ownly accounts (social),DISTRIBUTION,0,97,123,0.0,share of coded items mentioning this theme family - NOT an order failure rate
+App-store reviews,PRICE_ADVANTAGE,3,29,37,10.3,share of coded items mentioning this theme family - NOT an order failure rate
+App-store reviews,PRICE_DOUBT,0,29,37,0.0,share of coded items mentioning this theme family - NOT an order failure rate
+App-store reviews,FULFILMENT_FAIL,21,29,37,72.4,share of coded items mentioning this theme family - NOT an order failure rate
+App-store reviews,SUPPORT_REFUND,23,29,37,79.3,share of coded items mentioning this theme family - NOT an order failure rate
+App-store reviews,ASSORTMENT,0,29,37,0.0,share of coded items mentioning this theme family - NOT an order failure rate
+App-store reviews,TRUST_QUALITY,4,29,37,13.8,share of coded items mentioning this theme family - NOT an order failure rate
+App-store reviews,COMPETITION,0,29,37,0.0,share of coded items mentioning this theme family - NOT an order failure rate
+App-store reviews,DISTRIBUTION,0,29,37,0.0,share of coded items mentioning this theme family - NOT an order failure rate

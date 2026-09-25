@@ -1,0 +1,161 @@
+Respondent ID,Occupation Segment,Holds Membership,Platform,Orders 4wk
+R003,Student,Yes,Swiggy,0
+R003,Student,Yes,Zomato,8.0
+R003,Student,Yes,Ownly,0
+R003,Student,Yes,Other,0
+R004,Student,Yes,Swiggy,0
+R004,Student,Yes,Zomato,8.0
+R004,Student,Yes,Ownly,0
+R004,Student,Yes,Other,0
+R006,Working professional,Yes,Swiggy,2.0
+R006,Working professional,Yes,Zomato,1.0
+R006,Working professional,Yes,Ownly,0
+R006,Working professional,Yes,Other,0
+R007,Working professional,Yes,Swiggy,0
+R007,Working professional,Yes,Zomato,1.0
+R007,Working professional,Yes,Ownly,0
+R007,Working professional,Yes,Other,3.0
+R010,Working professional,No,Swiggy,0
+R010,Working professional,No,Zomato,0
+R010,Working professional,No,Ownly,0
+R010,Working professional,No,Other,0
+R017,Student,Yes,Swiggy,10.0
+R017,Student,Yes,Zomato,2.0
+R017,Student,Yes,Ownly,0
+R017,Student,Yes,Other,0
+R023,Working professional,Yes,Swiggy,2.0
+R023,Working professional,Yes,Zomato,3.0
+R023,Working professional,Yes,Ownly,0
+R023,Working professional,Yes,Other,0
+R024,Student,Yes,Swiggy,3.0
+R024,Student,Yes,Zomato,12.0
+R024,Student,Yes,Ownly,0
+R024,Student,Yes,Other,0
+R035,Student,Yes,Swiggy,0
+R035,Student,Yes,Zomato,5.0
+R035,Student,Yes,Ownly,0
+R035,Student,Yes,Other,0
+R037,Student,Yes,Swiggy,17.0
+R037,Student,Yes,Zomato,2.0
+R037,Student,Yes,Ownly,0
+R037,Student,Yes,Other,0
+R039,Student,Yes,Swiggy,10.0
+R039,Student,Yes,Zomato,0
+R039,Student,Yes,Ownly,0
+R039,Student,Yes,Other,0
+R042,Student,Yes,Swiggy,2.0
+R042,Student,Yes,Zomato,0
+R042,Student,Yes,Ownly,0
+R042,Student,Yes,Other,0
+R045,Working professional,No,Swiggy,4.0
+R045,Working professional,No,Zomato,0
+R045,Working professional,No,Ownly,0
+R045,Working professional,No,Other,1.0
+R046,Student,No,Swiggy,0
+R046,Student,No,Zomato,0
+R046,Student,No,Ownly,0
+R046,Student,No,Other,0
+R048,Student,Yes,Swiggy,6.0
+R048,Student,Yes,Zomato,2.0
+R048,Student,Yes,Ownly,0
+R048,Student,Yes,Other,1.0
+R050,Student,Yes,Swiggy,18.0
+R050,Student,Yes,Zomato,1.0
+R050,Student,Yes,Ownly,0
+R050,Student,Yes,Other,1.0
+R052,Student,Yes,Swiggy,5.0
+R052,Student,Yes,Zomato,0
+R052,Student,Yes,Ownly,0
+R052,Student,Yes,Other,0
+R054,Student,Yes,Swiggy,10.0
+R054,Student,Yes,Zomato,5.0
+R054,Student,Yes,Ownly,0
+R054,Student,Yes,Other,0
+R056,Student,Yes,Swiggy,0
+R056,Student,Yes,Zomato,5.0
+R056,Student,Yes,Ownly,0
+R056,Student,Yes,Other,0
+R057,Student,Yes,Swiggy,1.0
+R057,Student,Yes,Zomato,0
+R057,Student,Yes,Ownly,0
+R057,Student,Yes,Other,0
+R060,Other,Yes,Swiggy,6.0
+R060,Other,Yes,Zomato,5.0
+R060,Other,Yes,Ownly,0
+R060,Other,Yes,Other,0
+R063,Student,Yes,Swiggy,4.0
+R063,Student,Yes,Zomato,0
+R063,Student,Yes,Ownly,0
+R063,Student,Yes,Other,0
+R065,Student,Yes,Swiggy,9.0
+R065,Student,Yes,Zomato,0
+R065,Student,Yes,Ownly,0
+R065,Student,Yes,Other,2.0
+R066,Student,No,Swiggy,0
+R066,Student,No,Zomato,0
+R066,Student,No,Ownly,0
+R066,Student,No,Other,0
+R078,Student,No,Swiggy,0
+R078,Student,No,Zomato,0
+R078,Student,No,Ownly,0
+R078,Student,No,Other,0
+R080,Student,Yes,Swiggy,2.0
+R080,Student,Yes,Zomato,1.0
+R080,Student,Yes,Ownly,0
+R080,Student,Yes,Other,0
+R081,Student,No,Swiggy,0
+R081,Student,No,Zomato,20.0
+R081,Student,No,Ownly,0
+R081,Student,No,Other,0
+R082,Student,Yes,Swiggy,4.0
+R082,Student,Yes,Zomato,3.0
+R082,Student,Yes,Ownly,0
+R082,Student,Yes,Other,0
+R083,Student,Yes,Swiggy,3.0
+R083,Student,Yes,Zomato,3.0
+R083,Student,Yes,Ownly,0
+R083,Student,Yes,Other,1.0
+R084,Student,Yes,Swiggy,0
+R084,Student,Yes,Zomato,5.0
+R084,Student,Yes,Ownly,0
+R084,Student,Yes,Other,1.0
+R086,Student,Yes,Swiggy,11.0
+R086,Student,Yes,Zomato,3.0
+R086,Student,Yes,Ownly,0
+R086,Student,Yes,Other,4.0
+R088,Student,Yes,Swiggy,2.0
+R088,Student,Yes,Zomato,3.0
+R088,Student,Yes,Ownly,0
+R088,Student,Yes,Other,1.0
+R089,Student,Yes,Swiggy,5.0
+R089,Student,Yes,Zomato,2.0
+R089,Student,Yes,Ownly,0
+R089,Student,Yes,Other,6.0
+R095,Student,No,Swiggy,3.0
+R095,Student,No,Zomato,0
+R095,Student,No,Ownly,0
+R095,Student,No,Other,0
+R096,Student,Yes,Swiggy,3.0
+R096,Student,Yes,Zomato,7.0
+R096,Student,Yes,Ownly,0
+R096,Student,Yes,Other,0
+R099,Student,Yes,Swiggy,0
+R099,Student,Yes,Zomato,1.0
+R099,Student,Yes,Ownly,0
+R099,Student,Yes,Other,2.0
+R104,Student,Yes,Swiggy,21.0
+R104,Student,Yes,Zomato,0
+R104,Student,Yes,Ownly,0
+R104,Student,Yes,Other,0
+R121,Student,Yes,Swiggy,0
+R121,Student,Yes,Zomato,1.0
+R121,Student,Yes,Ownly,0
+R121,Student,Yes,Other,0
+R123,Working professional,Yes,Swiggy,0
+R123,Working professional,Yes,Zomato,5.0
+R123,Working professional,Yes,Ownly,0
+R123,Working professional,Yes,Other,5.0
+R124,Working professional,Yes,Swiggy,15.0
+R124,Working professional,Yes,Zomato,6.0
+R124,Working professional,Yes,Ownly,0
+R124,Working professional,Yes,Other,0

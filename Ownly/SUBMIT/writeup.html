@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ownly Gachibowli — Written Report</title>
+<style>
+:root{
+  --ground:#f1f4f7; --paper:#ffffff; --paper2:#f8fafb; --ink:#10151a; --ink2:#3f4a55; --muted:#7b8590;
+  --line:#e3e8ec; --line2:#c9d1d8; --accent:#2a78d6; --soft:#e9f1fc;
+  --good:#0ca30c; --goodink:#006300; --warn:#fab219; --warnink:#8a5d00; --crit:#d03b3b;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;}
+body{margin:0;padding:0 20px;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.68;-webkit-font-smoothing:antialiased;}
+.page{max-width:760px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:52px 56px 60px;margin-block:26px 50px;box-shadow:0 1px 2px rgba(16,21,26,.04),0 20px 44px -34px rgba(16,21,26,.55);}
+
+h1{font-family:var(--serif);font-size:clamp(27px,4.2vw,38px);line-height:1.14;letter-spacing:-.012em;margin:0 0 10px;font-weight:700;text-wrap:balance;}
+.subtitle{font-size:17px;color:var(--ink2);margin:0 0 22px;line-height:1.5;}
+.meta{font-family:var(--mono);font-size:11.5px;line-height:1.9;color:var(--muted);padding-block:16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:34px;}
+.meta b{color:var(--ink2);font-weight:500;}
+
+h2{font-family:var(--serif);font-size:23px;line-height:1.22;margin:42px 0 12px;font-weight:700;letter-spacing:-.008em;}
+h2 .n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.06em;display:block;margin-bottom:6px;}
+h3{font-size:16.5px;margin:26px 0 8px;font-weight:600;}
+p{margin:0 0 15px;color:var(--ink2);}
+b,strong{color:var(--ink);font-weight:600;}
+em{font-style:italic;}
+a{color:var(--accent);}
+code{font-family:var(--mono);font-size:.88em;background:var(--paper2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+ul,ol{margin:0 0 15px;padding-left:22px;}
+li{margin-bottom:8px;color:var(--ink2);}
+li b{color:var(--ink);}
+
+.abstract{background:var(--paper2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:20px 24px;margin-bottom:8px;}
+.abstract p:last-child{margin-bottom:0;}
+
+.tw{overflow-x:auto;margin:20px 0;}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:14px;}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom-color:var(--line2);}
+td{color:var(--ink2);}
+td b{color:var(--ink);}
+tbody tr:last-child td{border-bottom:0;}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13px;padding-right:0;}
+caption{caption-side:top;text-align:left;font-size:12.5px;color:var(--muted);padding-bottom:9px;font-family:var(--mono);}
+
+.pill{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;white-space:nowrap;}
+.p-keep{background:#e4f6e4;color:var(--goodink);}
+.p-adapt{background:#fdf1d6;color:var(--warnink);}
+.p-drop{background:#fbe6e6;color:var(--crit);}
+.p-na{background:#eceff2;color:var(--muted);}
+
+blockquote{margin:22px 0;padding:0 0 0 20px;border-left:2px solid var(--line2);font-family:var(--serif);font-size:17px;font-style:italic;line-height:1.5;color:var(--ink);}
+blockquote cite{display:block;margin-top:9px;font-family:var(--mono);font-style:normal;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
+
+.keyfig{background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:18px 22px;margin:22px 0;}
+.keyfig p{margin-bottom:0;font-size:17px;color:var(--ink);}
+
+footer{max-width:760px;margin:0 auto;padding-block:0 50px;font-family:var(--mono);font-size:11px;line-height:1.8;color:var(--muted);}
+
+@media print{
+  body{background:#fff;padding:0;font-size:11pt;}
+  .page{box-shadow:none;border:0;border-radius:0;max-width:none;padding:0;margin:0;}
+  h2{page-break-after:avoid;}
+  table,.keyfig,.abstract,blockquote{page-break-inside:avoid;}
+  @page{margin:20mm 18mm;}
+}
+@media (max-width:620px){ .page{padding:30px 22px 40px;} body{font-size:15.5px;} }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<h1>Which parts of Ownly's Bengaluru playbook should survive Hyderabad?</h1>
+<p class="subtitle">A market research and validation study of price-led challenger adoption in the
+Gachibowli catchment, Hyderabad.</p>
+
+<div class="meta">
+  <b>Compiled</b> 21 September 2026 · <b>Fieldwork</b> September 2026<br>
+  <b>Survey</b> n = 40 in catchment (124 responses received, 87 passing quality checks) ·
+  <b>Price audit</b> 4 matched baskets across a 10-restaurant frame, one Gachibowli address,
+  Wednesday dinner slot, 16 September 2026<br>
+  <b>Public text</b> 420 social items, 275 YouTube comments, 37 app-store reviews — all hand-coded ·
+  <b>Interviews</b> 1 documented transcript plus team-reported interviews (count not recorded)<br>
+  <b>Experiment</b> Randomised fake-door landing test — designed, built, powered, <b>not fielded</b>
+</div>
+
+<!-- ───────── ABSTRACT ───────── -->
+<div class="abstract">
+  <p><b>Summary.</b> Ownly's price advantage in Gachibowli is real, structural and larger than the
+  saving people say they need. It was cheapest in four of four matched baskets, with a median saving
+  of ₹114.50, and its non-food charges are 5.2% of the bill against an incumbent median of 23.4%.
+  Unlike every challenger in the Indian record, that saving comes from removing fees rather than
+  funding discounts, so it does not depend on subsidy.</p>
+  <p>It nevertheless faces two constraints the price advantage cannot solve. First, assortment — not
+  price, speed or reliability — is the binding constraint on adoption: holding ₹30 constant, 92.5% of
+  respondents would accept a 15-minute delay and 72.5% a materially worse reliability record, but only
+  35.0% would give up their usual restaurants (McNemar exact, assortment versus speed,
+  p = 1.5 × 10⁻⁶). Second, 82.5% of the catchment holds an incumbent membership, which erodes the
+  observed advantage from covering 81.1% of the market's stated switching threshold to 56.1%, and to
+  27.3% once a routine incumbent coupon is applied — at which point Ownly is ₹28 more expensive.</p>
+  <p>The recommendation is therefore to <b>keep</b> the fee structure and price transparency,
+  <b>adapt</b> the comparative price claim, the restaurant strategy and the Rapido channel, and
+  <b>deprioritise</b> delivery-speed parity and deeper first-order discounting. A pre-registered
+  prediction that Ownly's ~17-minute delivery deficit would block adoption was falsified by the data.</p>
+</div>
+
+<!-- ───────── 1 ───────── -->
+<h2><span class="n">Section 1</span>The problem, and why it is not the obvious one</h2>
+
+<p>Ownly is a food-delivery platform backed by the bike-taxi company Rapido. Its proposition is that
+it charges restaurants no commission and adds no platform, packaging or surge fees, so the customer's
+final bill is lower than on Swiggy or Zomato. It launched in Bengaluru and is now operating in
+Hyderabad, including at the Gachibowli address used throughout this study.</p>
+
+<p>The obvious research question — <em>will anyone try it?</em> — is not worth asking. Discounts
+reliably produce trial. The Indian market has seen this repeatedly: Foodpanda, Uber Eats India and
+Amazon Food each bought substantial early volume and each subsequently exited or collapsed. Foodpanda
+fell from roughly 200,000 daily orders to approximately 5,000 once discounting stopped. No challenger
+in the Indian record has demonstrated post-subsidy retention.</p>
+
+<p>The question that matters is therefore about the second order rather than the first:</p>
+
+<div class="keyfig">
+  <p><b>How large and durable must Ownly's price advantage be to break Swiggy/Zomato lock-in in
+  Gachibowli, and what restaurant coverage, discovery and delivery experience are required so that
+  price-led trial becomes repeat usage?</b></p>
+</div>
+
+<p>Because Ownly is already operating locally, the decision this study serves is not whether to
+enter. It is a per-tactic judgement — <b>keep, adapt or deprioritise</b> — on each element of the
+approach that was used in Bengaluru.</p>
+
+<!-- ───────── 2 ───────── -->
+<h2><span class="n">Section 2</span>Research design</h2>
+
+<p>The study uses four independent evidence streams so that no single instrument has to carry the
+argument. Where two or more streams agree, the finding is reported as triangulated; where they
+disagree, the disagreement is reported rather than resolved by preference.</p>
+
+<div class="tw"><table>
+  <caption>Table 1 — Instruments and what each can and cannot establish</caption>
+  <thead><tr><th>Instrument</th><th>Scale</th><th>Establishes</th><th>Cannot establish</th></tr></thead>
+  <tbody>
+    <tr><td><b>Survey</b></td><td>n = 40 in catchment</td><td>Stated trade-offs, switching thresholds, awareness and membership</td><td>Behaviour. All survey figures are stated preference or self-reported behaviour.</td></tr>
+    <tr><td><b>Price audit</b></td><td>4 matched baskets, 10-restaurant frame</td><td>What each platform actually charged for identical items at one address and time</td><td>Whether the gap holds across dayparts, addresses or restaurants outside the frame.</td></tr>
+    <tr><td><b>Public text</b></td><td>732 items coded</td><td>What the market talks about, and how first-hand users differ from commentators</td><td>Incidence. Shares are of coded items, not of orders or of the population.</td></tr>
+    <tr><td><b>Interviews</b></td><td>1 documented + team-reported</td><td>Mechanisms and explanations behind the quantitative patterns</td><td>Prevalence. The total count was not recorded, so no percentage is reported.</td></tr>
+    <tr><td><b>Fake door</b></td><td>Designed, 0 events</td><td>— <span class="pill p-na">Not fielded</span></td><td>Everything. Reported as a designed experiment, not as a result.</td></tr>
+  </tbody>
+</table></div>
+
+<h3>2.1 The paired trade-off design</h3>
+
+<p>The central instrument inside the survey is a set of three forced choices administered to the same
+respondents. In each, the respondent chose between an order costing <b>₹260</b> and an otherwise
+comparable order costing <b>₹230</b>. The saving was held constant at ₹30 throughout; only the
+attribute sacrificed to obtain it changed — delivery speed in one, reliability in the second, and
+availability of the respondent's usual restaurants in the third.</p>
+
+<p>Holding the money constant and varying only the sacrifice means that any difference in acceptance
+between the three is attributable to the attribute rather than to price sensitivity. Because the same
+individuals answered all three, the appropriate significance test is a paired one.</p>
+
+<h3>2.2 Pre-registration</h3>
+
+<p>A pre-analysis plan specifying the tests, variables and decision rules was written before data
+collection and is frozen at <code>09_analysis/PAP_frozen_2026-09-21.md</code>. The frozen document
+carries a provenance block distinguishing sections that are cryptographically dated by a git commit
+of 14 September 2026 — before the instrument went live on 16 September — from later additions whose
+pre-data status rests on the project log alone. Those later additions are reported as pre-specified
+but not independently verifiable, and no conclusion in this report rests on them.</p>
+
+<!-- ───────── 3 ───────── -->
+<h2><span class="n">Section 3</span>Sample</h2>
+
+<p>124 responses were received. These were filtered in sequence to the study population: 78 answered
+the Hyderabad branch, 52 of those passed the 20–35 age screen, and 40 fell inside the Gachibowli
+catchment, of whom 34 were in Gachibowli proper. All 124 records remain in the dataset carrying
+exclusion flags; none was deleted.</p>
+
+<p>The sample is a convenience sample and skews student: 32 of 40 are students and 7 are working
+full-time. It is not a probability sample, and results describe this sample rather than the
+population of Gachibowli. Two sample characteristics are themselves findings:</p>
+
+<ul>
+  <li><b>82.5% hold a paid incumbent membership</b> (33 of 40; 95% CI 68.0–91.3). This is the single
+  largest barrier measured in the study, because a membership converts a structural list-price saving
+  into no saving at all.</li>
+  <li><b>57.5% use more than one delivery app</b> (95% CI 42.2–71.5). A multi-homing market allows
+  Ownly to become a secondary app before it becomes a primary one — a lower bar than switching, but
+  it also means trial does not imply displacement.</li>
+</ul>
+
+<!-- ───────── 4 ───────── -->
+<h2><span class="n">Section 4</span>Findings</h2>
+
+<h3>4.1 Assortment is the binding constraint</h3>
+
+<p>The three paired choices separate sharply. Respondents will trade time and reliability for ₹30;
+they will not trade their restaurants.</p>
+
+<div class="tw"><table>
+  <caption>Table 2 — Share accepting the ₹30 saving, by what is sacrificed (n = 40, paired)</caption>
+  <thead><tr><th>Sacrifice</th><th class="n">Accept</th><th class="n">95% CI</th><th>Reading</th></tr></thead>
+  <tbody>
+    <tr><td>Wait 15 minutes longer</td><td class="n"><b>92.5%</b></td><td class="n">80.1–97.4</td><td>Not a constraint</td></tr>
+    <tr><td>Accept a late order 3 times in 10 rather than 1</td><td class="n"><b>72.5%</b></td><td class="n">57.2–83.9</td><td>Not a constraint</td></tr>
+    <tr><td>Give up most usual restaurants</td><td class="n"><b>35.0%</b></td><td class="n">22.1–50.5</td><td><b>The constraint</b></td></tr>
+  </tbody>
+</table></div>
+
+<p>McNemar's exact test, which considers only respondents who changed their answer between two
+scenarios, confirms the separation is not sampling noise. Comparing assortment with speed, <b>24
+respondents accepted a delay but refused to lose their restaurants, while exactly one did the
+reverse</b> (p = 1.5 × 10⁻⁶). Comparing assortment with reliability, the discordance is 19 against 4
+(p = 0.0026). The third comparison — reliability against speed — is significant at p = 0.021 but is
+the weakest of the three and would not survive a strict multiple-comparison correction; the two
+assortment comparisons survive comfortably.</p>
+
+<p>This result is independently consistent with the price audit, which found <b>88.9% catalogue
+overlap</b> between Ownly and at least one incumbent, and with the public record, in which
+commentators name the same constraint directly.</p>
+
+<blockquote>
+  The number of restaurant need to improve.
+  <cite>YouTube comment, self-identified Ownly user</cite>
+</blockquote>
+
+<h3>4.2 The price advantage is real, structural, and largely invisible</h3>
+
+<p>Across four matched baskets priced on all three platforms at the same address within the same
+twenty minutes, Ownly was cheapest in all four on list price plus fees, with a median saving of
+<b>₹114.50 (30.5%)</b>. Examining a single basket line by line shows where the advantage comes from:
+for an identical item at Cream Stone, Ownly's menu price was ₹179.00 against Zomato's ₹189.00 — a
+difference of ₹10 — while the total difference at checkout was ₹71.19. <b>The remaining ₹61 was fees
+Ownly did not charge.</b></p>
+
+<p>This distinction matters more than the headline saving. A discount is funded and can be withdrawn;
+not charging a fee is structural and requires no subsidy to sustain. On zero-discount captures,
+non-food charges were <b>4.8% of an Ownly bill</b> against 15.1% on Zomato and 27.4% on Swiggy. On
+this mechanism Ownly genuinely differs from the challengers that preceded it.</p>
+
+<p>The advantage is nevertheless largely invisible to the people who matter. Respondents were asked,
+separately, how much they would need to save <em>on every order</em> before changing their main app;
+the median answer was <b>₹30</b>. Comparing each respondent's stated threshold against the observed
+saving for each audited basket produces 132 person-by-basket pairs, and the share of those pairs the
+saving clears collapses as the comparison moves toward a realistic checkout.</p>
+
+<div class="tw"><table>
+  <caption>Table 3 — Switch-Threshold Coverage across three price views (132 pairs)</caption>
+  <thead><tr><th>Price view</th><th class="n">Coverage</th><th class="n">Median saving</th><th>What it represents</th></tr></thead>
+  <tbody>
+    <tr><td>List price + fees</td><td class="n"><b>81.1%</b></td><td class="n">+₹114.50</td><td>What Ownly controls and advertises</td></tr>
+    <tr><td>With an incumbent membership</td><td class="n"><b>56.1%</b></td><td class="n">+₹77.59</td><td>What 82.5% of this sample actually sees</td></tr>
+    <tr><td>After an incumbent coupon</td><td class="n"><b>27.3%</b></td><td class="n"><b>−₹28.07</b></td><td>One push notification away, any day</td></tr>
+  </tbody>
+</table></div>
+
+<p>At the third row Ownly is not merely less advantaged — it is more expensive. Expressed as win
+rates across the four baskets, Ownly wins 4 of 4 on list price, 3 of 4 against a membership, and 2 of
+4 once a coupon lands. <b>The strategic implication is that Ownly is marketing a comparison its
+competitors can falsify, at will and at no cost.</b></p>
+
+<h3>4.3 Reliability is accepted at the point of choice and fatal after repetition</h3>
+
+<p>The survey and the review record appear to contradict each other. In a single forced choice, 72.5%
+of respondents accepted a materially worse reliability record to save ₹30. Yet among app-store
+reviews, fulfilment failure is mentioned in <b>72.4%</b> of the 29 coded reviews, and support or
+refund problems in 79.3%. The pattern repeats in social text: among posts from people describing
+their own Ownly order, <b>49.5% mention a failed order</b>, against 18.9% in general discussion of the
+brand.</p>
+
+<p>The interviews resolve this. Respondents report leaving an app after <em>repeated</em> bad orders
+rather than after one. Users therefore accept a reliability risk at the moment of choosing and act on
+it only after it recurs — two different decision moments, both true. The consequence for this study is
+specific: <b>unreliability does not block trial; it blocks the habit</b>, which is precisely the
+outcome the research question concerns.</p>
+
+<p>These shares should not be read as failure rates. Public posts are self-selected, and dissatisfied
+customers post far more readily than satisfied ones. The informative quantity is the difference
+between first-hand and general discussion, not the level of either.</p>
+
+<h3>4.4 Rapido supplies access, not discovery</h3>
+
+<p>Ownly's most frequently claimed structural asset is its presence inside Rapido, an application
+users already have. The data does not support the claim that this converts. Of 40 respondents, 24 had
+used Rapido in the previous four weeks; of the 33 who answered the question about what they had
+noticed inside the app, only <b>5 (15.2%, 95% CI 6.7–30.9)</b> had noticed food there at all. These
+two figures rest on different denominators and are not combined.</p>
+
+<p>The resulting funnel is steeply attenuating: 42.5% had heard of Ownly, 17.5% had opened it, and
+5.0% had ordered. The final figure represents 2 respondents of 40, with a confidence interval running
+from 1.4% to 16.5%; it is reported as directional only, and the four-week reference window largely
+predates Ownly's Hyderabad rollout, so a low value measures the question window as much as it
+measures rejection.</p>
+
+<p>The interviews again redirect the interpretation. Respondents describe discovering new apps
+through friends, Instagram and YouTube rather than through in-app placement; the documented
+interviewee had heard of Ownly from her brother. The implied intervention is therefore a referral or
+creator-led trial mechanism, not a change to where a button sits.</p>
+
+<h3>4.5 The proposition itself did not separate</h3>
+
+<p>Respondents were shown two bundled propositions — a Bengaluru-style price-and-transparency pitch
+and a Hyderabad-localised pitch emphasising local restaurants, honest delivery times and fast
+redress — and asked to choose. Among the 29 expressing a preference, 62.1% chose the Bengaluru-style
+proposition, which an exact binomial test cannot distinguish from chance (p = 0.265, 95% CI
+42.3–79.3). A paired McNemar test on top-two-box trial intent for the same two propositions returns
+p = 1.00.</p>
+
+<p><b>Eleven of 40 respondents (28%) could not choose between the two at all.</b> When more than a
+quarter of an audience cannot differentiate two positioning strategies, that is itself a finding about
+how distinct the strategies are — and it is the principal reason the fake-door experiment was designed.</p>
+
+<!-- ───────── 5 ───────── -->
+<h2><span class="n">Section 5</span>Hypothesis tests</h2>
+
+<p>Nine formal tests were specified and run. Three reject the null; five fail to reject; one could not
+be tested because the instrument was not fielded. The null results are reported in full.</p>
+
+<div class="tw"><table>
+  <caption>Table 4 — Hypothesis register</caption>
+  <thead><tr><th>Test</th><th>Method</th><th class="n">n</th><th class="n">p</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td>Restaurants vs speed</td><td>McNemar exact</td><td class="n">40</td><td class="n">1.5×10⁻⁶</td><td>Reject H₀</td></tr>
+    <tr><td>Restaurants vs reliability</td><td>McNemar exact</td><td class="n">40</td><td class="n">0.0026</td><td>Reject H₀</td></tr>
+    <tr><td>Reliability vs speed</td><td>McNemar exact</td><td class="n">40</td><td class="n">0.021</td><td>Reject H₀ (weakest)</td></tr>
+    <tr><td>Proposition P vs Q, forced choice</td><td>Exact binomial</td><td class="n">29</td><td class="n">0.265</td><td>Fail to reject</td></tr>
+    <tr><td>Proposition P vs Q, paired intent</td><td>McNemar exact</td><td class="n">40</td><td class="n">1.00</td><td>Fail to reject</td></tr>
+    <tr><td>Price doubt vs repeat intent</td><td>Spearman ρ = 0.136</td><td class="n">40</td><td class="n">0.402</td><td>Underpowered</td></tr>
+    <tr><td>Memberships vs saving required</td><td>Spearman ρ = 0.109</td><td class="n">33</td><td class="n">0.547</td><td>Underpowered</td></tr>
+    <tr><td>Professionals vs students</td><td>Fisher exact</td><td class="n">40</td><td class="n">1.00</td><td>Underpowered (n = 7)</td></tr>
+    <tr><td><b>H₀ — behavioural first-order conversion</b></td><td>Fake-door test</td><td class="n">0</td><td class="n">—</td><td><span class="pill p-na">Not tested</span></td></tr>
+  </tbody>
+</table></div>
+
+<p>At n = 40 only large effects are detectable, so a failure to reject should be read as "this sample
+cannot see a difference" rather than as evidence that none exists. The null results are retained
+because suppressing them would misrepresent the study, and because they identify precisely which
+questions require a larger sample.</p>
+
+<p>One pre-registered prediction was falsified. <b>Prediction P3 held that Ownly's approximately
+17-minute delivery-time deficit would constitute a barrier to adoption. It does not</b>: 92.5% of
+respondents accepted a 15-minute delay for ₹30. The prediction was recorded before data collection and
+is reported as overturned.</p>
+
+<!-- ───────── 6 ───────── -->
+<h2><span class="n">Section 6</span>Metrics framework</h2>
+
+<p>Twenty-three KPIs were specified across inputs, outputs and a guardrail, together with ten
+marketing metrics. Fourteen KPIs and all ten marketing metrics were computed. <b>Nine KPIs and ten
+further standard marketing metrics are marked NOT ESTIMABLE, with a stated reason, rather than
+imputed.</b></p>
+
+<p>Three of the ten computed marketing metrics are definitions constructed for this study, because
+the standard formula set contains no metric for the question actually at issue — whether a saving is
+large enough <em>for the specific people being asked</em>. These are Switch-Threshold Coverage
+(81.1%), Offer Reversal Rate (50.0%) and Membership Erosion Rate (25.0%).</p>
+
+<p>The metrics that could not be computed are, collectively, the ones that determine whether Ownly
+survives: retention rate, customer lifetime value, customer acquisition cost, contribution margin per
+order, market share and EBITDA. Every one requires Ownly's or Rapido's internal transaction and cost
+data. The study's own audit observed Ownly charging ₹0 in delivery, platform and packaging fees while
+taking no commission, meaning observed revenue per order at this address was ₹0 — an observation about
+the customer's bill, not a claim about the company's accounts. <b>That these metrics are unavailable
+to any external researcher is itself a material finding about the evaluability of the business
+model.</b></p>
+
+<!-- ───────── 7 ───────── -->
+<h2><span class="n">Section 7</span>Recommendations</h2>
+
+<p>Ownly has escaped the mechanism that destroyed Foodpanda and Uber Eats India: its saving is
+structural rather than rented. It has, however, inherited two others. It attacks the side of the
+market that was never scarce — restaurants already list on every platform — and it offers no new use
+case, since 88.9% of its catalogue is available elsewhere.</p>
+
+<div class="tw"><table>
+  <caption>Table 5 — Per-tactic recommendation with supporting evidence</caption>
+  <thead><tr><th>Bengaluru tactic</th><th style="width:112px">Call</th><th>Evidence</th></tr></thead>
+  <tbody>
+    <tr><td><b>No platform, packaging or surge fee</b></td><td><span class="pill p-keep">Keep</span></td><td>Fee load 5.2% vs incumbent median 23.4%. Requires no subsidy; no incumbent can match it without surrendering revenue.</td></tr>
+    <tr><td><b>Transparent everyday pricing</b></td><td><span class="pill p-keep">Keep</span></td><td>Cheapest in 4 of 4 baskets; median saving ₹114.50 against a stated switching bar of ₹30.</td></tr>
+    <tr><td><b>"Cheaper than Swiggy and Zomato"</b></td><td><span class="pill p-adapt">Adapt</span></td><td>False at the checkout of the 82.5% holding a membership, and falsifiable by any coupon. Reframe on the everyday bill rather than the comparison.</td></tr>
+    <tr><td><b>Broad chain assortment</b></td><td><span class="pill p-adapt">Adapt</span></td><td>88.9% overlap and +17 min slower reproduce the incumbent offer. Only 35% will surrender their usual restaurants. Pursue named local depth instead.</td></tr>
+    <tr><td><b>Rapido placement as growth channel</b></td><td><span class="pill p-adapt">Adapt</span></td><td>15.2% discovery among those answering; roughly 85% of the distribution advantage unconverted. Build referral and creator-led trial.</td></tr>
+    <tr><td><b>₹100 first-order discount</b></td><td><span class="pill p-drop">Deprioritise</span></td><td>25.0% post-offer repeat intent; 52.5 pp trial-to-repeat gap; 87.5% expect prices to rise. This purchases precisely the trial the historical record says does not persist.</td></tr>
+    <tr><td><b>Delivery-speed parity investment</b></td><td><span class="pill p-drop">Deprioritise</span></td><td>92.5% accept a 15-minute delay for ₹30. The pre-registered prediction that speed would block adoption was falsified.</td></tr>
+  </tbody>
+</table></div>
+
+<div class="keyfig">
+  <p>Ownly's price advantage is real and durable, but it is aimed at the one attribute this market
+  will not trade, and it is invisible to the 82.5% who already hold a membership. <b>The restaurant
+  list should be addressed before further expenditure on discounting.</b></p>
+</div>
+
+<!-- ───────── 8 ───────── -->
+<h2><span class="n">Section 8</span>Limitations</h2>
+
+<ul>
+  <li><b>Nothing here is behaviour.</b> Every switching, trial and repeat figure is stated intent,
+  observed price, or public text. No respondent was observed choosing.</li>
+  <li><b>The sample is small and not representative.</b> n = 40, convenience-sampled, student-skewed.
+  Confidence intervals are reported on every proportion precisely because point estimates would
+  overstate what the sample supports.</li>
+  <li><b>The price audit is a snapshot.</b> Four baskets, one address, one Wednesday dinner slot. It
+  establishes that the gap existed at that moment, not that it holds generally. The Ownly account was
+  new and the incumbent accounts were subscribed.</li>
+  <li><b>The audited restaurants were showcase chains.</b> Ownly lists 221 restaurants at the audited
+  address; ten were sampled, selected in a way that favours restaurants present on every platform and
+  cannot detect exclusives. This directly limits the assortment finding.</li>
+  <li><b>Delivery time is quoted, not measured.</b> No test orders were placed, so on-time performance
+  and cancellation rates are unknown. The inference that the flat +17-minute gap reflects supply
+  density is a hypothesis; outlet distances were not recorded.</li>
+  <li><b>Public text is self-selected.</b> Coded shares describe the conversation, not incidence.</li>
+  <li><b>The interview count is unknown.</b> One transcript is documented; others were conducted but
+  not logged. No interview finding carries a prevalence figure, and the documented notes were
+  machine-generated and not verified verbatim or double-coded.</li>
+</ul>
+
+<!-- ───────── 9 ───────── -->
+<h2><span class="n">Section 9</span>Further research</h2>
+
+<ol>
+  <li><b>Field the fake-door experiment.</b> It is the only instrument in the design that produces
+  behavioural first-order conversion, which is what H₀ concerns. The landing page is built, the event
+  collector is verified operational, and the design uses no company's name, logo or interface. At 200
+  visitors it would detect a difference of approximately 20 percentage points at 80% power; at 500,
+  approximately 12.</li>
+  <li><b>Audit named local restaurants rather than showcase chains.</b> The recommended strategy
+  depends on depth in exactly the segment the current audit frame cannot see.</li>
+  <li><b>Place test orders.</b> Quoted ETA is not delivery performance, and reliability is the
+  identified churn driver.</li>
+  <li><b>Document the interviews already conducted</b> — establish the count, back-fill the tracker
+  and verify quotes — before conducting further ones.</li>
+  <li><b>Re-run the price audit from a membership-holding account</b>, which is what 82.5% of the
+  target population actually sees.</li>
+</ol>
+
+</div>
+
+<footer>
+  <p>Every figure in this report is computed by script from the project datasets; none is hand-entered.
+  Where a figure could not be computed from the evidence held, it is marked NOT ESTIMABLE rather than
+  estimated. Full per-figure derivations are in <b>numbers.html</b>. Pre-analysis plan frozen at
+  <b>09_analysis/PAP_frozen_2026-09-21.md</b>; judgement calls and deviations logged in
+  <b>_ops/decisions.md</b>.</p>
+</footer>
+
+</body>
+</html>

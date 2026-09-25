@@ -1,0 +1,16 @@
+Analytics Layer,Technique,Applied To,Computed In,Drawn In Tableau,Confidence
+Descriptive,Proportions with Wilson 95% intervals,Survey n=40,Python,Yes,High
+Descriptive,"Funnels, distributions, box plots, share of wallet","Survey, audit",Tableau-native,Yes,High
+Diagnostic,McNemar exact test (paired),Survey n=40,Python,Yes - as a column,High
+Diagnostic,Fisher exact test,Survey subgroups,Python,Yes - as a column,Underpowered
+Diagnostic,Spearman rank correlation,Survey n=40,Python,Yes - heatmap,Null results
+Diagnostic,Waterfall decomposition of price erosion,Audit x survey,Python,Yes,High
+Predictive,Logistic price-response curve (Gabor-Granger),6 staircase points,Python,Yes - line + scatter,R2 = 0.964
+Predictive,Switcher profiling by lift,Survey n=40,Python,Yes - bar,Exploratory only
+Predictive,"Sentiment and volume trend, 16 months",836 documents,Python,Yes - dual line,Descriptive trend
+Prescriptive,Break-even solve,Benchmarks,Python,Yes - line,Assumption-driven
+Prescriptive,Scenario simulator,Fitted curve + benchmarks,Tableau parameters,Yes - native,Assumption-driven
+Prescriptive,Tornado sensitivity,Scenario model,Python,Yes - diverging bar,Assumption-driven
+Cognitive / text,"Lexicon sentiment, negation-aware",836 documents,Python,Yes - as a column,Validated rho = 0.648
+Cognitive / text,TF-IDF term salience,836 documents,Python,Yes - bar,Light topic modelling
+Cognitive / text,Theme roll-up and co-occurrence,119 codes,Python,"Yes - treemap, bar",Light topic modelling

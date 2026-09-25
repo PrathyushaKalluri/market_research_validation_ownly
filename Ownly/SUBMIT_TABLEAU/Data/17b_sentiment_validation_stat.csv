@@ -1,0 +1,5 @@
+Statistic,Value,Note
+Spearman rho,0.648,lexicon score vs star rating
+n,37,app-store reviews carrying a star rating
+p value,0.0,two-sided
+Interpretation,Validated,lexicon written blind to the star ratings

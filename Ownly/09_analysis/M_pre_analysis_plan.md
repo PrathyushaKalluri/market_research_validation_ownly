@@ -1,8 +1,13 @@
 # M. Pre-Analysis Plan (PAP)
 
 **Version:** 2026-09-14, drafted before any data collection.
+**Amended 2026-09-18 (A1)** — added §6.7 challenger-pattern predictions P1–P5, two cross-tab cuts and a
+second multiplicity family. Still **pre-data**: the response tracker was header-only at the time. See §11.
 
 **Freeze rule.** Freeze this file (commit a dated copy to `09_analysis/PAP_frozen_YYYYMMDD.md`) **before the first survey response is analysed**. Any deviation afterwards goes into §11 "Deviations log", with the reason and the date.
+
+> ⚠ **The freeze has not happened yet.** No `PAP_frozen_*.md` exists. Freeze this file now that A1 is in —
+> the pre-registration claim for P1–P5 rests on a dated artefact, not on this sentence.
 
 **Companion files:**
 - `00_research_charter/C_hypothesis_tree.md` — hypotheses, thresholds, tests
@@ -157,6 +162,36 @@ As per `07_fake_door/experiment_plan.md`:
 - descriptive Bayesian P(best)
 - **DIRECTIONAL** label if below the pre-computed per-arm n
 
+### 6.7 Challenger-pattern predictions P1–P5 (SECONDARY, pre-registered 2026-09-18)
+
+**Provenance.** Derived from `01_secondary_research/challenger_failures/D_synthesis_why_challengers_fail.md`
+§6 — five failure mechanisms common to Uber Eats India, Foodpanda, Amazon Food, ONDC, Thrive and DotPe.
+**Added 2026-09-18, before the first survey response** (`13_survey_v3_live/survey_response_tracker.csv`
+was header-only at the time of writing; see §11 amendment A1). Registered here so the pattern cannot be
+fitted to the data after the fact.
+
+**Status and limits.**
+- This is a **SECONDARY family**. It does **not** join the ★ confirmatory set (§8) and **never**
+  overrides it or the decision rule in `11_insights/decision_framework_and_scorecard.md` §3.
+- Most tests below **re-use analyses already planned** in §5–§6 under a new interpretive frame. Only
+  the two cuts marked **[NEW CUT]** add analyses the PAP did not previously contain.
+- Every threshold marked *(A)* is an editable assumption, fixed now, changeable only via §11.
+- These are **stated-preference** measures. A prediction "holding" is evidence about intent, not behaviour.
+
+| ID | Prediction | Population | Variables | Test + effect size | Pre-registered decision rule | Falsified if |
+|---|---|---|---|---|---|---|
+| **P1** | **Price framing wins trial but does not survive to repeat** (mechanism M1: rented demand). The conjunction is the point — either half alone is uninformative. | `HYD_ALL` for trial; `HYD_ALL` post-concept (Q37) and `HYD_OWNLY` (Q32) for repeat, reported separately, never pooled | `prop_forced_choice` (Q22); `own_repeat_no_promo` (Q32/Q37); `own_next10_alloc` (Q33/Q38) as support | Trial: exact binomial vs 50% on P-vs-Q excluding "can't choose", Wilson CI (this is the existing primary within-survey test). Repeat: Wilson CI on top-2-box (*Probably* + *Definitely*) | **P1 holds** if Service P's lower CI bound > 50% **AND** `own_repeat_no_promo` top-2 **upper** CI bound < 50% *(A)*. Report the "can't choose" share alongside — a large share weakens both halves | Service P wins trial **and** repeat top-2 **lower** CI > 50% → **Case A. The price proposition retains, and the failure pattern does not apply.** Record this as the headline |
+| **P2** | **Coupon-dependent users see no Ownly advantage.** Audit: Ownly cheapest 4/4 on list+fees but only 2/4 after each app's auto-applied offer. So the structural saving should be worth less to people who always order on a coupon | `HYD_ALL`, `Don't know` excluded (share reported) | `beh_offer_dependency` (Q13) banded **LOW = 0–1, 2–4** vs **HIGH = 5–7, 8–10**; outcomes `prop_forced_choice`, `beh_switch_savings_required` (Q19) | Two-proportion z (Fisher if any expected cell < 5), Newcombe CI on the pp difference; Mann-Whitney + Hodges-Lehmann shift on required savings **[NEW CUT]** | **P2 holds** if HIGH-dependency respondents choose Service P at a **lower** rate (Newcombe CI excludes 0) **or** require a **larger** switching saving (HL shift CI excludes 0) | CI includes 0, **or the direction reverses**. ⚠ **A reversal is genuinely plausible and must not be explained away:** heavy coupon users may simply be more price-motivated, in which case HIGH-dependency respondents choose P *more*. That result falsifies P2 and is itself a finding |
+| **P3** | **The observed ETA gap exceeds stated tolerance** (mechanism M3: same restaurants, slower). Audit medians: Ownly 39.5 min vs Swiggy 22.5, Zomato 17.5 — **a ~17 min gap.** Q16 tests a **15 min** gap for the same ₹30, so the survey **understates** the real trade | `HYD_ALL` | `tradeoff_eta` (Q16); `exp_eta_max_dinner` (Q20) | % choosing ₹230/45-min with Wilson CI (existing pre-registered rule: ₹30 "buys" 15 min only if **lower CI > 50%**). Separately: % whose `exp_eta_max_dinner` < **39.5 min**, Wilson CI | **P3 holds** if the ₹230/45-min lower CI bound is **not** > 50%, **or** a majority state a dinner ETA ceiling below 39.5 min (lower CI > 50%). **One-directional inference to state explicitly:** because Q16 tests 15 min and the observed gap is ~17 min, failing at 15 min implies failing at 17 min *a fortiori*. The converse does **not** hold | Lower CI > 50% on Q16 **and** median `exp_eta_max_dinner` ≥ 39.5 min → the speed deficit is tolerable and M3 does not bind here |
+| **P4** | **Assortment people cannot get elsewhere beats "same restaurants, cheaper."** Audit: 89% cross-platform overlap (K42), local coverage 100% vs chain 80% (K41), and exactly one Ownly-only restaurant observed | `HYD_ALL` | `tradeoff_eta` (Q16), `tradeoff_rel` (Q17), `tradeoff_rest` (Q18) — all three hold ₹30 constant and vary what ₹30 buys; `prop_reason` (Q23) free text; fake-door arms | Paired design (same respondents answer all three) → **McNemar** on premium-option choice between Q18 and Q16, and Q18 vs Q17; matched-pairs effect size, Holm within P4. `prop_reason` coded for spontaneous assortment mentions (§9 rules, double-coded) | **P4 holds** if the premium-option share is **higher for `tradeoff_rest` than for `tradeoff_eta`** (McNemar CI on the paired difference excludes 0) — i.e. people defend assortment harder than speed | Premium share for `tradeoff_eta` ≥ `tradeoff_rest` → speed matters more than assortment, and the §4.1 recommendation in file D is wrong |
+| **P5** | **Durability doubt suppresses the price proposition independently of the observed gap** (37 social items expect fee creep; two cite Toing adding fees after launching free) | `HYD_ALL` | `prop_durability_doubt` (Q24, 5-pt) × `prop_forced_choice`; support: `own_tried` | Spearman ρ (doubt vs P-choice coded 1/0) with bootstrap CI; and banded *Agree+Strongly agree* vs rest, two-proportion z with Newcombe CI **[NEW CUT]** | **P5 holds** if higher durability doubt is associated with **lower** Service P choice (CI excludes 0) | CI includes 0 → the fee-creep narrative is loud in public discussion but does not move stated choice. Given 92 PRICE_DOUBT items in the corpus, **a null here is a substantive finding about the gap between discourse and decision**, not a failed test |
+
+**Reporting rule.** P1–P5 are reported in one table with the ★ set clearly separated, each labelled
+**SECONDARY — PRE-REGISTERED (challenger-pattern)**. Any P that is not computable at the achieved n is
+reported as **NOT TESTABLE**, never silently dropped. Because these predictions were generated from a
+pattern in six *other* companies' histories, a confirmation is corroboration by analogy — it raises
+confidence, it does not establish the mechanism in Gachibowli.
+
 ## 7. Cross-tab plan (only these pre-specified cuts)
 
 | Cut | Applied to |
@@ -168,12 +203,16 @@ As per `07_fake_door/experiment_plan.md`:
 | Brand arm | H7 outcomes only |
 | City (matched items, weighted) | H9 only |
 | Subscription holder vs not | Fee WTP, habit lock, audit subscription-state gaps |
+| **Offer dependency: LOW (0–1, 2–4) vs HIGH (5–7, 8–10)** — added 2026-09-18 | `prop_forced_choice`, `beh_switch_savings_required` (**P2 only**) |
+| **Durability doubt: Agree+Strongly agree vs rest** — added 2026-09-18 | `prop_forced_choice` (**P5 only**) |
 
 Any cut not in this table is **exploratory** and labelled as such.
 
 ## 8. Multiplicity
 
 - The ★ confirmatory set (16) uses Holm-Bonferroni on p-values (family-wise α = 0.05).
+- **The challenger-pattern set P1–P5 (§6.7) is a separate family** with its own Holm-Bonferroni correction at family-wise α = 0.05. It is deliberately **not** merged into the ★ family: adding 5 tests to the confirmatory family would raise the correction burden on the 16 primary hypotheses, weakening the tests the study exists to run. The cost of separating them is that the *overall* study-wide error rate is not controlled across both families — this is stated openly rather than hidden, and is the reason P1–P5 can support a recommendation but never drive one on their own.
+- Within P4, the two McNemar comparisons (Q18 vs Q16, Q18 vs Q17) are Holm-corrected inside P4 before P4 enters the family correction.
 - Exploratory tests are reported with unadjusted p-values, marked "exploratory, unadjusted", and **never** used alone for a recommendation.
 
 ## 9. Qualitative synthesis methodology
@@ -192,11 +231,45 @@ Any cut not in this table is **exploratory** and labelled as such.
 
 Handled in `11_insights/insight_evidence_matrix_template.csv` and the confidence rules in `11_insights/decision_framework_and_scorecard.md` §5. Contradictions get their own column and are discussed in the final report.
 
-## 11. Deviations log
+## 11. Amendments and deviations log
+
+**Amendments** are changes made *before* any data was collected. **Deviations** are changes made after.
+The distinction is recorded because only the second damages pre-registration.
+
+### Amendments (pre-data)
+
+| # | Date | Section | Amendment | Reason | Evidence that no data existed yet |
+|---|---|---|---|---|---|
+| **A1** | 2026-09-18 | **New §6.7**; §7 (2 cuts added); §8 (second family) | Added challenger-pattern predictions **P1–P5** as a separate pre-registered SECONDARY family, with two new cross-tab cuts (offer dependency; durability doubt) and a separate Holm family | New secondary research (`01_secondary_research/challenger_failures/`, 5 dossiers, ~230 sources) established a repeated failure pattern across six challengers. Registering the predictions **before** data prevents the pattern being fitted to results afterwards | `13_survey_v3_live/survey_response_tracker.csv` was **header-only (zero rows)** on 2026-09-18; `_ops/progress.md` records counts "all 0" through 2026-09-17 |
+
+### Deviations (post-data)
 
 | Date | Section | Deviation | Reason | Impact on interpretation |
 |---|---|---|---|---|
 | | | | | |
+
+### Known pre-existing inconsistency (flagged 2026-09-18, not resolved here)
+
+§4's **SRI** formula is **not computable** from the live v3 form. **Two of its three components are
+absent** from `13_survey_v3_live/survey_questions.md`: `bt_trial_intent` and `dec_habit_lock` (no `bt_`
+or `dec_` variable exists in v3 at all; "habit" survives only as an answer option in
+`oth_choice_driver`, which is the *other-city* module and is not asked of Hyderabad respondents). Only
+`multihome5` ← `beh_platforms_used_4wk` remains, so **SRI currently reduces to a single binary item** —
+which PAP §4's own composite rule already says should be dropped rather than reported as an index.
+
+> ⚠ **Correction (2026-09-18):** an earlier version of this entry said a human could *"redefine SRI on
+> the two remaining components."* There is only **one** remaining component. That sentence was wrong
+> and is superseded by the memo below.
+
+This is a pre-existing mismatch between the 14 Sep PAP and the 16 Sep instrument, found while
+registering P1–P5. It is **not** silently patched. Three costed options — constrained by the fact that
+any rebuild using `beh_switch_savings_required`, `beh_platforms_used_4wk` or `beh_subscriptions` would
+**double-count** a variable D2 already scores separately — are set out in
+**`09_analysis/SRI_options_decision_memo.md`**. A human picks one; it is logged here as amendment **A2**
+and in `_ops/decisions.md` as **D17**.
+
+**SRI feeds D2 (35%) of the decision scorecard**, so this blocks a scored dimension and must be
+resolved **before** the PAP is frozen.
 
 ## 12. Code plan (to be implemented in `09_analysis/`)
 
