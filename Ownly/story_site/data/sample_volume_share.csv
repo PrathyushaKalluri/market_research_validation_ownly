@@ -1,0 +1,4 @@
+base,ownly_orders_usable,ownly_counts_unusable,total_orders,volume_share_pct,bound,swiggy_pct,zomato_pct,other_pct
+Gachibowli catchment,0.0,1,326.0,0.0,LOWER BOUND — unusable counts excluded,54.6,36.8,8.6
+Hyderabad eligible,0.0,2,398.0,0.0,LOWER BOUND — unusable counts excluded,50.8,37.4,11.8
+Bengaluru (benchmark),3.0,0,146.0,2.05,complete,27.4,63.0,7.5
